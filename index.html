@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeff Ma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #fafaf8;
+    --ink: #1a1a18;
+    --ink-2: #3d3d3a;
+    --ink-3: #8a8a84;
+    --ink-4: #c4c4bc;
+    --rule: rgba(26,26,24,0.1);
+    --rule-strong: rgba(26,26,24,0.18);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s, background 0.4s;
+  }
+  nav.scrolled { background: rgba(250,250,248,0.94); border-color: var(--rule); backdrop-filter: blur(12px); }
+  .nav-inner {
+    max-width: 1080px; margin: 0 auto; padding: 0 3rem;
+    height: 64px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-logo { font-family: var(--font-display); font-weight: 400; font-size: 1.05rem; letter-spacing: 0.02em; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 300; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ── Hero ── */
+  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 5rem; padding-top: 64px; }
+  .hero-inner { max-width: 1080px; margin: 0 auto; padding: 0 3rem; width: 100%; }
+  .hero-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; }
+  .hero-name { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.8rem, 5.5vw, 5rem); line-height: 1; letter-spacing: -0.01em; }
+  .hero-name em { font-style: italic; }
+  .hero-role { text-align: right; padding-bottom: 0.35rem; }
+  .hero-role p { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); line-height: 1.9; font-weight: 300; }
+  .hero-rule { width: 100%; height: 1px; background: var(--rule-strong); margin-bottom: 3.5rem; }
+  .hero-statement-wrap { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start; }
+  .hero-index { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-4); padding-top: 0.35rem; font-weight: 300; }
+  .hero-statement { font-family: var(--font-serif); font-size: clamp(1.25rem, 2.2vw, 1.75rem); font-weight: 300; line-height: 1.6; letter-spacing: 0; }
+  .hero-statement em { font-style: italic; color: var(--ink-2); }
+
+  /* ── Sections ── */
+  .section-wrap { max-width: 1080px; margin: 0 auto; padding: 0 3rem; }
+  section { padding: 6rem 0; border-top: 1px solid var(--rule); }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4rem; }
+  .section-title { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-3); font-weight: 300; }
+  .section-count { font-family: var(--font-display); font-size: 0.85rem; color: var(--ink-4); font-style: italic; }
+
+  /* ── About ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: start; }
+  .about-head { font-family: var(--font-display); font-size: clamp(1.7rem, 2.8vw, 2.4rem); font-weight: 400; line-height: 1.25; letter-spacing: 0; position: sticky; top: 5rem; }
+  .about-head em { font-style: italic; display: block; color: var(--ink-2); }
+  .about-graf { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 300; line-height: 1.8; color: var(--ink-2); margin-bottom: 1.75rem; }
+  .about-small { font-size: 0.78rem; font-weight: 300; color: var(--ink-3); line-height: 1.9; letter-spacing: 0.03em; }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.4rem 0.7rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+  .about-tag { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 300; }
+  .about-tag + .about-tag::before { content: '·'; margin-right: 0.7rem; color: var(--ink-4); }
+
+  /* ── Work list ── */
+  .work-list { display: flex; flex-direction: column; }
+
+  .work-row { border-bottom: 1px solid var(--rule); }
+  .work-row:first-child { border-top: 1px solid var(--rule); }
+
+  .work-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr 7.5rem;
+    gap: 2.5rem;
+    align-items: start;
+    padding: 2.75rem 0;
+    cursor: pointer;
+    transition: opacity 0.35s;
+    user-select: none;
+  }
+  .work-list:hover .work-item { opacity: 0.3; }
+  .work-list:hover .work-row:hover .work-item { opacity: 1; }
+  .work-row.open .work-item { opacity: 1 !important; }
+
+  .work-num { font-family: var(--font-display); font-size: 0.78rem; font-style: italic; color: var(--ink-4); padding-top: 0.2rem; transition: color 0.3s; }
+  .work-row.open .work-num { color: var(--ink-2); }
+
+  .work-tag { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.55rem; font-weight: 300; }
+  .work-title { font-family: var(--font-display); font-size: clamp(1.2rem, 2.2vw, 1.65rem); font-weight: 400; line-height: 1.15; margin-bottom: 0.85rem; letter-spacing: 0; }
+  .work-desc { font-family: var(--font-serif); font-size: 0.95rem; color: var(--ink-3); line-height: 1.75; max-width: 56ch; font-weight: 300; }
+  .work-audience { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); margin-top: 1.1rem; font-weight: 300; }
+
+  .work-right { display: flex; flex-direction: column; align-items: flex-end; padding-top: 0.25rem; gap: 0.6rem; }
+  .work-toggle {
+    width: 28px; height: 28px;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    color: var(--ink-4);
+    transition: border-color 0.3s, color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    flex-shrink: 0;
+  }
+  .work-row.open .work-toggle { border-color: var(--ink-2); color: var(--ink-2); transform: rotate(45deg); }
+  .work-confidential { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); border: 1px solid var(--rule); padding: 0.22rem 0.55rem; font-weight: 300; }
+
+  /* ── Project panel ── */
+  .project-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .work-row.open .project-panel { grid-template-rows: 1fr; }
+  .project-panel-inner { overflow: hidden; }
+  .project-panel-content {
+    padding: 0 0 4rem 5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Panel layout */
+  .panel-meta {
+    display: flex; gap: 4rem;
+    padding: 2.5rem 0 3rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .panel-meta-item {}
+  .panel-meta-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.3rem; font-weight: 300; }
+  .panel-meta-value { font-family: var(--font-serif); font-size: 0.95rem; font-weight: 300; color: var(--ink-2); }
+
+  .panel-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  .panel-body.single { grid-template-columns: 1fr; max-width: 60ch; }
+
+  .panel-text-block {}
+  .panel-text-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.75rem; font-weight: 300; }
+  .panel-text { font-family: var(--font-serif); font-size: 1rem; font-weight: 300; line-height: 1.8; color: var(--ink-2); }
+
+  /* Placeholder image containers */
+  .img-grid { display: grid; gap: 1rem; margin-bottom: 3rem; }
+  .img-grid-2 { grid-template-columns: 1fr 1fr; }
+  .img-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .img-grid-1 { grid-template-columns: 1fr; }
+
+  .img-placeholder {
+    background: rgba(26,26,24,0.04);
+    border: 1px dashed var(--ink-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    min-height: 240px;
+  }
+  .img-placeholder.tall { min-height: 380px; }
+  .img-placeholder.short { min-height: 160px; }
+  .img-placeholder.video { min-height: 320px; background: rgba(26,26,24,0.06); }
+
+  .img-placeholder-icon { font-size: 1.2rem; color: var(--ink-4); line-height: 1; }
+  .img-placeholder-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); text-align: center; font-weight: 300; line-height: 1.6; }
+
+  /* External link in panel */
+  .panel-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3); text-decoration: none; font-weight: 300;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.2rem;
+    transition: color 0.2s, border-color 0.2s;
+    margin-top: 1rem;
+    margin-right: 2rem;
+  }
+  .panel-link:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  .panel-confidential-note {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--rule);
+    margin-bottom: 2rem;
+  }
+  .panel-confidential-note p { font-size: 0.78rem; color: var(--ink-3); line-height: 1.6; font-weight: 300; }
+
+  /* ── Contact ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .contact-head { font-family: var(--font-display); font-size: clamp(1.7rem, 2.8vw, 2.4rem); font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem; }
+  .contact-head em { font-style: italic; color: var(--ink-2); display: block; }
+  .contact-body { font-family: var(--font-serif); font-size: 0.95rem; color: var(--ink-3); line-height: 1.8; font-weight: 300; max-width: 36ch; }
+  .contact-links { display: flex; flex-direction: column; }
+  .contact-link { display: flex; justify-content: space-between; align-items: center; padding: 1.35rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; color: var(--ink); transition: padding-left 0.35s cubic-bezier(0.16,1,0.3,1); }
+  .contact-link:first-child { border-top: 1px solid var(--rule); }
+  .contact-link:hover { padding-left: 0.5rem; }
+  .contact-link:hover .contact-arrow { color: var(--ink); transform: translate(3px,-3px); }
+  .contact-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.2rem; font-weight: 300; }
+  .contact-value { font-family: var(--font-serif); font-size: 1rem; font-weight: 300; }
+  .contact-arrow { font-size: 0.78rem; color: var(--ink-4); transition: transform 0.3s, color 0.3s; }
+
+  /* ── Footer ── */
+  footer { border-top: 1px solid var(--rule); padding: 2rem 0; }
+  .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; }
+  footer span { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); font-weight: 300; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { opacity: 0; animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.2s; } .d3 { animation-delay: 0.35s; }
+
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: none; }
+  .rd { transition-delay: 0.12s; } .rd2 { transition-delay: 0.24s; }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .nav-inner, .hero-inner, .section-wrap, .footer-inner { padding: 0 1.5rem; }
+    .hero-statement-wrap, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-top { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .hero-role { text-align: left; }
+    .about-head { position: static; }
+    .work-item { grid-template-columns: 2rem 1fr 2rem; gap: 1rem; }
+    .project-panel-content { padding-left: 0; }
+    .panel-body, .img-grid-2, .img-grid-3 { grid-template-columns: 1fr; }
+    .panel-meta { flex-direction: column; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">Jeff Ma</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-inner">
+    <div class="hero-top fade-up d1">
+      <h1 class="hero-name">Jeff <em>Ma</em></h1>
+      <div class="hero-role">
+        <p>Creative Director</p>
+        <p>Google</p>
+      </div>
+    </div>
+    <div class="hero-rule fade-up d2"></div>
+    <div class="hero-statement-wrap fade-up d3">
+      <p class="hero-index">Position</p>
+      <p class="hero-statement">
+        I make complex, high-stakes ideas land —
+        for <em>the audiences that matter most.</em>
+        Whether that's heads of state, boards of directors,
+        or millions of people using a product for the first time.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-header reveal"><span class="section-title">About</span></div>
+    <div class="about-grid">
+      <div class="about-head reveal">
+        The gap between<br><em>knowing<br>and deciding</em>
+      </div>
+      <div class="about-right-col reveal rd">
+        <p class="about-graf">I direct design to close the gap between what experts know and what decisions, products, and people require. My work translates technical research, strategic complexity, and organizational ambiguity into clarity — across audiences, mediums, and boundaries.</p>
+        <p class="about-graf">The technical domains vary widely — cybersecurity intelligence, AI safety, privacy regulation, data portability, consent architecture, enterprise risk. The audience is consistently senior: heads of state, boards of directors, C-suite executives, global policy leaders. What stays constant is the challenge of making something genuinely difficult land with people who need to understand it, not study it.</p>
+        <p class="about-graf">Getting ambitious work made inside a large, complex organization is its own discipline. At Google, that means building alignment across legal, policy, communications, engineering, and product simultaneously — often without direct authority over any of them. I've learned to move work forward through clarity of vision, early coalition-building, and knowing which constraints are real and which are negotiable. The work doesn't just get conceived. It gets shipped.</p>
+        <p class="about-small">Previously — Apple &nbsp;·&nbsp; Warby Parker &nbsp;·&nbsp; Anthropologie &nbsp;·&nbsp; VSA Partners for IBM &nbsp;·&nbsp; MAD Worldwide</p>
+        <div class="about-tags">
+          <span class="about-tag">Creative Direction</span>
+          <span class="about-tag">Design Strategy</span>
+          <span class="about-tag">Executive Communication</span>
+          <span class="about-tag">Cross-domain Translation</span>
+          <span class="about-tag">Film &amp; Motion</span>
+          <span class="about-tag">Systems Thinking</span>
+          <span class="about-tag">Large-org Execution</span>
+          <span class="about-tag">Cross-functional Leadership</span>
+          <span class="about-tag">Stakeholder Alignment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-title">Selected Work</span>
+      <span class="section-count">Six projects</span>
+    </div>
+    <div class="work-list">
+
+      <!-- i. Fog of War -->
+      <div class="work-row reveal" data-project="fog-of-war">
+        <div class="work-item">
+          <span class="work-num">i</span>
+          <div>
+            <p class="work-tag">Report · Munich Security Conference · 2023</p>
+            <h3 class="work-title">Fog of War</h3>
+            <p class="work-desc">Translated cybersecurity intelligence research into a printed report distributed during bilateral meetings at the Munich Security Conference — designed for heads of state and key opinion formers during an active war.</p>
+            <p class="work-audience">Heads of state &nbsp;·&nbsp; Key opinion formers &nbsp;·&nbsp; Policy leaders</p>
+          </div>
+          <div class="work-right">
+            <div class="work-toggle">+</div>
+          </div>
+        </div>
+        <div class="project-panel">
+          <div class="project-panel-inner">
+            <div class="project-panel-content">
+              <div class="panel-meta">
+                <div class="panel-meta-item"><p class="panel-meta-label">Year</p><p class="panel-meta-value">2023</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Format</p><p class="panel-meta-value">Print report · Digital assets · Blog</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Role</p><p class="panel-meta-value">Creative lead · Design direction</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Context</p><p class="panel-meta-value">Munich Security Conference</p></div>
+              </div>
+
+              <div class="panel-body">
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The problem</p>
+                  <p class="panel-text">Google's Threat Intelligence team had produced rigorous research on the role of cybersecurity in the Russia-Ukraine war. The challenge was translating that research — written by and for security analysts — into something that heads of state and senior policymakers could act on during one of the most consequential security conferences of the year.</p>
+                </div>
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The approach</p>
+                  <p class="panel-text">Working closely with security threat analysts to ensure technical accuracy, I directed the design of a printed report built for bilateral meeting rooms — not conference halls. That required earning the trust of analysts protective of how their research was represented, aligning with policy, legal, and communications teams across time zones, and coordinating production against a hard conference deadline. Every visual decision was made in service of comprehension at the highest level of government. The report launched simultaneously on The Keyword blog with accompanying digital assets.</p>
+                </div>
+              </div>
+
+              <!-- Hero spread -->
+              <div class="img-grid img-grid-1" style="margin-bottom:1rem;">
+                <div class="img-placeholder tall">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Report cover / hero spread<br>Recommended: full-bleed cover photo or spread scan</p>
+                </div>
+              </div>
+
+              <!-- Interior spreads -->
+              <div class="img-grid img-grid-2" style="margin-bottom:1rem;">
+                <div class="img-placeholder">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Interior spread — data visualization</p>
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Interior spread — narrative section</p>
+                </div>
+              </div>
+
+              <!-- Detail shots -->
+              <div class="img-grid img-grid-3" style="margin-bottom:2rem;">
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Detail — typography / typesetting</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Detail — chart or diagram</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Digital / blog version</p>
+                </div>
+              </div>
+
+              <a class="panel-link" href="https://blog.google/threat-intelligence/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener">Read the report ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ii. AI Safety Film -->
+      <div class="work-row reveal" data-project="ai-safety-film">
+        <div class="work-item">
+          <span class="work-num">ii</span>
+          <div>
+            <p class="work-tag">Film · Executive Produced &amp; Directed · 2024</p>
+            <h3 class="work-title">AI Safety Film</h3>
+            <p class="work-desc">Conceived and directed a short film about strengthening digital security with AI — produced for the Munich Security Conference and later deployed as a cornerstone asset for the Google AI Cyber Defense Initiative launch.</p>
+            <p class="work-audience">Global security community &nbsp;·&nbsp; Policy makers &nbsp;·&nbsp; ai.google</p>
+          </div>
+          <div class="work-right">
+            <div class="work-toggle">+</div>
+          </div>
+        </div>
+        <div class="project-panel">
+          <div class="project-panel-inner">
+            <div class="project-panel-content">
+              <div class="panel-meta">
+                <div class="panel-meta-item"><p class="panel-meta-label">Year</p><p class="panel-meta-value">2024</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Format</p><p class="panel-meta-value">Short film</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Role</p><p class="panel-meta-value">Executive producer · Director</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Deployed</p><p class="panel-meta-value">Munich Security Conference · ai.google</p></div>
+              </div>
+
+              <div class="panel-body">
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The problem</p>
+                  <p class="panel-text">Google needed to communicate a nuanced argument about AI's role in strengthening — not threatening — global cybersecurity, to an audience of senior policymakers and security professionals who were actively skeptical of AI. A deck or report wouldn't land. The idea required a different medium.</p>
+                </div>
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The approach</p>
+                  <p class="panel-text">I conceived and executive produced a short film, directing an external agency while navigating internal approvals across Google's security, policy, legal, and communications teams — each with distinct requirements and risk tolerances. Coordinating that many stakeholders around a creative vision, without diluting it, was as much the work as the film itself. The result became the centrepiece of Google's presence at the Munich Security Conference and later a primary asset for the AI Cyber Defense Initiative launch.</p>
+                </div>
+              </div>
+
+              <!-- Film embed placeholder -->
+              <div class="img-grid img-grid-1" style="margin-bottom:1rem;">
+                <div class="img-placeholder video">
+                  <div class="img-placeholder-icon">▷</div>
+                  <p class="img-placeholder-label">Film embed or hero still<br>Recommended: embed YouTube player or full-width key frame</p>
+                </div>
+              </div>
+
+              <!-- Stills -->
+              <div class="img-grid img-grid-3" style="margin-bottom:1rem;">
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Film still — opening</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Film still — mid</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Film still — close</p>
+                </div>
+              </div>
+
+              <!-- Behind the scenes / process -->
+              <div class="img-grid img-grid-2" style="margin-bottom:2rem;">
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Production / direction — behind the scenes</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Storyboard or creative brief</p>
+                </div>
+              </div>
+
+              <a class="panel-link" href="https://youtu.be/-i6XyOLot_o" target="_blank" rel="noopener">Watch the film ↗</a>
+              <a class="panel-link" href="https://blog.google/technology/safety-security/google-ai-cyber-defense-initiative/" target="_blank" rel="noopener">AI Cyber Defense Initiative ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iii. Board of Directors -->
+      <div class="work-row reveal" data-project="board">
+        <div class="work-item">
+          <span class="work-num">iii</span>
+          <div>
+            <p class="work-tag">Board Reporting · Ongoing · Confidential</p>
+            <h3 class="work-title">Alphabet Board of Directors</h3>
+            <p class="work-desc">Distillation of complex, critical data reporting Alphabet's cybersecurity posture to the Audit and Compliance Committee — design as the vehicle for fiduciary decision-making at the highest level.</p>
+            <p class="work-audience">Board of Directors &nbsp;·&nbsp; Audit &amp; Compliance Committee</p>
+          </div>
+          <div class="work-right">
+            <div class="work-toggle">+</div>
+            <span class="work-confidential">Confidential</span>
+          </div>
+        </div>
+        <div class="project-panel">
+          <div class="project-panel-inner">
+            <div class="project-panel-content">
+              <div class="panel-confidential-note">
+                <p>This work is fully confidential. No visual materials are available for public display. Available for discussion in a private context upon request.</p>
+              </div>
+              <div class="panel-body single">
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The work</p>
+                  <p class="panel-text">Ongoing design of reporting materials that communicate Alphabet's cybersecurity posture to the Board of Directors' Audit and Compliance Committee. The domain is technically dense — threat landscapes, vulnerability data, incident response posture, regulatory exposure — and the audience has no obligation to meet the material halfway. The work demands both a deep enough understanding of the subject matter to represent it accurately, and the judgment to know what a board needs to understand versus what it doesn't need to see. Getting this material through the internal review process — security, legal, executive communications — is itself a significant operational undertaking each cycle.</p>
+                </div>
+              </div>
+              <div class="panel-meta" style="border-top: 1px solid var(--rule); border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+                <div class="panel-meta-item"><p class="panel-meta-label">Frequency</p><p class="panel-meta-value">Ongoing</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Audience</p><p class="panel-meta-value">Board of Directors</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Format</p><p class="panel-meta-value">Confidential</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iv. Project Vitraya -->
+      <div class="work-row reveal" data-project="vitraya">
+        <div class="work-item">
+          <span class="work-num">iv</span>
+          <div>
+            <p class="work-tag">Strategy · System Design · Confidential</p>
+            <h3 class="work-title">Project Vitraya</h3>
+            <p class="work-desc">A Google-wide consent strategy system design presented to Google's Trust &amp; Compliance Steering Committee and Core SVP — synthesizing legal, policy, and product complexity into a coherent strategic vision.</p>
+            <p class="work-audience">Core SVP &nbsp;·&nbsp; Trust &amp; Compliance Steering Committee</p>
+          </div>
+          <div class="work-right">
+            <div class="work-toggle">+</div>
+            <span class="work-confidential">Confidential</span>
+          </div>
+        </div>
+        <div class="project-panel">
+          <div class="project-panel-inner">
+            <div class="project-panel-content">
+              <div class="panel-confidential-note">
+                <p>This work is fully confidential. No visual materials are available for public display. Available for discussion in a private context upon request.</p>
+              </div>
+              <div class="panel-body single">
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The work</p>
+                  <p class="panel-text">Design of a Google-wide consent strategy system — one of the most organizationally complex projects of its kind. It required synthesizing conflicting input from legal, policy, engineering, and product teams across the company, none of whom shared a common language or set of priorities. The design work wasn't just the output — it was the instrument for building the alignment that made the strategy possible. The final framework was presented directly to Google's Trust &amp; Compliance Steering Committee and Core SVP, where it was adopted as the path forward.</p>
+                </div>
+              </div>
+              <div class="panel-meta" style="border-top: 1px solid var(--rule); border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+                <div class="panel-meta-item"><p class="panel-meta-label">Scope</p><p class="panel-meta-value">Google-wide</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Audience</p><p class="panel-meta-value">Core SVP · Steering Committee</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Format</p><p class="panel-meta-value">Confidential</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- v. AI Cyber Defense Initiative -->
+      <div class="work-row reveal" data-project="acdi">
+        <div class="work-item">
+          <span class="work-num">v</span>
+          <div>
+            <p class="work-tag">Initiative Launch · Creative Direction</p>
+            <h3 class="work-title">AI Cyber Defense Initiative</h3>
+            <p class="work-desc">Creative direction for Google's AI Cyber Defense Initiative — a major policy and product launch positioning Google's AI capabilities as a force for global cybersecurity, from film to digital assets to launch communications.</p>
+            <p class="work-audience">Global policy community &nbsp;·&nbsp; Security professionals &nbsp;·&nbsp; Public</p>
+          </div>
+          <div class="work-right">
+            <div class="work-toggle">+</div>
+          </div>
+        </div>
+        <div class="project-panel">
+          <div class="project-panel-inner">
+            <div class="project-panel-content">
+              <div class="panel-meta">
+                <div class="panel-meta-item"><p class="panel-meta-label">Year</p><p class="panel-meta-value">2024</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Format</p><p class="panel-meta-value">Film · Digital assets · Launch comms</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Role</p><p class="panel-meta-value">Creative direction</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Platform</p><p class="panel-meta-value">blog.google · ai.google</p></div>
+              </div>
+
+              <div class="panel-body">
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The problem</p>
+                  <p class="panel-text">Google was launching a major initiative to position AI as a tool for strengthening — not undermining — global cybersecurity. The launch needed to work simultaneously for the global policy community, security professionals, and a broader public audience without losing credibility in any of those rooms.</p>
+                </div>
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The approach</p>
+                  <p class="panel-text">I provided creative direction across the full suite of launch assets — from the AI Safety Film that anchored the initiative's narrative, to the digital assets and communications that supported the launch on blog.google and ai.google. Coordinating a launch of this scale meant aligning security, AI, policy, and brand teams around a single creative vision, sequencing approvals across organizations, and holding the work to a standard that could survive scrutiny from all of them simultaneously.</p>
+                </div>
+              </div>
+
+              <!-- Hero / launch asset -->
+              <div class="img-grid img-grid-1" style="margin-bottom:1rem;">
+                <div class="img-placeholder tall">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Launch hero image or key visual<br>Recommended: blog.google or ai.google hero screenshot / art</p>
+                </div>
+              </div>
+
+              <!-- Digital assets grid -->
+              <div class="img-grid img-grid-3" style="margin-bottom:1rem;">
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Digital asset — social / OG</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Digital asset — editorial image</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Digital asset — supporting graphic</p>
+                </div>
+              </div>
+
+              <!-- Blog / landing page screenshot -->
+              <div class="img-grid img-grid-2" style="margin-bottom:2rem;">
+                <div class="img-placeholder">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">blog.google launch page — screenshot</p>
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">ai.google — initiative page screenshot</p>
+                </div>
+              </div>
+
+              <a class="panel-link" href="https://blog.google/technology/safety-security/google-ai-cyber-defense-initiative/" target="_blank" rel="noopener">Read the launch ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- vi. Cyber Defense Summit -->
+      <div class="work-row reveal" data-project="cds">
+        <div class="work-item">
+          <span class="work-num">vi</span>
+          <div>
+            <p class="work-tag">Keynote · Cyber Defense Summit · 2025</p>
+            <h3 class="work-title">VP Keynote — Mandiant &amp; Google Threat Intelligence</h3>
+            <p class="work-desc">Development and design of a VP keynote crafted for elite security professionals — translating threat intelligence research into a high-impact stage presentation.</p>
+            <p class="work-audience">Elite security professionals &nbsp;·&nbsp; Mandiant clients</p>
+          </div>
+          <div class="work-right">
+            <div class="work-toggle">+</div>
+          </div>
+        </div>
+        <div class="project-panel">
+          <div class="project-panel-inner">
+            <div class="project-panel-content">
+              <div class="panel-meta">
+                <div class="panel-meta-item"><p class="panel-meta-label">Year</p><p class="panel-meta-value">2025</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Format</p><p class="panel-meta-value">Keynote presentation · Stage</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Role</p><p class="panel-meta-value">Keynote development · Design</p></div>
+                <div class="panel-meta-item"><p class="panel-meta-label">Event</p><p class="panel-meta-value">Cyber Defense Summit 2025</p></div>
+              </div>
+
+              <div class="panel-body">
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The work</p>
+                  <p class="panel-text">VP keynote development and design for an exclusive Mandiant and Google Threat Intelligence event — an audience of elite security professionals who can spot a shallow understanding of their field immediately. The challenge was going deep enough into current threat intelligence research to represent it with authority, then shaping it into a stage narrative that moved without losing technical precision.</p>
+                </div>
+                <div class="panel-text-block">
+                  <p class="panel-text-label">The execution</p>
+                  <p class="panel-text">Developing a keynote at this level requires close collaboration with the speaker, the research team, and event stakeholders — often with limited time and competing priorities among all of them. The design work happens in parallel with the narrative development, requiring the ability to hold both simultaneously and know when one needs to lead the other.</p>
+                </div>
+              </div>
+
+              <!-- Stage photo -->
+              <div class="img-grid img-grid-1" style="margin-bottom:1rem;">
+                <div class="img-placeholder tall">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Speaker on stage — photography<br>Recommended: wide shot showing speaker + screen in context</p>
+                </div>
+              </div>
+
+              <!-- Slides -->
+              <div class="img-grid img-grid-2" style="margin-bottom:1rem;">
+                <div class="img-placeholder">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Keynote slide — title / hero</p>
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Keynote slide — data / insight</p>
+                </div>
+              </div>
+
+              <div class="img-grid img-grid-3" style="margin-bottom:2rem;">
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Slide detail — typography</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Slide detail — diagram</p>
+                </div>
+                <div class="img-placeholder short">
+                  <div class="img-placeholder-icon">⬜</div>
+                  <p class="img-placeholder-label">Audience / event atmosphere</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-header reveal"><span class="section-title">Contact</span></div>
+    <div class="contact-grid">
+      <div>
+        <h2 class="contact-head reveal">Open to<br><em>new work</em></h2>
+        <p class="contact-body reveal rd">Exploring opportunities in creative direction and design leadership at tech companies where the work is complex and the stakes are high.</p>
+      </div>
+      <div class="contact-links reveal rd">
+        <a href="/cdn-cgi/l/email-protection#0d606c2367686b6b4d6a606c6461236e6260" class="contact-link">
+          <div><p class="contact-label">Email</p><p class="contact-value"><span class="__cf_email__" data-cfemail="d4b9b5fabeb1b2b294b3b9b5bdb8fab7bbb9">[email&#160;protected]</span></p></div>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <a href="tel:3122823619" class="contact-link">
+          <div><p class="contact-label">Phone</p><p class="contact-value">312.282.3619</p></div>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/jeffma" target="_blank" rel="noopener" class="contact-link">
+          <div><p class="contact-label">LinkedIn</p><p class="contact-value">linkedin.com/in/jeffma</p></div>
+          <span class="contact-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>Jeff Ma — Creative Director</span>
+    <span>&copy; 2026</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* Nav scroll */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* Scroll reveal */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* Work row expand */
+  document.querySelectorAll('.work-row').forEach(row => {
+    const trigger = row.querySelector('.work-item');
+    trigger.addEventListener('click', () => {
+      const isOpen = row.classList.contains('open');
+      // close all
+      document.querySelectorAll('.work-row.open').forEach(r => r.classList.remove('open'));
+      // open this one unless it was already open
+      if (!isOpen) {
+        row.classList.add('open');
+        // scroll so panel is visible after a short delay for animation
+        setTimeout(() => {
+          const panel = row.querySelector('.project-panel-content')
