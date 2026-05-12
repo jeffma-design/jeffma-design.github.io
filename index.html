@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warby Parker Home Try-On — Service Design Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4843;
+    --ink-soft: #8a8680;
+    --rule: #e2ded8;
+    --bg: #faf9f7;
+    --bg-warm: #f3f0ea;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0eb;
+    --accent2: #5a3820;
+    --accent2-light: #f0ebe5;
+    --purple: #3d3480;
+    --purple-light: #eeedfd;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .nav-brand { font-size: 13px; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 12px; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.03em; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    max-width: 860px; margin: 0 auto;
+    padding: 5rem 2rem 4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::after {
+    content: ''; display: block; height: 1px; width: 40px; background: var(--accent);
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(36px, 6vw, 58px);
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 17px; color: var(--ink-mid); line-height: 1.65;
+    max-width: 600px; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-meta {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  .meta-item { }
+  .meta-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 3px; }
+  .meta-value { font-size: 14px; font-weight: 500; color: var(--ink); }
+
+  /* LAYOUT */
+  .content {
+    max-width: 860px; margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section { padding: 4rem 0; border-bottom: 1px solid var(--rule); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before {
+    content: attr(data-n);
+    display: flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1px solid var(--rule);
+    font-size: 10px; color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 28px; font-weight: 400;
+    color: var(--ink); margin-bottom: 1rem;
+    letter-spacing: -0.01em; line-height: 1.25;
+  }
+
+  p { color: var(--ink-mid); margin-bottom: 1rem; }
+
+  /* CHALLENGE BLOCK */
+  .challenge-block {
+    background: var(--bg-warm);
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 2rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.5rem 0;
+  }
+  .challenge-block p { margin: 0; font-size: 16px; color: var(--ink); line-height: 1.7; }
+
+  /* DESIGN AREAS GRID */
+  .design-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+  .design-cell {
+    background: var(--bg);
+    padding: 1.5rem;
+  }
+  .design-cell-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 16px;
+  }
+  .design-cell h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .design-cell p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
+
+  /* JOURNEY MAP */
+  .journey-wrap { overflow-x: auto; margin-top: 2rem; }
+  .journey-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+  .journey-table th {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-soft); padding: 8px 12px;
+    border-bottom: 1px solid var(--rule); text-align: left;
+  }
+  .journey-table td {
+    padding: 12px; vertical-align: top;
+    border-bottom: 1px solid var(--rule);
+    font-size: 12.5px; color: var(--ink-mid); line-height: 1.55;
+  }
+  .journey-table tr:last-child td { border-bottom: none; }
+  .stage-pill {
+    display: inline-block;
+    font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px;
+    background: var(--accent-light); color: var(--accent);
+  }
+  .emotion { font-size: 12px; }
+  .emotion.pos { color: #2d7a4f; }
+  .emotion.neu { color: #8a7020; }
+  .emotion.neg { color: #9a3020; }
+
+  /* BLUEPRINT */
+  .blueprint-wrap { overflow-x: auto; margin-top: 2rem; }
+  .bp-table { width: 100%; border-collapse: collapse; min-width: 680px; font-size: 12px; }
+  .bp-table th, .bp-table td {
+    border: 1px solid var(--rule); padding: 8px 10px;
+    vertical-align: top; line-height: 1.5;
+  }
+  .bp-table th { background: var(--bg-warm); font-weight: 500; font-size: 11px; color: var(--ink-mid); }
+  .bp-row-hd {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: white; writing-mode: vertical-rl; transform: rotate(180deg);
+    padding: 10px 5px; text-align: center;
+  }
+  .hd-cust { background: var(--purple); }
+  .hd-front { background: var(--accent); }
+  .hd-back { background: var(--accent2); }
+  .hd-support { background: var(--ink-mid); }
+  .band-cust { background: #f8f7ff; }
+  .band-front { background: #f2faf5; }
+  .band-back { background: #faf5f0; }
+  .band-support { background: var(--bg-warm); }
+  .fail-note { color: #9a3020; font-style: italic; font-size: 11px; margin-top: 4px; display: block; }
+  .sep-row td { background: var(--rule); padding: 2px 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); border: none; }
+
+  /* OUTCOMES */
+  .outcome-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .outcome-item { background: var(--bg); display: flex; gap: 1rem; padding: 1.25rem 1.5rem; align-items: flex-start; }
+  .outcome-num { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--rule); line-height: 1; flex-shrink: 0; width: 28px; }
+  .outcome-item h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .outcome-item p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
+
+  /* BRIDGE / RELEVANCE */
+  .bridge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+  .bridge-card {
+    border: 1px solid var(--rule); border-radius: 10px; padding: 1.5rem;
+    position: relative; overflow: hidden;
+  }
+  .bridge-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .bridge-card.wp::before { background: var(--accent2); }
+  .bridge-card.google::before { background: var(--accent); }
+  .bridge-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem; }
+  .bridge-card h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
+  .bridge-card p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
+  .bridge-connector {
+    display: flex; align-items: center; justify-content: center;
+    grid-column: span 2; color: var(--ink-soft); font-size: 13px;
+    gap: 1rem; padding: 0.5rem 0;
+  }
+  .bridge-connector::before, .bridge-connector::after {
+    content: ''; flex: 1; height: 1px; background: var(--rule);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px; color: var(--ink-soft);
+    max-width: 860px; margin: 0 auto;
+  }
+
+  /* TAGS */
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 1.5rem 0; }
+  .tag {
+    font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 99px;
+    border: 1px solid var(--rule); color: var(--ink-mid);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.5s ease both; }
+  .hero-title { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-meta { animation: fadeUp 0.5s 0.3s ease both; }
+
+  @media (max-width: 640px) {
+    .design-grid, .bridge-grid { grid-template-columns: 1fr; }
+    .bridge-connector { display: none; }
+    .hero-title { font-size: 32px; }
+    nav { padding: 0 1rem; }
+    .content { padding: 0 1rem; }
+    .hero { padding: 3rem 1rem 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Service Design Portfolio</span>
+  <div class="nav-links">
+    <a href="#challenge">Challenge</a>
+    <a href="#journey">Journey</a>
+    <a href="#blueprint">Blueprint</a>
+    <a href="#outcomes">Outcomes</a>
+    <a href="#relevance">Relevance</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Service Design Case Study · Warby Parker</div>
+  <h1 class="hero-title">Home Try-On<br><em>Online Experience</em></h1>
+  <p class="hero-sub">Designing an end-to-end digital service that let customers select, receive, and return eyeglass frames from home — translating an in-store ritual into a trusted online experience at scale.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-value">Design Lead, Online HTO</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Scope</div>
+      <div class="meta-value">End-to-end service design</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Program run</div>
+      <div class="meta-value">14 years · 2.6M+ customers</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Channel</div>
+      <div class="meta-value">Web · Mobile · Physical</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- CHALLENGE -->
+  <section id="challenge">
+    <div class="section-label" data-n="01">The challenge</div>
+    <h2>Selling eyewear online when no one thought it could work</h2>
+    <div class="challenge-block">
+      <p>When Warby Parker launched, less than 2.5% of glasses were sold online. The company's foundational bet was that customers could be trusted to try on frames at home — but the online experience had to earn that trust at every step. The challenge was designing a digital service that bridged physical and digital: helping customers confidently select frames, understand the process, complete a return, and convert to purchase, without ever touching a product first.</p>
+    </div>
+    <p>This was not a UI problem. It was a service design problem — one that required coordinating digital flows, physical packaging, email communications, logistics operations, and mobile app design into a single coherent experience.</p>
+
+    <div class="tag-row">
+      <span class="tag">Trust design</span>
+      <span class="tag">Physical-digital integration</span>
+      <span class="tag">Multi-touchpoint service</span>
+      <span class="tag">DTC e-commerce</span>
+      <span class="tag">Cross-functional leadership</span>
+    </div>
+
+    <div class="design-grid">
+      <div class="design-cell">
+        <div class="design-cell-icon">▦</div>
+        <h3>Frame selection flow</h3>
+        <p>The "build your box" experience — browsing, filtering, and choosing up to five frames — with quiz-based recommendations and virtual try-on integration to reduce selection anxiety.</p>
+      </div>
+      <div class="design-cell">
+        <div class="design-cell-icon">↩</div>
+        <h3>Return & conversion flow</h3>
+        <p>Post-delivery experience guiding customers from physical try-on back to a purchase decision online — with status, prescription entry, and pre-populated frame preferences.</p>
+      </div>
+      <div class="design-cell">
+        <div class="design-cell-icon">✉</div>
+        <h3>Communications design</h3>
+        <p>Email confirmations, shipping notifications, in-box instructions, and return labels — coordinating digital and physical communication across the full journey.</p>
+      </div>
+      <div class="design-cell">
+        <div class="design-cell-icon">⟳</div>
+        <h3>Cross-channel continuity</h3>
+        <p>Ensuring a customer who started on desktop could continue on mobile or in-app — and integration points with AR virtual try-on to support earlier frame narrowing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY MAP -->
+  <section id="journey">
+    <div class="section-label" data-n="02">Customer journey</div>
+    <h2>Seven stages, one continuous thread</h2>
+    <p>The HTO experience spanned days, not minutes. Customers moved between screens, physical objects, and conversations with friends — and each transition was a moment where the service could earn or lose trust.</p>
+
+    <div class="journey-wrap">
+      <table class="journey-table">
+        <thead>
+          <tr>
+            <th style="width:100px">Stage</th>
+            <th>Customer actions</th>
+            <th>Feeling</th>
+            <th>Key touchpoints</th>
+            <th>Design opportunity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="stage-pill">Discover</span></td>
+            <td>Finds WP via referral. Reads HTO page.</td>
+            <td class="emotion neu">Curious, skeptical</td>
+            <td>Landing page, HTO explainer</td>
+            <td>Lead with the return promise, not the frames. Overcome skepticism first.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill">Select</span></td>
+            <td>Takes style quiz. Browses, filters. Uses virtual try-on. Adds 5 frames.</td>
+            <td class="emotion pos">Overwhelmed → confident</td>
+            <td>Style quiz, frame catalog, VTO, box builder</td>
+            <td>Surface quiz and VTO early. Make frame swapping frictionless before submit.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill">Request</span></td>
+            <td>Enters shipping details. Confirms box. Receives email.</td>
+            <td class="emotion pos">Excited, anticipating</td>
+            <td>Box review page, confirmation email, shipping notification</td>
+            <td>Set clear timeline expectations. "Arrives in ~4 days" reduces anxiety gaps.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill">Receive</span></td>
+            <td>Unboxes frames. Reads in-box card. Tries on each pair.</td>
+            <td class="emotion pos">Delighted, indecisive</td>
+            <td>Physical box, in-box card, app photo tool, return label</td>
+            <td>In-box card bridges physical → digital. Prompts app for photo capture + sharing.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill">Decide</span></td>
+            <td>Compares frames. Consults friends. Marks favorites online.</td>
+            <td class="emotion neu">Torn, mild time pressure</td>
+            <td>Online account, reminder email, mobile app</td>
+            <td>Reminder email doubles as conversion tool — surfaces saved frames + direct purchase link.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill">Return</span></td>
+            <td>Packs frames. Affixes return label. Drops at carrier.</td>
+            <td class="emotion pos">Relieved, ready to decide</td>
+            <td>Prepaid return label, return confirmation email</td>
+            <td>Return confirmation is peak intent. Send it immediately with a purchase CTA.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill">Purchase</span></td>
+            <td>Selects saved frame. Enters prescription. Checks out.</td>
+            <td class="emotion pos">Confident, task-focused</td>
+            <td>Checkout, Rx entry, order confirmation</td>
+            <td>Pre-populate saved frames. Guide Rx entry carefully — highest drop-off point.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SERVICE BLUEPRINT -->
+  <section id="blueprint">
+    <div class="section-label" data-n="03">Service blueprint</div>
+    <h2>What customers see, and what makes it work</h2>
+    <p>Service breakdowns rarely happen in the frontstage. They happen below the line of visibility — in inventory systems, carrier integrations, and return logistics. This blueprint maps the full stack.</p>
+
+    <div class="blueprint-wrap">
+      <table class="bp-table">
+        <thead>
+          <tr>
+            <th style="width:30px"></th>
+            <th style="width:80px"></th>
+            <th>Discover</th>
+            <th>Select</th>
+            <th>Request</th>
+            <th>Receive</th>
+            <th>Return</th>
+            <th>Purchase</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="bp-row-hd hd-cust" rowspan="2">Customer</td>
+            <td style="font-size:11px; font-weight:500; color:#3d3480; background:#f8f7ff;">Actions</td>
+            <td class="band-cust">Reads HTO page. Evaluates trust signals.</td>
+            <td class="band-cust">Style quiz → browse → VTO → box of 5.</td>
+            <td class="band-cust">Shipping info → order confirmed.</td>
+            <td class="band-cust">Unboxes → tries on → photos → shares.</td>
+            <td class="band-cust">Packs up → return label → carrier drop.</td>
+            <td class="band-cust">Saved frame → Rx entry → checkout.</td>
+          </tr>
+          <tr>
+            <td style="font-size:11px; font-weight:500; color:#3d3480; background:#f8f7ff;">Feeling</td>
+            <td class="band-cust">Curious, skeptical</td>
+            <td class="band-cust">Overwhelmed → confident</td>
+            <td class="band-cust">Excited</td>
+            <td class="band-cust">Delighted, torn</td>
+            <td class="band-cust">Relieved, ready</td>
+            <td class="band-cust">Confident</td>
+          </tr>
+          <tr><td colspan="8" class="sep-row">Line of interaction</td></tr>
+          <tr>
+            <td class="bp-row-hd hd-front" rowspan="2">Front­stage</td>
+            <td style="font-size:11px; font-weight:500; color:#2d5a3d; background:#f2faf5;">UI</td>
+            <td class="band-front">Landing page. Value prop + social proof.</td>
+            <td class="band-front">Style quiz. Catalog + filters. VTO. Box builder with count indicator.</td>
+            <td class="band-front">Address form. Box review. Confirmation page.</td>
+            <td class="band-front">Shipping tracker. Mobile app photo booth + favorites.</td>
+            <td class="band-front">Account page with return status. Return confirmation.</td>
+            <td class="band-front">Saved-frame checkout. Rx entry. Payment flow.</td>
+          </tr>
+          <tr>
+            <td style="font-size:11px; font-weight:500; color:#2d5a3d; background:#f2faf5;">Email</td>
+            <td class="band-front">—</td>
+            <td class="band-front">—</td>
+            <td class="band-front">Confirmation: timeline + what to expect.</td>
+            <td class="band-front">"Your box is on its way!" shipping notice.</td>
+            <td class="band-front">Day-4 reminder. Return confirmation + purchase CTA.</td>
+            <td class="band-front">Order confirmation. Processing update. Ship notice.</td>
+          </tr>
+          <tr><td colspan="8" class="sep-row">Line of visibility</td></tr>
+          <tr>
+            <td class="bp-row-hd hd-back" rowspan="2">Back­stage</td>
+            <td style="font-size:11px; font-weight:500; color:#5a3820; background:#faf5f0;">Ops</td>
+            <td class="band-back">—</td>
+            <td class="band-back">Inventory flags HTO-eligible frames. Quiz logic maps preferences to catalog.</td>
+            <td class="band-back">Order processed. Frame QC + box assembly. Return label generated.</td>
+            <td class="band-back">Frame dispatched. 5-day clock starts on delivery.</td>
+            <td class="band-back">Frames received + inspected. Restocked or retired.</td>
+            <td class="band-back">Rx verification. Lens manufacturing. QC + shipping.</td>
+          </tr>
+          <tr>
+            <td style="font-size:11px; font-weight:500; color:#5a3820; background:#faf5f0;">Failure points</td>
+            <td class="band-back"><span class="fail-note">⚠ Page load. Value prop clarity.</span></td>
+            <td class="band-back"><span class="fail-note">⚠ Quiz feels irrelevant. VTO on non-iPhone.</span></td>
+            <td class="band-back"><span class="fail-note">⚠ Shipping delay erodes excitement.</span></td>
+            <td class="band-back"><span class="fail-note">⚠ Frames ≠ expectations. App UX friction.</span></td>
+            <td class="band-back"><span class="fail-note">⚠ Return window anxiety. Label printing.</span></td>
+            <td class="band-back"><span class="fail-note">⚠ Rx entry confusion. Frame not pre-populated.</span></td>
+          </tr>
+          <tr><td colspan="8" class="sep-row">Line of internal interaction</td></tr>
+          <tr>
+            <td class="bp-row-hd hd-support" rowspan="2">Support</td>
+            <td style="font-size:11px; font-weight:500; color:#4a4843; background:#f3f0ea;">Systems</td>
+            <td class="band-support">SEO. A/B testing platform.</td>
+            <td class="band-support">Product catalog DB. Recommendation engine. ARKit. Wishlist.</td>
+            <td class="band-support">OMS. Carrier API. CRM.</td>
+            <td class="band-support">Carrier tracking API. Push/email platform. App backend.</td>
+            <td class="band-support">Returns management system. Inventory system.</td>
+            <td class="band-support">Rx verification API. Lens lab integration. Payment processor.</td>
+          </tr>
+          <tr>
+            <td style="font-size:11px; font-weight:500; color:#4a4843; background:#f3f0ea;">Partners</td>
+            <td class="band-support">Google / Meta</td>
+            <td class="band-support">Apple (ARKit)</td>
+            <td class="band-support">UPS / FedEx</td>
+            <td class="band-support">UPS / FedEx</td>
+            <td class="band-support">Carrier. Returns hub.</td>
+            <td class="band-support">Optical labs. Eye doctor networks.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section id="outcomes">
+    <div class="section-label" data-n="04">Outcomes</div>
+    <h2>What the design work produced</h2>
+    <p>The online HTO experience was foundational to Warby Parker's DTC model for 14 years. Its eventual sunset — as 300+ physical stores made the program less necessary — was itself a product of its success.</p>
+
+    <div class="outcome-list">
+      <div class="outcome-item">
+        <div class="outcome-num">01</div>
+        <div>
+          <h3>Reduced selection anxiety</h3>
+          <p>Surfacing the style quiz and virtual try-on early in the funnel helped customers confidently narrow to five frames before committing — improving box quality and downstream conversion rates.</p>
+        </div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-num">02</div>
+        <div>
+          <h3>Streamlined return-to-purchase path</h3>
+          <p>Customers returning their box could complete a purchase in a single flow using saved frame preferences — reducing the drop-off between physical try-on and checkout that the gap in experience had created.</p>
+        </div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-num">03</div>
+        <div>
+          <h3>Built trust through transparency</h3>
+          <p>Clear timelines, prepaid return labels, and proactive communications addressed the primary anxiety of buying eyewear without trying it in person — removing the reasons not to proceed.</p>
+        </div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-num">04</div>
+        <div>
+          <h3>Supported program scale for 14 years</h3>
+          <p>The online HTO became foundational to Warby Parker's DTC model, serving 2.6M+ active customers and underpinning the company's growth at a time when online eyewear represented less than 2.5% of the market.</p>
+        </div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-num">05</div>
+        <div>
+          <h3>Informed strategic evolution</h3>
+          <p>Usage data from the HTO experience helped Warby Parker make a confident strategic decision to invest in physical retail expansion and AR virtual try-on — and eventually sunset the program when 300+ stores covered most of the geographic need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELEVANCE -->
+  <section id="relevance">
+    <div class="section-label" data-n="05">Why this matters for enterprise service design</div>
+    <h2>The same problems, different context</h2>
+    <p>Consumer service design and enterprise service design share the same structural challenges: multi-step processes where trust must be earned, transitions that create anxiety and drop-off, and backstage complexity that customers never see but always feel. The methods transfer directly.</p>
+
+    <div class="bridge-grid">
+      <div class="bridge-card wp">
+        <div class="bridge-label">Warby Parker · Home Try-On</div>
+        <h3>Selection anxiety → conversion</h3>
+        <p>A customer has to commit to five frames they've never touched, wait days, and then make a purchase decision. Every step is a trust question.</p>
+      </div>
+      <div class="bridge-card google">
+        <div class="bridge-label">Google Corp Eng · Finance Transformation</div>
+        <h3>Process complexity → adoption</h3>
+        <p>An employee or vendor has to navigate a multi-step financial workflow — submitting, waiting, getting approved or rejected — with each step a potential abandonment.</p>
+      </div>
+      <div class="bridge-connector">The design challenge is structurally identical</div>
+      <div class="bridge-card wp">
+        <div class="bridge-label">Warby Parker · Home Try-On</div>
+        <h3>Invisible backstage, visible experience</h3>
+        <p>Inventory, carrier APIs, return logistics, and Rx verification all had to work invisibly so the customer experience felt effortless.</p>
+      </div>
+      <div class="bridge-card google">
+        <div class="bridge-label">Google Corp Eng · Finance Transformation</div>
+        <h3>ERP integration, approval routing</h3>
+        <p>The backstage of finance systems — approval logic, ERP handoffs, data validation — determines whether the human experience is smooth or broken.</p>
+      </div>
+      <div class="bridge-connector">Service blueprinting reveals both layers equally</div>
+      <div class="bridge-card wp">
+        <div class="bridge-label">Warby Parker · Home Try-On</div>
+        <h3>Peak-intent design</h3>
+        <p>The return confirmation email was the highest-intent moment in the journey. Designing that touchpoint as a conversion trigger — not just a receipt — was the key insight.</p>
+      </div>
+      <div class="bridge-card google">
+        <div class="bridge-label">Google Corp Eng · Finance Transformation</div>
+        <h3>Moment-of-completion design</h3>
+        <p>When someone finishes a step in a finance workflow — submitting an invoice, completing a review — that's a peak-intent moment that should guide, not abandon.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Service Design Portfolio · Warby Parker Home Try-On Case Study
+</footer>
+
+</body>
+</html>
