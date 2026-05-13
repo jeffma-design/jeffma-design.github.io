@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Warby Parker Home Try-On — Service Design Case Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -13,23 +13,26 @@
     --ink: #1a1814;
     --ink-mid: #4a4843;
     --ink-soft: #8a8680;
-    --rule: #d4cdc2;
+    --rule: #e2ded8;
     --bg: #faf9f7;
     --bg-warm: #f3f0ea;
     --accent: #1ea5df;
-    --accent-light: #e0f2f9;
-    --accent2: #1ea5df;
-    --accent2-light: #f0ebe5;
-    --accent3: #5a3820;
+    --accent-light: #e0f4fc;
+    --accent2: #5a3820;
     --purple: #3d3480;
-    --purple-light: #eeedfd;
-    --google-yellow: #fccc0b;
+    --space-xs: 0.75rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --radius: 10px;
   }
 
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Fira Sans', sans-serif;
     background: var(--bg);
     color: var(--ink);
     font-size: 15px;
@@ -39,239 +42,267 @@
 
   /* NAV */
   nav {
-    position: sticky; top: 0; z-index: 100;
+    position: sticky; top: 0; z-index: 200;
     background: var(--bg);
     border-bottom: 1px solid var(--rule);
-    padding: 0 2rem;
+    padding: 0 var(--space-lg);
     display: flex; align-items: center; justify-content: space-between;
     height: 52px;
   }
-  .nav-brand { font-size: 13px; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.02em; }
-  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-brand { font-size: 13px; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.02em; white-space: nowrap; }
+  .nav-links { display: flex; gap: var(--space-md); align-items: center; }
   .nav-links a { font-size: 12px; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.03em; transition: color 0.15s; }
   .nav-links a:hover { color: var(--ink); }
+
+  .nav-toggle {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 6px; flex-direction: column; gap: 5px; align-items: center;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--ink-mid); border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-drawer {
+    display: none; position: fixed; top: 52px; left: 0; right: 0;
+    background: var(--bg); border-bottom: 1px solid var(--rule);
+    padding: var(--space-sm) var(--space-lg);
+    flex-direction: column; gap: 0; z-index: 199;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    font-size: 14px; color: var(--ink-mid); text-decoration: none;
+    padding: 12px 0; border-bottom: 1px solid var(--rule);
+  }
+  .nav-drawer a:last-child { border-bottom: none; }
 
   /* HERO */
   .hero {
     max-width: 860px; margin: 0 auto;
-    padding: 5rem 2rem 4rem;
+    padding: var(--space-2xl) var(--space-lg);
     border-bottom: 1px solid var(--rule);
   }
   .hero-eyebrow {
     font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 1.5rem;
+    color: var(--accent); margin-bottom: var(--space-md);
     display: flex; align-items: center; gap: 10px;
   }
-  .hero-eyebrow::after {
-    content: ''; display: block; height: 1px; width: 0px; background: var(--accent);
-  }
+  .hero-eyebrow::after { content: ''; display: block; height: 1px; width: 40px; background: var(--accent); }
   .hero-title {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(36px, 6vw, 58px);
-    line-height: 1.08;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    font-size: clamp(30px, 7vw, 56px); font-weight: 300; line-height: 1.1;
+    color: var(--ink); margin-bottom: var(--space-md);
   }
-  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-title em { font-style: normal; font-weight: 300; color: var(--accent); }
   .hero-sub {
-    font-size: 17px; color: var(--ink-mid); line-height: 1.65;
-    max-width: 600px; margin-bottom: 2.5rem; font-weight: 300;
+    font-size: clamp(14px, 2.5vw, 17px); color: var(--ink-mid); line-height: 1.65;
+    max-width: 580px; margin-bottom: var(--space-lg); font-weight: 300;
   }
   .hero-meta {
-    display: flex; gap: 2rem; flex-wrap: wrap;
-    padding-top: 1.5rem;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md); padding-top: var(--space-md);
     border-top: 1px solid var(--rule);
   }
-  .meta-item { }
   .meta-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 3px; }
-  .meta-value { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .meta-value { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; }
 
   /* LAYOUT */
-  .content {
-    max-width: 860px; margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  section { padding: 4rem 0; border-bottom: 1px solid var(--rule); }
+  .content { max-width: 860px; margin: 0 auto; padding: 0 var(--space-lg); }
+  section { padding: var(--space-2xl) 0; border-bottom: 1px solid var(--rule); }
   section:last-child { border-bottom: none; }
 
   .section-label {
     font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-soft); margin-bottom: 2rem;
+    color: var(--ink-soft); margin-bottom: var(--space-lg);
     display: flex; align-items: center; gap: 10px;
   }
   .section-label::before {
-    content: attr(data-n);
-    display: flex; align-items: center; justify-content: center;
+    content: attr(data-n); display: flex; align-items: center; justify-content: center;
     width: 20px; height: 20px; border-radius: 50%;
-    border: 1px solid var(--rule);
-    font-size: 10px; color: var(--ink-soft);
-    flex-shrink: 0;
+    border: 1px solid var(--rule); font-size: 10px; color: var(--ink-soft); flex-shrink: 0;
   }
-
   h2 {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: 28px; font-weight: 400;
-    color: var(--ink); margin-bottom: 1rem;
-    letter-spacing: -0.01em; line-height: 1.25;
+    font-size: clamp(18px, 4vw, 26px); font-weight: 500;
+    color: var(--ink); margin-bottom: var(--space-sm); line-height: 1.25;
   }
+  p { color: var(--ink-mid); margin-bottom: var(--space-sm); }
 
-  p { color: var(--ink-mid); margin-bottom: 1rem; }
-
-  /* CHALLENGE BLOCK */
+  /* CHALLENGE */
   .challenge-block {
-    background: var(--bg-warm);
-    border-left: 3px solid var(--accent);
-    padding: 1.5rem 2rem;
-    border-radius: 0 8px 8px 0;
-    margin: 1.5rem 0;
+    background: var(--bg-warm); border-left: 3px solid var(--accent);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: 0 var(--radius) var(--radius) 0; margin: var(--space-md) 0;
   }
-  .challenge-block p { margin: 0; font-size: 16px; color: var(--ink); line-height: 1.7; }
+  .challenge-block p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.7; }
 
-  /* DESIGN AREAS GRID */
+  /* TAGS */
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin: var(--space-md) 0; }
+  .tag { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--rule); color: var(--ink-mid); }
+
+  /* DESIGN GRID */
   .design-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 2rem;
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: var(--radius);
+    overflow: hidden; margin-top: var(--space-lg);
   }
-  .design-cell {
-    background: var(--bg);
-    padding: 1.5rem;
-  }
+  .design-cell { background: var(--bg); padding: var(--space-md); }
   .design-cell-icon {
     width: 32px; height: 32px; border-radius: 8px;
-    background: var(--accent-light);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1rem;
-    font-size: 16px;
+    background: var(--accent-light); display: flex; align-items: center;
+    justify-content: center; margin-bottom: var(--space-sm); font-size: 16px;
   }
   .design-cell h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
-  .design-cell p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
+  .design-cell p  { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
 
-  /* JOURNEY MAP */
-  .journey-wrap { overflow-x: auto; margin-top: 2rem; }
-  .journey-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+  /* JOURNEY TABLE */
+  .journey-wrap { overflow-x: auto; margin-top: var(--space-lg); -webkit-overflow-scrolling: touch; }
+  .journey-table { width: 100%; border-collapse: collapse; min-width: 680px; }
   .journey-table th {
     font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--ink-soft); padding: 8px 12px;
-    border-bottom: 1px solid var(--rule); text-align: left;
+    color: var(--ink-soft); padding: 8px 12px; border-bottom: 1px solid var(--rule); text-align: left;
   }
   .journey-table td {
-    padding: 12px; vertical-align: top;
-    border-bottom: 1px solid var(--rule);
+    padding: 12px; vertical-align: top; border-bottom: 1px solid var(--rule);
     font-size: 12.5px; color: var(--ink-mid); line-height: 1.55;
   }
   .journey-table tr:last-child td { border-bottom: none; }
   .stage-pill {
-    display: inline-block;
-    font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px;
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 99px;
     background: var(--accent-light); color: var(--accent);
   }
   .emotion { font-size: 12px; }
-  .emotion.pos { color: #1ea5df; }
+  .emotion.pos { color: #2d7a4f; }
   .emotion.neu { color: #8a7020; }
-  .emotion.neg { color: #9a3020; }
+
+  /* JOURNEY CARDS (mobile) */
+  .journey-cards { display: none; margin-top: var(--space-lg); }
+  .journey-card { border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
+  .journey-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px var(--space-sm); background: var(--bg-warm);
+    cursor: pointer; user-select: none; gap: 8px;
+  }
+  .journey-card-header .stage-pill { font-size: 12px; padding: 4px 12px; flex-shrink: 0; }
+  .journey-card-header .feeling { font-size: 12px; color: var(--ink-soft); text-align: right; }
+  .journey-card-chevron {
+    flex-shrink: 0; width: 16px; height: 16px; color: var(--ink-soft);
+    transition: transform 0.2s;
+  }
+  .journey-card-header[aria-expanded="true"] .journey-card-chevron { transform: rotate(180deg); }
+  .journey-card-body { padding: var(--space-sm); display: none; border-top: 1px solid var(--rule); }
+  .journey-card-body.open { display: block; }
+  .journey-card-row { margin-bottom: 10px; }
+  .journey-card-row:last-child { margin-bottom: 0; }
+  .journey-row-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 3px; }
+  .journey-row-value { font-size: 13px; color: var(--ink-mid); line-height: 1.55; }
 
   /* BLUEPRINT */
-  .blueprint-wrap { overflow-x: auto; margin-top: 2rem; }
-  .bp-table { width: 100%; border-collapse: collapse; min-width: 680px; font-size: 12px; }
-  .bp-table th, .bp-table td {
-    border: 1px solid var(--rule); padding: 8px 10px;
-    vertical-align: top; line-height: 1.5;
+  .scroll-hint {
+    display: none; font-size: 11px; color: var(--ink-soft);
+    margin-bottom: 8px; align-items: center; gap: 6px;
   }
+  .blueprint-wrap { overflow-x: auto; margin-top: var(--space-lg); -webkit-overflow-scrolling: touch; }
+  .bp-table { width: 100%; border-collapse: collapse; min-width: 680px; font-size: 12px; }
+  .bp-table th, .bp-table td { border: 1px solid var(--rule); padding: 8px 10px; vertical-align: top; line-height: 1.5; }
   .bp-table th { background: var(--bg-warm); font-weight: 500; font-size: 11px; color: var(--ink-mid); }
   .bp-row-hd {
     font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
     color: white; writing-mode: vertical-rl; transform: rotate(180deg);
     padding: 10px 5px; text-align: center;
   }
-  .hd-cust { background: var(--purple); }
-  .hd-front { background: var(--accent); }
-  .hd-back { background: var(--accent3); }
+  .hd-cust    { background: var(--purple); }
+  .hd-front   { background: #2d5a3d; }
+  .hd-back    { background: var(--accent2); }
   .hd-support { background: var(--ink-mid); }
-  .band-cust { background: #f8f7ff; }
-  .band-front { background: #f2f8fa; }
-  .band-back { background: #faf5f0; }
+  .band-cust    { background: #f8f7ff; }
+  .band-front   { background: #f2faf5; }
+  .band-back    { background: #faf5f0; }
   .band-support { background: var(--bg-warm); }
   .fail-note { color: #9a3020; font-style: italic; font-size: 11px; margin-top: 4px; display: block; }
-  .sep-row td { background: var(--rule); padding: 2px 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); border: none; }
+  .sep-row td { background: var(--rule); padding: 3px 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); border: none; }
 
   /* OUTCOMES */
-  .outcome-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
-  .outcome-item { background: var(--bg); display: flex; gap: 1rem; padding: 1.25rem 1.5rem; align-items: flex-start; }
-  .outcome-num { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--rule); line-height: 1; flex-shrink: 0; width: 28px; }
+  .outcome-list {
+    margin-top: var(--space-md); display: flex; flex-direction: column;
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .outcome-item { background: var(--bg); display: flex; gap: var(--space-sm); padding: var(--space-md); align-items: flex-start; }
+  .outcome-num { font-weight: 300; font-size: 22px; color: var(--ink-soft); line-height: 1; flex-shrink: 0; width: 28px; }
   .outcome-item h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
-  .outcome-item p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
+  .outcome-item p  { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
 
-  /* BRIDGE / RELEVANCE */
-  .bridge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
-  .bridge-card {
-    border: 1px solid var(--rule); border-radius: 10px; padding: 1.5rem;
-    position: relative; overflow: hidden;
-  }
-  .bridge-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  }
-  .bridge-card.wp::before { background: var(--accent2); }
-  .bridge-card.google::before { background: var(--google-yellow); }
-  .bridge-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem; }
+  /* BRIDGE */
+  .bridge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-lg); }
+  .bridge-card { border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--space-md); position: relative; overflow: hidden; }
+  .bridge-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .bridge-card.wp::before     { background: #1ea5df; }
+  .bridge-card.google::before { background: #f9ab00; }
+  .bridge-card.wp     { background: #e0f4fc; border-color: #b3dff2; }
+  .bridge-card.google { background: #fef9e7; border-color: #f9d96a; }
+  .bridge-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-sm); }
+  .bridge-card.wp .bridge-label     { color: #1278a8; }
+  .bridge-card.google .bridge-label { color: #b07d00; }
   .bridge-card h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
-  .bridge-card p { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
+  .bridge-card p  { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
   .bridge-connector {
     display: flex; align-items: center; justify-content: center;
-    grid-column: span 2; color: var(--ink-soft); font-size: 13px;
-    gap: 1rem; padding: 0.5rem 0;
+    grid-column: span 2; color: var(--ink-soft); font-size: 12px; gap: var(--space-sm); padding: 0.2rem 0;
   }
-  .bridge-connector::before, .bridge-connector::after {
-    content: ''; flex: 1; height: 1px; background: var(--rule);
-  }
+  .bridge-connector::before, .bridge-connector::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
 
   /* FOOTER */
-  footer {
-    border-top: 1px solid var(--rule);
-    padding: 2rem;
-    text-align: center;
-    font-size: 12px; color: var(--ink-soft);
-    max-width: 860px; margin: 0 auto;
-  }
-
-  /* TAGS */
-  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 1.5rem 0; }
-  .tag {
-    font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 99px;
-    border: 1px solid var(--rule); color: var(--ink-mid);
-  }
+  footer { border-top: 1px solid var(--rule); padding: var(--space-lg); text-align: center; font-size: 12px; color: var(--ink-soft); max-width: 860px; margin: 0 auto; }
 
   /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero-eyebrow { animation: fadeUp 0.5s ease both; }
-  .hero-title { animation: fadeUp 0.5s 0.1s ease both; }
-  .hero-sub { animation: fadeUp 0.5s 0.2s ease both; }
-  .hero-meta { animation: fadeUp 0.5s 0.3s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow { animation: fadeUp 0.45s ease both; }
+  .hero-title   { animation: fadeUp 0.45s 0.08s ease both; }
+  .hero-sub     { animation: fadeUp 0.45s 0.16s ease both; }
+  .hero-meta    { animation: fadeUp 0.45s 0.24s ease both; }
 
-  @media (max-width: 640px) {
-    .design-grid, .bridge-grid { grid-template-columns: 1fr; }
-    .bridge-connector { display: none; }
-    .hero-title { font-size: 32px; }
-    nav { padding: 0 1rem; }
-    .content { padding: 0 1rem; }
-    .hero { padding: 3rem 1rem 2.5rem; }
+  /* RESPONSIVE — tablet ≤768px */
+  @media (max-width: 768px) {
+    nav { padding: 0 var(--space-md); }
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .hero { padding: var(--space-xl) var(--space-md) var(--space-lg); }
+    .content { padding: 0 var(--space-md); }
+    section { padding: var(--space-xl) 0; }
+    .hero-meta { grid-template-columns: repeat(2, 1fr); }
+    .scroll-hint { display: flex; }
+  }
+
+  /* RESPONSIVE — mobile ≤520px */
+  @media (max-width: 520px) {
+    nav { padding: 0 var(--space-sm); }
+    .hero { padding: var(--space-lg) var(--space-sm) var(--space-md); }
+    .content { padding: 0 var(--space-sm); }
+    section { padding: var(--space-lg) 0; }
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+    .meta-value { font-size: 12px; }
+    .challenge-block { padding: var(--space-sm) var(--space-md); }
+    .challenge-block p { font-size: 14px; }
+    .design-grid { grid-template-columns: 1fr; }
+    .journey-wrap { display: none; }
+    .journey-cards { display: block; }
+    .outcome-item { padding: var(--space-sm); }
+    .outcome-num  { font-size: 18px; width: 22px; }
+    .bridge-grid  { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .bridge-connector { grid-column: span 1; font-size: 11px; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <span class="nav-brand">Warby Parker Home Try-On</span>
+  <span class="nav-brand">Service Design Portfolio</span>
   <div class="nav-links">
     <a href="#challenge">Challenge</a>
     <a href="#journey">Journey</a>
@@ -279,7 +310,18 @@
     <a href="#outcomes">Outcomes</a>
     <a href="#relevance">Relevance</a>
   </div>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="#challenge" onclick="closeNav()">01 · Challenge</a>
+  <a href="#journey"   onclick="closeNav()">02 · Customer Journey</a>
+  <a href="#blueprint" onclick="closeNav()">03 · Service Blueprint</a>
+  <a href="#outcomes"  onclick="closeNav()">04 · Outcomes</a>
+  <a href="#relevance" onclick="closeNav()">05 · Relevance</a>
+</div>
 
 <div class="hero">
   <div class="hero-eyebrow">Service Design Case Study · Warby Parker</div>
@@ -307,7 +349,6 @@
 
 <div class="content">
 
-  <!-- CHALLENGE -->
   <section id="challenge">
     <div class="section-label" data-n="01">The challenge</div>
     <h2>Selling eyewear online when no one thought it could work</h2>
@@ -315,7 +356,6 @@
       <p>When Warby Parker launched, less than 2.5% of glasses were sold online. The company's foundational bet was that customers could be trusted to try on frames at home — but the online experience had to earn that trust at every step. The challenge was designing a digital service that bridged physical and digital: helping customers confidently select frames, understand the process, complete a return, and convert to purchase, without ever touching a product first.</p>
     </div>
     <p>This was not a UI problem. It was a service design problem — one that required coordinating digital flows, physical packaging, email communications, logistics operations, and mobile app design into a single coherent experience.</p>
-
     <div class="tag-row">
       <span class="tag">Trust design</span>
       <span class="tag">Physical-digital integration</span>
@@ -323,7 +363,6 @@
       <span class="tag">DTC e-commerce</span>
       <span class="tag">Cross-functional leadership</span>
     </div>
-
     <div class="design-grid">
       <div class="design-cell">
         <div class="design-cell-icon">▦</div>
@@ -332,7 +371,7 @@
       </div>
       <div class="design-cell">
         <div class="design-cell-icon">↩</div>
-        <h3>Return & conversion flow</h3>
+        <h3>Return &amp; conversion flow</h3>
         <p>Post-delivery experience guiding customers from physical try-on back to a purchase decision online — with status, prescription entry, and pre-populated frame preferences.</p>
       </div>
       <div class="design-cell">
@@ -348,7 +387,6 @@
     </div>
   </section>
 
-  <!-- JOURNEY MAP -->
   <section id="journey">
     <div class="section-label" data-n="02">Customer journey</div>
     <h2>Seven stages, one continuous thread</h2>
@@ -381,7 +419,7 @@
             <td>Surface quiz and VTO early. Make frame swapping frictionless before submit.</td>
           </tr>
           <tr>
-            <td><span class="stage-pill">Order</span></td>
+            <td><span class="stage-pill">Request</span></td>
             <td>Enters shipping details. Confirms box. Receives email.</td>
             <td class="emotion pos">Excited, anticipating</td>
             <td>Box review page, confirmation email, shipping notification</td>
@@ -418,13 +456,19 @@
         </tbody>
       </table>
     </div>
+
+    <div class="journey-cards" id="journeyCards"></div>
   </section>
 
-  <!-- SERVICE BLUEPRINT -->
   <section id="blueprint">
     <div class="section-label" data-n="03">Service blueprint</div>
     <h2>What customers see, and what makes it work</h2>
     <p>Service breakdowns rarely happen in the frontstage. They happen below the line of visibility — in inventory systems, carrier integrations, and return logistics. This blueprint maps the full stack.</p>
+
+    <div class="scroll-hint">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 4l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Scroll to see all six stages
+    </div>
 
     <div class="blueprint-wrap">
       <table class="bp-table">
@@ -432,18 +476,14 @@
           <tr>
             <th style="width:30px"></th>
             <th style="width:80px"></th>
-            <th>Discover</th>
-            <th>Select</th>
-            <th>Order</th>
-            <th>Receive</th>
-            <th>Return</th>
-            <th>Purchase</th>
+            <th>Discover</th><th>Select</th><th>Request</th>
+            <th>Receive</th><th>Return</th><th>Purchase</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="bp-row-hd hd-cust" rowspan="2">Customer</td>
-            <td style="font-size:11px; font-weight:500; color:#3d3480; background:#f8f7ff;">Actions</td>
+            <td style="font-size:11px;font-weight:500;color:#3d3480;background:#f8f7ff;">Actions</td>
             <td class="band-cust">Reads HTO page. Evaluates trust signals.</td>
             <td class="band-cust">Style quiz → browse → VTO → box of 5.</td>
             <td class="band-cust">Shipping info → order confirmed.</td>
@@ -452,7 +492,7 @@
             <td class="band-cust">Saved frame → Rx entry → checkout.</td>
           </tr>
           <tr>
-            <td style="font-size:11px; font-weight:500; color:#3d3480; background:#f8f7ff;">Feeling</td>
+            <td style="font-size:11px;font-weight:500;color:#3d3480;background:#f8f7ff;">Feeling</td>
             <td class="band-cust">Curious, skeptical</td>
             <td class="band-cust">Overwhelmed → confident</td>
             <td class="band-cust">Excited</td>
@@ -463,18 +503,17 @@
           <tr><td colspan="8" class="sep-row">Line of interaction</td></tr>
           <tr>
             <td class="bp-row-hd hd-front" rowspan="2">Front­stage</td>
-            <td style="font-size:11px; font-weight:500; color:#2d5a3d; background:#f2f8fa;">UI</td>
+            <td style="font-size:11px;font-weight:500;color:#2d5a3d;background:#f2faf5;">UI</td>
             <td class="band-front">Landing page. Value prop + social proof.</td>
-            <td class="band-front">Style quiz. Catalog + filters. VTO. Box builder with count indicator.</td>
+            <td class="band-front">Style quiz. Catalog + filters. VTO. Box builder.</td>
             <td class="band-front">Address form. Box review. Confirmation page.</td>
             <td class="band-front">Shipping tracker. Mobile app photo booth + favorites.</td>
             <td class="band-front">Account page with return status. Return confirmation.</td>
             <td class="band-front">Saved-frame checkout. Rx entry. Payment flow.</td>
           </tr>
           <tr>
-            <td style="font-size:11px; font-weight:500; color:#2d5a3d; background:#f2f8fa;">Email</td>
-            <td class="band-front">—</td>
-            <td class="band-front">—</td>
+            <td style="font-size:11px;font-weight:500;color:#2d5a3d;background:#f2faf5;">Email</td>
+            <td class="band-front">—</td><td class="band-front">—</td>
             <td class="band-front">Confirmation: timeline + what to expect.</td>
             <td class="band-front">"Your box is on its way!" shipping notice.</td>
             <td class="band-front">Day-4 reminder. Return confirmation + purchase CTA.</td>
@@ -483,7 +522,7 @@
           <tr><td colspan="8" class="sep-row">Line of visibility</td></tr>
           <tr>
             <td class="bp-row-hd hd-back" rowspan="2">Back­stage</td>
-            <td style="font-size:11px; font-weight:500; color:#5a3820; background:#faf5f0;">Ops</td>
+            <td style="font-size:11px;font-weight:500;color:#5a3820;background:#faf5f0;">Ops</td>
             <td class="band-back">—</td>
             <td class="band-back">Inventory flags HTO-eligible frames. Quiz logic maps preferences to catalog.</td>
             <td class="band-back">Order processed. Frame QC + box assembly. Return label generated.</td>
@@ -492,7 +531,7 @@
             <td class="band-back">Rx verification. Lens manufacturing. QC + shipping.</td>
           </tr>
           <tr>
-            <td style="font-size:11px; font-weight:500; color:#5a3820; background:#faf5f0;">Failure points</td>
+            <td style="font-size:11px;font-weight:500;color:#5a3820;background:#faf5f0;">Failure points</td>
             <td class="band-back"><span class="fail-note">⚠ Page load. Value prop clarity.</span></td>
             <td class="band-back"><span class="fail-note">⚠ Quiz feels irrelevant. VTO on non-iPhone.</span></td>
             <td class="band-back"><span class="fail-note">⚠ Shipping delay erodes excitement.</span></td>
@@ -503,7 +542,7 @@
           <tr><td colspan="8" class="sep-row">Line of internal interaction</td></tr>
           <tr>
             <td class="bp-row-hd hd-support" rowspan="2">Support</td>
-            <td style="font-size:11px; font-weight:500; color:#4a4843; background:#f3f0ea;">Systems</td>
+            <td style="font-size:11px;font-weight:500;color:#4a4843;background:#f3f0ea;">Systems</td>
             <td class="band-support">SEO. A/B testing platform.</td>
             <td class="band-support">Product catalog DB. Recommendation engine. ARKit. Wishlist.</td>
             <td class="band-support">OMS. Carrier API. CRM.</td>
@@ -512,7 +551,7 @@
             <td class="band-support">Rx verification API. Lens lab integration. Payment processor.</td>
           </tr>
           <tr>
-            <td style="font-size:11px; font-weight:500; color:#4a4843; background:#f3f0ea;">Partners</td>
+            <td style="font-size:11px;font-weight:500;color:#4a4843;background:#f3f0ea;">Partners</td>
             <td class="band-support">Google / Meta</td>
             <td class="band-support">Apple (ARKit)</td>
             <td class="band-support">UPS / FedEx</td>
@@ -525,12 +564,10 @@
     </div>
   </section>
 
-  <!-- OUTCOMES -->
   <section id="outcomes">
     <div class="section-label" data-n="04">Outcomes</div>
     <h2>What the design work produced</h2>
     <p>The online HTO experience was foundational to Warby Parker's DTC model for 14 years. Its eventual sunset — as 300+ physical stores made the program less necessary — was itself a product of its success.</p>
-
     <div class="outcome-list">
       <div class="outcome-item">
         <div class="outcome-num">01</div>
@@ -543,7 +580,7 @@
         <div class="outcome-num">02</div>
         <div>
           <h3>Streamlined return-to-purchase path</h3>
-          <p>Customers returning their box could complete a purchase in a single flow using saved frame preferences — reducing the drop-off between physical try-on and checkout that the gap in experience had created.</p>
+          <p>Customers returning their box could complete a purchase in a single flow using saved frame preferences — reducing the drop-off between physical try-on and checkout.</p>
         </div>
       </div>
       <div class="outcome-item">
@@ -570,12 +607,10 @@
     </div>
   </section>
 
-  <!-- RELEVANCE -->
   <section id="relevance">
     <div class="section-label" data-n="05">Why this matters for enterprise service design</div>
     <h2>The same problems, different context</h2>
     <p>Consumer service design and enterprise service design share the same structural challenges: multi-step processes where trust must be earned, transitions that create anxiety and drop-off, and backstage complexity that customers never see but always feel. The methods transfer directly.</p>
-
     <div class="bridge-grid">
       <div class="bridge-card wp">
         <div class="bridge-label">Warby Parker · Home Try-On</div>
@@ -614,9 +649,62 @@
 
 </div>
 
-<footer>
-  Warby Parker Home Try-On • Service Design Case Study
-</footer>
+<footer>Service Design Portfolio · Warby Parker Home Try-On Case Study</footer>
 
+<script>
+  // Hamburger nav
+  const toggle = document.querySelector('.nav-toggle');
+  const drawer = document.getElementById('navDrawer');
+  toggle.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+  });
+  function closeNav() {
+    drawer.classList.remove('open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', false);
+  }
+  document.addEventListener('click', e => {
+    if (!toggle.contains(e.target) && !drawer.contains(e.target)) closeNav();
+  });
+
+  // Journey accordion cards for mobile
+  const journeyData = [
+    { stage:'Discover', feeling:'Curious, skeptical', fc:'neu', actions:'Finds WP via referral. Reads HTO page.', touch:'Landing page, HTO explainer', opp:'Lead with the return promise, not the frames. Overcome skepticism first.' },
+    { stage:'Select', feeling:'Overwhelmed → confident', fc:'pos', actions:'Takes style quiz. Browses, filters. Uses virtual try-on. Adds 5 frames.', touch:'Style quiz, frame catalog, VTO, box builder', opp:'Surface quiz and VTO early. Make frame swapping frictionless before submit.' },
+    { stage:'Request', feeling:'Excited, anticipating', fc:'pos', actions:'Enters shipping details. Confirms box. Receives email.', touch:'Box review page, confirmation email, shipping notification', opp:'Set clear timeline expectations. "Arrives in ~4 days" reduces anxiety gaps.' },
+    { stage:'Receive', feeling:'Delighted, indecisive', fc:'pos', actions:'Unboxes frames. Reads in-box card. Tries on each pair.', touch:'Physical box, in-box card, app photo tool, return label', opp:'In-box card bridges physical → digital. Prompts app for photo capture + sharing.' },
+    { stage:'Decide', feeling:'Torn, mild time pressure', fc:'neu', actions:'Compares frames. Consults friends. Marks favorites online.', touch:'Online account, reminder email, mobile app', opp:'Reminder email doubles as conversion tool — surfaces saved frames + direct purchase link.' },
+    { stage:'Return', feeling:'Relieved, ready to decide', fc:'pos', actions:'Packs frames. Affixes return label. Drops at carrier.', touch:'Prepaid return label, return confirmation email', opp:'Return confirmation is peak intent. Send it immediately with a purchase CTA.' },
+    { stage:'Purchase', feeling:'Confident, task-focused', fc:'pos', actions:'Selects saved frame. Enters prescription. Checks out.', touch:'Checkout, Rx entry, order confirmation', opp:'Pre-populate saved frames. Guide Rx entry carefully — highest drop-off point.' }
+  ];
+
+  const container = document.getElementById('journeyCards');
+  journeyData.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'journey-card';
+    card.innerHTML = `
+      <div class="journey-card-header" role="button" aria-expanded="${i===0}" tabindex="0">
+        <span class="stage-pill">${d.stage}</span>
+        <span class="feeling emotion ${d.fc}">${d.feeling}</span>
+        <svg class="journey-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="journey-card-body${i===0?' open':''}">
+        <div class="journey-card-row"><div class="journey-row-label">Actions</div><div class="journey-row-value">${d.actions}</div></div>
+        <div class="journey-card-row"><div class="journey-row-label">Touchpoints</div><div class="journey-row-value">${d.touch}</div></div>
+        <div class="journey-card-row"><div class="journey-row-label">Design opportunity</div><div class="journey-row-value">${d.opp}</div></div>
+      </div>`;
+    const hdr  = card.querySelector('.journey-card-header');
+    const body = card.querySelector('.journey-card-body');
+    const toggle = () => {
+      const open = body.classList.toggle('open');
+      hdr.setAttribute('aria-expanded', open);
+    };
+    hdr.addEventListener('click', toggle);
+    hdr.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); toggle(); } });
+    container.appendChild(card);
+  });
+</script>
 </body>
 </html>
