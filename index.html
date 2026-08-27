@@ -3,709 +3,386 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Warby Parker Home Try-On — Service Design Case Study</title>
+<title>Jeff Ma — Strategic Creative Director</title>
+<meta name="description" content="I make complex, high-stakes ideas land for the audiences that matter most — heads of state, boards of directors, or millions of people using a product for the first time.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --ink: #1a1814;
-    --ink-mid: #4a4843;
-    --ink-soft: #8a8680;
-    --rule: #e2ded8;
-    --bg: #faf9f7;
-    --bg-warm: #f3f0ea;
-    --accent: #1ea5df;
-    --accent-light: #e0f4fc;
-    --accent2: #5a3820;
-    --purple: #3d3480;
-    --space-xs: 0.75rem;
-    --space-sm: 1rem;
-    --space-md: 1.5rem;
-    --space-lg: 2rem;
-    --space-xl: 3rem;
-    --space-2xl: 4rem;
-    --radius: 10px;
+  :root{
+    --ink:#161615;
+    --paper:#d0a955;
+    --paper-light:#fff1d2;
+    --line:#dedcd7;
+    --muted:#4a3712;
+    --accent:#1a2c8a;
+    --divider:#b28c2d;
+    --maxw:1320px;
+    --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sans: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
-  html { scroll-behavior: smooth; }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01" 1;
+  }
+  a{color:inherit;}
 
-  body {
-    font-family: 'Fira Sans', sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    font-size: 15px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
 
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 200;
-    background: var(--bg);
-    border-bottom: 1px solid var(--rule);
-    padding: 0 var(--space-lg);
-    display: flex; align-items: center; justify-content: space-between;
-    height: 52px;
-  }
-  .nav-brand { font-size: 13px; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.02em; white-space: nowrap; }
-  .nav-links { display: flex; gap: var(--space-md); align-items: center; }
-  .nav-links a { font-size: 12px; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.03em; transition: color 0.15s; }
-  .nav-links a:hover { color: var(--ink); }
+  h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-0.02em;}
 
-  .nav-toggle {
-    display: none; background: none; border: none; cursor: pointer;
-    padding: 6px; flex-direction: column; gap: 5px; align-items: center;
+  /* ---------- Header ---------- */
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px; max-width:var(--maxw);
   }
-  .nav-toggle span {
-    display: block; width: 22px; height: 2px;
-    background: var(--ink-mid); border-radius: 2px;
-    transition: transform 0.2s, opacity 0.2s;
+  .wordmark{
+    display:flex; flex-direction:column; gap:3px; text-decoration:none; line-height:1.2;
   }
-  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity: 0; }
-  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .nav-drawer {
-    display: none; position: fixed; top: 52px; left: 0; right: 0;
-    background: var(--bg); border-bottom: 1px solid var(--rule);
-    padding: var(--space-sm) var(--space-lg);
-    flex-direction: column; gap: 0; z-index: 199;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+  .wordmark .wm-name{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
+  .wordmark .wm-title{
+    font-family:var(--sans); font-weight:600; font-size:0.7rem; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--muted);
   }
-  .nav-drawer.open { display: flex; }
-  .nav-drawer a {
-    font-size: 14px; color: var(--ink-mid); text-decoration: none;
-    padding: 12px 0; border-bottom: 1px solid var(--rule);
-  }
-  .nav-drawer a:last-child { border-bottom: none; }
-
-  /* HERO */
-  .hero {
-    max-width: 860px; margin: 0 auto;
-    padding: var(--space-2xl) var(--space-lg);
-    border-bottom: 1px solid var(--rule);
-  }
-  .hero-eyebrow {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: var(--space-md);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .hero-eyebrow::after { content: ''; display: block; height: 1px; width: 40px; background: var(--accent); }
-  .hero-title {
-    font-size: clamp(30px, 7vw, 56px); font-weight: 300; line-height: 1.1;
-    color: var(--ink); margin-bottom: var(--space-md);
-  }
-  .hero-title em { font-style: normal; font-weight: 300; color: var(--accent); }
-  .hero-sub {
-    font-size: clamp(14px, 2.5vw, 17px); color: var(--ink-mid); line-height: 1.65;
-    max-width: 580px; margin-bottom: var(--space-lg); font-weight: 300;
-  }
-  .hero-meta {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-md); padding-top: var(--space-md);
-    border-top: 1px solid var(--rule);
-  }
-  .meta-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 3px; }
-  .meta-value { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; }
-
-  /* LAYOUT */
-  .content { max-width: 860px; margin: 0 auto; padding: 0 var(--space-lg); }
-  section { padding: var(--space-2xl) 0; border-bottom: 1px solid var(--rule); }
-  section:last-child { border-bottom: none; }
-
-  .section-label {
-    font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-soft); margin-bottom: var(--space-lg);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-label::before {
-    content: attr(data-n); display: flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 1px solid var(--rule); font-size: 10px; color: var(--ink-soft); flex-shrink: 0;
-  }
-  h2 {
-    font-size: clamp(18px, 4vw, 26px); font-weight: 500;
-    color: var(--ink); margin-bottom: var(--space-sm); line-height: 1.25;
-  }
-  p { color: var(--ink-mid); margin-bottom: var(--space-sm); }
-
-  /* CHALLENGE */
-  .challenge-block {
-    background: var(--bg-warm); border-left: 3px solid var(--accent);
-    padding: var(--space-md) var(--space-lg);
-    border-radius: 0 var(--radius) var(--radius) 0; margin: var(--space-md) 0;
-  }
-  .challenge-block p { margin: 0; font-size: 15px; color: var(--ink); line-height: 1.7; }
-
-  /* TAGS */
-  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin: var(--space-md) 0; }
-  .tag { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--rule); color: var(--ink-mid); }
-
-  /* DESIGN GRID */
-  .design-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 1px; background: var(--rule);
-    border: 1px solid var(--rule); border-radius: var(--radius);
-    overflow: hidden; margin-top: var(--space-lg);
-  }
-  .design-cell { background: var(--bg); padding: var(--space-md); }
-  .design-cell-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: var(--accent-light); display: flex; align-items: center;
-    justify-content: center; margin-bottom: var(--space-sm); font-size: 16px;
-  }
-  .design-cell h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
-  .design-cell p  { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
-
-  /* JOURNEY TABLE */
-  .journey-wrap { overflow-x: auto; margin-top: var(--space-lg); -webkit-overflow-scrolling: touch; }
-  .journey-table { width: 100%; border-collapse: collapse; min-width: 680px; }
-  .journey-table th {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--ink-soft); padding: 8px 12px; border-bottom: 1px solid var(--rule); text-align: left;
-  }
-  .journey-table td {
-    padding: 12px; vertical-align: top; border-bottom: 1px solid var(--rule);
-    font-size: 12.5px; color: var(--ink-mid); line-height: 1.55;
-  }
-  .journey-table tr:last-child td { border-bottom: none; }
-  .stage-pill {
-    display: inline-block; font-size: 11px; font-weight: 500;
-    padding: 3px 10px; border-radius: 99px;
-    background: var(--accent-light); color: var(--accent);
-  }
-  .emotion { font-size: 12px; }
-  .emotion.pos { color: #2d7a4f; }
-  .emotion.neu { color: #8a7020; }
-
-  /* JOURNEY CARDS (mobile) */
-  .journey-cards { display: none; margin-top: var(--space-lg); }
-  .journey-card { border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
-  .journey-card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px var(--space-sm); background: var(--bg-warm);
-    cursor: pointer; user-select: none; gap: 8px;
-  }
-  .journey-card-header .stage-pill { font-size: 12px; padding: 4px 12px; flex-shrink: 0; }
-  .journey-card-header .feeling { font-size: 12px; color: var(--ink-soft); text-align: right; }
-  .journey-card-chevron {
-    flex-shrink: 0; width: 16px; height: 16px; color: var(--ink-soft);
-    transition: transform 0.2s;
-  }
-  .journey-card-header[aria-expanded="true"] .journey-card-chevron { transform: rotate(180deg); }
-  .journey-card-body { padding: var(--space-sm); display: none; border-top: 1px solid var(--rule); }
-  .journey-card-body.open { display: block; }
-  .journey-card-row { margin-bottom: 10px; }
-  .journey-card-row:last-child { margin-bottom: 0; }
-  .journey-row-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 3px; }
-  .journey-row-value { font-size: 13px; color: var(--ink-mid); line-height: 1.55; }
-
-  /* BLUEPRINT */
-  .scroll-hint {
-    display: none; font-size: 11px; color: var(--ink-soft);
-    margin-bottom: 8px; align-items: center; gap: 6px;
-  }
-  .blueprint-wrap { overflow-x: auto; margin-top: var(--space-lg); -webkit-overflow-scrolling: touch; }
-  .bp-table { width: 100%; border-collapse: collapse; min-width: 680px; font-size: 12px; }
-  .bp-table th, .bp-table td { border: 1px solid var(--rule); padding: 8px 10px; vertical-align: top; line-height: 1.5; }
-  .bp-table th { background: var(--bg-warm); font-weight: 500; font-size: 11px; color: var(--ink-mid); }
-  .bp-row-hd {
-    font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
-    color: white; writing-mode: vertical-rl; transform: rotate(180deg);
-    padding: 10px 5px; text-align: center;
-  }
-  .hd-cust    { background: var(--purple); }
-  .hd-front   { background: #2d5a3d; }
-  .hd-back    { background: var(--accent2); }
-  .hd-support { background: var(--ink-mid); }
-  .band-cust    { background: #f8f7ff; }
-  .band-front   { background: #f2faf5; }
-  .band-back    { background: #faf5f0; }
-  .band-support { background: var(--bg-warm); }
-  .fail-note { color: #9a3020; font-style: italic; font-size: 11px; margin-top: 4px; display: block; }
-  .sep-row td { background: var(--rule); padding: 3px 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); border: none; }
-
-  /* OUTCOMES */
-  .outcome-list {
-    margin-top: var(--space-md); display: flex; flex-direction: column;
-    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
-    border-radius: var(--radius); overflow: hidden;
-  }
-  .outcome-item { background: var(--bg); display: flex; gap: var(--space-sm); padding: var(--space-md); align-items: flex-start; }
-  .outcome-num { font-weight: 300; font-size: 22px; color: var(--ink-soft); line-height: 1; flex-shrink: 0; width: 28px; }
-  .outcome-item h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
-  .outcome-item p  { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
-
-  /* BRIDGE */
-  .bridge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-lg); }
-  .bridge-card { border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--space-md); position: relative; overflow: hidden; }
-  .bridge-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .bridge-card.wp::before     { background: #1ea5df; }
-  .bridge-card.google::before { background: #f9ab00; }
-  .bridge-card.wp     { background: #e0f4fc; border-color: #b3dff2; }
-  .bridge-card.google { background: #fef9e7; border-color: #f9d96a; }
-  .bridge-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-sm); }
-  .bridge-card.wp .bridge-label     { color: #1278a8; }
-  .bridge-card.google .bridge-label { color: #b07d00; }
-  .bridge-card h3 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
-  .bridge-card p  { font-size: 13px; color: var(--ink-mid); margin: 0; line-height: 1.6; }
-  .bridge-connector {
-    display: flex; align-items: center; justify-content: center;
-    grid-column: span 2; color: var(--ink-soft); font-size: 12px; gap: var(--space-sm); padding: 0.2rem 0; margin: 0px 0px 20px 0px;
-  }
-  .bridge-connector::before, .bridge-connector::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
-
-  /* FOOTER */
-  footer { border-top: 1px solid var(--rule); padding: var(--space-lg); text-align: center; font-size: 12px; color: var(--ink-soft); max-width: 860px; margin: 0 auto; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-eyebrow { animation: fadeUp 0.45s ease both; }
-  .hero-title   { animation: fadeUp 0.45s 0.08s ease both; }
-  .hero-sub     { animation: fadeUp 0.45s 0.16s ease both; }
-  .hero-meta    { animation: fadeUp 0.45s 0.24s ease both; }
-
-  /* RESPONSIVE — tablet ≤768px */
-  @media (max-width: 768px) {
-    nav { padding: 0 var(--space-md); }
-    .nav-links { display: none; }
-    .nav-toggle { display: flex; }
-    .hero { padding: var(--space-xl) var(--space-md) var(--space-lg); }
-    .content { padding: 0 var(--space-md); }
-    section { padding: var(--space-xl) 0; }
-    .hero-meta { grid-template-columns: repeat(2, 1fr); }
-    .scroll-hint { display: flex; }
+  header nav a{
+    text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--ink);
+    border-bottom:1px solid var(--ink); padding-bottom:2px;
   }
 
-  /* RESPONSIVE — mobile ≤520px */
-  @media (max-width: 520px) {
-    nav { padding: 0 var(--space-sm); }
-    .hero { padding: var(--space-lg) var(--space-sm) var(--space-md); }
-    .content { padding: 0 var(--space-sm); }
-    section { padding: var(--space-lg) 0; }
-    .hero-meta { grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
-    .meta-value { font-size: 12px; }
-    .challenge-block { padding: var(--space-sm) var(--space-md); }
-    .challenge-block p { font-size: 14px; }
-    .design-grid { grid-template-columns: 1fr; }
-    .journey-wrap { display: none; }
-    .journey-cards { display: block; }
-    .outcome-item { padding: var(--space-sm); }
-    .outcome-num  { font-size: 18px; width: 22px; }
-    .bridge-grid  { grid-template-columns: 1fr; gap: var(--space-sm); }
-    .bridge-connector { grid-column: span 1; font-size: 11px; }
+  /* ---------- Index label (Rams-style running head) ---------- */
+  .index-label{margin-bottom:36px;}
+  .index-label .lbl{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--muted); font-weight:600;
+  }
+
+  /* ---------- Large-screen layout: sticky label column + content column ---------- */
+  @media (min-width:900px){
+    .section-grid{
+      display:grid; grid-template-columns:220px minmax(0, 1fr); gap:64px; align-items:start;
+    }
+    .section-grid > .index-label{position:sticky; top:112px; margin-bottom:0;}
+  }
+  @media (min-width:1240px){
+    .section-grid{grid-template-columns:240px minmax(0, 1fr); gap:80px;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:96px 0 80px; background:var(--paper-light); border-bottom:none;}
+  .hero h1{
+    font-size:clamp(2.3rem, 6vw, 5.4rem); line-height:1.05; letter-spacing:-0.03em;
+  }
+  .hero .counter{
+    font-family:var(--display); font-weight:700; color:var(--accent);
+    font-size:clamp(2.3rem, 6vw, 5.4rem); line-height:1.05; letter-spacing:-0.03em;
+    margin-top:8px;
+  }
+  .hero .lede{
+    max-width:60ch; font-size:1.2rem; color:#33322f; margin-top:40px;
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:76px 0; border-bottom:1px solid var(--divider);}
+  section p{margin:0 0 20px; max-width:64ch;}
+  section p:last-child{margin-bottom:0;}
+  section p.lead{font-size:clamp(1.22rem, 1.1vw + 1rem, 1.5rem); line-height:1.5; font-weight:500; color:var(--ink);}
+  section p.support{color:#33322f; font-size:1rem;}
+
+  .prev-line{
+    margin-top:28px; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--muted); font-weight:600;
+  }
+
+  /* ---------- What I Do ---------- */
+  .capability-list{display:flex; flex-direction:column;}
+  .capability-row{
+    display:grid; grid-template-columns:56px 1fr; gap:20px;
+    padding:28px 0; border-top:1px solid var(--line);
+  }
+  .capability-row:last-child{border-bottom:1px solid var(--line);}
+  .capability-row .cnum{
+    font-family:var(--display); font-weight:700; color:var(--accent); font-size:1rem;
+    font-variant-numeric:tabular-nums;
+  }
+  .capability-row h3{font-size:1.2rem; margin-bottom:8px; letter-spacing:-0.01em;}
+  .capability-row p{color:var(--muted); font-size:0.98rem; margin:0; max-width:56ch;}
+
+  /* ---------- Pull quote ---------- */
+  .pull{
+    font-family:var(--display); font-weight:700; letter-spacing:-0.02em;
+    font-size:clamp(1.4rem, 3.2vw, 2rem); line-height:1.25; max-width:22ch;
+    margin-top:36px;
+  }
+
+  /* ---------- Selected work / proof list ---------- */
+  .work-list{display:flex; flex-direction:column;}
+  .work-row{
+    padding:26px 0; border-top:1px solid var(--line);
+  }
+  .work-row:last-child{border-bottom:1px solid var(--line);}
+  .work-row a.title-link{text-decoration:none;}
+  .work-row a.title-link:hover .title-text{border-bottom-color:var(--ink);}
+  .title-text{
+    font-family:var(--display); font-weight:700; font-size:1.08rem; letter-spacing:-0.01em;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+  }
+  .work-row h4.title-text{font-family:var(--display); font-weight:700; font-size:1.08rem; letter-spacing:-0.01em; margin:0;}
+  .work-row .arrow{color:var(--accent); font-weight:700; margin-left:4px;}
+  .work-row p{color:var(--muted); font-size:0.94rem; margin:8px 0 0; max-width:60ch;}
+
+  @media (min-width:900px){
+    .work-row{
+      display:grid; grid-template-columns:300px minmax(0, 1fr); gap:36px; align-items:start;
+    }
+    .work-row p{margin-top:0; max-width:56ch;}
+  }
+
+  /* ---------- Capabilities tag line ---------- */
+  .tagline{
+    padding:32px 0; font-size:0.92rem; color:var(--muted);
+    letter-spacing:0.02em; line-height:2;
+  }
+  .tagline strong{color:var(--ink); font-weight:600;}
+
+  /* ---------- Contact ---------- */
+  .contact{border-bottom:none;}
+  .contact-email{
+    display:inline-block; margin-top:32px; font-family:var(--display); font-weight:700;
+    font-size:clamp(1.5rem, 4vw, 2.2rem); letter-spacing:-0.02em; text-decoration:none;
+    border-bottom:2px solid var(--accent);
+  }
+  .contact-links{margin-top:22px; display:flex; flex-direction:column; gap:8px; font-size:0.98rem;}
+  .contact-links a{text-decoration:none; color:var(--muted); border-bottom:1px solid var(--line);}
+  .contact-links a:hover{color:var(--ink); border-color:var(--ink);}
+
+  footer{padding:36px 0; color:var(--muted); font-size:0.85rem;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  footer a{text-decoration:none; border-bottom:1px solid var(--line); font-weight:600; color:var(--ink);}
+  footer a:hover{border-color:var(--ink);}
+
+  @media (max-width:600px){
+    .capability-row{grid-template-columns:36px 1fr; gap:14px;}
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <span class="nav-brand">Warby Parker Home Try-On Case Study</span>
-  <div class="nav-links">
-    <a href="#challenge">Challenge</a>
-    <a href="#journey">Journey</a>
-    <a href="#blueprint">Blueprint</a>
-    <a href="#outcomes">Outcomes</a>
-    <a href="#relevance">Relevance</a>
+<header>
+  <div class="wrap">
+    <a class="wordmark" href="#top">
+      <span class="wm-name">Jeff Ma</span>
+      <span class="wm-title">Strategic Creative Director</span>
+    </a>
+    <nav><a href="#contact">Contact</a></nav>
   </div>
-  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+</header>
 
-<div class="nav-drawer" id="navDrawer">
-  <a href="#challenge" onclick="closeNav()">01 · Challenge</a>
-  <a href="#journey"   onclick="closeNav()">02 · Customer Journey</a>
-  <a href="#blueprint" onclick="closeNav()">03 · Service Blueprint</a>
-  <a href="#outcomes"  onclick="closeNav()">04 · Outcomes</a>
-  <a href="#relevance" onclick="closeNav()">05 · Relevance</a>
-</div>
+<main id="top">
 
-<div class="hero">
-  <div class="hero-eyebrow">Warby Parker Home Try-On • Service Design Case Study</div>
-  <h1 class="hero-title">Home Try-On<br><em>Online Experience</em></h1>
-  <p class="hero-sub">Designing an end-to-end digital service that let customers select, receive, and return eyeglass frames from home — translating an in-store ritual into a trusted online experience at scale.</p>
-  <div class="hero-meta">
-    <div class="meta-item">
-      <div class="meta-label">Role</div>
-      <div class="meta-value">Design Lead, Online HTO</div>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Even brilliant ideas need help landing beyond the room where they were built.</h1>
+      <p class="lede">
+        The people closest to an idea are often too deep in it to explain it
+        simply. I help them step back and translate their expertise
+        distinctively for each audience who needs to understand it — heads of
+        state, boards of directors, or millions of people using a product for
+        the first time.
+      </p>
     </div>
-    <div class="meta-item">
-      <div class="meta-label">Scope</div>
-      <div class="meta-value">End-to-end service design</div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">About</span></div>
+      <div class="section-body">
+        <p class="lead">
+          I direct design to close the gap between what experts know and what
+          decisions, products, and people require.
+        </p>
+        <p class="support">
+          The technical domains vary — cybersecurity, AI safety, privacy,
+          enterprise risk, data architecture — and the industries vary just
+          as widely, from retail and financial services to legal and beyond.
+          The audience is consistently senior. What stays constant is the
+          challenge of making something genuinely difficult land with people
+          who need to understand it, not study it.
+        </p>
+        <p class="support">
+          Getting ambitious work made inside a large, complex organization is
+          its own discipline — one I’ve built over seven years navigating
+          Google’s scale. It means building alignment across legal, policy,
+          communications, engineering, and product simultaneously, often
+          without direct authority over any of them. I move work forward
+          through clarity of vision, early coalition-building, and knowing
+          which constraints are real and which are negotiable. The work
+          doesn’t just get conceived. It gets shipped.
+        </p>
+        <div class="prev-line">Previously — Apple · Warby Parker · Anthropologie · VSA Partners for IBM · MAD Worldwide</div>
+      </div>
     </div>
-    <div class="meta-item">
-      <div class="meta-label">Program run</div>
-      <div class="meta-value">14 years · 2.6M+ customers</div>
+  </section>
+
+  <!-- ===================== WHAT I DO ===================== -->
+  <section id="what-i-do">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">What I Do</span></div>
+      <div class="section-body">
+        <p class="lead" style="margin-bottom:36px;">
+          I work at the intersection of three things most organizations keep
+          separate — creative authorship, strategic judgment, and the
+          discipline of communicating to power.
+        </p>
+        <div class="capability-list">
+          <div class="capability-row">
+            <span class="cnum">01</span>
+            <div>
+              <h3>Creative direction</h3>
+              <p>Authorship over how an idea is expressed, across any medium. Film, report, presentation, product, system. The medium follows the problem.</p>
+            </div>
+          </div>
+          <div class="capability-row">
+            <span class="cnum">02</span>
+            <div>
+              <h3>Design strategy</h3>
+              <p>Shaping what gets made and why, before anyone opens a tool. The decisions that determine whether the work will land before a pixel is placed.</p>
+            </div>
+          </div>
+          <div class="capability-row">
+            <span class="cnum">03</span>
+            <div>
+              <h3>Executive communication</h3>
+              <p>Translating what experts know into the clarity that senior audiences need to act. Boards, C-suites, heads of state, global policy forums.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="meta-item">
-      <div class="meta-label">Channel</div>
-      <div class="meta-value">Web · Mobile · Physical</div>
+  </section>
+
+  <!-- ===================== WHO I WORK WITH ===================== -->
+  <section id="who">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">Who I Work With</span></div>
+      <div class="section-body">
+        <p class="lead">
+          My clients are organizations where the knowledge gap is wide and the
+          stakes of not closing it are high.
+        </p>
+        <p class="support">
+          The people who understand the thing are not the people who decide
+          about it. That gap exists everywhere — but it’s most acutely felt in
+          technology, consulting, financial services, defense, policy, and
+          healthcare, where the complexity is real, the audiences are senior,
+          and the cost of being misunderstood is significant.
+        </p>
+        <p class="pull">
+          If your most important ideas aren’t landing with the people who need
+          to act on them — that’s the problem I solve.
+        </p>
+      </div>
     </div>
+  </section>
+
+  <!-- ===================== SELECTED WORK ===================== -->
+  <section id="work">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">Selected Work</span></div>
+      <div class="section-body">
+        <div class="work-list">
+          <div class="work-row">
+            <a class="title-link" href="projects/security-analysis-reporting.html">
+              <h4 class="title-text">Fog of War<span class="arrow">↗</span></h4>
+            </a>
+            <p>Cybersecurity intelligence research translated into a printed report distributed during bilateral meetings at the Munich Security Conference. Designed for heads of state during an active war.</p>
+          </div>
+
+          <div class="work-row">
+            <a class="title-link" href="projects/ai-safety-film.html">
+              <h4 class="title-text">AI Safety Film<span class="arrow">↗</span></h4>
+            </a>
+            <p>Conceived and directed a short film about AI and digital security, produced for the Munich Security Conference and deployed as the cornerstone asset for Google’s AI Cyber Defense Initiative launch.</p>
+          </div>
+
+          <div class="work-row">
+            <a class="title-link" href="projects/alphabet-board-reporting.html">
+              <h4 class="title-text">Alphabet Board of Directors<span class="arrow">↗</span></h4>
+            </a>
+            <p>Ongoing design of reporting materials communicating Alphabet’s cybersecurity posture to the Audit and Compliance Committee. Design as the vehicle for fiduciary decision-making at the highest level.</p>
+          </div>
+
+          <div class="work-row">
+            <h4 class="title-text">Project Vitraya</h4>
+            <p>A Google-wide consent strategy system design, presented to Google’s Trust &amp; Compliance Steering Committee and Core SVP. Design as the instrument for building organizational alignment, not just communicating it.</p>
+          </div>
+
+          <div class="work-row">
+            <h4 class="title-text">AI Cyber Defense Initiative</h4>
+            <p>Creative direction across the full suite of launch assets for Google’s major policy and product initiative positioning AI as a force for global cybersecurity.</p>
+          </div>
+
+          <div class="work-row">
+            <a class="title-link" href="projects/cyber-defense-summit.html">
+              <h4 class="title-text">VP Keynote, Cyber Defense Summit 2025<span class="arrow">↗</span></h4>
+            </a>
+            <p>Keynote development and design for an exclusive Mandiant and Google Threat Intelligence event, crafted for elite security professionals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CAPABILITIES ===================== -->
+  <section id="capabilities" style="padding-top:0; padding-bottom:0; border-bottom:none;">
+    <div class="wrap" style="padding-top:0;">
+      <div class="tagline">
+        <strong>Creative Direction</strong> · <strong>Design Strategy</strong> · <strong>Executive Communication</strong> · Cross-domain Translation · Large-org Execution · Film &amp; Motion · Cybersecurity · AI Safety · Privacy · Cross-functional Leadership · Stakeholder Alignment · Systems Thinking
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact" id="contact" style="border-top:1px solid var(--divider);">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">Get in Touch</span></div>
+      <div class="section-body">
+        <p class="lead">
+          The hardest communication problem isn’t finding the right words. It’s
+          making something genuinely complex land with someone who doesn’t
+          have time to become an expert — and whose decision depends on
+          understanding it anyway.
+        </p>
+        <p class="lead">If that’s the problem you’re facing, let’s talk.</p>
+        <a class="contact-email" href="mailto:ma.jeff@gmail.com">ma.jeff@gmail.com</a>
+        <div class="contact-links">
+          <a href="#" target="_blank" rel="noopener">LinkedIn — add your profile URL</a>
+          <a href="index.html">View full portfolio &amp; case studies →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jeff Ma</span>
+    <span>Strategic Creative Director · San Francisco</span>
   </div>
-</div>
+</footer>
 
-<div class="content">
-
-  <section id="challenge">
-    <div class="section-label" data-n="01">The challenge</div>
-    <h2>Selling eyewear online when no one thought it could work</h2>
-    <div class="challenge-block">
-      <p>When Warby Parker launched, less than 2.5% of glasses were sold online. The company's foundational bet was that customers could be trusted to try on frames at home — but the online experience had to earn that trust at every step. The challenge was designing a digital service that bridged physical and digital: helping customers confidently select frames, understand the process, complete a return, and convert to purchase, without ever touching a product first.</p>
-    </div>
-    <p>This was not a UI problem. It was a service design problem — one that required coordinating digital flows, physical packaging, email communications, logistics operations, and mobile app design into a single coherent experience.</p>
-    <div class="tag-row">
-      <span class="tag">Trust design</span>
-      <span class="tag">Physical-digital integration</span>
-      <span class="tag">Multi-touchpoint service</span>
-      <span class="tag">DTC e-commerce</span>
-      <span class="tag">Cross-functional leadership</span>
-    </div>
-    <div class="design-grid">
-      <div class="design-cell">
-        <div class="design-cell-icon">▦</div>
-        <h3>Frame selection flow</h3>
-        <p>The "build your box" experience — browsing, filtering, and choosing up to five frames — with quiz-based recommendations and virtual try-on integration to reduce selection anxiety.</p>
-      </div>
-      <div class="design-cell">
-        <div class="design-cell-icon">↩</div>
-        <h3>Return &amp; conversion flow</h3>
-        <p>Post-delivery experience guiding customers from physical try-on back to a purchase decision online — with status, prescription entry, and pre-populated frame preferences.</p>
-      </div>
-      <div class="design-cell">
-        <div class="design-cell-icon">✉</div>
-        <h3>Communications design</h3>
-        <p>Email confirmations, shipping notifications, in-box instructions, and return labels — coordinating digital and physical communication across the full journey.</p>
-      </div>
-      <div class="design-cell">
-        <div class="design-cell-icon">⟳</div>
-        <h3>Cross-channel continuity</h3>
-        <p>Ensuring a customer who started on desktop could continue on mobile or in-app — and integration points with AR virtual try-on to support earlier frame narrowing.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="journey">
-    <div class="section-label" data-n="02">Customer journey</div>
-    <h2>Seven stages, one continuous thread</h2>
-    <p>The HTO experience spanned days, not minutes. Customers moved between screens, physical objects, and conversations with friends — and each transition was a moment where the service could earn or lose trust.</p>
-
-    <div class="journey-wrap">
-      <table class="journey-table">
-        <thead>
-          <tr>
-            <th style="width:100px">Stage</th>
-            <th>Customer actions</th>
-            <th>Feeling</th>
-            <th>Key touchpoints</th>
-            <th>Design opportunity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="stage-pill">Discover</span></td>
-            <td>Finds WP via referral. Reads HTO page.</td>
-            <td class="emotion neu">Curious, skeptical</td>
-            <td>Landing page, HTO explainer</td>
-            <td>Lead with the return promise, not the frames. Overcome skepticism first.</td>
-          </tr>
-          <tr>
-            <td><span class="stage-pill">Select</span></td>
-            <td>Takes style quiz. Browses, filters. Uses virtual try-on. Adds 5 frames.</td>
-            <td class="emotion pos">Overwhelmed → confident</td>
-            <td>Style quiz, frame catalog, VTO, box builder</td>
-            <td>Surface quiz and VTO early. Make frame swapping frictionless before submit.</td>
-          </tr>
-          <tr>
-            <td><span class="stage-pill">Request</span></td>
-            <td>Enters shipping details. Confirms box. Receives email.</td>
-            <td class="emotion pos">Excited, anticipating</td>
-            <td>Box review page, confirmation email, shipping notification</td>
-            <td>Set clear timeline expectations. "Arrives in ~4 days" reduces anxiety gaps.</td>
-          </tr>
-          <tr>
-            <td><span class="stage-pill">Receive</span></td>
-            <td>Unboxes frames. Reads in-box card. Tries on each pair.</td>
-            <td class="emotion pos">Delighted, indecisive</td>
-            <td>Physical box, in-box card, app photo tool, return label</td>
-            <td>In-box card bridges physical → digital. Prompts app for photo capture + sharing.</td>
-          </tr>
-          <tr>
-            <td><span class="stage-pill">Decide</span></td>
-            <td>Compares frames. Consults friends. Marks favorites online.</td>
-            <td class="emotion neu">Torn, mild time pressure</td>
-            <td>Online account, reminder email, mobile app</td>
-            <td>Reminder email doubles as conversion tool — surfaces saved frames + direct purchase link.</td>
-          </tr>
-          <tr>
-            <td><span class="stage-pill">Return</span></td>
-            <td>Packs frames. Affixes return label. Drops at carrier.</td>
-            <td class="emotion pos">Relieved, ready to decide</td>
-            <td>Prepaid return label, return confirmation email</td>
-            <td>Return confirmation is peak intent. Send it immediately with a purchase CTA.</td>
-          </tr>
-          <tr>
-            <td><span class="stage-pill">Purchase</span></td>
-            <td>Selects saved frame. Enters prescription. Checks out.</td>
-            <td class="emotion pos">Confident, task-focused</td>
-            <td>Checkout, Rx entry, order confirmation</td>
-            <td>Pre-populate saved frames. Guide Rx entry carefully — highest drop-off point.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="journey-cards" id="journeyCards"></div>
-  </section>
-
-  <section id="blueprint">
-    <div class="section-label" data-n="03">Service blueprint</div>
-    <h2>What customers see, and what makes it work</h2>
-    <p>Service breakdowns rarely happen in the frontstage. They happen below the line of visibility — in inventory systems, carrier integrations, and return logistics. This blueprint maps the full stack.</p>
-
-    <div class="scroll-hint">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 4l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Scroll to see all six stages
-    </div>
-
-    <div class="blueprint-wrap">
-      <table class="bp-table">
-        <thead>
-          <tr>
-            <th style="width:30px"></th>
-            <th style="width:80px"></th>
-            <th>Discover</th><th>Select</th><th>Request</th>
-            <th>Receive</th><th>Return</th><th>Purchase</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="bp-row-hd hd-cust" rowspan="2">Customer</td>
-            <td style="font-size:11px;font-weight:500;color:#3d3480;background:#f8f7ff;">Actions</td>
-            <td class="band-cust">Reads HTO page. Evaluates trust signals.</td>
-            <td class="band-cust">Style quiz → browse → VTO → box of 5.</td>
-            <td class="band-cust">Shipping info → order confirmed.</td>
-            <td class="band-cust">Unboxes → tries on → photos → shares.</td>
-            <td class="band-cust">Packs up → return label → carrier drop.</td>
-            <td class="band-cust">Saved frame → Rx entry → checkout.</td>
-          </tr>
-          <tr>
-            <td style="font-size:11px;font-weight:500;color:#3d3480;background:#f8f7ff;">Feeling</td>
-            <td class="band-cust">Curious, skeptical</td>
-            <td class="band-cust">Overwhelmed → confident</td>
-            <td class="band-cust">Excited</td>
-            <td class="band-cust">Delighted, torn</td>
-            <td class="band-cust">Relieved, ready</td>
-            <td class="band-cust">Confident</td>
-          </tr>
-          <tr><td colspan="8" class="sep-row">Line of interaction</td></tr>
-          <tr>
-            <td class="bp-row-hd hd-front" rowspan="2">Front­stage</td>
-            <td style="font-size:11px;font-weight:500;color:#2d5a3d;background:#f2faf5;">UI</td>
-            <td class="band-front">Landing page. Value prop + social proof.</td>
-            <td class="band-front">Style quiz. Catalog + filters. VTO. Box builder.</td>
-            <td class="band-front">Address form. Box review. Confirmation page.</td>
-            <td class="band-front">Shipping tracker. Mobile app photo booth + favorites.</td>
-            <td class="band-front">Account page with return status. Return confirmation.</td>
-            <td class="band-front">Saved-frame checkout. Rx entry. Payment flow.</td>
-          </tr>
-          <tr>
-            <td style="font-size:11px;font-weight:500;color:#2d5a3d;background:#f2faf5;">Email</td>
-            <td class="band-front">—</td><td class="band-front">—</td>
-            <td class="band-front">Confirmation: timeline + what to expect.</td>
-            <td class="band-front">"Your box is on its way!" shipping notice.</td>
-            <td class="band-front">Day-4 reminder. Return confirmation + purchase CTA.</td>
-            <td class="band-front">Order confirmation. Processing update. Ship notice.</td>
-          </tr>
-          <tr><td colspan="8" class="sep-row">Line of visibility</td></tr>
-          <tr>
-            <td class="bp-row-hd hd-back" rowspan="2">Back­stage</td>
-            <td style="font-size:11px;font-weight:500;color:#5a3820;background:#faf5f0;">Ops</td>
-            <td class="band-back">—</td>
-            <td class="band-back">Inventory flags HTO-eligible frames. Quiz logic maps preferences to catalog.</td>
-            <td class="band-back">Order processed. Frame QC + box assembly. Return label generated.</td>
-            <td class="band-back">Frame dispatched. 5-day clock starts on delivery.</td>
-            <td class="band-back">Frames received + inspected. Restocked or retired.</td>
-            <td class="band-back">Rx verification. Lens manufacturing. QC + shipping.</td>
-          </tr>
-          <tr>
-            <td style="font-size:11px;font-weight:500;color:#5a3820;background:#faf5f0;">Failure points</td>
-            <td class="band-back"><span class="fail-note">⚠ Page load. Value prop clarity.</span></td>
-            <td class="band-back"><span class="fail-note">⚠ Quiz feels irrelevant. VTO on non-iPhone.</span></td>
-            <td class="band-back"><span class="fail-note">⚠ Shipping delay erodes excitement.</span></td>
-            <td class="band-back"><span class="fail-note">⚠ Frames ≠ expectations. App UX friction.</span></td>
-            <td class="band-back"><span class="fail-note">⚠ Return window anxiety. Label printing.</span></td>
-            <td class="band-back"><span class="fail-note">⚠ Rx entry confusion. Frame not pre-populated.</span></td>
-          </tr>
-          <tr><td colspan="8" class="sep-row">Line of internal interaction</td></tr>
-          <tr>
-            <td class="bp-row-hd hd-support" rowspan="2">Support</td>
-            <td style="font-size:11px;font-weight:500;color:#4a4843;background:#f3f0ea;">Systems</td>
-            <td class="band-support">SEO. A/B testing platform.</td>
-            <td class="band-support">Product catalog DB. Recommendation engine. ARKit. Wishlist.</td>
-            <td class="band-support">Order Management System. Carrier API. CRM.</td>
-            <td class="band-support">Carrier tracking API. Push/email platform. App backend.</td>
-            <td class="band-support">Returns management system. Inventory system.</td>
-            <td class="band-support">Rx verification API. Lens lab integration. Payment processor.</td>
-          </tr>
-          <tr>
-            <td style="font-size:11px;font-weight:500;color:#4a4843;background:#f3f0ea;">Partners</td>
-            <td class="band-support">Google / Meta</td>
-            <td class="band-support">Apple (ARKit)</td>
-            <td class="band-support">UPS / FedEx</td>
-            <td class="band-support">UPS / FedEx</td>
-            <td class="band-support">Carrier. Returns hub.</td>
-            <td class="band-support">Optical labs. Eye doctor networks.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="outcomes">
-    <div class="section-label" data-n="04">Outcomes</div>
-    <h2>What the design work produced</h2>
-    <p>The online HTO experience was foundational to Warby Parker's DTC model for 14 years. Its eventual sunset — as 300+ physical stores made the program less necessary — was itself a product of its success.</p>
-    <div class="outcome-list">
-      <div class="outcome-item">
-        <div class="outcome-num">01</div>
-        <div>
-          <h3>Reduced selection anxiety</h3>
-          <p>Surfacing the style quiz and virtual try-on early in the funnel helped customers confidently narrow to five frames before committing — improving box quality and downstream conversion rates.</p>
-        </div>
-      </div>
-      <div class="outcome-item">
-        <div class="outcome-num">02</div>
-        <div>
-          <h3>Streamlined return-to-purchase path</h3>
-          <p>Customers returning their box could complete a purchase in a single flow using saved frame preferences — reducing the drop-off between physical try-on and checkout.</p>
-        </div>
-      </div>
-      <div class="outcome-item">
-        <div class="outcome-num">03</div>
-        <div>
-          <h3>Built trust through transparency</h3>
-          <p>Clear timelines, prepaid return labels, and proactive communications addressed the primary anxiety of buying eyewear without trying it in person — removing the reasons not to proceed.</p>
-        </div>
-      </div>
-      <div class="outcome-item">
-        <div class="outcome-num">04</div>
-        <div>
-          <h3>Supported program scale for 14 years</h3>
-          <p>The online HTO became foundational to Warby Parker's DTC model, serving 2.6M+ active customers and underpinning the company's growth at a time when online eyewear represented less than 2.5% of the market.</p>
-        </div>
-      </div>
-      <div class="outcome-item">
-        <div class="outcome-num">05</div>
-        <div>
-          <h3>Informed strategic evolution</h3>
-          <p>Usage data from the HTO experience helped Warby Parker make a confident strategic decision to invest in physical retail expansion and AR virtual try-on — and eventually sunset the program when 300+ stores covered most of the geographic need.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="relevance">
-    <div class="section-label" data-n="05">Why this matters for enterprise service design</div>
-    <h2>The same problems, different context</h2>
-    <p>Consumer service design and enterprise service design share the same structural challenges: multi-step processes where trust must be earned, transitions that create anxiety and drop-off, and backstage complexity that customers never see but always feel. The methods transfer directly.</p>
-    <div class="bridge-grid">
-      <div class="bridge-card wp">
-        <div class="bridge-label">Warby Parker · Home Try-On</div>
-        <h3>Selection anxiety → conversion</h3>
-        <p>A customer has to commit to five frames they've never touched, wait days, and then make a purchase decision. Every step is a trust question.</p>
-      </div>
-      <div class="bridge-card google">
-        <div class="bridge-label">Google Corp Eng · Finance Transformation</div>
-        <h3>Process complexity → adoption</h3>
-        <p>An employee or vendor has to navigate a multi-step financial workflow — submitting, waiting, getting approved or rejected — with each step a potential abandonment.</p>
-      </div>
-      <div class="bridge-connector">The design challenge is structurally identical</div>
-      <div class="bridge-card wp">
-        <div class="bridge-label">Warby Parker · Home Try-On</div>
-        <h3>Invisible backstage, visible experience</h3>
-        <p>Inventory, carrier APIs, return logistics, and Rx verification all had to work invisibly so the customer experience felt effortless.</p>
-      </div>
-      <div class="bridge-card google">
-        <div class="bridge-label">Google Corp Eng · Finance Transformation</div>
-        <h3>Enterprise resource planning (ERP) integration, approval routing</h3>
-        <p>The backstage of finance systems — approval logic, ERP handoffs, data validation — determines whether the human experience is smooth or broken.</p>
-      </div>
-      <div class="bridge-connector">Service blueprinting reveals both layers equally</div>
-      <div class="bridge-card wp">
-        <div class="bridge-label">Warby Parker · Home Try-On</div>
-        <h3>Peak-intent design</h3>
-        <p>The return confirmation email was the highest-intent moment in the journey. Designing that touchpoint as a conversion trigger — not just a receipt — was the key insight.</p>
-      </div>
-      <div class="bridge-card google">
-        <div class="bridge-label">Google Corp Eng · Finance Transformation</div>
-        <h3>Moment-of-completion design</h3>
-        <p>When someone finishes a step in a finance workflow — submitting an invoice, completing a review — that's a peak-intent moment that should guide, not abandon.</p>
-      </div>
-      <div class="bridge-connector">Prioritizing the human experience and desired outcome</div>
-    </div>
-  </section>
-
-</div>
-
-<footer>Warby Parker Home Try-On • Service Design Case Study</footer>
-
-<script>
-  // Hamburger nav
-  const toggle = document.querySelector('.nav-toggle');
-  const drawer = document.getElementById('navDrawer');
-  toggle.addEventListener('click', () => {
-    const open = drawer.classList.toggle('open');
-    toggle.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', open);
-  });
-  function closeNav() {
-    drawer.classList.remove('open');
-    toggle.classList.remove('open');
-    toggle.setAttribute('aria-expanded', false);
-  }
-  document.addEventListener('click', e => {
-    if (!toggle.contains(e.target) && !drawer.contains(e.target)) closeNav();
-  });
-
-  // Journey accordion cards for mobile
-  const journeyData = [
-    { stage:'Discover', feeling:'Curious, skeptical', fc:'neu', actions:'Finds WP via referral. Reads HTO page.', touch:'Landing page, HTO explainer', opp:'Lead with the return promise, not the frames. Overcome skepticism first.' },
-    { stage:'Select', feeling:'Overwhelmed → confident', fc:'pos', actions:'Takes style quiz. Browses, filters. Uses virtual try-on. Adds 5 frames.', touch:'Style quiz, frame catalog, VTO, box builder', opp:'Surface quiz and VTO early. Make frame swapping frictionless before submit.' },
-    { stage:'Request', feeling:'Excited, anticipating', fc:'pos', actions:'Enters shipping details. Confirms box. Receives email.', touch:'Box review page, confirmation email, shipping notification', opp:'Set clear timeline expectations. "Arrives in ~4 days" reduces anxiety gaps.' },
-    { stage:'Receive', feeling:'Delighted, indecisive', fc:'pos', actions:'Unboxes frames. Reads in-box card. Tries on each pair.', touch:'Physical box, in-box card, app photo tool, return label', opp:'In-box card bridges physical → digital. Prompts app for photo capture + sharing.' },
-    { stage:'Decide', feeling:'Torn, mild time pressure', fc:'neu', actions:'Compares frames. Consults friends. Marks favorites online.', touch:'Online account, reminder email, mobile app', opp:'Reminder email doubles as conversion tool — surfaces saved frames + direct purchase link.' },
-    { stage:'Return', feeling:'Relieved, ready to decide', fc:'pos', actions:'Packs frames. Affixes return label. Drops at carrier.', touch:'Prepaid return label, return confirmation email', opp:'Return confirmation is peak intent. Send it immediately with a purchase CTA.' },
-    { stage:'Purchase', feeling:'Confident, task-focused', fc:'pos', actions:'Selects saved frame. Enters prescription. Checks out.', touch:'Checkout, Rx entry, order confirmation', opp:'Pre-populate saved frames. Guide Rx entry carefully — highest drop-off point.' }
-  ];
-
-  const container = document.getElementById('journeyCards');
-  journeyData.forEach((d, i) => {
-    const card = document.createElement('div');
-    card.className = 'journey-card';
-    card.innerHTML = `
-      <div class="journey-card-header" role="button" aria-expanded="${i===0}" tabindex="0">
-        <span class="stage-pill">${d.stage}</span>
-        <span class="feeling emotion ${d.fc}">${d.feeling}</span>
-        <svg class="journey-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="journey-card-body${i===0?' open':''}">
-        <div class="journey-card-row"><div class="journey-row-label">Actions</div><div class="journey-row-value">${d.actions}</div></div>
-        <div class="journey-card-row"><div class="journey-row-label">Touchpoints</div><div class="journey-row-value">${d.touch}</div></div>
-        <div class="journey-card-row"><div class="journey-row-label">Design opportunity</div><div class="journey-row-value">${d.opp}</div></div>
-      </div>`;
-    const hdr  = card.querySelector('.journey-card-header');
-    const body = card.querySelector('.journey-card-body');
-    const toggle = () => {
-      const open = body.classList.toggle('open');
-      hdr.setAttribute('aria-expanded', open);
-    };
-    hdr.addEventListener('click', toggle);
-    hdr.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); toggle(); } });
-    container.appendChild(card);
-  });
-</script>
 </body>
 </html>
