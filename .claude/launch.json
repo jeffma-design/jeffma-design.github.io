@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "live-reload",
+      "runtimeExecutable": "ruby",
+      "runtimeArgs": ["/Users/minijeff/Documents/GitHub/jeffma-design.github.io/scripts/livereload_server.rb", "5500"],
+      "port": 5500
+    }
+  ]
+}

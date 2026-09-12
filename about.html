@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Jeff Ma</title>
+<meta name="description" content="Designer since 2005. I direct design to close the gap between what experts know and what decisions, products, and people require.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#161615;
+    --paper:#d0a955;
+    --paper-light:#fff1d2;
+    --line:#dedcd7;
+    --muted:#4a3712;
+    --accent:#1a2c8a;
+    --divider:#b28c2d;
+    --maxw:1320px;
+    --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sans: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01" 1;
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-0.02em;}
+
+  /* ---------- Header ---------- */
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px; max-width:var(--maxw);
+  }
+  .wordmark{
+    display:flex; flex-direction:column; gap:3px; text-decoration:none; line-height:1.2;
+  }
+  .wordmark .wm-name{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
+  .wordmark .wm-title{
+    font-family:var(--sans); font-weight:600; font-size:0.7rem; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--muted);
+  }
+  header nav{display:flex; gap:24px;}
+  header nav a{
+    text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted);
+    border-bottom:1px solid transparent; padding-bottom:2px;
+  }
+  header nav a.active{color:var(--ink); border-bottom-color:var(--ink);}
+  @media (max-width:480px){
+    header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
+    header nav{gap:18px;}
+  }
+
+  .back-link{
+    display:inline-block; text-decoration:none; font-size:0.85rem; font-weight:600;
+    color:var(--muted); margin-bottom:28px;
+  }
+  .back-link:hover{color:var(--ink);}
+
+  /* ---------- Index label ---------- */
+  .index-label{margin-bottom:24px;}
+  .index-label .lbl{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--muted); font-weight:600;
+  }
+
+  /* ---------- Large-screen layout: sticky label column + content column ---------- */
+  @media (min-width:900px){
+    .section-grid{
+      display:grid; grid-template-columns:220px minmax(0, 1fr); gap:64px; align-items:start;
+    }
+    .section-grid > .index-label{position:sticky; top:112px; margin-bottom:0;}
+  }
+  @media (min-width:1240px){
+    .section-grid{grid-template-columns:240px minmax(0, 1fr); gap:80px;}
+  }
+
+  /* ---------- Intro ---------- */
+  .about-hero{padding:96px 0 64px; background:var(--paper-light); border-bottom:none;}
+  .about-hero h1{
+    font-size:clamp(1.4rem, 1.1vw + 1.1rem, 1.9rem); line-height:1.4; font-weight:500;
+    max-width:34ch; letter-spacing:-0.01em;
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:76px 0; border-bottom:1px solid var(--divider);}
+  section p{margin:0 0 20px; max-width:64ch;}
+  section p:last-child{margin-bottom:0;}
+  section p.support{color:#33322f; font-size:1rem;}
+
+  .prev-line{
+    margin-top:28px; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--muted); font-weight:600;
+  }
+
+  .pull{
+    font-family:var(--display); font-weight:700; letter-spacing:-0.02em;
+    font-size:clamp(1.4rem, 3.2vw, 2rem); line-height:1.25; max-width:22ch;
+    margin-top:36px;
+  }
+
+  .placeholder-note{
+    border:1px dashed var(--divider); padding:16px 18px; border-radius:4px;
+    color:var(--muted); font-size:0.92rem; font-style:italic;
+  }
+
+  .about-footer-links{
+    display:flex; flex-direction:column; gap:8px; font-size:0.98rem; margin-top:8px;
+  }
+  .about-footer-links a{text-decoration:none; color:var(--muted); border-bottom:1px solid var(--line);}
+  .about-footer-links a:hover{color:var(--ink); border-color:var(--ink);}
+
+  footer{padding:36px 0; color:var(--muted); font-size:0.85rem; border-top:1px solid var(--divider);}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="wordmark" href="index.html">
+      <span class="wm-name">Jeff Ma</span>
+      <span class="wm-title">Strategic Creative Director</span>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="about.html" class="active" aria-current="page">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== INTRO ===================== -->
+  <section class="about-hero">
+    <div class="wrap">
+      <a class="back-link" href="index.html">← Back</a>
+      <div class="index-label"><span class="lbl">About</span></div>
+      <h1>Since 2005, I’ve been translating complicated, high-stakes ideas into something the people who need to act on them can actually use.</h1>
+    </div>
+  </section>
+
+  <!-- ===================== BODY ===================== -->
+  <section style="border-bottom:none;">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">About</span></div>
+      <div class="section-body">
+        <p class="support">
+          I’ve designed for audiences ranging from first-time retail shoppers
+          at Warby Parker and Anthropologie to Alphabet’s board of directors
+          and heads of state — across cybersecurity, AI safety, privacy,
+          enterprise risk, and data architecture, in industries spanning
+          retail, financial services, legal, and beyond.
+        </p>
+        <p class="support">
+          I approach design analytically, not as fine art — every project
+          starts as a problem to solve: what does this audience actually need
+          to understand, and what’s the clearest, most defensible way to get
+          them there. The craft matters, but only in service of the outcome.
+        </p>
+        <p class="support">
+          That instinct traces back further than my design career. I started
+          in finance at the University of Illinois before retraining as a
+          designer at Portfolio Center, and that analytical foundation has
+          shaped how I’ve approached every project since.
+        </p>
+        <p class="support placeholder-note">
+          Placeholder — this is where a personal detail or two would go (see
+          note in chat). Tell me what you’re comfortable sharing and I’ll drop
+          it in here.
+        </p>
+        <div class="prev-line">Previously — Apple · Warby Parker · Anthropologie · VSA Partners for IBM · MAD Worldwide</div>
+        <p class="pull">What stays constant is the challenge of making something genuinely difficult land with people who need to understand it, not study it.</p>
+
+        <div class="about-footer-links">
+          <a href="work.html">See the work →</a>
+          <a href="index.html#contact">Get in touch →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jeff Ma</span>
+    <span>Strategic Creative Director · San Francisco</span>
+  </div>
+</footer>
+
+</body>
+</html>

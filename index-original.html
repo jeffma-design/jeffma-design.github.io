@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeff Ma — Strategic Creative Director</title>
+<meta name="description" content="I make complex, high-stakes ideas land for the audiences that matter most — heads of state, boards of directors, or millions of people using a product for the first time.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#161615;
+    --paper:#d0a955;
+    --paper-light:#fff1d2;
+    --line:#dedcd7;
+    --muted:#4a3712;
+    --accent:#1a2c8a;
+    --divider:#b28c2d;
+    --maxw:1320px;
+    --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sans: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01" 1;
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-0.02em;}
+
+  /* ---------- Header ---------- */
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px; max-width:var(--maxw);
+  }
+  .wordmark{
+    display:flex; flex-direction:column; gap:3px; text-decoration:none; line-height:1.2;
+  }
+  .wordmark .wm-name{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
+  .wordmark .wm-title{
+    font-family:var(--sans); font-weight:600; font-size:0.7rem; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--muted);
+  }
+  header nav a{
+    text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--ink);
+    border-bottom:1px solid var(--ink); padding-bottom:2px;
+  }
+
+  /* ---------- Index label (Rams-style running head) ---------- */
+  .index-label{margin-bottom:36px;}
+  .index-label .lbl{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--muted); font-weight:600;
+  }
+
+  /* ---------- Large-screen layout: sticky label column + content column ---------- */
+  @media (min-width:900px){
+    .section-grid{
+      display:grid; grid-template-columns:220px minmax(0, 1fr); gap:64px; align-items:start;
+    }
+    .section-grid > .index-label{position:sticky; top:112px; margin-bottom:0;}
+  }
+  @media (min-width:1240px){
+    .section-grid{grid-template-columns:240px minmax(0, 1fr); gap:80px;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:96px 0 80px; background:var(--paper-light); border-bottom:none;}
+  .hero h1{
+    font-size:clamp(2.3rem, 6vw, 5.4rem); line-height:1.05; letter-spacing:-0.03em;
+  }
+  .hero .counter{
+    font-family:var(--display); font-weight:700; color:var(--accent);
+    font-size:clamp(2.3rem, 6vw, 5.4rem); line-height:1.05; letter-spacing:-0.03em;
+    margin-top:8px;
+  }
+  .hero .lede{
+    max-width:60ch; font-size:1.2rem; color:#33322f; margin-top:40px;
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:76px 0; border-bottom:1px solid var(--divider);}
+  section p{margin:0 0 20px; max-width:64ch;}
+  section p:last-child{margin-bottom:0;}
+  section p.lead{font-size:clamp(1.22rem, 1.1vw + 1rem, 1.5rem); line-height:1.5; font-weight:500; color:var(--ink);}
+  section p.support{color:#33322f; font-size:1rem;}
+
+  .prev-line{
+    margin-top:28px; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--muted); font-weight:600;
+  }
+
+  /* ---------- What I Do ---------- */
+  .capability-list{display:flex; flex-direction:column;}
+  .capability-row{
+    display:grid; grid-template-columns:56px 1fr; gap:20px;
+    padding:28px 0; border-top:1px solid var(--line);
+  }
+  .capability-row:last-child{border-bottom:1px solid var(--line);}
+  .capability-row .cnum{
+    font-family:var(--display); font-weight:700; color:var(--accent); font-size:1rem;
+    font-variant-numeric:tabular-nums;
+  }
+  .capability-row h3{font-size:1.2rem; margin-bottom:8px; letter-spacing:-0.01em;}
+  .capability-row p{color:var(--muted); font-size:0.98rem; margin:0; max-width:56ch;}
+
+  /* ---------- Pull quote ---------- */
+  .pull{
+    font-family:var(--display); font-weight:700; letter-spacing:-0.02em;
+    font-size:clamp(1.4rem, 3.2vw, 2rem); line-height:1.25; max-width:22ch;
+    margin-top:36px;
+  }
+
+  /* ---------- Selected work / proof list ---------- */
+  .work-list{display:flex; flex-direction:column;}
+  .work-row{
+    padding:26px 0; border-top:1px solid var(--line);
+  }
+  .work-row:last-child{border-bottom:1px solid var(--line);}
+  .work-row a.title-link{text-decoration:none;}
+  .work-row a.title-link:hover .title-text{border-bottom-color:var(--ink);}
+  .title-text{
+    font-family:var(--display); font-weight:700; font-size:1.08rem; letter-spacing:-0.01em;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+  }
+  .work-row h4.title-text{font-family:var(--display); font-weight:700; font-size:1.08rem; letter-spacing:-0.01em; margin:0;}
+  .work-row .arrow{color:var(--accent); font-weight:700; margin-left:4px;}
+  .work-row p{color:var(--muted); font-size:0.94rem; margin:8px 0 0; max-width:60ch;}
+
+  @media (min-width:900px){
+    .work-row{
+      display:grid; grid-template-columns:300px minmax(0, 1fr); gap:36px; align-items:start;
+    }
+    .work-row p{margin-top:0; max-width:56ch;}
+  }
+
+  /* ---------- Capabilities tag line ---------- */
+  .tagline{
+    padding:32px 0; font-size:0.92rem; color:var(--muted);
+    letter-spacing:0.02em; line-height:2;
+  }
+  .tagline strong{color:var(--ink); font-weight:600;}
+
+  /* ---------- Contact ---------- */
+  .contact{border-bottom:none;}
+  .contact-email{
+    display:inline-block; margin-top:32px; font-family:var(--display); font-weight:700;
+    font-size:clamp(1.5rem, 4vw, 2.2rem); letter-spacing:-0.02em; text-decoration:none;
+    border-bottom:2px solid var(--accent);
+  }
+  .contact-links{margin-top:22px; display:flex; flex-direction:column; gap:8px; font-size:0.98rem;}
+  .contact-links a{text-decoration:none; color:var(--muted); border-bottom:1px solid var(--line);}
+  .contact-links a:hover{color:var(--ink); border-color:var(--ink);}
+
+  footer{padding:36px 0; color:var(--muted); font-size:0.85rem;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  footer a{text-decoration:none; border-bottom:1px solid var(--line); font-weight:600; color:var(--ink);}
+  footer a:hover{border-color:var(--ink);}
+
+  @media (max-width:600px){
+    .capability-row{grid-template-columns:36px 1fr; gap:14px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="wordmark" href="#top">
+      <span class="wm-name">Jeff Ma</span>
+      <span class="wm-title">Strategic Creative Director</span>
+    </a>
+    <nav><a href="#contact">Contact</a></nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Even brilliant ideas need help landing beyond the room where they were built.</h1>
+      <p class="lede">
+        The people closest to an idea are often too deep in it to explain it
+        simply. I help them step back and translate their expertise
+        distinctively for each audience who needs to understand it — heads of
+        state, boards of directors, or millions of people using a product for
+        the first time.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">About</span></div>
+      <div class="section-body">
+        <p class="lead">
+          I direct design to close the gap between what experts know and what
+          decisions, products, and people require.
+        </p>
+        <p class="support">
+          The technical domains vary — cybersecurity, AI safety, privacy,
+          enterprise risk, data architecture — and the industries vary just
+          as widely, from retail and financial services to legal and beyond.
+          The audience is consistently senior. What stays constant is the
+          challenge of making something genuinely difficult land with people
+          who need to understand it, not study it.
+        </p>
+        <p class="support">
+          Getting ambitious work made inside a large, complex organization is
+          its own discipline — one I’ve built over seven years navigating
+          Google’s scale. It means building alignment across legal, policy,
+          communications, engineering, and product simultaneously, often
+          without direct authority over any of them. I move work forward
+          through clarity of vision, early coalition-building, and knowing
+          which constraints are real and which are negotiable. The work
+          doesn’t just get conceived. It gets shipped.
+        </p>
+        <div class="prev-line">Previously — Apple · Warby Parker · Anthropologie · VSA Partners for IBM · MAD Worldwide</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHAT I DO ===================== -->
+  <section id="what-i-do">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">What I Do</span></div>
+      <div class="section-body">
+        <p class="lead" style="margin-bottom:36px;">
+          I work at the intersection of three things most organizations keep
+          separate — creative authorship, strategic judgment, and the
+          discipline of communicating to power.
+        </p>
+        <div class="capability-list">
+          <div class="capability-row">
+            <span class="cnum">01</span>
+            <div>
+              <h3>Creative direction</h3>
+              <p>Authorship over how an idea is expressed, across any medium. Film, report, presentation, product, system. The medium follows the problem.</p>
+            </div>
+          </div>
+          <div class="capability-row">
+            <span class="cnum">02</span>
+            <div>
+              <h3>Design strategy</h3>
+              <p>Shaping what gets made and why, before anyone opens a tool. The decisions that determine whether the work will land before a pixel is placed.</p>
+            </div>
+          </div>
+          <div class="capability-row">
+            <span class="cnum">03</span>
+            <div>
+              <h3>Executive communication</h3>
+              <p>Translating what experts know into the clarity that senior audiences need to act. Boards, C-suites, heads of state, global policy forums.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHO I WORK WITH ===================== -->
+  <section id="who">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">Who I Work With</span></div>
+      <div class="section-body">
+        <p class="lead">
+          My clients are organizations where the knowledge gap is wide and the
+          stakes of not closing it are high.
+        </p>
+        <p class="support">
+          The people who understand the thing are not the people who decide
+          about it. That gap exists everywhere — but it’s most acutely felt in
+          technology, consulting, financial services, defense, policy, and
+          healthcare, where the complexity is real, the audiences are senior,
+          and the cost of being misunderstood is significant.
+        </p>
+        <p class="pull">
+          If your most important ideas aren’t landing with the people who need
+          to act on them — that’s the problem I solve.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SELECTED WORK ===================== -->
+  <section id="work">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">Selected Work</span></div>
+      <div class="section-body">
+        <div class="work-list">
+          <div class="work-row">
+            <a class="title-link" href="projects/security-analysis-reporting.html">
+              <h4 class="title-text">Fog of War<span class="arrow">↗</span></h4>
+            </a>
+            <p>Cybersecurity intelligence research translated into a printed report distributed during bilateral meetings at the Munich Security Conference. Designed for heads of state during an active war.</p>
+          </div>
+
+          <div class="work-row">
+            <a class="title-link" href="projects/ai-safety-film.html">
+              <h4 class="title-text">AI Safety Film<span class="arrow">↗</span></h4>
+            </a>
+            <p>Conceived and directed a short film about AI and digital security, produced for the Munich Security Conference and deployed as the cornerstone asset for Google’s AI Cyber Defense Initiative launch.</p>
+          </div>
+
+          <div class="work-row">
+            <a class="title-link" href="projects/alphabet-board-reporting.html">
+              <h4 class="title-text">Alphabet Board of Directors<span class="arrow">↗</span></h4>
+            </a>
+            <p>Ongoing design of reporting materials communicating Alphabet’s cybersecurity posture to the Audit and Compliance Committee. Design as the vehicle for fiduciary decision-making at the highest level.</p>
+          </div>
+
+          <div class="work-row">
+            <h4 class="title-text">Project Vitraya</h4>
+            <p>A Google-wide consent strategy system design, presented to Google’s Trust &amp; Compliance Steering Committee and Core SVP. Design as the instrument for building organizational alignment, not just communicating it.</p>
+          </div>
+
+          <div class="work-row">
+            <h4 class="title-text">AI Cyber Defense Initiative</h4>
+            <p>Creative direction across the full suite of launch assets for Google’s major policy and product initiative positioning AI as a force for global cybersecurity.</p>
+          </div>
+
+          <div class="work-row">
+            <a class="title-link" href="projects/cyber-defense-summit.html">
+              <h4 class="title-text">VP Keynote, Cyber Defense Summit 2025<span class="arrow">↗</span></h4>
+            </a>
+            <p>Keynote development and design for an exclusive Mandiant and Google Threat Intelligence event, crafted for elite security professionals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CAPABILITIES ===================== -->
+  <section id="capabilities" style="padding-top:0; padding-bottom:0; border-bottom:none;">
+    <div class="wrap" style="padding-top:0;">
+      <div class="tagline">
+        <strong>Creative Direction</strong> · <strong>Design Strategy</strong> · <strong>Executive Communication</strong> · Cross-domain Translation · Large-org Execution · Film &amp; Motion · Cybersecurity · AI Safety · Privacy · Cross-functional Leadership · Stakeholder Alignment · Systems Thinking
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact" id="contact" style="border-top:1px solid var(--divider);">
+    <div class="wrap section-grid">
+      <div class="index-label"><span class="lbl">Get in Touch</span></div>
+      <div class="section-body">
+        <p class="lead">
+          The hardest communication problem isn’t finding the right words. It’s
+          making something genuinely complex land with someone who doesn’t
+          have time to become an expert — and whose decision depends on
+          understanding it anyway.
+        </p>
+        <p class="lead">If that’s the problem you’re facing, let’s talk.</p>
+        <a class="contact-email" href="mailto:ma.jeff@gmail.com">ma.jeff@gmail.com</a>
+        <div class="contact-links">
+          <a href="#" target="_blank" rel="noopener">LinkedIn — add your profile URL</a>
+          <a href="index.html">View full portfolio &amp; case studies →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jeff Ma</span>
+    <span>Strategic Creative Director · San Francisco</span>
+  </div>
+</footer>
+
+</body>
+</html>
