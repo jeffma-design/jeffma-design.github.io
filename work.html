@@ -60,7 +60,7 @@
     text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted);
     border-bottom:1px solid transparent; padding-bottom:2px;
   }
-  header nav a.active{color:var(--ink); border-bottom-color:var(--ink);}
+  header nav a.active{color:var(--ink); border-bottom-color:var(--accent);}
   @media (max-width:480px){
     header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
     header nav{gap:18px;}
@@ -120,6 +120,54 @@
     .work-card{padding:36px 28px; border-radius:16px;}
   }
 
+  /* ---------- Safer with Google Summit gallery ---------- */
+  .swg-heading{
+    font-size:clamp(2rem, 5.2vw, 3.2rem); line-height:1.04; letter-spacing:-0.02em;
+    margin:0 0 18px; max-width:20ch;
+  }
+  .swg-copy{font-size:1.05rem; line-height:1.6; max-width:62ch; color:var(--muted); margin:0;}
+
+  .swg-gallery{
+    display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:220px 220px auto;
+    gap:14px; margin-top:40px;
+    grid-template-areas:
+      "elevator notebook auditorium auditorium"
+      "elevator tshirt   audience   meetup"
+      "collage  collage  collage    collage";
+  }
+  .swg-item{margin:0; border-radius:16px; overflow:hidden; background:var(--paper-light);}
+  .swg-item img{display:block; width:100%; height:100%; object-fit:cover;}
+  .swg-elevator{grid-area:elevator;}
+  .swg-notebook{grid-area:notebook;}
+  .swg-auditorium{grid-area:auditorium;}
+  .swg-tshirt{grid-area:tshirt;}
+  .swg-audience{grid-area:audience;}
+  .swg-meetup{grid-area:meetup;}
+  .swg-collage{grid-area:collage; background:#fff;}
+  .swg-collage img{height:auto; object-fit:contain;}
+
+  @media (max-width:900px){
+    .swg-gallery{
+      grid-template-columns:1fr 1fr; grid-template-rows:260px 200px 200px auto;
+      grid-template-areas:
+        "elevator elevator"
+        "notebook tshirt"
+        "audience meetup"
+        "auditorium auditorium"
+        "collage collage";
+    }
+  }
+  @media (max-width:600px){
+    .swg-gallery{
+      grid-template-columns:1fr; grid-template-rows:none; gap:12px;
+      grid-template-areas:
+        "elevator" "notebook" "tshirt" "auditorium" "audience" "meetup" "collage";
+    }
+    .swg-item{height:auto;}
+    .swg-elevator img, .swg-notebook img, .swg-auditorium img,
+    .swg-tshirt img, .swg-audience img, .swg-meetup img{height:auto; aspect-ratio:4/3; object-fit:cover;}
+  }
+
   /* ---------- Closing / capabilities ---------- */
   .closing{padding:64px 0; border-top:1px solid var(--divider);}
   .closing .eyebrow{
@@ -142,7 +190,7 @@
     color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:2px;
   }
 
-  footer{padding:36px 0; color:var(--muted); font-size:0.85rem; border-top:1px solid var(--divider);}
+  footer{padding:36px 0; background:#000; color:#9a9a9a; font-size:0.85rem; border-top:1px solid var(--divider);}
   footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
 </style>
 </head>
@@ -244,6 +292,36 @@
             <span class="card-link">View case study ↗</span>
           </div>
         </a>
+      </div>
+
+      <div class="work-entry">
+        <div class="eyebrow">07 — Google Trust &amp; Safety ↓</div>
+        <h2 class="swg-heading">Safer with Google Summit</h2>
+        <p class="swg-copy">Brand identity and on-the-ground design for Google’s flagship trust &amp; safety summit — from a three-story lobby installation to the swag, sessions, and people that filled the room.</p>
+
+        <div class="swg-gallery">
+          <figure class="swg-item swg-elevator">
+            <img src="assets/work/safer-with-google/elevator-signage.jpg" alt="Three-story Safer with Google Summit branding wrapping a lobby elevator shaft">
+          </figure>
+          <figure class="swg-item swg-notebook">
+            <img src="assets/work/safer-with-google/notebook.jpg" alt="Safer with Google Summit branded notebook">
+          </figure>
+          <figure class="swg-item swg-auditorium">
+            <img src="assets/work/safer-with-google/auditorium.jpg" alt="Empty summit auditorium with the Safer with Google Summit logo on the main stage screen">
+          </figure>
+          <figure class="swg-item swg-tshirt">
+            <img src="assets/work/safer-with-google/tshirt.jpg" alt="Safer with Google Summit branded t-shirt">
+          </figure>
+          <figure class="swg-item swg-audience">
+            <img src="assets/work/safer-with-google/audience.jpg" alt="Attendee taking notes during a summit session">
+          </figure>
+          <figure class="swg-item swg-meetup">
+            <img src="assets/work/safer-with-google/meetup.jpg" alt="Attendees mingling in the hallway between sessions">
+          </figure>
+          <figure class="swg-item swg-collage">
+            <img src="assets/work/safer-with-google/speaker-collage.jpg" alt="Collage of speakers presenting on stage throughout the summit">
+          </figure>
+        </div>
       </div>
 
     </div>

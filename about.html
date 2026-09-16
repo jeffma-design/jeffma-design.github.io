@@ -60,17 +60,12 @@
     text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted);
     border-bottom:1px solid transparent; padding-bottom:2px;
   }
-  header nav a.active{color:var(--ink); border-bottom-color:var(--ink);}
+  header nav a.active{color:var(--ink); border-bottom-color:var(--accent);}
   @media (max-width:480px){
     header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
     header nav{gap:18px;}
   }
 
-  .back-link{
-    display:inline-block; text-decoration:none; font-size:0.85rem; font-weight:600;
-    color:var(--muted); margin-bottom:28px;
-  }
-  .back-link:hover{color:var(--ink);}
 
   /* ---------- Index label ---------- */
   .index-label{margin-bottom:24px;}
@@ -125,7 +120,14 @@
   .about-footer-links a{text-decoration:none; color:var(--muted); border-bottom:1px solid var(--line);}
   .about-footer-links a:hover{color:var(--ink); border-color:var(--ink);}
 
-  footer{padding:36px 0; color:var(--muted); font-size:0.85rem; border-top:1px solid var(--divider);}
+  /* ---------- Capabilities tag line ---------- */
+  .tagline{
+    padding:32px 0; font-size:0.92rem; color:var(--muted);
+    letter-spacing:0.02em; line-height:2;
+  }
+  .tagline strong{color:var(--ink); font-weight:600;}
+
+  footer{padding:36px 0; background:#000; color:#9a9a9a; font-size:0.85rem; border-top:1px solid var(--divider);}
   footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
 </style>
 </head>
@@ -151,7 +153,6 @@
   <!-- ===================== INTRO ===================== -->
   <section class="about-hero">
     <div class="wrap">
-      <a class="back-link" href="index.html">← Back</a>
       <div class="index-label"><span class="lbl">About</span></div>
       <h1>Since 2005, I’ve been translating complicated, high-stakes ideas into something the people who need to act on them can actually use.</h1>
     </div>
@@ -193,6 +194,15 @@
           <a href="work.html">See the work →</a>
           <a href="index.html#contact">Get in touch →</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CAPABILITIES ===================== -->
+  <section style="padding-top:0; padding-bottom:0; border-bottom:none;">
+    <div class="wrap" style="padding-top:0;">
+      <div class="tagline">
+        <strong>Design Strategy</strong> · <strong>Creative Direction</strong> · <strong>High-Stakes Communication</strong> · Cross-domain Translation · Large-org Execution · Film &amp; Motion · Cybersecurity · AI Safety · Privacy · Cross-functional Leadership · Stakeholder Alignment · Systems Thinking
       </div>
     </div>
   </section>

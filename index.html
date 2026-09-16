@@ -15,6 +15,7 @@
     --ink:#161615;
     --paper:#d0a955;
     --paper-light:#fff1d2;
+    --paper-tint:#e3cb99;
     --line:#dedcd7;
     --muted:#4a3712;
     --accent:#1a2c8a;
@@ -62,7 +63,7 @@
     text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted);
     border-bottom:1px solid transparent; padding-bottom:2px;
   }
-  header nav a.active{color:var(--ink); border-bottom-color:var(--ink);}
+  header nav a.active{color:var(--ink); border-bottom-color:var(--accent);}
   @media (max-width:480px){
     header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
     header nav{gap:18px;}
@@ -136,14 +137,12 @@
   .audience-matrix .am-cell{
     background:var(--paper-light); padding:26px 28px 30px; border-radius:16px;
   }
-  .audience-matrix .am-head{display:flex; align-items:baseline; gap:10px; margin-bottom:16px;}
-  .audience-matrix .am-num{
-    font-family:var(--display); font-weight:700; color:var(--accent); font-size:0.9rem;
-    font-variant-numeric:tabular-nums;
+  .audience-matrix .am-icon{
+    width:22px; height:22px; color:var(--accent); display:block; margin-bottom:14px;
   }
   .audience-matrix .am-label{
     font-size:0.78rem; text-transform:uppercase; letter-spacing:0.12em;
-    color:var(--muted); font-weight:600;
+    color:var(--muted); font-weight:600; margin-bottom:16px;
   }
   .audience-matrix .am-tags{display:flex; flex-wrap:wrap; gap:8px;}
   .audience-matrix .am-tag{
@@ -158,9 +157,9 @@
   .capability-list{display:flex; flex-direction:column;}
   .capability-row{
     display:grid; grid-template-columns:56px 1fr; gap:20px;
-    padding:28px 0; border-top:1px solid var(--line);
+    padding:28px 0; border-top:1px solid var(--paper-tint);
   }
-  .capability-row:last-child{border-bottom:1px solid var(--line);}
+  .capability-row:last-child{border-bottom:1px solid var(--paper-tint);}
   .capability-row .cnum{
     font-family:var(--display); font-weight:700; color:var(--accent); font-size:1rem;
     font-variant-numeric:tabular-nums;
@@ -186,12 +185,6 @@
     .quote-block .pull{max-width:min(90%, 1180px);}
   }
 
-  /* ---------- Capabilities tag line ---------- */
-  .tagline{
-    padding:32px 0; font-size:0.92rem; color:var(--muted);
-    letter-spacing:0.02em; line-height:2;
-  }
-  .tagline strong{color:var(--ink); font-weight:600;}
 
   /* ---------- Ways to Engage ---------- */
   .office-hours{
@@ -215,6 +208,10 @@
 
   /* ---------- Contact ---------- */
   .contact{border-bottom:none;}
+  .contact-headline{
+    font-size:clamp(2.1rem, 5vw, 3.4rem); letter-spacing:-0.02em; line-height:1.05;
+    margin-bottom:24px;
+  }
   .contact-email{
     display:inline-block; margin-top:32px; font-family:var(--display); font-weight:700;
     font-size:clamp(1.5rem, 4vw, 2.2rem); letter-spacing:-0.02em; text-decoration:none;
@@ -224,10 +221,85 @@
   .contact-links a{text-decoration:none; color:var(--muted); border-bottom:1px solid var(--line);}
   .contact-links a:hover{color:var(--ink); border-color:var(--ink);}
 
-  footer{padding:36px 0; color:var(--muted); font-size:0.85rem;}
+  /* ---------- Contact outro (everything below Submit) ---------- */
+  .contact-outro{background:#000; border-bottom:none; padding-top:56px;}
+  .contact-outro .contact-email{color:var(--paper-light); margin-top:0;}
+  .contact-outro .contact-links a{color:#9a9a9a; border-bottom-color:rgba(255,255,255,0.25);}
+  .contact-outro .contact-links a:hover{color:#fff; border-bottom-color:#fff;}
+  .contact-outro .form-confirmation{margin-bottom:32px;}
+  .contact-outro .confirmation-message{color:#fff;}
+
+  /* ---------- Contact form ---------- */
+  .contact-form{margin-top:44px; max-width:560px;}
+  .form-group{margin-top:32px;}
+  .form-group:first-child{margin-top:0;}
+  .form-label{
+    display:block; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.12em;
+    color:var(--muted); font-weight:600; margin-bottom:14px;
+  }
+  .form-label .optional-hint{
+    text-transform:none; letter-spacing:0; font-weight:500; opacity:0.8;
+  }
+
+  .radio-cards{display:flex; flex-direction:column; gap:10px;}
+  .radio-card{display:block; position:relative; cursor:pointer;}
+  .radio-card-input{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  .radio-card-body{
+    display:flex; align-items:center; gap:14px; background:var(--paper-light);
+    border:1.5px solid transparent; border-radius:14px; padding:18px 20px;
+    transition:border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .radio-card:hover .radio-card-body{border-color:var(--divider);}
+  .radio-card-dot{
+    flex:0 0 auto; width:20px; height:20px; border-radius:50%;
+    border:2px solid var(--muted); position:relative; transition:border-color 0.15s ease;
+  }
+  .radio-card-dot::after{
+    content:''; position:absolute; inset:3px; border-radius:50%;
+    background:var(--accent); transform:scale(0); transition:transform 0.15s ease;
+  }
+  .radio-card-text{font-size:1rem; font-weight:600; color:var(--ink); line-height:1.4;}
+  .radio-card-input:checked + .radio-card-body{border-color:var(--accent);}
+  .radio-card-input:checked + .radio-card-body .radio-card-dot{border-color:var(--accent);}
+  .radio-card-input:checked + .radio-card-body .radio-card-dot::after{transform:scale(1);}
+  .radio-card-input:focus-visible + .radio-card-body{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+
+  .form-textarea, .form-input{
+    display:block; width:100%; background:var(--paper-light); border:1.5px solid transparent;
+    border-radius:12px; padding:14px 16px; font-family:var(--sans); font-size:1rem;
+    color:var(--ink); transition:border-color 0.15s ease;
+  }
+  .form-textarea{resize:vertical; min-height:110px; line-height:1.6;}
+  .form-textarea:focus, .form-input:focus{outline:none; border-color:var(--accent);}
+  .form-textarea::placeholder, .form-input::placeholder{color:var(--muted); opacity:0.6;}
+  .form-textarea:disabled, .form-input:disabled{opacity:0.6; cursor:not-allowed;}
+
+  .radio-card-input:disabled + .radio-card-body{opacity:0.6; cursor:not-allowed;}
+
+  .form-submit{
+    margin-top:36px; margin-bottom:40px; display:inline-block; background:var(--accent); color:var(--paper-light);
+    font-family:var(--sans); font-weight:700; font-size:1rem; border:none; border-radius:999px;
+    padding:15px 34px; cursor:pointer; transition:background-color 0.15s ease;
+  }
+  .form-submit:hover{background-color:#0f1d63;}
+  .form-submit:active{background-color:#0c1750;}
+  .form-submit:focus-visible{outline:2px solid var(--ink); outline-offset:3px;}
+  .form-submit:disabled{cursor:not-allowed; background-color:var(--muted); color:var(--paper-light);}
+
+  .form-confirmation .confirmation-message{
+    font-family:var(--display); font-weight:700; letter-spacing:-0.02em;
+    font-size:clamp(1.6rem, 3.4vw, 2.3rem); color:var(--ink); margin:0;
+  }
+
+  footer{padding:36px 0; background:#000; color:#9a9a9a; font-size:0.85rem;}
   footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
-  footer a{text-decoration:none; border-bottom:1px solid var(--line); font-weight:600; color:var(--ink);}
-  footer a:hover{border-color:var(--ink);}
+  footer a{text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.25); font-weight:600; color:#fff;}
+  footer a:hover{border-color:#fff;}
 
   @media (max-width:600px){
     .capability-row{grid-template-columns:36px 1fr; gap:14px;}
@@ -297,7 +369,23 @@
            (spaceAboveStage 90px + TOP 9.6875% of the 410px stage =
            129.71875px → 103.775px target), baked in as padding-bottom so
            it's part of the graphic's own fixed height. */
-        .halftone-orbs { --ho-gap: 93.49375px; height: calc(500px + var(--ho-gap)); }
+        /* 500px is the base only once the stage hits its own hard cap
+           (width:min(864px, 92vw) — capped once the viewport reaches
+           864/0.92 = 939.13px). Below that width the stage keeps shrinking
+           at 92vw × 410/864 = 43.6574vw, so a flat 500px base leaves a
+           leftover gap above the circles (flex-end alignment, see
+           .ho-sticky) that balloons on narrow screens: at cap width the
+           gap is exactly 500 − 410 = 90px by design, but a fixed base
+           keeps that same 90px baked in even once the stage itself has
+           shrunk far below 410px tall. Scaling the base by that identical
+           43.6574vw keeps the leftover pinned at 90px, matching the
+           desktop cap, at every width instead of just the one it was
+           tuned for — min() makes the flat 500px take back over exactly
+           at the stage's own cap, so there's no seam at 939px either. */
+        .halftone-orbs {
+          --ho-gap: 93.49375px;
+          height: calc(min(43.6574vw + 90px, 500px) + var(--ho-gap));
+        }
         .halftone-orbs .ho-sticky {
           height: 100%;
           padding-bottom: var(--ho-gap);
@@ -421,6 +509,17 @@
     </div>
   </section>
 
+  <!-- ===================== PULL QUOTE ===================== -->
+  <section class="quote-block">
+    <div class="wrap">
+      <p class="pull">
+        Work can fall short of its potential <em>not</em> because an idea was
+        wrong, but because the people who needed to understand it never
+        fully did.
+      </p>
+    </div>
+  </section>
+
   <!-- ===================== WHO I WORK WITH ===================== -->
   <section id="who">
     <div class="wrap section-grid">
@@ -446,7 +545,12 @@
         </p>
         <div class="audience-matrix">
           <div class="am-cell">
-            <div class="am-head"><span class="am-num">01</span><span class="am-label">Function</span></div>
+            <svg class="am-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="7" width="18" height="12" rx="2"/>
+              <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              <path d="M3 12h18"/>
+            </svg>
+            <div class="am-label">Function</div>
             <div class="am-tags">
               <span class="am-tag">Engineering</span>
               <span class="am-tag">Legal</span>
@@ -457,7 +561,12 @@
             </div>
           </div>
           <div class="am-cell">
-            <div class="am-head"><span class="am-num">02</span><span class="am-label">Seniority</span></div>
+            <svg class="am-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 20V14"/>
+              <path d="M12 20V9"/>
+              <path d="M20 20V4"/>
+            </svg>
+            <div class="am-label">Seniority</div>
             <div class="am-tags">
               <span class="am-tag">Boards of Directors</span>
               <span class="am-tag">C-Suites</span>
@@ -465,7 +574,11 @@
             </div>
           </div>
           <div class="am-cell">
-            <div class="am-head"><span class="am-num">03</span><span class="am-label">Industry</span></div>
+            <svg class="am-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="3" width="16" height="18" rx="1"/>
+              <path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/>
+            </svg>
+            <div class="am-label">Industry</div>
             <div class="am-tags">
               <span class="am-tag">Retail</span>
               <span class="am-tag">Education</span>
@@ -475,27 +588,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== PULL QUOTE ===================== -->
-  <section class="quote-block">
-    <div class="wrap">
-      <p class="pull">
-        Work can fall short of its potential <em>not</em> because an idea was
-        wrong, but because the people who needed to understand it never
-        fully did.
-      </p>
-    </div>
-  </section>
-
-
-  <!-- ===================== CAPABILITIES ===================== -->
-  <section id="capabilities" style="padding-top:0; padding-bottom:0; border-bottom:none;">
-    <div class="wrap" style="padding-top:0;">
-      <div class="tagline">
-        <strong>Design Strategy</strong> · <strong>Creative Direction</strong> · <strong>High-Stakes Communication</strong> · Cross-domain Translation · Large-org Execution · Film &amp; Motion · Cybersecurity · AI Safety · Privacy · Cross-functional Leadership · Stakeholder Alignment · Systems Thinking
       </div>
     </div>
   </section>
@@ -557,15 +649,79 @@
     <div class="wrap section-grid">
       <div class="index-label"><span class="lbl">Get in Touch</span></div>
       <div class="section-body">
-        <p class="lead">
-          The clearest ideas still need translating as they move — from the
-          people who understand them to the people who have to decide on
-          them.
-        </p>
-        <p class="lead">If that’s where you are, let’s talk.</p>
+        <h2 class="contact-headline">Let’s talk.</h2>
+
+        <form class="contact-form" id="contact-form">
+          <div class="form-group">
+            <label class="form-label">What’s on your mind? <span class="optional-hint">(Select one)</span></label>
+            <div class="radio-cards">
+              <label class="radio-card">
+                <input class="radio-card-input" type="radio" name="topic" value="project" required>
+                <span class="radio-card-body">
+                  <span class="radio-card-dot" aria-hidden="true"></span>
+                  <span class="radio-card-text">I have a specific project in mind</span>
+                </span>
+              </label>
+              <label class="radio-card">
+                <input class="radio-card-input" type="radio" name="topic" value="challenge" required>
+                <span class="radio-card-body">
+                  <span class="radio-card-dot" aria-hidden="true"></span>
+                  <span class="radio-card-text">I want to talk through a challenge my team is facing</span>
+                </span>
+              </label>
+              <label class="radio-card">
+                <input class="radio-card-input" type="radio" name="topic" value="connect" required>
+                <span class="radio-card-body">
+                  <span class="radio-card-dot" aria-hidden="true"></span>
+                  <span class="radio-card-text">I just want to connect</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-note">Additional note <span class="optional-hint">(Optional)</span></label>
+            <textarea class="form-textarea" id="contact-note" name="note" rows="4"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-email-input">Your email</label>
+            <input class="form-input" type="email" id="contact-email-input" name="email" required>
+          </div>
+
+          <button class="form-submit" type="submit" id="contact-submit">Submit</button>
+        </form>
+
+        <script>
+        (function(){
+          var form = document.getElementById('contact-form');
+          var confirmation = document.getElementById('contact-confirmation');
+          var submitBtn = document.getElementById('contact-submit');
+          if (!form || !confirmation || !submitBtn) return;
+          form.addEventListener('submit', function(e){
+            e.preventDefault();
+            Array.prototype.forEach.call(form.elements, function(el){ el.disabled = true; });
+            submitBtn.textContent = 'Thanks';
+            confirmation.hidden = false;
+          });
+        })();
+        </script>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT OUTRO ===================== -->
+  <section class="contact-outro">
+    <div class="wrap section-grid">
+      <div class="index-label"></div>
+      <div class="section-body">
+        <div class="form-confirmation" id="contact-confirmation" hidden>
+          <p class="confirmation-message">I’ll be in touch.</p>
+        </div>
+
         <a class="contact-email" href="mailto:majeff@gmail.com">majeff@gmail.com</a>
         <div class="contact-links">
-          <a href="#" target="_blank" rel="noopener">LinkedIn — add your profile URL</a>
+          <a href="https://www.linkedin.com/in/jeff-ma-8b6b663/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="index.html">View full portfolio &amp; case studies →</a>
         </div>
       </div>
