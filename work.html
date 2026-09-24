@@ -66,12 +66,6 @@
     header nav{gap:18px;}
   }
 
-  .back-link{
-    display:inline-block; text-decoration:none; font-size:0.85rem; font-weight:600;
-    color:var(--muted); margin-bottom:28px;
-  }
-  .back-link:hover{color:var(--ink);}
-
   /* ---------- Index label ---------- */
   .index-label{margin-bottom:24px;}
   .index-label .lbl{
@@ -80,92 +74,41 @@
   }
 
   /* ---------- Hero / mega title ---------- */
-  .hero{padding:96px 0 72px; background:var(--paper-light); border-bottom:none;}
+  .hero{padding:56px 0 40px; background:var(--paper-light); border-bottom:none;}
   .mega{line-height:0.92;}
   .mega-line{
     display:block; font-family:var(--display); font-weight:800; letter-spacing:-0.03em;
     font-size:clamp(3rem, 11vw, 8.5rem); color:var(--ink);
   }
   .mega-line.mega-accent{color:var(--accent);}
-  .hero .lede{max-width:58ch; font-size:1.15rem; color:#33322f; margin-top:32px;}
 
-  /* ---------- Work entries ---------- */
+  /* ---------- Work entries (two-column, chrishuban.com/design-inspired) ---------- */
   .work-showcase{padding:0 0 20px;}
-  .work-entry{padding:64px 0;}
-  .work-entry:not(:first-child){border-top:1px solid var(--divider);}
-  .work-entry .eyebrow{
-    font-size:0.82rem; text-transform:uppercase; letter-spacing:0.12em;
-    color:var(--muted); font-weight:600; margin-bottom:22px;
+  .proj-row{display:block; text-decoration:none; color:inherit; padding:56px 0;}
+  .proj-row:not(:first-child){border-top:1px solid var(--divider);}
+  .proj-grid{display:grid; grid-template-columns:1fr; gap:28px; align-items:center;}
+  .proj-title{
+    font-size:clamp(2.2rem, 5.5vw, 3.8rem); line-height:1.02; letter-spacing:-0.02em;
+    margin-top:14px;
   }
-  .work-card{
-    border-radius:20px; padding:56px; transition:transform 0.2s ease, box-shadow 0.2s ease;
+  .proj-media{
+    border-radius:20px; overflow:hidden; background:var(--paper-light);
+    aspect-ratio:16/10; transition:transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .work-card.ink{background:var(--ink); color:var(--paper-light);}
-  .work-card.accent{background:var(--accent); color:var(--paper-light);}
-  .work-card.light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
-  .work-card h2{
-    font-size:clamp(2rem, 5.2vw, 3.6rem); line-height:1.04; letter-spacing:-0.02em;
-    margin:0 0 22px; max-width:16ch;
+  .proj-media img{display:block; width:100%; height:100%; object-fit:cover;}
+  .proj-row:hover .proj-media{transform:translateY(-4px); box-shadow:0 24px 48px -24px rgba(22,22,21,0.35);}
+  .proj-media.mono{display:flex; align-items:center; justify-content:center;}
+  .proj-media.mono .mono-text{
+    font-family:var(--display); font-weight:800; letter-spacing:-0.03em;
+    font-size:clamp(3rem, 9vw, 5.5rem);
   }
-  .work-card p{font-size:1.05rem; line-height:1.6; max-width:54ch; margin:0; opacity:0.88;}
-  .work-card .card-link{
-    display:inline-flex; align-items:center; gap:6px; margin-top:30px;
-    font-weight:700; font-size:0.95rem; text-decoration:none; color:inherit;
-    border-bottom:1px solid currentColor; padding-bottom:2px;
-  }
-  a.work-card-link{text-decoration:none; display:block;}
-  a.work-card-link:hover .work-card{transform:translateY(-4px); box-shadow:0 24px 48px -24px rgba(22,22,21,0.35);}
+  .proj-media.bg-ink{background:var(--ink); color:var(--paper-light);}
+  .proj-media.bg-accent{background:var(--accent); color:var(--paper-light);}
+  .proj-media.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
 
-  @media (max-width:600px){
-    .work-card{padding:36px 28px; border-radius:16px;}
-  }
-
-  /* ---------- Safer with Google Summit gallery ---------- */
-  .swg-heading{
-    font-size:clamp(2rem, 5.2vw, 3.2rem); line-height:1.04; letter-spacing:-0.02em;
-    margin:0 0 18px; max-width:20ch;
-  }
-  .swg-copy{font-size:1.05rem; line-height:1.6; max-width:62ch; color:var(--muted); margin:0;}
-
-  .swg-gallery{
-    display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:220px 220px auto;
-    gap:14px; margin-top:40px;
-    grid-template-areas:
-      "elevator notebook auditorium auditorium"
-      "elevator tshirt   audience   meetup"
-      "collage  collage  collage    collage";
-  }
-  .swg-item{margin:0; border-radius:16px; overflow:hidden; background:var(--paper-light);}
-  .swg-item img{display:block; width:100%; height:100%; object-fit:cover;}
-  .swg-elevator{grid-area:elevator;}
-  .swg-notebook{grid-area:notebook;}
-  .swg-auditorium{grid-area:auditorium;}
-  .swg-tshirt{grid-area:tshirt;}
-  .swg-audience{grid-area:audience;}
-  .swg-meetup{grid-area:meetup;}
-  .swg-collage{grid-area:collage; background:#fff;}
-  .swg-collage img{height:auto; object-fit:contain;}
-
-  @media (max-width:900px){
-    .swg-gallery{
-      grid-template-columns:1fr 1fr; grid-template-rows:260px 200px 200px auto;
-      grid-template-areas:
-        "elevator elevator"
-        "notebook tshirt"
-        "audience meetup"
-        "auditorium auditorium"
-        "collage collage";
-    }
-  }
-  @media (max-width:600px){
-    .swg-gallery{
-      grid-template-columns:1fr; grid-template-rows:none; gap:12px;
-      grid-template-areas:
-        "elevator" "notebook" "tshirt" "auditorium" "audience" "meetup" "collage";
-    }
-    .swg-item{height:auto;}
-    .swg-elevator img, .swg-notebook img, .swg-auditorium img,
-    .swg-tshirt img, .swg-audience img, .swg-meetup img{height:auto; aspect-ratio:4/3; object-fit:cover;}
+  @media (min-width:860px){
+    .proj-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
+    .proj-title{margin-top:0;}
   }
 
   /* ---------- Closing / capabilities ---------- */
@@ -216,17 +159,10 @@
   <!-- ===================== HERO ===================== -->
   <section class="hero">
     <div class="wrap">
-      <a class="back-link" href="index.html">← Back</a>
-      <div class="index-label"><span class="lbl">Work</span></div>
       <h1 class="mega">
         <span class="mega-line">Selected</span>
         <span class="mega-line mega-accent">Work</span>
       </h1>
-      <p class="lede">
-        Six projects, six very different audiences — heads of state, a board
-        of directors, security professionals, and the people inside one
-        company who all needed to agree at once.
-      </p>
     </div>
   </section>
 
@@ -234,95 +170,105 @@
   <section class="work-showcase">
     <div class="wrap">
 
-      <div class="work-entry">
-        <div class="eyebrow">01 — Google Threat Analysis Group ↓</div>
-        <a class="work-card-link" href="projects/security-analysis-reporting.html">
-          <div class="work-card ink">
-            <h2>Fog of War</h2>
-            <p>Cybersecurity intelligence research translated into a printed report distributed during bilateral meetings at the Munich Security Conference. Designed for heads of state during an active war.</p>
-            <span class="card-link">View case study ↗</span>
+      <a class="proj-row" href="projects/safer-with-google-summit.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Brand Strategy · Event Design</span></div>
+            <h2 class="proj-title">Safer with Google Summit</h2>
           </div>
-        </a>
-      </div>
-
-      <div class="work-entry">
-        <div class="eyebrow">02 — Munich Security Conference ↓</div>
-        <a class="work-card-link" href="projects/ai-safety-film.html">
-          <div class="work-card accent">
-            <h2>AI Safety Film</h2>
-            <p>Conceived and directed a short film about AI and digital security, deployed as the cornerstone asset for Google’s AI Cyber Defense Initiative launch.</p>
-            <span class="card-link">View case study ↗</span>
+          <div class="proj-media">
+            <img src="assets/work/safer-with-google-summit/stage-2024.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes">
           </div>
-        </a>
-      </div>
-
-      <div class="work-entry">
-        <div class="eyebrow">03 — Alphabet Audit &amp; Compliance Committee ↓</div>
-        <a class="work-card-link" href="projects/alphabet-board-reporting.html">
-          <div class="work-card light">
-            <h2>Alphabet Board of Directors</h2>
-            <p>Ongoing design of reporting materials communicating Alphabet’s cybersecurity posture to the board. Design as the vehicle for fiduciary decision-making at the highest level.</p>
-            <span class="card-link">View case study ↗</span>
-          </div>
-        </a>
-      </div>
-
-      <div class="work-entry">
-        <div class="eyebrow">04 — Trust &amp; Compliance Steering Committee ↓</div>
-        <div class="work-card ink">
-          <h2>Project Vitraya</h2>
-          <p>A Google-wide consent strategy system, presented to Google’s Trust &amp; Compliance Steering Committee and Core SVP. Design as the instrument for building organizational alignment, not just communicating it.</p>
         </div>
-      </div>
+      </a>
 
-      <div class="work-entry">
-        <div class="eyebrow">05 — Global Policy &amp; Product Launch ↓</div>
-        <div class="work-card accent">
-          <h2>AI Cyber Defense Initiative</h2>
-          <p>Creative direction across the full suite of launch assets for Google’s major policy and product initiative positioning AI as a force for global cybersecurity.</p>
-        </div>
-      </div>
-
-      <div class="work-entry">
-        <div class="eyebrow">06 — Mandiant &amp; Google Threat Intelligence ↓</div>
-        <a class="work-card-link" href="projects/cyber-defense-summit.html">
-          <div class="work-card light">
-            <h2>VP Keynote — Cyber Defense Summit 2025</h2>
-            <p>Keynote development and design for an exclusive Mandiant and Google Threat Intelligence event, crafted for elite security professionals.</p>
-            <span class="card-link">View case study ↗</span>
+      <a class="proj-row" href="projects/security-reporting.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Editorial &amp; Content Design</span></div>
+            <h2 class="proj-title">Security Analysis &amp; Reporting</h2>
           </div>
-        </a>
-      </div>
-
-      <div class="work-entry">
-        <div class="eyebrow">07 — Google Trust &amp; Safety ↓</div>
-        <h2 class="swg-heading">Safer with Google Summit</h2>
-        <p class="swg-copy">Brand identity and on-the-ground design for Google’s flagship trust &amp; safety summit — from a three-story lobby installation to the swag, sessions, and people that filled the room.</p>
-
-        <div class="swg-gallery">
-          <figure class="swg-item swg-elevator">
-            <img src="assets/work/safer-with-google/elevator-signage.jpg" alt="Three-story Safer with Google Summit branding wrapping a lobby elevator shaft">
-          </figure>
-          <figure class="swg-item swg-notebook">
-            <img src="assets/work/safer-with-google/notebook.jpg" alt="Safer with Google Summit branded notebook">
-          </figure>
-          <figure class="swg-item swg-auditorium">
-            <img src="assets/work/safer-with-google/auditorium.jpg" alt="Empty summit auditorium with the Safer with Google Summit logo on the main stage screen">
-          </figure>
-          <figure class="swg-item swg-tshirt">
-            <img src="assets/work/safer-with-google/tshirt.jpg" alt="Safer with Google Summit branded t-shirt">
-          </figure>
-          <figure class="swg-item swg-audience">
-            <img src="assets/work/safer-with-google/audience.jpg" alt="Attendee taking notes during a summit session">
-          </figure>
-          <figure class="swg-item swg-meetup">
-            <img src="assets/work/safer-with-google/meetup.jpg" alt="Attendees mingling in the hallway between sessions">
-          </figure>
-          <figure class="swg-item swg-collage">
-            <img src="assets/work/safer-with-google/speaker-collage.jpg" alt="Collage of speakers presenting on stage throughout the summit">
-          </figure>
+          <div class="proj-media">
+            <img src="assets/work/security-reporting/fog-of-war-cover.jpg" alt="Cover of the Fog of War Google security report">
+          </div>
         </div>
-      </div>
+      </a>
+
+      <a class="proj-row" href="projects/safety-anthem.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Brand Film · Creative Direction</span></div>
+            <h2 class="proj-title">Safety Anthem Film</h2>
+          </div>
+          <div class="proj-media">
+            <img src="assets/work/safety-anthem/hero.jpg" alt="Still from the Safety Anthem brand film">
+          </div>
+        </div>
+      </a>
+
+      <a class="proj-row" href="projects/ai-safety.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Brand Film · Creative Direction</span></div>
+            <h2 class="proj-title">AI Safety Film</h2>
+          </div>
+          <div class="proj-media">
+            <img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film showing a wireframe globe">
+          </div>
+        </div>
+      </a>
+
+      <a class="proj-row" href="projects/secure-ai-framework.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Systems &amp; Information Design</span></div>
+            <h2 class="proj-title">Secure AI Framework (SAIF) Risk Map</h2>
+          </div>
+          <div class="proj-media">
+            <img src="assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of a Google report on red teams and the Secure AI Framework">
+          </div>
+        </div>
+      </a>
+
+      <a class="proj-row" href="projects/warby-parker.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Retail &amp; Brand Experience</span></div>
+            <h2 class="proj-title">Warby Parker</h2>
+          </div>
+          <div class="proj-media mono bg-accent"><span class="mono-text">WP</span></div>
+        </div>
+      </a>
+
+      <a class="proj-row" href="projects/ibm.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Brand &amp; Communication Design</span></div>
+            <h2 class="proj-title">IBM</h2>
+          </div>
+          <div class="proj-media mono bg-ink"><span class="mono-text">IBM</span></div>
+        </div>
+      </a>
+
+      <a class="proj-row" href="projects/anthropologie.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Retail &amp; Brand Design</span></div>
+            <h2 class="proj-title">Anthropologie</h2>
+          </div>
+          <div class="proj-media mono bg-light"><span class="mono-text">A</span></div>
+        </div>
+      </a>
+
+      <a class="proj-row" href="projects/hollister.html">
+        <div class="proj-grid">
+          <div>
+            <div class="index-label"><span class="lbl">Retail &amp; Brand Design</span></div>
+            <h2 class="proj-title">Hollister</h2>
+          </div>
+          <div class="proj-media mono bg-accent"><span class="mono-text">H</span></div>
+        </div>
+      </a>
 
     </div>
   </section>

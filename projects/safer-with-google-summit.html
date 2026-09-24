@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safer with Google Summit — Jeff Ma</title>
+<meta name="description" content="Brand identity and on-the-ground design for Google's flagship trust & safety summit.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#161615;
+  --paper:#d0a955;
+  --paper-light:#fff1d2;
+  --line:#dedcd7;
+  --muted:#4a3712;
+  --accent:#1a2c8a;
+  --divider:#b28c2d;
+  --maxw:1320px;
+  --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+  font-size:17px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  font-feature-settings:"ss01" 1;
+}
+a{color:inherit;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-0.02em;}
+
+header .wrap{display:flex; align-items:center; justify-content:space-between; padding:22px 28px; max-width:var(--maxw);}
+.wordmark{display:flex; flex-direction:column; gap:3px; text-decoration:none; line-height:1.2;}
+.wordmark .wm-name{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
+.wordmark .wm-title{font-family:var(--sans); font-weight:600; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted);}
+header nav{display:flex; gap:24px;}
+header nav a{text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted); border-bottom:1px solid transparent; padding-bottom:2px;}
+header nav a.active{color:var(--ink); border-bottom-color:var(--accent);}
+@media (max-width:480px){
+  header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
+  header nav{gap:18px;}
+}
+
+.back-link{display:inline-block; text-decoration:none; font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:28px;}
+.back-link:hover{color:var(--ink);}
+
+.index-label{margin-bottom:14px;}
+.index-label .lbl{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); font-weight:600;}
+
+/* ---------- Project hero (two-column) ---------- */
+.project-hero{padding:12px 0 24px;}
+.project-hero-grid{display:grid; grid-template-columns:1fr; gap:32px; align-items:start;}
+.phg-title{font-size:clamp(2.2rem, 6vw, 4rem); line-height:1.02; letter-spacing:-0.02em;}
+.phg-media{border-radius:12px; overflow:hidden; background:var(--paper-light); aspect-ratio:16/9;}
+.phg-media img{display:block; width:100%; height:100%; object-fit:cover;}
+.phg-media.mono{display:flex; align-items:center; justify-content:center;}
+.phg-media.mono .mono-text{font-family:var(--display); font-weight:800; letter-spacing:-0.03em; font-size:clamp(4rem, 14vw, 9rem);}
+.phg-media.bg-ink{background:var(--ink); color:var(--paper-light);}
+.phg-media.bg-accent{background:var(--accent); color:var(--paper-light);}
+.phg-media.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
+.phg-media.contain{background:#fff; display:flex; align-items:center; justify-content:center; padding:10%;}
+.phg-media.contain img{width:auto; height:auto; max-width:70%; max-height:70%; object-fit:contain;}
+@media (min-width:1200px){
+  .project-hero-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
+}
+
+/* ---------- Project image stack ----------
+   Shares the hero's exact grid-column widths (empty left spacer +
+   minmax(240,360)/1fr right column) so the stack lines up with the hero
+   image above it — same width, same left/right edges. */
+.project-stack-section{padding:0 0 16px;}
+.project-stack-grid{display:grid; grid-template-columns:1fr;}
+.project-stack{display:flex; flex-direction:column; gap:15px;}
+.project-stack .stack-item{margin:0; border-radius:12px; overflow:hidden; background:var(--paper-light);}
+.project-stack .stack-item img{display:block; width:100%; height:auto;}
+.project-stack .stack-item.pad{padding:10%; display:flex; align-items:center; justify-content:center; background:#fff;}
+.project-stack .stack-item.pad img{width:60%; height:auto;}
+.project-stack .stack-item.video{aspect-ratio:16/9; position:relative; background:var(--ink);}
+.project-stack .stack-item.video iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+/* Cutout photos already carry their own transparent background and
+   rounded corners — no card behind them, so the page's own gold shows
+   through instead of a cream box. These source files have no built-in
+   padding around the actual content (unlike an earlier, incorrectly
+   exported set that did — cropping to trim that padding also cropped
+   real photo pixels), so no forced aspect-ratio/crop is needed: plain
+   width:100%/height:auto, inherited from the base rule, already fills
+   the same 100% stack width as everything else. Same gap as every other
+   item too (no per-item margin tweak), so the rhythm stays uniform. */
+.project-stack .stack-item.cutout{background:none; border-radius:0;}
+/* Lower-fidelity clips (e.g. a GIF) sit on a full-width designed card
+   instead of being stretched edge-to-edge, so compression artifacts
+   aren't scaled up into visibility. The card (outer figure) keeps the
+   standard rounded corners; the clip itself stays square-cornered. 30px
+   of padding above and below so the card doesn't hug the clip exactly. */
+.project-stack .stack-item.framed{
+  background:var(--ink); display:flex; align-items:center; justify-content:center;
+  padding:30px 0;
+}
+.project-stack .stack-item.framed img{width:auto; max-width:55%; height:auto;}
+@media (min-width:1200px){
+  .project-stack-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
+}
+
+/* ---------- Project about (left-aligned with the imagery, not the eyebrow) ---------- */
+.project-about{padding:56px 0; border-top:1px solid var(--divider);}
+.project-about-grid{display:grid; grid-template-columns:1fr;}
+.about-copy{font-size:1.1rem; line-height:1.65; max-width:66ch; color:#33322f; margin:0 0 24px;}
+.role-line{font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); font-weight:600;}
+.report-links{display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:24px; font-size:0.92rem;}
+.report-links a{text-decoration:none; color:var(--ink); font-weight:600; border-bottom:1px solid var(--line);}
+.report-links a:hover{border-color:var(--ink);}
+@media (min-width:1200px){
+  .project-about-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
+}
+
+/* ---------- More projects (subtler — thumbnail + quiet type, same row height) ---------- */
+.more-projects{padding:48px 0; border-top:1px solid var(--divider);}
+.more-list{display:flex; flex-direction:column; margin-top:24px;}
+.more-list a{
+  display:flex; align-items:center; gap:20px;
+  padding:16px 0; border-top:1px solid var(--line); text-decoration:none; color:var(--ink);
+}
+.more-list a:last-child{border-bottom:1px solid var(--line);}
+.mp-thumb{
+  width:64px; height:48px; border-radius:8px; overflow:hidden; flex:0 0 auto;
+  background:var(--paper-light);
+}
+.mp-thumb img{display:block; width:100%; height:100%; object-fit:cover;}
+.mp-thumb.mono{display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:800; font-size:0.8rem;}
+.mp-thumb.bg-ink{background:var(--ink); color:var(--paper-light);}
+.mp-thumb.bg-accent{background:var(--accent); color:var(--paper-light);}
+.mp-thumb.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
+.more-list .mp-title{font-family:var(--sans); font-weight:600; font-size:1.02rem; color:var(--ink); flex:1;}
+.more-list .mp-cat{font-size:0.78rem; color:var(--muted); white-space:nowrap;}
+.more-list a:hover .mp-title{color:var(--accent);}
+@media (max-width:600px){
+  .more-list .mp-cat{display:none;}
+}
+
+footer{padding:36px 0; background:#000; color:#9a9a9a; font-size:0.85rem; border-top:1px solid var(--divider);}
+footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="wordmark" href="../index.html">
+      <span class="wm-name">Jeff Ma</span>
+      <span class="wm-title">Strategic Creative Director</span>
+    </a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../work.html" class="active" aria-current="page">Work</a>
+      <a href="../about.html">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="project-hero">
+    <div class="wrap">
+      <a class="back-link" href="../work.html">← All Work</a>
+      <div class="project-hero-grid">
+        <div>
+          <div class="index-label"><span class="lbl">Brand Strategy · Event Design</span></div>
+          <h1 class="phg-title">Safer with Google Summit</h1>
+        </div>
+        <div class="phg-media"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes"></div>
+      </div>
+    </div>
+  </section>
+
+<section class="project-stack-section">
+  <div class="wrap">
+    <div class="project-stack-grid">
+      <div></div>
+      <div class="project-stack">
+      <figure class="stack-item framed"><img src="../assets/work/safer-with-google-summit/summit-recap.gif" alt="Animated recap clip from the Safer with Google Summit"></figure>
+      <figure class="stack-item cutout"><img src="../assets/work/safer-with-google-summit/speaker-collage-bottom.webp" alt="Two more speakers presenting on stage during the summit"></figure>
+      <figure class="stack-item"><img src="../assets/work/safer-with-google-summit/audience.webp" alt="Attendee taking notes during a summit session"></figure>
+      <figure class="stack-item"><img src="../assets/work/safer-with-google-summit/meetup.webp" alt="Attendees mingling in the hallway between sessions"></figure>
+      <figure class="stack-item"><img src="../assets/work/safer-with-google-summit/notebook-elevator-2022.webp" alt="2022 Safer with Google Summit branded notebook and lobby elevator signage"></figure>
+      <figure class="stack-item"><img src="../assets/work/safer-with-google-summit/white-tee-2022.webp" alt="2022 Safer with Google Summit branded t-shirt"></figure>
+      <figure class="stack-item"><img src="../assets/work/safer-with-google-summit/android-collectible.webp" alt="Safer with Google branded Android mini collectible, packaging and figure"></figure>
+      <figure class="stack-item cutout"><img src="../assets/work/safer-with-google-summit/speaker-collage-middle.webp" alt="Speakers presenting on stage across two more summit sessions"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section class="project-about">
+    <div class="wrap">
+      <div class="project-about-grid">
+        <div></div>
+        <div>
+          <div class="index-label"><span class="lbl">About</span></div>
+          <p class="about-copy">Since 2022, I’ve been the creative director for this annual internal summit — Google’s yearly gathering that pulls together teams from all over the company: privacy and security practitioners, trust &amp; safety folks, policy and legal experts, engineers, researchers, all under one roof. My job covered both ends of it: designing and running the brand, and designing the experience of the summit itself. Along the way, my team built a design system sturdy enough to support 80+ presentations a year (other teams started coming to us for design help, too), put together bespoke keynote decks for six executives annually, directed the design of the social events, and handled all the event collateral.</p>
+          <div class="role-line">Role — Creative direction, brand system, summit experience design, executive keynote decks</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="more-projects">
+    <div class="wrap">
+      <div class="index-label"><span class="lbl">More Work</span></div>
+      <div class="more-list">
+        <a href="security-reporting.html">
+          <span class="mp-thumb"><img src="../assets/work/security-reporting/fog-of-war-cover.jpg" alt=""></span>
+          <span class="mp-title">Security Analysis & Reporting</span>
+          <span class="mp-cat">Editorial & Content Design</span>
+        </a>
+        <a href="safety-anthem.html">
+          <span class="mp-thumb"><img src="../assets/work/safety-anthem/hero.jpg" alt=""></span>
+          <span class="mp-title">Safety Anthem Film</span>
+          <span class="mp-cat">Brand Film · Creative Direction</span>
+        </a>
+        <a href="ai-safety.html">
+          <span class="mp-thumb"><img src="../assets/work/ai-safety/hero.jpg" alt=""></span>
+          <span class="mp-title">AI Safety Film</span>
+          <span class="mp-cat">Brand Film · Creative Direction</span>
+        </a>
+        <a href="secure-ai-framework.html">
+          <span class="mp-thumb"><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt=""></span>
+          <span class="mp-title">Secure AI Framework (SAIF) Risk Map</span>
+          <span class="mp-cat">Systems & Information Design</span>
+        </a>
+        <a href="warby-parker.html">
+          <span class="mp-thumb mono bg-accent">WP</span>
+          <span class="mp-title">Warby Parker</span>
+          <span class="mp-cat">Retail & Brand Experience</span>
+        </a>
+        <a href="ibm.html">
+          <span class="mp-thumb mono bg-ink">IBM</span>
+          <span class="mp-title">IBM</span>
+          <span class="mp-cat">Brand & Communication Design</span>
+        </a>
+        <a href="anthropologie.html">
+          <span class="mp-thumb mono bg-light">A</span>
+          <span class="mp-title">Anthropologie</span>
+          <span class="mp-cat">Retail & Brand Design</span>
+        </a>
+        <a href="hollister.html">
+          <span class="mp-thumb mono bg-accent">H</span>
+          <span class="mp-title">Hollister</span>
+          <span class="mp-cat">Retail & Brand Design</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jeff Ma</span>
+    <span>Strategic Creative Director · San Francisco</span>
+  </div>
+</footer>
+
+</body>
+</html>
