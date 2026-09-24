@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jeff Ma — Connecting the Dots</title>
-<meta name="description" content="Jeff Ma helps experts explain what they know to people who don't know what they know. Listening, distilling, and crafting clear communication for complex ideas.">
+<title>Jeff Ma — Independent Creative Director</title>
+<meta name="description" content="Jeff Ma is a strategic creative director who helps experts explain complex, high-stakes ideas to the boards, executives, regulators and audiences who need to act on them.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,29 +44,38 @@
     letter-spacing:0.08em; text-transform:uppercase;
   }
 
-  /* ---------- Header ---------- */
+  /* ---------- Header: nav in the corners, name in the center ---------- */
   .site-header{position:relative; z-index:5;}
-  .site-header .wrap{display:flex; align-items:center; justify-content:space-between; padding-top:22px; padding-bottom:22px;}
-  .mark{display:flex; align-items:center; gap:12px; text-decoration:none;}
-  .mark-shapes{display:flex; gap:4px; align-items:center;}
-  .mark-shapes i{display:block; width:14px; height:14px;}
-  .mark-shapes .c{background:var(--red); border-radius:50%;}
-  .mark-shapes .s{background:var(--yellow);}
-  .mark-shapes .t{width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-bottom:14px solid var(--blue);}
-  .mark-name{font-weight:700; font-size:1.1rem; letter-spacing:-0.01em;}
-  .nav{display:flex; gap:28px; align-items:center;}
+  .topbar{
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:start; gap:24px;
+    padding-top:clamp(20px, 3vw, 36px);
+  }
+  .nav{display:flex; gap:28px; align-items:center; min-height:46px;}
+  .nav-right{justify-content:flex-end;}
   .nav a{text-decoration:none; font-size:0.95rem; font-weight:500;}
-  .nav a:hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
+  .nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
   .btn{
     display:inline-flex; align-items:center; gap:10px;
     background:var(--ink); color:var(--paper); text-decoration:none;
-    padding:12px 20px; font-weight:600; font-size:0.95rem; border:2px solid var(--ink);
+    padding:12px 20px; font-weight:600; font-size:0.95rem; border:2px solid var(--ink); white-space:nowrap; flex:none;
     transition:background .2s, color .2s;
   }
   .btn:hover{background:var(--red); border-color:var(--red);}
   .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
-  .nav .text-link{display:inline;}
-  @media (max-width:760px){ .nav .text-link{display:none;} .nav{gap:0;} }
+
+  /* Wordmark: JEFF MA, drawn from Jost Bold's proportions. Vertical-sided M,
+     a J that sits on the baseline, and a dot for the counter of the A.
+     Sized in em so it scales like type: cap height = .7em. */
+  .wordmark{display:block; text-decoration:none; text-align:center;}
+  .wm{display:inline-block; font-size:clamp(2.75rem, 12vw, 4.5rem); line-height:0; vertical-align:top;}
+  .wm-svg{display:block; height:.764em; width:auto; overflow:visible;}
+  .wm-sm{font-size:1.75rem;}
+
+  @media (max-width:700px){
+    .topbar{grid-template-columns:1fr 1fr; row-gap:28px;}
+    .topbar .wordmark{grid-column:1 / -1; grid-row:2;}
+    .nav{gap:20px;}
+  }
 
   /* ---------- Thread rail (desktop) ---------- */
   .rail{
@@ -92,16 +101,26 @@
   .rail a:hover .rl, .rail a:focus-visible .rl{opacity:1; transform:none;}
 
   /* ---------- Hero: the distillation lab ---------- */
-  .hero{position:relative; min-height:100vh; min-height:100svh; display:grid; grid-template-rows:auto 1fr;}
-  .hero-inner{
-    display:grid; grid-template-columns:4fr 8fr; gap:clamp(32px, 4vw, 64px); align-items:center;
-    padding-top:12px; padding-bottom:48px;
-  }
-  .hero h1{font-size:clamp(2.1rem, 4vw, 3.7rem); font-weight:600;}
+  .hero{position:relative;}
+  .hero-center{text-align:center; padding-top:clamp(20px, 2.5vw, 32px); padding-bottom:clamp(48px, 6vw, 80px);}
+  .wm-role{color:var(--ink-soft); display:block;}
+  .hero h1{font-size:clamp(1.45rem, 2.3vw, 2.1rem); font-weight:600; line-height:1.15; max-width:34em; margin:clamp(24px, 3vw, 36px) auto 0; text-wrap:balance;}
   .hero h1 em{font-style:normal; color:var(--red);}
-  .hero-sub{margin-top:24px; font-size:1.08rem; color:var(--ink-soft); max-width:30em;}
-  .try{margin-top:28px; display:flex; align-items:center; gap:12px;}
-  .try::before{content:""; width:40px; height:2px; background:var(--ink);}
+  .hero-sub{font-size:1.1rem; color:var(--ink-soft); text-wrap:pretty;}
+  /* The sub-headline sits in the middle of the composition. Dots are kept out of
+     its box (see keepOut in the script) and it ignores the pointer, so every dot
+     stays visible and hoverable. ~48 characters a line, inside the 45–75 measure. */
+  .lab-stage{position:relative;}
+  .lab-center{margin:0 auto 20px; max-width:30em; text-align:center;}
+  @media (min-width:760px){
+    .lab-center{
+      position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); z-index:1;
+      width:max-content; max-width:26em; margin:0; padding:18px 28px;
+      background:var(--paper); pointer-events:none; transition:opacity .6s ease;
+    }
+    .lab.focused .lab-center{opacity:0;}
+  }
+  .hero .lab{max-width:980px; margin:clamp(28px, 4vw, 48px) auto 0; text-align:left;}
 
   .lab{margin:0; position:relative; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;}
   .lab canvas{display:block; width:100%; aspect-ratio:1000 / 620;}
@@ -123,10 +142,8 @@
   .lab-show:hover{background:var(--ink); color:var(--paper);}
   .lab-show:focus-visible{outline:3px solid var(--blue); outline-offset:3px;}
 
-  @media (max-width:900px){
-    .hero-inner{grid-template-columns:1fr; gap:24px; padding-top:8px;}
-    .hero-sub{font-size:1rem; margin-top:14px;}
-    .try{display:none;}
+  @media (max-width:700px){
+    .hero-sub{font-size:1rem;}
   }
   @media (max-width:560px){
     .lab-bar{grid-template-columns:1fr;}
@@ -296,9 +313,15 @@
   .cta-big .d i + i + i{background:var(--blue);}
   .cta-big .d b{display:block; width:22px; height:2px; background:currentColor;}
   .contact .alt a{font-weight:500; text-underline-offset:4px;}
+  .based{margin-top:28px; color:#fbe3dc;}
+  .terms{display:grid; grid-template-columns:repeat(4,1fr); gap:32px; border-top:2px solid var(--paper); padding-top:28px; margin-bottom:clamp(48px,7vw,80px);}
+  .terms h3{font-size:1.25rem; margin-bottom:10px; line-height:1.15;}
+  .terms p{color:#fbe3dc; font-size:1rem; line-height:1.55;}
+  @media (max-width:1000px){ .terms{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .terms{grid-template-columns:1fr; gap:24px;} }
 
   footer{padding:32px 0 40px; font-size:.9rem;}
-  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;}
 
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
@@ -326,28 +349,29 @@
 <!-- ============ HERO ============ -->
 <div class="hero" id="top">
   <header class="site-header">
-    <div class="wrap">
-      <a class="mark" href="#top" aria-label="Jeff Ma, home">
-        <span class="mark-shapes" aria-hidden="true"><i class="c"></i><i class="s"></i><i class="t"></i></span>
-        <span class="mark-name">Jeff Ma</span>
+    <div class="wrap topbar">
+      <nav class="nav nav-left" aria-label="Sections">
+        <a href="#approach">Approach</a>
+        <a href="#work">Work</a>
+      </nav>
+      <a class="wordmark" href="#top" aria-label="Jeff Ma, home">
+        <span class="wm"><svg class="wm-svg" viewBox="36 -44 4117 764" role="img" aria-label="Jeff Ma"><g fill="currentColor"><path d="M366 0H530V440A247.0 280 0 0 1 36 440H186A90.0 130 0 0 0 366 440Z"/><path d="M674 0H1138V138H838V265H1118V399H838V561H1138V700H674Z"/><path d="M1287 0H1711V144H1451V283H1701V418H1451V700H1287Z"/><path d="M1850 0H2274V144H2014V283H2264V418H2014V700H1850Z"/><path d="M2663 0L2827 0L2999 370L3171 0L3335 0L3335 700L3171 700L3171 330L2999 700L2827 330L2827 700L2663 700Z"/><path d="M3786 -44L4153 700L3963 700L3898 568L3674 568L3609 700L3419 700Z"/><circle cx="3786" cy="385" r="60" fill="var(--red)"/></g></svg></span>
       </a>
-      <nav class="nav" aria-label="Primary">
-        <a class="text-link" href="#approach">Approach</a>
-        <a class="text-link" href="#work">Work</a>
+      <nav class="nav nav-right" aria-label="Contact">
         <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
       </nav>
     </div>
   </header>
 
-  <div class="wrap hero-inner">
-    <div>
-      <h1>I help experts explain what they know to people who <em>don’t know what they know.</em></h1>
-      <p class="hero-sub">You bring the complexity. I listen, ask questions and edit your story until the people who need to understand it actually do.</p>
-      <p class="try label">Try it: hover over any dot</p>
-    </div>
+  <div class="wrap hero-center">
+    <p class="wm-role label">Independent creative director</p>
+    <h1>I help experts explain what they know to people who <em>don’t know what they know.</em></h1>
 
     <figure class="lab" id="lab-figure">
-      <canvas id="lab" role="img" aria-label="A shifting tangle of connected dots representing an expert’s knowledge. Hover over or tap any dot to pull out its thread: five ideas in a clean line, with everything else absorbed into them."></canvas>
+      <div class="lab-stage">
+        <p class="hero-sub lab-center" id="lab-center">You bring the complexity. I listen, ask questions and edit your story until the people who need to understand it actually do.</p>
+        <canvas id="lab" role="img" aria-label="A shifting tangle of connected dots representing an expert’s knowledge. Hover over or tap any dot to pull out its thread: five ideas in a clean line, with everything else absorbed into them."></canvas>
+      </div>
       <figcaption class="lab-bar">
         <div class="lab-caption" aria-live="polite">
           <strong id="lab-title">What a founder knows</strong>
@@ -498,7 +522,7 @@
       <div class="num">04</div>
       <div>
         <h2>Dots I’ve connected.</h2>
-        <p class="lede">From Alphabet’s board and heads of state to first-time shoppers. Different subjects, same problem: what the experts knew, and what everyone else needed to understand.</p>
+        <p class="lede">Two decades of this work, most recently as a creative director inside Google’s privacy, safety and security organization. From Alphabet’s board and heads of state to first-time shoppers: different subjects, same problem. What the experts knew, and what everyone else needed to understand.</p>
       </div>
     </div>
 
@@ -620,6 +644,13 @@
       <div class="pstep"><div class="pdot">3</div><h3>Make</h3><p>I craft whatever carries it best: a deck, report, map, film, site or system.</p></div>
     </div>
 
+    <div class="terms reveal">
+      <div><h3>Shaped to the problem</h3><p>Some problems need a focused sprint, some a larger project, some an ongoing partner. After our first conversation I send a written proposal with scope, timeline and fee.</p></div>
+      <div><h3>You work with me</h3><p>The person on the first call is the person in the work, from the first question to the final file.</p></div>
+      <div><h3>Alongside your team</h3><p>I don’t replace your designers, writers or comms team. I help their work land with the people it’s meant for.</p></div>
+      <div><h3>Discretion is standard</h3><p>Board materials, pre-launch plans, security research. Much of my best work will never be public, and that’s how it should be.</p></div>
+    </div>
+
     <div class="cta-row reveal">
       <a class="cta-big" href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots">
         <span class="d" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></span>
@@ -627,6 +658,7 @@
       </a>
       <p class="alt">or find me on <a href="https://www.linkedin.com/in/jeff-ma-8b6b663/">LinkedIn</a></p>
     </div>
+    <p class="based label reveal">Based in San Francisco. Working with teams anywhere.</p>
   </div>
 </section>
 
@@ -634,6 +666,7 @@
 
 <footer>
   <div class="wrap">
+    <span class="wm wm-sm"><svg class="wm-svg" viewBox="36 -44 4117 764" role="img" aria-label="Jeff Ma"><g fill="currentColor"><path d="M366 0H530V440A247.0 280 0 0 1 36 440H186A90.0 130 0 0 0 366 440Z"/><path d="M674 0H1138V138H838V265H1118V399H838V561H1138V700H674Z"/><path d="M1287 0H1711V144H1451V283H1701V418H1451V700H1287Z"/><path d="M1850 0H2274V144H2014V283H2264V418H2014V700H1850Z"/><path d="M2663 0L2827 0L2999 370L3171 0L3335 0L3335 700L3171 700L3171 330L2999 700L2827 330L2827 700L2663 700Z"/><path d="M3786 -44L4153 700L3963 700L3898 568L3674 568L3609 700L3419 700Z"/><circle cx="3786" cy="385" r="60" fill="var(--red)"/></g></svg></span>
     <span>© 2026 Jeff Ma · San Francisco</span>
     <span class="label">Complex ideas, clearly told.</span>
   </div>
@@ -658,6 +691,7 @@
   var canvas = document.getElementById('lab');
   var ctx = canvas.getContext('2d');
   var showBtn = document.getElementById('lab-show');
+  var figEl = document.getElementById('lab-figure');
   var hintEl = document.getElementById('lab-hint');
   var tryEl = document.querySelector('.hero .try');
   var titleEl = document.getElementById('lab-title');
@@ -747,7 +781,29 @@
   var edges = [];
   var ci = -1, curN = 0, curE = 0;
 
+  // The sub-headline's box, in canvas units. Dots are kept outside it.
+  var keep = null;
+  function keepOut(p){
+    if (!keep) return;
+    var m = (p.r || 0) * rMul + 6;
+    var x0 = keep.x0 - m, x1 = keep.x1 + m, y0 = keep.y0 - m, y1 = keep.y1 + m;
+    if (p.x < x0 || p.x > x1 || p.y < y0 || p.y > y1) return;
+    // Mirror the dot out across the nearest edge, so displaced dots spread out
+    // like the rest of the composition instead of lining up along the box.
+    var dl = p.x - x0, dr = x1 - p.x, dt = p.y - y0, db = y1 - p.y, min = Math.min(dl, dr, dt, db);
+    if (min === dl) p.x = Math.max(34, x0 - dl); else if (min === dr) p.x = Math.min(W - 34, x1 + dr);
+    else if (min === dt) p.y = Math.max(30, y0 - dt); else p.y = Math.min(H - 30, y1 + db);
+  }
+  function measureKeep(){
+    var center = document.getElementById('lab-center');
+    if (!center || getComputedStyle(center).position !== 'absolute' || !scale){ keep = null; return; }
+    var c = canvas.getBoundingClientRect(), r = center.getBoundingClientRect(), pad = 14 / scale;
+    keep = {x0: (r.left - c.left) / scale - pad, x1: (r.right - c.left) / scale + pad, y0: (r.top - c.top) / scale - pad, y1: (r.bottom - c.top) / scale + pad};
+    P.forEach(function(d){ if (d.br > 0){ var q = {x: d.bx, y: d.by, r: d.br}; keepOut(q); d.bx = q.x; d.by = q.y; } });
+  }
+
   function applyComp(comp, now, instant){
+    comp.pts.forEach(keepOut);
     var alive = [], free = {}, used = {}, assign = [];
     P.forEach(function(d, i){ if (d.br > 0 || d.r > 0.5){ alive.push(i); free[i] = 1; } });
     var order = comp.pts.map(function(_, i){ return i; }).sort(function(){ return R() - 0.5; });
@@ -774,11 +830,11 @@
     });
     comp.pts.forEach(function(pt, pi){ var d = P[assign[pi]]; d.bx = pt.x; d.by = pt.y; d.br = pt.r; });
     P.forEach(function(d){
-      d.at = instant || reduce ? now : now + (d.bx / W) * 420 + R() * 160;
+      d.at = instant || reduce ? now : now + (d.bx / W) * 900 + R() * 300;
       if (instant){ d.x = d.bx; d.y = d.by; d.r = d.br; }
     });
     edges.forEach(function(e){ e.target = 0; });
-    comp.edges.forEach(function(e){ edges.push({a: assign[e[0]], b: assign[e[1]], alpha: instant ? 1 : 0, target: 1, at: instant ? now : now + 380}); });
+    comp.edges.forEach(function(e){ edges.push({a: assign[e[0]], b: assign[e[1]], alpha: instant ? 1 : 0, target: 1, at: instant ? now : now + 900}); });
     curN = comp.pts.length; curE = comp.edges.length;
   }
   function nextComp(now, instant){ ci = (ci + 1) % comps.length; applyComp(comps[ci], now, instant); lastSwitch = now; }
@@ -898,25 +954,29 @@
   // ---- Simulation ----
   function step(dt, now){
     if (mode === 'idle' && candidate !== null && now - candidateAt > 140) focusOn(candidate, now);
-    if (mode === 'idle' && !paused && !reduce && now - lastSwitch > 4200) nextComp(now, false);
+    if (mode === 'idle' && !paused && !reduce && now - lastSwitch > 6500) nextComp(now, false);
 
-    // Focus uses softer springs so the distillation is slow enough to follow.
-    var k = reduce ? 260 : mode === 'focus' ? 38 : 95;
-    var c = reduce ? 2 * Math.sqrt(k) : mode === 'focus' ? 10 : 12;
+    // Soft, nearly critically damped springs: no snapping or overshoot.
+    // Focus is softer still so the distillation is slow enough to follow.
+    var k = reduce ? 260 : mode === 'focus' ? 38 : 30;
+    var c = reduce ? 2 * Math.sqrt(k) : mode === 'focus' ? 10 : 10;
     P.forEach(function(d){
-      var tx, ty, tr;
+      var tx, ty, tr, kd = k;
+      // Between compositions each dot eases in: its pull ramps up over ~0.8s
+      // instead of starting at full strength.
+      if (mode === 'idle' && !reduce){ var ramp = clamp((now - d.at) / 800); kd = k * Math.max(0.04, ramp * ramp); }
       if (mode === 'focus' && d.pinned){ d.x = d.px; d.y = d.py; d.vx = d.vy = 0; tx = d.px; ty = d.py; tr = d.fr; }
       else if (mode === 'focus' && d.fi >= 0){ var go = now >= d.fat; tx = go ? d.sx : d.bx; ty = go ? lineY : d.by; tr = go ? d.fr : d.br; }
       else if (mode === 'focus' && d.absorb >= 0 && now >= d.fat){ var t = P[d.absorb]; tx = t.x; ty = t.y; tr = 0; }
       else if (now >= d.at){ tx = d.bx; ty = d.by; tr = d.br; }
       else { tx = d.qx; ty = d.qy; tr = d.qr; }
-      d.vx += (k * (tx - d.x) - c * d.vx) * dt; d.x += d.vx * dt;
-      d.vy += (k * (ty - d.y) - c * d.vy) * dt; d.y += d.vy * dt;
-      d.vr += (k * (tr - d.r) - c * d.vr) * dt; d.r += d.vr * dt;
+      d.vx += (kd * (tx - d.x) - c * d.vx) * dt; d.x += d.vx * dt;
+      d.vy += (kd * (ty - d.y) - c * d.vy) * dt; d.y += d.vy * dt;
+      d.vr += (kd * (tr - d.r) - c * d.vr) * dt; d.r += d.vr * dt;
     });
     edges.forEach(function(ed){
       var target = mode === 'focus' ? 0 : ed.target;
-      if (now >= ed.at) ed.alpha += (target - ed.alpha) * Math.min(1, dt * (mode === 'focus' ? 1.6 : 4));
+      if (now >= ed.at) ed.alpha += (target - ed.alpha) * Math.min(1, dt * (mode === 'focus' ? 1.6 : 1.8));
     });
     edges = edges.filter(function(ed){ return ed.target > 0 || ed.alpha > 0.01; });
   }
@@ -927,6 +987,7 @@
     cssW = canvas.clientWidth; dpr = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssW * H / W * dpr);
     scale = cssW / W; rMul = Math.min(1.8, Math.max(1, 620 / cssW));
+    measureKeep();
   }
   function mix(hex, t){
     var n = parseInt(hex.slice(1), 16), r = n >> 16, g = n >> 8 & 255, b = n & 255;
@@ -986,6 +1047,7 @@
     set('h', hintEl, 'textContent', focus ? (canHover ? 'Move away to untangle' : 'Tap to untangle') : (paused && canHover ? 'Paused. Hover over a dot' : canHover ? 'Hover over any dot' : 'Tap any dot'));
     set('s', showBtn, 'textContent', focus ? 'Untangle' : 'Show me');
     set('cta', ctaEl, 'hidden', !focus || now - focusAt < 2200);
+    set('f', figEl.classList, 'value', focus ? 'lab focused' : 'lab');
   }
 
   // ---- Loop (paused when off-screen) ----
@@ -1003,7 +1065,9 @@
     setRunning(visible && !document.hidden);
   }).observe(canvas);
   document.addEventListener('visibilitychange', function(){ setRunning(visible && !document.hidden); });
-  if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas); else window.addEventListener('resize', resize);
+  if (window.ResizeObserver){ var ro = new ResizeObserver(resize); ro.observe(canvas); ro.observe(document.getElementById('lab-center')); }
+  else window.addEventListener('resize', resize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureKeep);
 
   resize();
   nextComp(performance.now(), true);
