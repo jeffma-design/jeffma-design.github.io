@@ -1,0 +1,4 @@
+# Netlify-only: keep the staging site out of search results.
+# GitHub Pages (majeff.com) ignores this file.
+/*
+  X-Robots-Tag: noindex, nofollow
