@@ -4,8 +4,9 @@
     {
       "name": "live-reload",
       "runtimeExecutable": "ruby",
-      "runtimeArgs": ["/Users/minijeff/Documents/GitHub/jeffma-design.github.io/scripts/livereload_server.rb", "5500"],
-      "port": 5500
+      "runtimeArgs": ["scripts/livereload_server.rb"],
+      "port": 5500,
+      "autoPort": true
     }
   ]
 }

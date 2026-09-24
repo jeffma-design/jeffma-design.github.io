@@ -10,7 +10,7 @@ ROOT = File.expand_path('..', __dir__)
 WATCH_EXTS = %w[.html .css .js]
 IGNORE_DIRS = %w[.git scripts node_modules]
 POLL_INTERVAL = 0.5
-PORT = (ARGV[0] || 5500).to_i
+PORT = (ENV['PORT'] || ARGV[0] || 5500).to_i
 
 INJECT_SNIPPET = <<~HTML
   <script>
