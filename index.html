@@ -48,7 +48,7 @@
   .site-header{position:relative; z-index:5;}
   .topbar{
     display:grid; grid-template-columns:1fr auto 1fr; align-items:start; gap:24px;
-    padding-top:clamp(20px, 3vw, 36px);
+    padding-top:clamp(20px, 3vw, 36px); padding-bottom:14px;
   }
   .nav{display:flex; gap:28px; align-items:center; min-height:46px;}
   .nav-right{justify-content:flex-end;}
@@ -62,6 +62,8 @@
   }
   .btn:hover{background:var(--red); border-color:var(--red);}
   .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
+  .brand{text-align:center;}
+  .wm-role{display:block; color:var(--ink-soft); margin-top:14px;}
 
   /* Wordmark: JEFF MA, drawn from Jost Bold's proportions. Vertical-sided M,
      a J that sits on the baseline, and a dot for the counter of the A.
@@ -72,8 +74,8 @@
   .wm-sm{font-size:1.75rem;}
 
   @media (max-width:700px){
-    .topbar{grid-template-columns:1fr 1fr; row-gap:28px;}
-    .topbar .wordmark{grid-column:1 / -1; grid-row:2;}
+    .topbar{grid-template-columns:1fr 1fr; row-gap:18px;}
+    .topbar .brand{grid-column:1 / -1; grid-row:2;}
     .nav{gap:20px;}
   }
 
@@ -100,58 +102,63 @@
   .rail .rl{position:absolute; left:34px; opacity:0; transform:translateX(-4px); transition:opacity .2s, transform .2s; white-space:nowrap; background:var(--ink); color:var(--paper); padding:3px 8px;}
   .rail a:hover .rl, .rail a:focus-visible .rl{opacity:1; transform:none;}
 
-  /* ---------- Hero: the distillation lab ---------- */
-  .hero{position:relative;}
-  .hero-center{text-align:center; padding-top:clamp(20px, 2.5vw, 32px); padding-bottom:clamp(48px, 6vw, 80px);}
-  .wm-role{color:var(--ink-soft); display:block;}
-  .hero h1{font-size:clamp(1.45rem, 2.3vw, 2.1rem); font-weight:600; line-height:1.15; max-width:34em; margin:clamp(24px, 3vw, 36px) auto 0; text-wrap:balance;}
-  .hero h1 em{font-style:normal; color:var(--red);}
-  .hero-sub{font-size:1.1rem; color:var(--ink-soft); text-wrap:pretty;}
-  /* The sub-headline sits in the middle of the composition. Dots are kept out of
-     its box (see keepOut in the script) and it ignores the pointer, so every dot
-     stays visible and hoverable. ~48 characters a line, inside the 45–75 measure. */
-  .lab-stage{position:relative;}
-  .lab-center{margin:0 auto 20px; max-width:30em; text-align:center;}
-  @media (min-width:760px){
-    .lab-center{
-      position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); z-index:1;
-      width:max-content; max-width:26em; margin:0; padding:18px 28px;
-      background:var(--paper); pointer-events:none; transition:opacity .6s ease;
-    }
-    .lab.focused .lab-center{opacity:0;}
+  /* ---------- First screen: header, the 16:9 graphic, the headline ----------
+     The graphic takes the space between the header and the headline, as large
+     as it can be while staying 16:9; the headline sits at the bottom of the
+     viewport. The sub-headline follows just below the fold. */
+  .first-screen{display:flex; flex-direction:column; min-height:100vh; min-height:100svh;}
+  .hero{flex:1; display:flex; flex-direction:column; min-height:0; padding-bottom:clamp(28px, 5vh, 56px);}
+  .scene-box{
+    flex:1; min-height:200px; container-type:size; margin:clamp(12px, 2vh, 24px) var(--gutter) 0;
+    display:flex; align-items:center; justify-content:center;
   }
-  .hero .lab{max-width:980px; margin:clamp(28px, 4vw, 48px) auto 0; text-align:left;}
-
-  .lab{margin:0; position:relative; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;}
-  .lab canvas{display:block; width:100%; aspect-ratio:1000 / 620;}
-  .lab-bar{
-    display:grid; grid-template-columns:1fr auto; gap:16px 24px; align-items:center;
-    border-top:2px solid var(--ink); padding-top:14px; margin-top:6px;
+  .scene-box canvas{display:block; width:100%; aspect-ratio:16 / 9; user-select:none; -webkit-user-select:none;}  /* fitted to the box by the script */
+  .headline{
+    margin:clamp(16px, 3vh, 32px) auto 0; padding:0 var(--gutter); max-width:calc(30em + 2 * var(--gutter));
+    text-align:center; font-size:clamp(1.6rem, 3vw, 2.6rem); font-weight:600; line-height:1.15; text-wrap:balance;
+    color:rgba(21,21,21,.78);
   }
-  .lab-caption strong{display:block; font-size:1.25rem; font-weight:600; letter-spacing:-0.01em; line-height:1.2;}
-  .lab-caption span{color:var(--ink-soft); font-size:0.95rem;}
-  .lab-actions{display:flex; align-items:center; gap:18px;}
-  .lab-cta{font-weight:600; text-underline-offset:4px; text-decoration-thickness:2px; white-space:nowrap;}
-  .lab-cta[hidden]{display:none;}
+  .hero-after{text-align:center; padding-top:clamp(28px, 4vw, 44px); padding-bottom:clamp(56px, 8vw, 96px);}
 
-  .lab-hint{color:var(--ink-soft);}
-  .lab-show{
-    font:inherit; font-weight:600; font-size:0.95rem; color:var(--ink); background:none;
-    border:2px solid var(--ink); padding:8px 16px; cursor:pointer;
+  .headline em{font-style:normal;}
+  .hl-1, .hl-2{display:block;}
+  /* Highlight bars, driven by the hero animation. A solid bar grows over the
+     line (line 1 up from the bottom, line 2 down from the top) and the letters
+     knock out to the bar's text colour exactly where it covers them.
+     --mp-1 / --mp-2: how far each bar has grown (0 to 1).
+     --mc-2 / --on-2: the Bauhaus figure's colour, and the text colour on it. */
+  .mark{position:relative; display:inline-block; padding:0 0.14em; isolation:isolate;}
+  /* Each word knocks out where the bar covers it. --t / --h are the word's top
+     and height as fractions of its line's bar (set by the script), so the
+     split lines up with the bar even when a line wraps. The padding lets
+     descenders and accents paint; the negative margin keeps layout unchanged. */
+  .mark .w{
+    padding:0.14em 0; margin:-0.14em 0;
+    color:transparent; -webkit-background-clip:text; background-clip:text;
+    background-image:linear-gradient(var(--dir), var(--on) calc(var(--cov) * 100%), rgba(21,21,21,.78) calc(var(--cov) * 100%));
   }
-  .lab-show:hover{background:var(--ink); color:var(--paper);}
-  .lab-show:focus-visible{outline:3px solid var(--blue); outline-offset:3px;}
-
+  .mark-1 .w{--cov:clamp(0, (var(--t, 0) + var(--h, 1) - 1 + var(--p)) / var(--h, 1), 1);}
+  .mark-2 .w{--cov:clamp(0, (var(--p) - var(--t, 0)) / var(--h, 1), 1);}
+  .mark::before{
+    content:""; position:absolute; inset:0; z-index:-1; background:var(--bar);
+    transform:scaleY(var(--p)); transform-origin:var(--from);
+  }
+  .mark-1{--p:var(--mp-1, 0); --bar:var(--ink); --on:var(--paper); --dir:to top; --from:bottom;}
+  .mark-2{--p:var(--mp-2, 0); --bar:var(--mc-2, transparent); --on:var(--on-2, var(--paper)); --dir:to bottom; --from:top;}
+  /* Both halves are always in the page (and read by screen readers). They
+     rise in word by word on load: the first half, then the second. */
+  .headline .w{display:inline-block; opacity:0; transform:translateY(.35em); transition:opacity .7s ease, transform .7s ease; transition-delay:calc(var(--i) * 90ms + 300ms);}
+  .headline.intro .hl-1 .w, .headline.revealed .hl-2 .w{opacity:1; transform:none;}
+  .hero-sub{margin:0 auto; max-width:30em; font-size:1.1rem; color:var(--ink-soft); text-wrap:pretty;}  /* ~65 characters a line */
   @media (max-width:700px){
     .hero-sub{font-size:1rem;}
   }
-  @media (max-width:560px){
-    .lab-bar{grid-template-columns:1fr;}
-    .lab-actions{justify-content:space-between;}
+  @media (prefers-reduced-motion: reduce){
+    .headline .w{transition:none;}
   }
 
   /* ---------- Sections ---------- */
-  section.chapter{padding:clamp(80px, 12vw, 160px) 0; position:relative;}
+  section.chapter{padding:clamp(80px, 12vw, 160px) 0; position:relative; }
   .chapter-head{display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:start; margin-bottom:clamp(40px, 6vw, 72px);}
   .num{
     font-family:var(--mono); font-size:0.85rem; display:flex; align-items:center; gap:10px; padding-top:14px;
@@ -346,45 +353,35 @@
   </ol>
 </nav>
 
+<div class="first-screen">
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="site-header">
+  <div class="wrap topbar">
+    <nav class="nav nav-left" aria-label="Sections">
+      <a href="#approach">Approach</a>
+      <a href="#work">Work</a>
+    </nav>
+    <div class="brand">
+      <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm"><svg class="wm-svg" viewBox="36 -44 4117 764" role="img" aria-label="Jeff Ma"><g fill="currentColor"><path d="M366 0H530V440A247.0 280 0 0 1 36 440H186A90.0 130 0 0 0 366 440Z"/><path d="M674 0H1138V138H838V265H1118V399H838V561H1138V700H674Z"/><path d="M1287 0H1711V144H1451V283H1701V418H1451V700H1287Z"/><path d="M1850 0H2274V144H2014V283H2264V418H2014V700H1850Z"/><path d="M2663 0L2827 0L2999 370L3171 0L3335 0L3335 700L3171 700L3171 330L2999 700L2827 330L2827 700L2663 700Z"/><path d="M3786 -44L4153 700L3963 700L3898 568L3674 568L3609 700L3419 700Z"/><circle cx="3786" cy="385" r="60" fill="var(--red)"/></g></svg></span></a>
+      <p class="wm-role label">Independent creative director</p>
+    </div>
+    <nav class="nav nav-right" aria-label="Contact">
+      <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
+    </nav>
+  </div>
+</header>
+
 <!-- ============ HERO ============ -->
 <div class="hero" id="top">
-  <header class="site-header">
-    <div class="wrap topbar">
-      <nav class="nav nav-left" aria-label="Sections">
-        <a href="#approach">Approach</a>
-        <a href="#work">Work</a>
-      </nav>
-      <a class="wordmark" href="#top" aria-label="Jeff Ma, home">
-        <span class="wm"><svg class="wm-svg" viewBox="36 -44 4117 764" role="img" aria-label="Jeff Ma"><g fill="currentColor"><path d="M366 0H530V440A247.0 280 0 0 1 36 440H186A90.0 130 0 0 0 366 440Z"/><path d="M674 0H1138V138H838V265H1118V399H838V561H1138V700H674Z"/><path d="M1287 0H1711V144H1451V283H1701V418H1451V700H1287Z"/><path d="M1850 0H2274V144H2014V283H2264V418H2014V700H1850Z"/><path d="M2663 0L2827 0L2999 370L3171 0L3335 0L3335 700L3171 700L3171 330L2999 700L2827 330L2827 700L2663 700Z"/><path d="M3786 -44L4153 700L3963 700L3898 568L3674 568L3609 700L3419 700Z"/><circle cx="3786" cy="385" r="60" fill="var(--red)"/></g></svg></span>
-      </a>
-      <nav class="nav nav-right" aria-label="Contact">
-        <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="wrap hero-center">
-    <p class="wm-role label">Independent creative director</p>
-    <h1>I help experts explain what they know to people who <em>don’t know what they know.</em></h1>
-
-    <figure class="lab" id="lab-figure">
-      <div class="lab-stage">
-        <p class="hero-sub lab-center" id="lab-center">You bring the complexity. I listen, ask questions and edit your story until the people who need to understand it actually do.</p>
-        <canvas id="lab" role="img" aria-label="A shifting tangle of connected dots representing an expert’s knowledge. Hover over or tap any dot to pull out its thread: five ideas in a clean line, with everything else absorbed into them."></canvas>
-      </div>
-      <figcaption class="lab-bar">
-        <div class="lab-caption" aria-live="polite">
-          <strong id="lab-title">What a founder knows</strong>
-          <span id="lab-meta">62 facts · 50 connections</span>
-        </div>
-        <div class="lab-actions">
-          <span class="lab-hint label" id="lab-hint">Hover over any dot</span>
-          <a class="lab-cta" id="lab-cta" href="#contact" hidden>Find yours →</a>
-          <button class="lab-show" id="lab-show" type="button">Show me</button>
-        </div>
-      </figcaption>
-    </figure>
+  <div class="scene-box">
+    <canvas id="scene" role="img" aria-label="A web of connected dots drifts slowly: an expert’s knowledge. In turn, every dot moves into place in a Bauhaus-inspired figure, taking on its color, then returns to the web: a yellow four-point star, blue diamonds, red facing arches, a green circle, pink diamonds, a green ring and a blue asterisk."></canvas>
   </div>
+  <h1 class="headline" id="headline"><span class="hl-1"><span class="mark mark-1"><span class="w" style="--i:0">I</span> <span class="w" style="--i:1">help</span> <span class="w" style="--i:2">experts</span> <span class="w" style="--i:3">explain</span> <span class="w" style="--i:4">what</span> <span class="w" style="--i:5">they</span> <span class="w" style="--i:6">know</span></span></span> <span class="hl-2"><span class="mark mark-2"><span class="w" style="--i:0">to</span> <span class="w" style="--i:1">people</span> <span class="w" style="--i:2">who</span> <em><span class="w" style="--i:3">don’t</span> <span class="w" style="--i:4">know</span> <span class="w" style="--i:5">what</span> <span class="w" style="--i:6">they</span> <span class="w" style="--i:7">know.</span></em></span></span></h1>
+</div>
+</div>
+
+<div class="wrap hero-after">
+  <p class="hero-sub">You bring the complexity. I listen, ask questions and edit your story until the people who need to understand it actually do.</p>
 </div>
 
 <main>
@@ -684,394 +681,305 @@
   function el(name, attrs, parent){ var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; }
 
   /* =====================================================================
-     The lab: an expert's knowledge as a tangle of dots. It keeps changing
-     shape (different experts, different tangles). Hovering a dot pulls its
-     thread out: five ideas in order, everything else absorbed into them.
+     Hero visual. An expert's knowledge: 24 connected dots in slow,
+     ever-changing motion, with the headline over it.
      ===================================================================== */
-  var canvas = document.getElementById('lab');
-  var ctx = canvas.getContext('2d');
-  var showBtn = document.getElementById('lab-show');
-  var figEl = document.getElementById('lab-figure');
-  var hintEl = document.getElementById('lab-hint');
-  var tryEl = document.querySelector('.hero .try');
-  var titleEl = document.getElementById('lab-title');
-  var metaEl = document.getElementById('lab-meta');
-  var ctaEl = document.getElementById('lab-cta');
+  var INK = '#151515', TAU = Math.PI * 2;
+  var W = 1000, H = 520;   // H follows the canvas' shape (see Scene.resize)
 
-  var W = 1000, H = 620, CX = W / 2, CY = H / 2;
-  var POOL = 90;
-  var R = rng(11);
-
-  function inBounds(p){ p.x = Math.max(34, Math.min(W - 34, p.x)); p.y = Math.max(30, Math.min(H - 30, p.y)); return p; }
-  function gauss(){ return (R() + R() + R() - 1.5) / 1.5; }
-  function nearest(pts, i, skip){
-    var best = -1, bd = 1e12;
-    for (var j = 0; j < pts.length; j++){ if (j === i || (skip && skip(j))) continue; var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y, d = dx*dx + dy*dy; if (d < bd){ bd = d; best = j; } }
-    return best;
+  function Scene(canvas, onFrame){
+    var s = {ctx: canvas.getContext('2d'), scale: 1, dpr: 1, rMul: 1, ratio: 0, onSeen: null};
+    var running = false, last = 0;
+    s.resize = function(){
+      var w = canvas.clientWidth; s.dpr = Math.min(2, window.devicePixelRatio || 1);
+      var ch = canvas.clientHeight || w * H / W; H = W * ch / w;
+      canvas.width = Math.round(w * s.dpr); canvas.height = Math.round(ch * s.dpr);
+      s.scale = w / W || 1; s.rMul = Math.min(1.8, Math.max(1, 620 / w));
+    };
+    s.begin = function(){ s.ctx.setTransform(s.scale * s.dpr, 0, 0, s.scale * s.dpr, 0, 0); s.ctx.clearRect(0, 0, W, H); };
+    s.dot = function(x, y, r){ var c = s.ctx; c.beginPath(); c.arc(x, y, Math.max(0, r * s.rMul), 0, TAU); c.fillStyle = INK; c.fill(); };
+    s.line = function(a, b, alpha){
+      if (alpha < 0.01) return;
+      var c = s.ctx; c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y);
+      c.strokeStyle = 'rgba(21,21,21,' + (0.32 * alpha).toFixed(3) + ')'; c.lineWidth = 1.1 / s.scale; c.stroke();
+    };
+    function frame(now){
+      if (!running) return;
+      var dt = Math.min(1 / 30, (now - last) / 1000 || 0); last = now;
+      onFrame(now, dt); requestAnimationFrame(frame);
+    }
+    function setRunning(){
+      var on = s.ratio > 0 && !document.hidden;
+      if (on && !running){ running = true; last = performance.now(); requestAnimationFrame(frame); }
+      else if (!on) running = false;
+    }
+    new IntersectionObserver(function(es){
+      s.ratio = es[0].intersectionRatio;
+      if (s.ratio >= 0.35 && s.onSeen){ var f = s.onSeen; s.onSeen = null; f(performance.now()); }
+      setRunning();
+    }, {threshold: [0, 0.35, 1]}).observe(canvas);
+    document.addEventListener('visibilitychange', setRunning);
+    if (window.ResizeObserver) new ResizeObserver(s.resize).observe(canvas); else window.addEventListener('resize', s.resize);
+    s.resize();
+    return s;
   }
-  function randomPairs(n, m, edges, pick){
-    for (var k = 0; k < m; k++){ var a = pick ? pick() : Math.floor(R() * n), b = Math.floor(R() * n); if (a !== b) edges.push([a, b]); }
-  }
 
-  // Five experts, five shapes of knowledge.
-  var makers = [
-    function scatter(){ // long, crossing threads: everything relates to everything
-      var pts = [], edges = [], n = 62;
-      for (var i = 0; i < n; i++) pts.push({x: 50 + R() * 900, y: 40 + R() * 540, r: 3 + R() * 5.5});
-      randomPairs(n, 50, edges);
-      return {name: 'What a founder knows', pts: pts, edges: edges};
-    },
-    function clusters(){ // tight silos with a few bridges
-      var pts = [], edges = [], cs = [], k = 5, n = 72;
-      for (var c = 0; c < k; c++) cs.push({x: 150 + R() * 700, y: 120 + R() * 380});
-      for (var i = 0; i < n; i++){ var c0 = cs[i % k]; pts.push(inBounds({x: c0.x + gauss() * 120, y: c0.y + gauss() * 90, r: 2.5 + R() * 5, c: i % k})); }
-      for (i = 0; i < n; i++){ var j = nearest(pts, i, function(j){ return pts[j].c !== pts[i].c; }); if (j >= 0) edges.push([i, j]); }
-      randomPairs(n, 9, edges);
-      return {name: 'What a security team knows', pts: pts, edges: edges};
-    },
-    function hubs(){ // precedents radiating from a few principles
-      var pts = [], edges = [], hubs = [];
-      for (var h = 0; h < 6; h++){
-        var hub = inBounds({x: 120 + (h % 3) * 380 + gauss() * 40, y: 170 + Math.floor(h / 3) * 280 + gauss() * 40, r: 10});
-        hubs.push(pts.length); pts.push(hub);
-        var spokes = 7 + Math.floor(R() * 4);
-        for (var s = 0; s < spokes; s++){
-          var a = R() * Math.PI * 2, d = 55 + R() * 105;
-          edges.push([hubs[h], pts.length]);
-          pts.push(inBounds({x: hub.x + Math.cos(a) * d, y: hub.y + Math.sin(a) * d, r: 2.5 + R() * 3.5}));
+  /* ---------- The hero: an expert's knowledge, finding its form ----------
+     The expert's knowledge is one connected web of 24 dots, drifting. In turn
+     it reshapes into one of seven Bauhaus-inspired tiles (chosen from a set of
+     25, see USE), drawn as tightly packed dots joined to their neighbours,
+     takes on the tile's colour, holds, then relaxes back into the ink web. */
+  (function(){
+    var canvas = document.getElementById('scene');
+    if (!canvas) return;
+    var box = canvas.parentNode;
+    var headline = document.getElementById('headline');
+    var s, shapes = [];
+    var WEB = 3500, MOVE = 2000, HOLD = 2600, CYCLE = WEB + MOVE + HOLD + MOVE;
+    var start = performance.now();
+    var INK_RGB = [21, 21, 21];
+
+    // ---- The 25 tiles ----
+    // Each tile is a rule: given a point in the tile (x and y from -1 to 1,
+    // y pointing down), which colour is there, if any. The tile is then drawn
+    // as a square grid of dots wherever the rule says so.
+    var PAL = {blue: [84, 83, 148], pink: [234, 133, 116], yellow: [238, 168, 47], ink: [28, 27, 42], red: [230, 66, 42], green: [61, 139, 79]};
+    function hyp(x, y){ return Math.sqrt(x * x + y * y); }
+    function disc(x, y, cx, cy, r){ return hyp(x - cx, y - cy) <= r; }
+    function star4(x, y, s){ return Math.pow(Math.abs(x) / s, 2 / 3) + Math.pow(Math.abs(y) / s, 2 / 3) <= 1; }   // four-point star
+    function stripes(d){ var f = ((d / 0.34) % 1 + 1) % 1; return f < 0.42; }
+    function diamond(x, y, cx, cy, r){ return Math.abs(x - cx) + Math.abs(y - cy) <= r; }
+    function when(test, colour){ return test ? colour : null; }
+    var TILES = [
+      // Row 1
+      function(x, y){ return when(Math.pow(x, 4) + Math.pow(y, 4) <= 0.9 && !star4(x, y, 0.86), 'blue'); },              // rounded square with a star cut out
+      function(x, y){ return when(stripes(x - y), 'pink'); },                                                                   // diagonal stripes
+      function(x, y){ return when((x <= 0 && disc(x, y, -1, 0, 0.98)) || (x >= 0 && disc(x, y, 0, 0, 0.98)), 'yellow'); },   // two half-discs
+      function(x, y){ return when(star4(x, y, 1), 'ink'); },                                                                    // four-point star
+      function(x, y){ var r = hyp(x, y); return r > 0.97 ? null : r > 0.76 ? 'red' : r > 0.56 ? 'ink' : r > 0.37 ? 'red' : r > 0.2 ? 'ink' : null; },  // target
+      // Row 2
+      function(x, y){ return when([[-.5, -.5], [.5, -.5], [-.5, .5], [.5, .5]].some(function(c){ return diamond(x, y, c[0], c[1], 0.48); }), 'ink'); },  // diamonds
+      function(x, y){ var t = ((Math.atan2(y, x) / TAU * 18) % 1 + 1) % 1; return when(hyp(x, y) <= 0.5 + 0.46 * (1 - Math.abs(2 * t - 1)), 'green'); },  // starburst
+      function(x, y){                                                                                                           // meander
+        var xs = [-0.72, -0.24, 0.24, 0.72], w = 0.13, i;
+        for (i = 0; i < 4; i++){ var bottom = (i === 0 || i === 3) ? 0.97 : 0.62; if (Math.abs(x - xs[i]) <= w && y >= -0.62 && y <= bottom) return 'blue'; }
+        var links = [[0, 1, -0.62, -1], [1, 2, 0.62, 1], [2, 3, -0.62, -1]];
+        for (i = 0; i < 3; i++){
+          var l = links[i], cx = (xs[l[0]] + xs[l[1]]) / 2, r = (xs[l[1]] - xs[l[0]]) / 2;
+          if ((y - l[2]) * l[3] >= 0 && Math.abs(hyp(x - cx, y - l[2]) - r) <= w) return 'blue';
         }
-      }
-      for (h = 1; h < hubs.length; h++) edges.push([hubs[h - 1], hubs[h]]);
-      edges.push([hubs[0], hubs[4]], [hubs[2], hubs[3]]);
-      randomPairs(pts.length, 4, edges);
-      return {name: 'What a legal team knows', pts: pts, edges: edges};
-    },
-    function chain(){ // one very long line of reasoning, with detours
-      var pts = [], edges = [], n = 46, x = 70, y = 120 + R() * 380, a = 0;
-      for (var i = 0; i < n; i++){
-        pts.push({x: x, y: y, r: 3 + R() * 4.5});
-        a += (R() - 0.5) * 1.6; var step = 45 + R() * 35;
-        x += Math.cos(a) * step; y += Math.sin(a) * step;
-        if (x < 60 || x > W - 60){ a = Math.PI - a; x = Math.max(60, Math.min(W - 60, x)); }
-        if (y < 50 || y > H - 50){ a = -a; y = Math.max(50, Math.min(H - 50, y)); }
-        if (i) edges.push([i - 1, i]);
-      }
-      for (var k = 0; k < 7; k++){ var s = Math.floor(R() * (n - 8)); edges.push([s, Math.min(n - 1, s + 4 + Math.floor(R() * 12))]); }
-      return {name: 'What a researcher knows', pts: pts, edges: edges};
-    },
-    function mesh(){ // many small, dense dependencies
-      var pts = [], edges = [], tries = 0, seen = {};
-      while (pts.length < 80 && tries++ < 4000){
-        var p = {x: 40 + R() * 920, y: 36 + R() * 548, r: 2.5 + R() * 3};
-        if (pts.every(function(q){ var dx = q.x - p.x, dy = q.y - p.y; return dx*dx + dy*dy > 44*44; })) pts.push(p);
-      }
-      for (var i = 0; i < pts.length; i++){
-        var a = nearest(pts, i), b = nearest(pts, i, function(j){ return j === a; });
-        [a, b].forEach(function(j){ var key = Math.min(i, j) + '-' + Math.max(i, j); if (j >= 0 && !seen[key]){ seen[key] = 1; edges.push([i, j]); } });
-      }
-      return {name: 'What an engineering org knows', pts: pts, edges: edges};
+        return null;
+      },
+      function(x, y){ var a = hyp(x, y + 1), b = hyp(x, y - 1); return when((a >= 0.36 && a <= 0.95) || (b >= 0.36 && b <= 0.95), 'red'); },  // facing arches
+      function(x, y){ return when(stripes(x + y), 'blue'); },                                                                  // diagonal stripes
+      // Row 3
+      function(x, y){ return when([-0.66, 0, 0.66].some(function(cx){ return [-0.66, 0, 0.66].some(function(cy){ return disc(x, y, cx, cy, 0.27); }); }), 'yellow'); },  // nine circles
+      function(x, y){ return when(disc(x, y, 0, 0, 0.45) || [[-.48, -.48], [.48, -.48], [-.48, .48], [.48, .48]].some(function(c){ return disc(x, y, c[0], c[1], 0.5); }), 'red'); },  // four-leaf
+      function(x, y){ var r = hyp(x, y); return when((x >= 0 && r >= 0.38 && r <= 0.95) || (x < 0 && x >= -0.95 && Math.abs(y) >= 0.38 && Math.abs(y) <= 0.95), 'ink'); },  // horseshoe
+      function(x, y){ var r = hyp(x, y), f = ((Math.atan2(y, x) / TAU * 16) % 1 + 1) % 1, d = Math.min(f, 1 - f) * TAU / 16; return when(r <= 0.95 && (r <= 0.1 || r * Math.sin(d) <= 0.06), 'ink'); },  // sunburst
+      function(x, y){ return when(hyp(x, y) <= 0.95, 'green'); },                                                              // circle
+      // Row 4
+      function(x, y){ var r = hyp(x, y), q = r / 0.19 - ((Math.atan2(y, x) / TAU) % 1 + 1) % 1; return when(r <= 0.97 && ((q % 1) + 1) % 1 < 0.5, 'ink'); },  // spiral
+      function(x, y){ return when(stripes(x + y), 'blue'); },                                                                  // diagonal stripes
+      function(x, y){ return when(star4(x, y, 0.95), 'red'); },                                                                // four-point star
+      function(x, y){ return when([-0.72, -0.24, 0.24, 0.72].some(function(cx){ return [-0.48, 0.48].some(function(cy){ return x >= cx - 0.22 && x <= cx + 0.24 && Math.abs(y - cy) <= 0.44 * (cx + 0.24 - x) / 0.46; }); }), 'yellow'); },  // triangles
+      function(x, y){ return when((x <= 0 && disc(x, y, -1, 0, 0.98)) || (x >= 0 && disc(x, y, 1, 0, 0.98)), 'ink'); },      // half-discs, back to back
+      // Row 5
+      function(x, y){ return when(Math.abs(y) <= 0.95 && [-0.62, 0, 0.62].some(function(cx){ var k = 0.16 * (1 - Math.abs(y)); return x >= cx - 0.24 + k && x <= cx + 0.1 + k; }), 'red'); },  // chevrons
+      function(x, y){ return when([[-.52, -.52], [.52, -.52], [0, 0], [-.52, .52], [.52, .52]].some(function(c){ return diamond(x, y, c[0], c[1], 0.44); }), 'ink'); },  // diamonds
+      function(x, y){ var r = hyp(x, y); return when(r >= 0.62 && r <= 0.95, 'green'); },                                     // ring
+      function(x, y){ return when(hyp(x, y) <= 0.3 || [90, 30, 150].some(function(deg){ var a = deg * Math.PI / 180, along = x * Math.cos(a) + y * Math.sin(a), across = -x * Math.sin(a) + y * Math.cos(a); return Math.abs(along) <= 0.95 && Math.abs(across) <= 0.2; }), 'blue'); },  // asterisk
+      function(x, y){ return when(stripes(x - y), 'pink'); }                                                                   // diagonal stripes
+    ];
+    // The tiles the hero uses, in order (numbers as in the 5 x 5 reference),
+    // each in one colour. Blue-black isn't used.
+    var USE = [[4, 'yellow'], [6, 'blue'], [9, 'red'], [15, 'green'], [22, 'pink'], [23, 'green'], [24, 'blue']];
+    var CHOSEN = USE.map(function(u){ var rule = TILES[u[0] - 1]; return function(x, y){ return rule(x, y) ? u[1] : null; }; });
+
+    // Contrast ratio between two colours (WCAG), used to pick the text colour
+    // on each highlight bar.
+    function contrast(a, b){
+      function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
+      var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
     }
-  ];
-  var comps = makers.map(function(make){ return make(); });
-
-  // A fixed pool of dots is re-used across compositions, so dots split,
-  // merge and travel between them instead of popping in and out.
-  var P = [];
-  for (var i = 0; i < POOL; i++) P.push({x: CX, y: CY, r: 0, vx: 0, vy: 0, vr: 0, bx: CX, by: CY, br: 0, qx: CX, qy: CY, qr: 0, at: 0, rank: -1});
-  var edges = [];
-  var ci = -1, curN = 0, curE = 0;
-
-  // The sub-headline's box, in canvas units. Dots are kept outside it.
-  var keep = null;
-  function keepOut(p){
-    if (!keep) return;
-    var m = (p.r || 0) * rMul + 6;
-    var x0 = keep.x0 - m, x1 = keep.x1 + m, y0 = keep.y0 - m, y1 = keep.y1 + m;
-    if (p.x < x0 || p.x > x1 || p.y < y0 || p.y > y1) return;
-    // Mirror the dot out across the nearest edge, so displaced dots spread out
-    // like the rest of the composition instead of lining up along the box.
-    var dl = p.x - x0, dr = x1 - p.x, dt = p.y - y0, db = y1 - p.y, min = Math.min(dl, dr, dt, db);
-    if (min === dl) p.x = Math.max(34, x0 - dl); else if (min === dr) p.x = Math.min(W - 34, x1 + dr);
-    else if (min === dt) p.y = Math.max(30, y0 - dt); else p.y = Math.min(H - 30, y1 + db);
-  }
-  function measureKeep(){
-    var center = document.getElementById('lab-center');
-    if (!center || getComputedStyle(center).position !== 'absolute' || !scale){ keep = null; return; }
-    var c = canvas.getBoundingClientRect(), r = center.getBoundingClientRect(), pad = 14 / scale;
-    keep = {x0: (r.left - c.left) / scale - pad, x1: (r.right - c.left) / scale + pad, y0: (r.top - c.top) / scale - pad, y1: (r.bottom - c.top) / scale + pad};
-    P.forEach(function(d){ if (d.br > 0){ var q = {x: d.bx, y: d.by, r: d.br}; keepOut(q); d.bx = q.x; d.by = q.y; } });
-  }
-
-  function applyComp(comp, now, instant){
-    comp.pts.forEach(keepOut);
-    var alive = [], free = {}, used = {}, assign = [];
-    P.forEach(function(d, i){ if (d.br > 0 || d.r > 0.5){ alive.push(i); free[i] = 1; } });
-    var order = comp.pts.map(function(_, i){ return i; }).sort(function(){ return R() - 0.5; });
-    order.forEach(function(pi){
-      var pt = comp.pts[pi], best = -1, bd = 1e12;
-      for (var k in free){ var d = P[k], dx = d.x - pt.x, dy = d.y - pt.y, dist = dx*dx + dy*dy; if (dist < bd){ bd = dist; best = +k; } }
-      if (best >= 0){ assign[pi] = best; delete free[best]; used[best] = 1; }
-    });
-    var hidden = P.map(function(_, i){ return i; }).filter(function(i){ return !used[i] && !(i in free); });
-    comp.pts.forEach(function(pt, pi){
-      if (assign[pi] !== undefined) return;
-      var idx = hidden.pop(), d = P[idx], src = null, bd = 1e12;
-      alive.forEach(function(a){ var q = P[a], dx = q.x - pt.x, dy = q.y - pt.y, dist = dx*dx + dy*dy; if (dist < bd){ bd = dist; src = q; } });
-      d.x = d.qx = src ? src.x : CX; d.y = d.qy = src ? src.y : CY; d.r = d.qr = 0; d.vx = d.vy = d.vr = 0;
-      d.bx = d.x; d.by = d.y; d.br = 0;
-      assign[pi] = idx; used[idx] = 1;
-    });
-    P.forEach(function(d, i){
-      if (!used[i] || d.br > 0){ d.qx = d.bx; d.qy = d.by; d.qr = d.br; }
-      if (i in free){ // left over: merge into the nearest new dot
-        var j = nearest(comp.pts.concat([{x: d.x, y: d.y}]), comp.pts.length);
-        d.bx = comp.pts[j].x; d.by = comp.pts[j].y; d.br = 0;
-      } else if (!used[i]){ d.br = 0; }
-    });
-    comp.pts.forEach(function(pt, pi){ var d = P[assign[pi]]; d.bx = pt.x; d.by = pt.y; d.br = pt.r; });
-    P.forEach(function(d){
-      d.at = instant || reduce ? now : now + (d.bx / W) * 900 + R() * 300;
-      if (instant){ d.x = d.bx; d.y = d.by; d.r = d.br; }
-    });
-    edges.forEach(function(e){ e.target = 0; });
-    comp.edges.forEach(function(e){ edges.push({a: assign[e[0]], b: assign[e[1]], alpha: instant ? 1 : 0, target: 1, at: instant ? now : now + 900}); });
-    curN = comp.pts.length; curE = comp.edges.length;
-  }
-  function nextComp(now, instant){ ci = (ci + 1) % comps.length; applyComp(comps[ci], now, instant); lastSwitch = now; }
-
-  // ---- State ----
-  // idle: compositions keep changing. Pointer over the canvas pauses them.
-  // focus: hovering a dot pulls its thread out of the tangle.
-  var mode = 'idle', paused = false, lastSwitch = 0, focusAt = 0, cooldownUntil = 0;
-  var thread = [], lineY = CY, focusFrom = 0, candidate = null, candidateAt = 0;
-  var THREAD_COLORS = ['#151515', '#1f4fa3', '#f0b429', '#151515'];
-
-  function neighbors(idx){
-    var out = [];
-    edges.forEach(function(e){ if (e.target > 0){ if (e.a === idx) out.push(e.b); else if (e.b === idx) out.push(e.a); } });
-    return out;
-  }
-  // Follow the connections outward from a dot; when a thread runs out,
-  // jump to the closest idea not yet on it.
-  function walk(start, used, n){
-    var path = [], cur = start;
-    while (path.length < n){
-      var next = neighbors(cur).filter(function(i){ return !used[i] && P[i].br > 0; })
-        .sort(function(a, b){ return neighbors(b).length - neighbors(a).length; })[0];
-      if (next === undefined){
-        var bd = 1e12;
-        P.forEach(function(d, i){ if (used[i] || d.br <= 0) return; var dist = Math.hypot(d.bx - P[cur].bx, d.by - P[cur].by); if (dist < bd){ bd = dist; next = i; } });
-      }
-      if (next === undefined) break;
-      used[next] = 1; path.push(next); cur = next;
-    }
-    return path;
-  }
-
-  var GAP = 150, EDGE = 60;
-  function focusOn(idx, now){
-    var d0 = P[idx];
-    // The hovered dot stays exactly where it is; the thread is laid out
-    // around it, as balanced as the canvas edges allow.
-    var h = 2;
-    for (var o = 0; o <= 2; o++){
-      var fits = [2 - o, 2 + o].filter(function(k){ return k >= 0 && k <= 4 && d0.x - k * GAP >= EDGE && d0.x + (4 - k) * GAP <= W - EDGE; });
-      if (fits.length){ h = fits[0]; break; }
-    }
-    var used = {}; used[idx] = 1;
-    var left = walk(idx, used, h), right = walk(idx, used, 4 - h);
-    thread = left.reverse().concat([idx], right);
-    var hi = thread.indexOf(idx);
-    lineY = d0.y;
-    P.forEach(function(d){ d.fi = -1; d.absorb = -1; d.pinned = false; d.mass = d.br * d.br; });
-    d0.pinned = true; d0.px = d0.x; d0.py = d0.y; d0.vx = d0.vy = 0;
-    var ci2 = 0;
-    thread.forEach(function(i, k){
-      var d = P[i]; d.fi = k; d.sx = d0.x + (k - hi) * GAP;
-      d.col = i === idx ? '#d63a26' : THREAD_COLORS[ci2++ % 4];
-      d.fat = now + (reduce || i === idx ? 0 : 650 + Math.abs(k - hi) * 120); // thread lines up after the gathering starts
-    });
-    // Everything else is absorbed into the nearest idea on the thread,
-    // rippling outward from each one.
-    P.forEach(function(d){
-      if (d.fi >= 0 || d.br <= 0) return;
-      var best = thread[0], bd = 1e12;
-      thread.forEach(function(t){ var dist = Math.hypot(P[t].bx - d.bx, P[t].by - d.by); if (dist < bd){ bd = dist; best = t; } });
-      d.absorb = best; d.fat = now + (reduce ? 0 : 120 + bd * 1.8 + R() * 140); P[best].mass += d.br * d.br;
-    });
-    thread.forEach(function(i){ var d = P[i]; d.fr = Math.max(i === idx ? 18 : 11, Math.min(30, Math.sqrt(d.mass) * 0.95)); });
-    focusFrom = P.filter(function(d){ return d.br > 0; }).length;
-    mode = 'focus'; focusAt = now; candidate = null;
-  }
-  function unfocus(now){
-    if (mode !== 'focus') return;
-    mode = 'idle'; cooldownUntil = now + 450; lastSwitch = now;
-    P.forEach(function(d){ d.fi = -1; d.absorb = -1; d.pinned = false; d.qx = d.bx; d.qy = d.by; d.qr = d.br; d.at = now + (reduce ? 0 : R() * 220); });
-  }
-
-  // ---- Pointer ----
-  var canHover = window.matchMedia('(hover: hover)').matches;
-  function toLocal(e){ var r = canvas.getBoundingClientRect(); return {x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale}; }
-  function hit(p, cssRadius){
-    var best = null, bd = 1e12;
-    P.forEach(function(d, i){ if (d.r < 1) return; var dist = Math.hypot(d.x - p.x, d.y - p.y); if (dist < Math.max(cssRadius / scale, d.r + 6) && dist < bd){ bd = dist; best = i; } });
-    return best;
-  }
-  canvas.addEventListener('pointerenter', function(e){ if (e.pointerType === 'mouse') paused = true; });
-  canvas.addEventListener('pointerleave', function(e){
-    if (e.pointerType !== 'mouse') return;
-    paused = false; candidate = null; lastSwitch = performance.now(); unfocus(performance.now());
-  });
-  canvas.addEventListener('pointermove', function(e){
-    if (e.pointerType !== 'mouse') return;
-    var now = performance.now(), p = toLocal(e);
-    if (mode === 'focus'){
-      if (Math.abs(p.y - lineY) > 120) unfocus(now); // move off the thread to untangle
-      canvas.style.cursor = 'default';
-      return;
-    }
-    var h = now < cooldownUntil ? null : hit(p, 16);
-    if (h !== candidate){ candidate = h; candidateAt = now; }
-    canvas.style.cursor = h !== null ? 'pointer' : 'default';
-  });
-  canvas.addEventListener('click', function(e){ // taps (a click, unlike pointerdown, isn't fired by scrolling)
-    if (e.pointerType === 'mouse' || (canHover && !e.pointerType)) return;
-    var now = performance.now();
-    if (mode === 'focus'){ unfocus(now); paused = false; return; }
-    var h = hit(toLocal(e), 30);
-    if (h !== null){ paused = true; focusOn(h, now); }
-  });
-  showBtn.addEventListener('click', function(){
-    var now = performance.now();
-    if (mode === 'focus'){ unfocus(now); paused = false; return; }
-    var best = null, bd = 1e12;
-    P.forEach(function(d, i){ if (d.br <= 0) return; var dist = Math.hypot(d.bx - CX, d.by - CY); if (dist < bd){ bd = dist; best = i; } });
-    if (best !== null){ paused = true; focusOn(best, now); }
-  });
-  hintEl.textContent = canHover ? 'Hover over any dot' : 'Tap any dot';
-  if (tryEl) tryEl.textContent = canHover ? 'Try it: hover over any dot' : 'Try it: tap any dot';
-
-  // ---- Simulation ----
-  function step(dt, now){
-    if (mode === 'idle' && candidate !== null && now - candidateAt > 140) focusOn(candidate, now);
-    if (mode === 'idle' && !paused && !reduce && now - lastSwitch > 6500) nextComp(now, false);
-
-    // Soft, nearly critically damped springs: no snapping or overshoot.
-    // Focus is softer still so the distillation is slow enough to follow.
-    var k = reduce ? 260 : mode === 'focus' ? 38 : 30;
-    var c = reduce ? 2 * Math.sqrt(k) : mode === 'focus' ? 10 : 10;
-    P.forEach(function(d){
-      var tx, ty, tr, kd = k;
-      // Between compositions each dot eases in: its pull ramps up over ~0.8s
-      // instead of starting at full strength.
-      if (mode === 'idle' && !reduce){ var ramp = clamp((now - d.at) / 800); kd = k * Math.max(0.04, ramp * ramp); }
-      if (mode === 'focus' && d.pinned){ d.x = d.px; d.y = d.py; d.vx = d.vy = 0; tx = d.px; ty = d.py; tr = d.fr; }
-      else if (mode === 'focus' && d.fi >= 0){ var go = now >= d.fat; tx = go ? d.sx : d.bx; ty = go ? lineY : d.by; tr = go ? d.fr : d.br; }
-      else if (mode === 'focus' && d.absorb >= 0 && now >= d.fat){ var t = P[d.absorb]; tx = t.x; ty = t.y; tr = 0; }
-      else if (now >= d.at){ tx = d.bx; ty = d.by; tr = d.br; }
-      else { tx = d.qx; ty = d.qy; tr = d.qr; }
-      d.vx += (kd * (tx - d.x) - c * d.vx) * dt; d.x += d.vx * dt;
-      d.vy += (kd * (ty - d.y) - c * d.vy) * dt; d.y += d.vy * dt;
-      d.vr += (kd * (tr - d.r) - c * d.vr) * dt; d.r += d.vr * dt;
-    });
-    edges.forEach(function(ed){
-      var target = mode === 'focus' ? 0 : ed.target;
-      if (now >= ed.at) ed.alpha += (target - ed.alpha) * Math.min(1, dt * (mode === 'focus' ? 1.6 : 1.8));
-    });
-    edges = edges.filter(function(ed){ return ed.target > 0 || ed.alpha > 0.01; });
-  }
-
-  // ---- Drawing ----
-  var cssW = 0, dpr = 1, scale = 1, rMul = 1;
-  function resize(){
-    cssW = canvas.clientWidth; dpr = Math.min(2, window.devicePixelRatio || 1);
-    canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssW * H / W * dpr);
-    scale = cssW / W; rMul = Math.min(1.8, Math.max(1, 620 / cssW));
-    measureKeep();
-  }
-  function mix(hex, t){
-    var n = parseInt(hex.slice(1), 16), r = n >> 16, g = n >> 8 & 255, b = n & 255;
-    return 'rgb(' + Math.round(lerp(21, r, t)) + ',' + Math.round(lerp(21, g, t)) + ',' + Math.round(lerp(21, b, t)) + ')';
-  }
-  function ring(x, y, r, color, width){ ctx.beginPath(); ctx.arc(x, y, Math.max(0, r), 0, Math.PI * 2); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke(); }
-
-  function draw(now){
-    ctx.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
-    ctx.clearRect(0, 0, W, H);
-    var lw = 1 / scale;
-    var p = mode === 'focus' ? ease(clamp((now - focusAt - 1100) / 1300)) : 0;
-
-    edges.forEach(function(ed){
-      var a = P[ed.a], b = P[ed.b], vis = Math.min(a.r, b.r);
-      if (vis < 0.3 || ed.alpha < 0.01) return;
-      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = 'rgba(21,21,21,' + (ed.alpha * clamp(vis / 2.5) * 0.3).toFixed(3) + ')'; ctx.lineWidth = lw; ctx.stroke();
-    });
-
-    if (mode === 'focus' && thread.length > 1){
-      var first = P[thread[0]], lastD = P[thread[thread.length - 1]];
-      ctx.beginPath(); ctx.moveTo(first.x, first.y); ctx.lineTo(lerp(first.x, lastD.x, p), lerp(first.y, lastD.y, p));
-      ctx.strokeStyle = '#151515'; ctx.lineWidth = 3 * lw * rMul; ctx.stroke();
-    }
-
-    if (candidate !== null && mode === 'idle'){
-      var cd = P[candidate];
-      ring(cd.x, cd.y, cd.r * rMul + 7, '#d63a26', 2 * lw);
-    }
-
-    P.forEach(function(d){
-      if (d.r < 0.25) return;
-      var focused = mode === 'focus' && d.fi >= 0;
-      ctx.beginPath(); ctx.arc(d.x, d.y, d.r * rMul, 0, Math.PI * 2);
-      ctx.fillStyle = focused ? mix(d.col, p) : '#151515';
-      ctx.fill();
-    });
-
-    // The distilled ideas hold their energy: a slow pulse, ready to move.
-    if (mode === 'focus' && !reduce && p >= 1){
-      var pp = ((now - focusAt - 2400) / 2200) % 1;
-      thread.forEach(function(i, k){
-        var d = P[i], ph = (pp + k * 0.12) % 1;
-        ring(d.x, d.y, d.r * rMul + 4 + ph * 34, 'rgba(21,21,21,' + (0.22 * (1 - ph)).toFixed(3) + ')', 1.2 * lw);
+    // Each tile, as a grid of dots SP apart, each joined to the neighbours of
+    // its own colour (right and below).
+    var SP = 14;
+    function buildShapes(){
+      var half = Math.min(H * 0.38, 260) * 0.55, n = Math.round(2 * half / SP) + 1;
+      shapes = CHOSEN.map(function(rule){
+        var pts = [], at = {}, count = {}, i, j;
+        for (i = 0; i < n; i++) for (j = 0; j < n; j++){
+          var u = -1 + 2 * j / (n - 1), v = -1 + 2 * i / (n - 1), key = rule(u, v);
+          if (!key) continue;
+          at[i + ',' + j] = pts.length; count[key] = (count[key] || 0) + 1;
+          pts.push({x: 500 + u * half, y: H / 2 + v * half, key: key, rgb: PAL[key]});
+        }
+        var edges = [];
+        for (var k in at){
+          var ij = k.split(','), a = at[k], p = pts[a], r = at[ij[0] + ',' + (+ij[1] + 1)], d = at[(+ij[0] + 1) + ',' + ij[1]];
+          if (r !== undefined && pts[r].key === p.key) edges.push([a, r]);
+          if (d !== undefined && pts[d].key === p.key) edges.push([a, d]);
+        }
+        var main = Object.keys(count).sort(function(a, b){ return count[b] - count[a]; })[0];
+        return {pts: pts, edges: edges, rgb: PAL[main], lightText: contrast(PAL[main], [241, 236, 226]) >= 3};
       });
     }
-  }
 
-  // ---- Caption ----
-  var ui = {};
-  function set(key, node, prop, val){ if (ui[key] !== val){ ui[key] = val; node[prop] = val; } }
-  function updateUI(now){
-    var focus = mode === 'focus';
-    set('t', titleEl, 'textContent', focus ? 'The thread.' : comps[ci].name);
-    set('m', metaEl, 'textContent', focus ? focusFrom + ' facts → ' + thread.length + ' ideas, in order.' : curN + ' facts · ' + curE + ' connections');
-    set('h', hintEl, 'textContent', focus ? (canHover ? 'Move away to untangle' : 'Tap to untangle') : (paused && canHover ? 'Paused. Hover over a dot' : canHover ? 'Hover over any dot' : 'Tap any dot'));
-    set('s', showBtn, 'textContent', focus ? 'Untangle' : 'Show me');
-    set('cta', ctaEl, 'hidden', !focus || now - focusAt < 2200);
-    set('f', figEl.classList, 'value', focus ? 'lab focused' : 'lab');
-  }
+    // ---- The expert's web: one dot for every place in the biggest tile ----
+    // The web always shows the whole pool, with one fixed set of lines, so
+    // nothing appears or disappears while it drifts. For each tile, the dots
+    // nearest it each take one place in it and travel there and back: one to
+    // one, nothing splits and nothing merges. Any dots a tile doesn't need
+    // (mostly at the edges) fade where they are, in step with the web's lines,
+    // while the tile forms, and return with them.
+    var pool = [], webCache = {};
+    function buildPool(){
+      var M = Math.max.apply(null, shapes.map(function(sh){ return sh.pts.length; }));
+      var r = rng(11), tries = 0;
+      // The web's outline is organic, not rectangular: a broad oval with a few
+      // gentle lobes and dents, thinning out toward its edge.
+      var cx = 500, cy = H / 2, rx = 350, ry = (H / 2 - 40) / 1.26;   // stays inside the frame, drift included
+      var ph = [r() * TAU, r() * TAU, r() * TAU];
+      function edge(a){ return 1 + 0.13 * Math.sin(2 * a + ph[0]) + 0.08 * Math.sin(3 * a + ph[1]) + 0.05 * Math.sin(5 * a + ph[2]); }
+      var minD = Math.sqrt(Math.PI * rx * ry / M) * 0.62;
+      pool = [];
+      while (pool.length < M && tries++ < 80000){
+        var u = r() * 2 - 1, v = r() * 2 - 1, rho = Math.hypot(u, v) * 1.25, lim = edge(Math.atan2(v, u));
+        if (rho > lim) continue;
+        if (rho / lim > 0.75 && r() > 1 - (rho / lim - 0.75) * 2.4) continue;   // sparser near the edge
+        var p = {ax: cx + u * 1.25 * rx, ay: cy + v * 1.25 * ry};
+        if (pool.every(function(q){ return Math.hypot(q.ax - p.ax, q.ay - p.ay) > minD; })) pool.push(p);
+      }
+      while (pool.length < M) pool.push({ax: cx + (r() - 0.5) * rx, ay: cy + (r() - 0.5) * ry});
+      pool.forEach(function(d){
+        // Two slow waves per axis, periods of roughly 9 to 26 seconds.
+        d.f = [0, 0, 0, 0].map(function(){ return 0.24 + r() * 0.45; });
+        d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; });
+      });
+      webCache = {};
+    }
+    // The web's lines among the first n dots: each dot to its nearest
+    // neighbours, then any separate clusters joined by their shortest link,
+    // so it's always one connected body.
+    function webFor(n){
+      if (webCache[n]) return webCache[n];
+      var r = rng(100 + n), edges = [], has = {}, i, j;
+      function link(a, b){ var key = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[key]){ has[key] = 1; edges.push([a, b]); } }
+      var near = [];
+      for (i = 0; i < n; i++){
+        var row = [];
+        for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pool[j].ax - pool[i].ax, pool[j].ay - pool[i].ay), j]);
+        row.sort(function(a, b){ return a[0] - b[0]; });
+        near.push(row.map(function(o){ return o[1]; }));
+      }
+      for (i = 0; i < n; i++) link(i, near[i][0]);
+      for (var k = 0; k < Math.round(n * 0.5); k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 3)]); }
+      var group = []; for (i = 0; i < n; i++) group.push(i);
+      function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
+      edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
+      for (;;){
+        var best = null;
+        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){
+          if (find(i) === find(j)) continue;
+          var dd = Math.hypot(pool[i].ax - pool[j].ax, pool[i].ay - pool[j].ay);
+          if (!best || dd < best.d) best = {i: i, j: j, d: dd};
+        }
+        if (!best) break;
+        link(best.i, best.j); group[find(best.i)] = find(best.j);
+      }
+      return (webCache[n] = edges);
+    }
+    // One to one: every place in the tile is matched to a web dot, closest
+    // pairs first. Dots left unmatched are the tile's spares.
+    function assign(shape){
+      var n = shape.pts.length, pairs = [], usedD = {}, usedP = {}, cx = 0, cy = 0, far = 0;
+      for (var i = 0; i < pool.length; i++) shape.pts.forEach(function(p, k){ pairs.push([Math.hypot(pool[i].ax - p.x, pool[i].ay - p.y), i, k]); });
+      pairs.sort(function(a, b){ return a[0] - b[0]; });
+      pairs.forEach(function(pr){ if (!usedD[pr[1]] && !usedP[pr[2]]){ usedD[pr[1]] = usedP[pr[2]] = 1; shape.pts[pr[2]].src = pr[1]; } });
+      shape.spare = pool.map(function(d, i){ return !usedD[i]; });
+      shape.pts.forEach(function(p){ cx += p.x / n; cy += p.y / n; });
+      shape.pts.forEach(function(p){ far = Math.max(far, Math.hypot(p.x - cx, p.y - cy)); });
+      shape.pts.forEach(function(p){ p.ord = Math.hypot(p.x - cx, p.y - cy) / (far || 1); });   // fill from the centre outward
+    }
 
-  // ---- Loop (paused when off-screen) ----
-  var running = false, last = 0, visible = true;
-  function frame(now){
-    if (!running) return;
-    var dt = Math.min(1 / 30, (now - last) / 1000 || 0); last = now;
-    step(dt, now); draw(now); updateUI(now);
-    requestAnimationFrame(frame);
-  }
-  function setRunning(on){ if (on && !running){ running = true; last = performance.now(); requestAnimationFrame(frame); } else if (!on) running = false; }
-  new IntersectionObserver(function(es){
-    visible = es[0].isIntersecting;
-    if (!visible && mode === 'focus'){ unfocus(performance.now()); paused = false; }
-    setRunning(visible && !document.hidden);
-  }).observe(canvas);
-  document.addEventListener('visibilitychange', function(){ setRunning(visible && !document.hidden); });
-  if (window.ResizeObserver){ var ro = new ResizeObserver(resize); ro.observe(canvas); ro.observe(document.getElementById('lab-center')); }
-  else window.addEventListener('resize', resize);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureKeep);
+    // Where each word sits within its highlight bar (fractions of the bar),
+    // unaffected by the words' rise-in transforms.
+    function measureMarks(){
+      headline.querySelectorAll('.mark').forEach(function(mark){
+        var mh = mark.offsetHeight || 1;
+        mark.querySelectorAll('.w').forEach(function(w){
+          w.style.setProperty('--t', (w.offsetTop / mh).toFixed(4));
+          w.style.setProperty('--h', (w.offsetHeight / mh).toFixed(4));
+        });
+      });
+    }
+    function layout(){
+      measureMarks();
+      // As large as the box allows while staying 16:9.
+      var w = Math.max(160, Math.min(box.clientWidth, box.clientHeight * 16 / 9));
+      canvas.style.width = w + 'px'; canvas.style.height = (w * 9 / 16) + 'px';
+      s.resize();
+      buildShapes();
+      buildPool();
+      shapes.forEach(assign);
+    }
+    function rgba(c, a){ return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + a.toFixed(3) + ')'; }
+    function mixRGB(a, b, t){ return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
+    function seg(a, b, color, alpha, width){
+      if (alpha < 0.01) return;
+      var c = s.ctx; c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y);
+      c.strokeStyle = rgba(color, alpha); c.lineWidth = width / s.scale; c.stroke();
+    }
 
-  resize();
-  nextComp(performance.now(), true);
-  draw(performance.now()); updateUI(performance.now());
+    s = Scene(canvas, function(now, dt){
+      var T = now - start, tp = T % CYCLE, shape = shapes[Math.floor(T / CYCLE) % shapes.length], i;
+      // m: 0 = the web, 1 = the tile.
+      var m = reduce ? 0 : tp < WEB ? 0 : tp < WEB + MOVE ? (tp - WEB) / MOVE : tp < WEB + MOVE + HOLD ? 1 : 1 - (tp - WEB - MOVE - HOLD) / MOVE;
+      var t = reduce ? 0 : now / 1000, tint = ease(clamp(m)), color = mixRGB(INK_RGB, shape.rgb, tint);
+      var webA = 1 - clamp(m * 2), shapeA = clamp(m * 2 - 1);
+      // The headline follows along: the first line is highlighted while the
+      // expert's web shows (once the line has risen in), the second while a
+      // figure shows, in that figure's colour.
+      var p1 = Math.min(ease(webA), clamp((T - 1300) / 700)), p2 = ease(shapeA);
+      headline.style.setProperty('--mp-1', p1.toFixed(3));
+      headline.style.setProperty('--mp-2', p2.toFixed(3));
+      headline.style.setProperty('--mc-2', 'rgb(' + shape.rgb.join(',') + ')');
+      headline.style.setProperty('--on-2', shape.lightText ? 'var(--paper)' : 'var(--ink)');
+      for (i = 0; i < pool.length; i++){
+        var d = pool[i];
+        d.hx = d.ax + 12 * Math.sin(t * d.f[0] + d.ph[0]) + 6 * Math.sin(t * d.f[1] + d.ph[1]);
+        d.hy = d.ay + 12 * Math.sin(t * d.f[2] + d.ph[2]) + 6 * Math.sin(t * d.f[3] + d.ph[3]);
+        d.x = d.hx; d.y = d.hy; d.col = INK_RGB;
+        d.a = shape.spare[i] ? ease(webA) : 1;                   // spares fade with the web's lines
+      }
+      // Each dot travels to its one place in the tile, the centre filling first.
+      shape.pts.forEach(function(p){
+        var d = pool[p.src], mi = ease(clamp(m * 1.35 - p.ord * 0.35));
+        d.x = lerp(d.hx, p.x, mi); d.y = lerp(d.hy, p.y, mi); d.col = mixRGB(INK_RGB, p.rgb, tint);
+      });
+      s.begin();
+      // The web's lines give way to the tile's lines, and back again.
+      webFor(pool.length).forEach(function(e){ seg(pool[e[0]], pool[e[1]], color, 0.28 * webA, 1); });
+      shape.edges.forEach(function(e){ var a = pool[shape.pts[e[0]].src], b = pool[shape.pts[e[1]].src]; seg(a, b, a.col, 0.55 * shapeA, 1.1); });
+      // In a tile, dots never grow so large that neighbours touch (on small
+      // screens dots are enlarged), so the lines between them stay visible.
+      var c = s.ctx, r = Math.min(3.4 * s.rMul, SP * 0.3);
+      for (i = 0; i < pool.length; i++){
+        var q = pool[i];
+        if (q.a < 0.02) continue;
+        c.fillStyle = rgba(q.col, 1); c.beginPath(); c.arc(q.x, q.y, r * q.a, 0, TAU); c.fill();
+      }
+    });
+
+    layout();
+    if (window.ResizeObserver) new ResizeObserver(layout).observe(box);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+
+    // The headline rises in word by word: the first half, then the second.
+    requestAnimationFrame(function(){ headline.classList.add('intro'); });
+    setTimeout(function(){ headline.classList.add('revealed'); }, reduce ? 0 : 1100);
+  })();
 
   /* ---------- Case "mini" bridges: tangle on the left, clean line on the right ---------- */
   document.querySelectorAll('svg.mini').forEach(function(m, n){
