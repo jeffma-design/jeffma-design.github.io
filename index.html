@@ -135,7 +135,7 @@
   /* MA is paper where the colour is behind it and ink where there is none yet (--x0/--x1: the colour's left and right edges). */
   .s3-wm.across .s3-b{background-image:linear-gradient(90deg, var(--ink) var(--x0, 0px), var(--paper) var(--x0, 0px), var(--paper) var(--x1, 999px), var(--ink) var(--x1, 999px)); -webkit-background-clip:text; background-clip:text; color:transparent;}
   .s3-tag{position:absolute; right:10px; bottom:10px; z-index:1; padding:5px 10px; background:var(--ink); color:var(--paper);}
-  @media (orientation: portrait){ .s3-tag{bottom:auto; top:calc(50% + 10px);} }   /* clear of the centred headline */
+  @media (orientation: portrait){ .s3-tag{bottom:auto; top:calc(58% + 10px);} }   /* clear of the centred headline */
   .sketch1-tag-row{border-top:2px solid var(--ink); padding-top:clamp(40px, 6vw, 72px);}
   .sketch2{border-top:2px solid var(--ink); padding:clamp(40px, 6vw, 72px) 0 clamp(56px, 8vw, 96px);}
   .sketch2-tag{display:inline-block; margin:0 0 clamp(20px, 3vw, 32px); padding:5px 12px; background:var(--ink); color:var(--paper);}
@@ -1394,13 +1394,14 @@
       Wd = frame.clientWidth; Ht = frame.clientHeight; dpr = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = Math.round(Wd * dpr); canvas.height = Math.round(Ht * dpr);
       stacked = portrait.matches; var top = bar.offsetHeight;
-      if (stacked){ var hh = Math.round((Ht - WALL) / 2); A = {x: 0, y: 0, w: Wd, h: hh}; wallR = {x: 0, y: hh, w: Wd, h: WALL}; B = {x: 0, y: hh + WALL, w: Wd, h: Ht - hh - WALL}; }
+      if (stacked){ var hh = Math.round((Ht - WALL) * 0.58);   /* stacked, the web gets the larger share */ A = {x: 0, y: 0, w: Wd, h: hh}; wallR = {x: 0, y: hh, w: Wd, h: WALL}; B = {x: 0, y: hh + WALL, w: Wd, h: Ht - hh - WALL}; }
       else { var ww = Math.round((Wd - WALL) / 2); A = {x: 0, y: 0, w: ww, h: Ht}; wallR = {x: ww, y: 0, w: WALL, h: Ht}; B = {x: ww + WALL, y: 0, w: Wd - ww - WALL, h: Ht}; }
       var small = Math.min(A.w, A.h);
       fs = Math.max(16, Math.min(40, small * 0.062)); pad = Math.max(16, small * 0.06);
       // Left: the headline under the header, the web below it.
       ctx.font = '700 ' + fs + 'px Jost, Futura, sans-serif';
-      A.headY = A.y + top + fs * 0.4;
+      var drop = stacked ? 0 : fs * 1.2;   // side by side: more room above the left headline, and the graphics move down with it
+      A.headY = A.y + top + fs * 0.4 + drop;
       // Balanced: the narrowest measure that keeps the same number of lines, so no word sits alone.
       A.lines = wrap(HEAD_L, A.w - 2 * pad);
       for (var bw = A.w - 2 * pad; bw > 80; bw -= 4){ var bl = wrap(HEAD_L, bw - 4); if (bl.length > A.lines.length) break; A.lines = bl; }
@@ -1409,12 +1410,12 @@
       // the middle of the viewport; stacked, a little above the middle of the
       // room each has. Each is sized to stay clear of the type around it.
       function optical(t, b){ return (t + b) / 2 - (b - t) * 0.03; }
-      var wcy = stacked ? optical(wTop, wBot) : Ht * 0.48;
+      var wcy = stacked ? optical(wTop, wBot) : Ht * 0.48 + drop;
       W = {acx: A.x + A.w / 2, acy: wcy, aw: A.w - 2 * pad, ah: 2 * Math.max(40, Math.min(wcy - wTop, wBot - wcy))}; webCache = {}; morphCache = {};
       // Right: the tile, above the headline at the bottom.
       B.lines = wrap(HEAD_R, B.w - 2 * pad);
       var tTop = B.y + (stacked ? pad : top + pad * 0.5), tBot = B.y + B.h - pad - B.lines.length * fs * 1.12 - pad;
-      var tcy = stacked ? optical(tTop, tBot) : Ht * 0.48, tcx = B.x + B.w / 2;
+      var tcy = stacked ? optical(tTop, tBot) : Ht * 0.48 + drop, tcx = B.x + B.w / 2;
       var side = Math.max(60, Math.min(B.w * 0.6, 2 * Math.min(tcy - tTop, tBot - tcy) * 0.92));
       // The shapes: a grid of dots joined to their neighbours.
       var n = 15;
@@ -1449,6 +1450,14 @@
     }
     function home(d, t){ return {x: d.x + 9 * Math.sin(t * d.f[0] + d.ph[0]) + 4 * Math.sin(t * d.f[1] + d.ph[1]), y: d.y + 9 * Math.sin(t * d.f[2] + d.ph[2]) + 4 * Math.sin(t * d.f[3] + d.ph[3])}; }
 
+    // The colour moves along one axis of the right-hand (or, stacked, lower)
+    // frame: left to right side by side, top to bottom stacked. Positions
+    // along it run from b0() to b1().
+    function b0(){ return stacked ? B.y : B.x; }
+    function b1(){ return stacked ? B.y + B.h : B.x + B.w; }
+    function band(a0, a1){ if (stacked) ctx.rect(B.x, a0, B.w, a1 - a0); else ctx.rect(a0, B.y, a1 - a0, B.h); }
+    function fillBand(a0, a1, col){ ctx.fillStyle = css(col); ctx.beginPath(); band(a0, a1); ctx.fill(); }
+    function nudge(p, d){ return stacked ? {x: p.x, y: p.y + d} : {x: p.x + d, y: p.y}; }
     function frameWipe(now){
       var T = now - start, c = Math.floor(T / CYCLE), tp = T % CYCLE, k = c % tiles.length, t = now / 1000;
       if (reduce){ c = 0; k = 0; tp = APPEAR + WEBT + TRAVEL + 1; t = 0; }
@@ -1462,28 +1471,28 @@
       // way grows as (time / span)^2.5, so each starts at span * share^(1 / 2.5).
       function appear(d, ms, span){ return ease(clamp((ms - span * Math.pow(d.ph[0] / TAU, 0.4)) / GROW)); }
       var app = web.pts.map(function(d){ return phase === 'appear' && (c === 0 || reduce) ? appear(d, tp, APPEAR - GROW) : 1; });
-      // The shape slides out to the right, accelerating, starting just before
+      // The shape slides out (right, or down when stacked), accelerating, starting just before
       // the colour wipes away behind it.
-      var slide = reduce ? 0 : Math.pow(clamp((tp - t4 + SLIDE) / (DRAIN + SLIDE)), 2) * B.w * 1.4;   // clear of the frame just ahead of the wipe
+      var slide = reduce ? 0 : Math.pow(clamp((tp - t4 + SLIDE) / (DRAIN + SLIDE)), 2) * (b1() - b0()) * 1.4;   // clear of the frame just ahead of the wipe
       // Where each place of the tile is: 0 = in the web, 1 = in the tile.
       var pos = tile.pts.map(function(p, i){
         var pi = phase === 'appear' || phase === 'web' ? 0 : phase === 'go' ? ease(clamp((q - web.goOrd[i] * 0.4) / 0.6)) : 1;
-        var h = homes[i];
-        return {x: lerp(h.x, p.x, pi) + slide, y: lerp(h.y, p.y, pi), pi: pi, a: app[i]};
+        var h = homes[i], at = nudge({x: lerp(h.x, p.x, pi), y: lerp(h.y, p.y, pi)}, slide);
+        return {x: at.x, y: at.y, pi: pi, a: app[i]};
       });
       if (phase === 'hold') getWeb(nk);   // have the next web ready before it's needed
       // The colour: pours in from the left on first load; after each hold it
       // wipes away to the right with the next colour following right behind it.
-      var x0 = B.x, x1 = B.x + B.w;
-      if (phase === 'appear' && c === 0 && !reduce) x1 = B.x + B.w * ease(clamp(tp / APPEAR));
-      if (phase === 'drain') x0 = B.x + B.w * ease(clamp((tp - t4) / DRAIN));
-      var lft = phase === 'drain' ? B.x : x0;   // where any colour starts
+      var x0 = b0(), x1 = b1(), L = b1() - b0();
+      if (phase === 'appear' && c === 0 && !reduce) x1 = b0() + L * ease(clamp(tp / APPEAR));
+      if (phase === 'drain') x0 = b0() + L * ease(clamp((tp - t4) / DRAIN));
+      var lft = phase === 'drain' ? b0() : x0;   // where any colour starts
       var r = Math.max(1.8, Math.min(A.w, A.h) * 0.0058);
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = css(PAPER); ctx.fillRect(0, 0, Wd, Ht);
-      ctx.fillStyle = css(fills[k]); ctx.fillRect(x0, B.y, x1 - x0, B.h);
-      if (phase === 'drain'){ ctx.fillStyle = css(fills[nk]); ctx.fillRect(B.x, B.y, x0 - B.x, B.h); }
+      fillBand(x0, x1, fills[k]);
+      if (phase === 'drain') fillBand(b0(), x0, fills[nk]);
       function drawAll(col, lineA){
         ctx.lineWidth = 1.1;
         // The web's lines let go as soon as either end sets off.
@@ -1506,7 +1515,7 @@
         ctx.fillStyle = css(INKC); nH.forEach(function(h, i){ if (nApp[i] > 0.01){ ctx.beginPath(); ctx.arc(h.x, h.y, r * nApp[i], 0, TAU); ctx.fill(); } });
       }
       ctx.restore();
-      ctx.save(); ctx.beginPath(); ctx.rect(x0, B.y, x1 - x0, B.h); ctx.clip(); drawAll(PAPER, 0.55); ctx.restore();
+      ctx.save(); ctx.beginPath(); band(x0, x1); ctx.clip(); drawAll(PAPER, 0.55); ctx.restore();
       drawHeads(x0, x1, lft);
     }
     // The headline halves: top left on the off-white, bottom left on the
@@ -1521,8 +1530,8 @@
       A.lines.forEach(function(l, i){ ctx.fillText(l, lineX(l, A), A.headY + fs * 0.85 + i * fs * 1.12); });
       var by = B.y + B.h - pad - fs * 0.22 - (B.lines.length - 1) * fs * 1.12;
       function headR(){ B.lines.forEach(function(l, i){ ctx.fillText(l, lineX(l, B), by + i * fs * 1.12); }); }
-      ctx.save(); ctx.beginPath(); ctx.rect(B.x, B.y, lft - B.x, B.h); ctx.rect(x1, B.y, B.x + B.w - x1, B.h); ctx.clip(); ctx.fillStyle = css(INKC); headR(); ctx.restore();
-      ctx.save(); ctx.beginPath(); ctx.rect(lft, B.y, x1 - lft, B.h); ctx.clip(); ctx.fillStyle = css(PAPER); headR(); ctx.restore();
+      ctx.save(); ctx.beginPath(); band(b0(), lft); band(x1, b1()); ctx.clip(); ctx.fillStyle = css(INKC); headR(); ctx.restore();
+      ctx.save(); ctx.beginPath(); band(lft, x1); ctx.clip(); ctx.fillStyle = css(PAPER); headR(); ctx.restore();
       // MA in the wordmark follows the colour too.
       if (!stacked){
         var xs = Math.round(lft - maLeft) + ',' + Math.round(x1 - maLeft);
@@ -1547,7 +1556,7 @@
     // LEAD ms in. The first cycle starts after an intro in which the web
     // appears. Each web dot starts morphing into the next web as its copy
     // sets off, so the next pour can chase the shape out after a short hold.
-    var LEAD = 400, POUR = DRAIN, TRAVEL4 = 2600, HOLD4 = 1700, MORPH = 2400, INTRO = APPEAR + WEBT, CYCLE4 = LEAD + TRAVEL4 + HOLD4;
+    var LEAD = 150, POUR = DRAIN, TRAVEL4 = 2600, HOLD4 = 1700, MORPH = 2400, INTRO = APPEAR + WEBT, CYCLE4 = LEAD + TRAVEL4 + HOLD4;
     function frameCopies(now){
       var T = now - start - INTRO, c = T < 0 ? 0 : Math.floor(T / CYCLE4), tp = T < 0 ? T : T % CYCLE4, k = c % tiles.length, t = now / 1000;
       var nt = tiles.length, t2 = LEAD, t3 = t2 + TRAVEL4;
@@ -1570,34 +1579,34 @@
         else { it.x = pb.x; it.y = pb.y; it.r = r * m; }
       });
       if (phase === 'hold') getMorph((k + 1) % nt);   // ready before it's needed
-      // Each shape slides out to the right, accelerating, starting just before
+      // Each shape slides out (right, or down when stacked), accelerating, starting just before
       // the next colour pours in behind it.
-      function slideAt(ms){ return reduce ? 0 : Math.pow(clamp(ms / (POUR + SLIDE)), 2) * B.w * 1.4; }
+      function slideAt(ms){ return reduce ? 0 : Math.pow(clamp(ms / (POUR + SLIDE)), 2) * (b1() - b0()) * 1.4; }
       var slide = slideAt(tp - (CYCLE4 - SLIDE)), prevSlide = c > 0 ? slideAt(tp + SLIDE) : 0;
       // The copies: they leave the web's dots, nearest the wall first, and
       // build the shape.
       var pos = tile.pts.map(function(p, i){
         var pi = phase === 'web' ? 0 : phase === 'go' ? ease(clamp((q - web.goOrd[i] * 0.4) / 0.6)) : 1;
         var h = home(web.pts[i], t);   // from where the web dot was
-        return {x: lerp(h.x, p.x, pi) + slide, y: lerp(h.y, p.y, pi), pi: pi};
+        var at = nudge({x: lerp(h.x, p.x, pi), y: lerp(h.y, p.y, pi)}, slide);
+        return {x: at.x, y: at.y, pi: pi};
       });
-      // This cycle's colour pours in from the left over the last one (or,
-      // on first load, over the off-white).
-      var x1 = reduce ? B.x + B.w : B.x + B.w * ease(clamp(tp / POUR)), right = B.x + B.w;
-      var cx1 = c > 0 || reduce ? right : x1;   // where any colour ends
+      // This cycle's colour pours in from the left over the last one. On
+      // first load the right side starts in the last shape's colour, empty.
+      var right = b1(), x1 = reduce ? right : b0() + (right - b0()) * ease(clamp(tp / POUR));
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = css(PAPER); ctx.fillRect(0, 0, Wd, Ht);
-      if (c > 0){ ctx.fillStyle = css(fills[pk]); ctx.fillRect(x1, B.y, right - x1, B.h); }
-      ctx.fillStyle = css(fills[k]); ctx.fillRect(B.x, B.y, x1 - B.x, B.h);
+      fillBand(x1, right, fills[pk]);
+      fillBand(b0(), x1, fills[k]);
       ctx.lineWidth = 1.1;
       function seg(p, q2, col, al){ if (al > 0.01){ ctx.strokeStyle = css(col, al); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q2.x, q2.y); ctx.stroke(); } }
       // The last shape, sliding out ahead of the new colour.
       if (c > 0 && x1 < right){
         var pt = tiles[pk];
-        ctx.save(); ctx.beginPath(); ctx.rect(x1, B.y, right - x1, B.h); ctx.clip();
-        pt.edges.forEach(function(e){ var a = pt.pts[e[0]], b = pt.pts[e[1]]; seg({x: a.x + prevSlide, y: a.y}, {x: b.x + prevSlide, y: b.y}, PAPER, 0.55); });
-        ctx.fillStyle = css(PAPER); pt.pts.forEach(function(p){ ctx.beginPath(); ctx.arc(p.x + prevSlide, p.y, r, 0, TAU); ctx.fill(); });
+        ctx.save(); ctx.beginPath(); band(x1, right); ctx.clip();
+        pt.edges.forEach(function(e){ seg(nudge(pt.pts[e[0]], prevSlide), nudge(pt.pts[e[1]], prevSlide), PAPER, 0.55); });
+        ctx.fillStyle = css(PAPER); pt.pts.forEach(function(p){ var n = nudge(p, prevSlide); ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, TAU); ctx.fill(); });
         ctx.restore();
       }
       // The web, in ink: its lines fade across from this web's to the next's.
@@ -1613,9 +1622,9 @@
         ctx.fillStyle = css(col);
         pos.forEach(function(p){ if (p.pi > 0.001){ ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, TAU); ctx.fill(); } });
       }
-      if (phase === 'go'){ ctx.save(); ctx.beginPath(); ctx.rect(0, 0, Wd, Ht); ctx.rect(B.x, B.y, cx1 - B.x, B.h); ctx.clip('evenodd'); drawCopies(INKC, 0.32); ctx.restore(); }
-      ctx.save(); ctx.beginPath(); ctx.rect(B.x, B.y, cx1 - B.x, B.h); ctx.clip(); drawCopies(PAPER, 0.55); ctx.restore();
-      drawHeads(B.x, cx1, B.x);
+      if (phase === 'go'){ ctx.save(); ctx.beginPath(); ctx.rect(0, 0, Wd, Ht); ctx.rect(B.x, B.y, B.w, B.h); ctx.clip('evenodd'); drawCopies(INKC, 0.32); ctx.restore(); }
+      ctx.save(); ctx.beginPath(); ctx.rect(B.x, B.y, B.w, B.h); ctx.clip(); drawCopies(PAPER, 0.55); ctx.restore();
+      drawHeads(b0(), right, b0());
     }
     function frameFn(now){
       if (!running) return;
