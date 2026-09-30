@@ -201,7 +201,7 @@
   .reveal.in{opacity:1; transform:none;}
 
   /* 01 — Problem */
-  .blind-grid{display:grid; grid-template-columns:repeat(3, 1fr); border-top:2px solid var(--rule); border-left:2px solid var(--rule);}
+  .blind-grid{display:grid; grid-template-columns:repeat(4, 1fr); border-top:2px solid var(--rule); border-left:2px solid var(--rule);}
   .blind{border-right:2px solid var(--rule); border-bottom:2px solid var(--rule); padding:28px 24px 32px; min-height:190px; display:flex; flex-direction:column; justify-content:space-between; gap:24px;}
   .blind p{font-size:1.25rem; font-weight:500; line-height:1.25; letter-spacing:-0.01em;}
   .blind svg{width:56px; height:40px;}
@@ -243,7 +243,7 @@
     .step p{margin:0;}
   }
   .novice{
-    margin-top:clamp(56px, 8vw, 96px); display:grid; grid-template-columns:1fr 1fr; border:2px solid var(--rule);
+    margin-top:clamp(56px, 8vw, 96px); display:grid; grid-template-columns:1fr; border:2px solid var(--rule);
   }
   .novice > div{padding:32px;}
   .novice > div + div{border-left:2px solid var(--rule); background:var(--blue); color:var(--paper);}
@@ -307,8 +307,8 @@
   .also span.co{font-weight:600; font-size:1.15rem;}
 
   /* 05 — Moments */
-  .moments{display:grid; grid-template-columns:repeat(5, 1fr); gap:16px;}
-  @media (max-width:1100px){ .moments{grid-template-columns:repeat(3, 1fr);} }
+  .moments{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;}
+  @media (max-width:1100px){ .moments{grid-template-columns:repeat(2, 1fr);} }
   @media (max-width:700px){ .moments{grid-template-columns:1fr;} .moment{min-height:0; flex-direction:row; align-items:center;} .moment .ico{flex:none;} }
   .moment{border:2px solid var(--rule); padding:24px; background:var(--paper); display:flex; flex-direction:column; gap:18px; min-height:190px;}
   .moment .ico{width:36px; height:36px;}
@@ -484,44 +484,35 @@
       <div class="num">01</div>
       <div>
         <h2>The closer you are to an idea, the harder it is to explain.</h2>
-        <p class="lede">It’s called the curse of knowledge. Once you know something deeply, it’s difficult to remember what it was like not to. So the explanation that feels obvious to you loses everyone else in the room.</p>
+        <p class="lede">It’s called the curse of knowledge: once you know something deeply, what feels obvious to you loses everyone else.</p>
       </div>
     </div>
 
-    <p class="label reveal" style="margin-bottom:16px">What an expert can’t easily see</p>
+    <p class="label reveal" style="margin-bottom:16px">What is difficult for experts to see</p>
     <div class="blind-grid reveal">
       <div class="blind">
         <svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="8" cy="20" r="6" fill="#151515"/><circle cx="28" cy="20" r="6" fill="none" stroke="#151515" stroke-width="2" stroke-dasharray="3 3"/><circle cx="48" cy="20" r="6" fill="#151515"/></svg>
-        <p>What still needs explaining</p>
+        <p>What to explain</p>
       </div>
       <div class="blind">
         <svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="10" cy="20" r="6" fill="#151515"/><circle cx="28" cy="10" r="4" fill="#151515" opacity=".3"/><circle cx="30" cy="30" r="4" fill="#151515" opacity=".3"/><circle cx="46" cy="20" r="6" fill="#151515"/></svg>
-        <p>What can safely be left out</p>
+        <p>What to leave out</p>
       </div>
       <div class="blind">
         <svg viewBox="0 0 56 40" aria-hidden="true"><path d="M8 30 L28 10 L48 30" fill="none" stroke="#151515" stroke-width="2"/><circle cx="8" cy="30" r="5" fill="#151515"/><circle cx="28" cy="10" r="5" fill="#151515"/><circle cx="48" cy="30" r="5" fill="#151515"/></svg>
-        <p>What order makes it make sense</p>
-      </div>
-      <div class="blind">
-        <svg viewBox="0 0 56 40" aria-hidden="true"><text x="4" y="30" font-family="DM Mono, monospace" font-size="24" font-weight="500">?!</text><circle cx="46" cy="22" r="6" fill="#151515"/></svg>
-        <p>Which words are jargon</p>
-      </div>
-      <div class="blind">
-        <svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="8" cy="12" r="3" fill="#151515" opacity=".3"/><circle cx="20" cy="30" r="3" fill="#151515" opacity=".3"/><circle cx="30" cy="18" r="9" fill="#d63a26"/><circle cx="46" cy="10" r="3" fill="#151515" opacity=".3"/><circle cx="48" cy="30" r="3" fill="#151515" opacity=".3"/></svg>
-        <p>Which detail actually matters</p>
+        <p>What order works</p>
       </div>
       <div class="blind">
         <svg viewBox="0 0 56 40" aria-hidden="true"><path d="M6 20 H30" stroke="#151515" stroke-width="2"/><circle cx="6" cy="20" r="5" fill="#151515"/><circle cx="30" cy="20" r="5" fill="#151515"/><circle cx="48" cy="20" r="5" fill="none" stroke="#151515" stroke-width="2"/></svg>
-        <p>Where the explanation stops landing</p>
+        <p>Where it stops landing</p>
       </div>
     </div>
 
     <div class="symptoms reveal">
       <p class="label" style="padding-top:6px">Sound familiar?</p>
       <ul>
-        <li>It takes twenty minutes to explain what should take two.</li>
-        <li>Every slide is true, and no one remembers any of them.</li>
-        <li>The room nods politely, then asks the question you answered on page one.</li>
+        <li>Twenty minutes to explain a two-minute idea.</li>
+        <li>The room nods, then asks what page one answered.</li>
       </ul>
     </div>
   </div>
@@ -534,7 +525,7 @@
       <div class="num">02</div>
       <div>
         <h2>I connect the dots with you, then for them.</h2>
-        <p class="lede">I don’t begin by making things look good. I start with a conversation, and design is the last step, not the first.</p>
+        <p class="lede">I start with a conversation. Design comes last.</p>
       </div>
     </div>
 
@@ -542,34 +533,30 @@
       <div class="process-line" aria-hidden="true"></div>
       <div class="step">
         <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="#d63a26"/></svg></div>
-        <div><h3>Listen</h3><p>You talk. I get everything that’s in your head out onto the table.</p></div>
+        <div><h3>Listen</h3><p>You talk. I listen and unpack your brain.</p></div>
       </div>
       <div class="step">
         <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><path d="M36 6 L66 62 H6 Z" fill="#f0b429"/></svg></div>
-        <div><h3>Ask</h3><p>I ask the questions your audience would ask, even the “obvious” ones.</p></div>
+        <div><h3>Ask</h3><p>I ask what your audience would.</p></div>
       </div>
       <div class="step">
         <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><rect x="10" y="10" width="52" height="52" fill="#1f4fa3"/></svg></div>
-        <div><h3>Edit</h3><p>I find the story inside the information, then cut what doesn’t serve it.</p></div>
+        <div><h3>Edit</h3><p>I find the story and cut the rest.</p></div>
       </div>
       <div class="step">
         <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><path d="M6 60 A30 30 0 0 1 66 60 Z" fill="#151515"/></svg></div>
-        <div><h3>Structure</h3><p>I put the ideas in the order a newcomer needs to hear them.</p></div>
+        <div><h3>Structure</h3><p>I put it in a newcomer’s order.</p></div>
       </div>
       <div class="step">
         <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="#f1ece2" stroke="#151515" stroke-width="3"/><circle cx="36" cy="36" r="14" fill="#d63a26"/></svg></div>
-        <div><h3>Craft</h3><p>Then I make it: the deck, report, map, film or site that carries it.</p></div>
+        <div><h3>Craft</h3><p>Then I design what carries it.</p></div>
       </div>
     </div>
 
     <div class="novice reveal">
       <div>
         <span class="label">The unusual part</span>
-        <p>I become a temporary beginner on your behalf. I walk into your subject knowing little, and I use that on purpose.</p>
-      </div>
-      <div>
-        <span class="label">What you feel</span>
-        <p>For the first time in a while, you remember what it’s like to know nothing about your own subject. That’s when the clear version appears.</p>
+        <p>I become a beginner in your subject on purpose. Through my eyes you see it fresh, and the clear version appears.</p>
       </div>
     </div>
   </div>
@@ -592,13 +579,13 @@
     <div class="ab-labels label reveal" aria-hidden="true" style="margin-top:12px"><span>What you know</span><span>What they do about it</span></div>
 
     <div class="outcomes reveal">
-      <div class="outcome"><div class="big">Understood faster</div><p>The point lands in the first minute, not the fortieth.</p></div>
-      <div class="outcome"><div class="big">Better conversations</div><p>Meetings spent debating the idea, not decoding it.</p></div>
-      <div class="outcome"><div class="big">Easier decisions</div><p>Leaders can say yes, or no, with confidence.</p></div>
-      <div class="outcome"><div class="big">Work moves</div><p>Important projects stop stalling at “we need to align.”</p></div>
+      <div class="outcome"><div class="big">Understood faster</div><p>The point lands in minute one.</p></div>
+      <div class="outcome"><div class="big">Better conversations</div><p>Debating the idea, not decoding it.</p></div>
+      <div class="outcome"><div class="big">Easier decisions</div><p>Leaders decide with confidence.</p></div>
+      <div class="outcome"><div class="big">Work moves</div><p>Projects stop stalling.</p></div>
     </div>
 
-    <p class="compound reveal">It’s not about making things look pretty. Once the thinking is clear, <span class="hl">everything that comes after gets easier</span>: every deck, launch and conversation built on it.</p>
+    <p class="compound reveal">Once the thinking is clear, <span class="hl">everything that comes after gets easier</span>: every deck, launch and conversation built on it.</p>
   </div>
 </section>
 </div>
@@ -610,7 +597,7 @@
       <div class="num">04</div>
       <div>
         <h2>Dots I’ve connected.</h2>
-        <p class="lede">Two decades of this work, most recently as a creative director inside Google’s privacy, safety and security organization. From Alphabet’s board and heads of state to first-time shoppers: different subjects, same problem. What the experts knew, and what everyone else needed to understand.</p>
+        <p class="lede">Twenty years of this, most recently as a creative director in Google’s privacy, safety and security organization.</p>
       </div>
     </div>
 
@@ -618,9 +605,9 @@
       <a class="case reveal" href="projects/secure-ai-framework.html">
         <div class="case-title"><h3>Secure AI Framework Risk Map</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>How AI systems can be attacked and defended, spread across security engineering teams.</p></div>
+          <div class="from"><span class="label">What the experts knew</span><p>How AI gets attacked and defended.</p></div>
           <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
-          <div class="to"><span class="label">What people understood</span><p>One validated visual map, adopted as a foundational reference by CoSAI, a cross-industry coalition.</p></div>
+          <div class="to"><span class="label">What people understood</span><p>One visual map, now an industry reference.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/secure-ai-framework/saif-red-teams.jpg" alt="SAIF risk map visualization" loading="lazy"></div>
       </a>
@@ -628,9 +615,9 @@
       <a class="case reveal" href="projects/security-reporting.html">
         <div class="case-title"><h3>Security Analysis &amp; Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence on cyber conflict, AI defense and commercial surveillance.</p></div>
+          <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence.</p></div>
           <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
-          <div class="to"><span class="label">What people understood</span><p>A public report series with one editorial system, distributed at the Munich Security Conference.</p></div>
+          <div class="to"><span class="label">What people understood</span><p>Public reports for the Munich Security Conference.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Spread from the Fog of War report" loading="lazy"></div>
       </a>
@@ -638,9 +625,9 @@
       <a class="case reveal" href="projects/safer-with-google-summit.html">
         <div class="case-title"><h3>Safer with Google Summit</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Privacy, security, trust &amp; safety, policy, legal and engineering, each with its own language.</p></div>
+          <div class="from"><span class="label">What the experts knew</span><p>Six disciplines, six languages.</p></div>
           <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
-          <div class="to"><span class="label">What people understood</span><p>One summit, one story: a system behind 80+ talks a year and six executive keynotes annually.</p></div>
+          <div class="to"><span class="label">What people understood</span><p>One story across 80+ talks a year.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/safer-with-google-summit/stage-2024.webp" alt="Keynote stage at the Safer with Google Summit" loading="lazy"></div>
       </a>
@@ -648,9 +635,9 @@
       <a class="case reveal" href="projects/ai-safety.html">
         <div class="case-title"><h3>AI Safety Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Technical research on AI security and the “defender’s dilemma.”</p></div>
+          <div class="from"><span class="label">What the experts knew</span><p>Research on the “defender’s dilemma.”</p></div>
           <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
-          <div class="to"><span class="label">What people understood</span><p>A public-facing film on ai.google and YouTube that anyone can follow.</p></div>
+          <div class="to"><span class="label">What people understood</span><p>A film anyone can follow.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film" loading="lazy"></div>
       </a>
@@ -658,9 +645,9 @@
       <a class="case reveal" href="projects/safety-anthem.html">
         <div class="case-title"><h3>Safety Anthem Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Years of safety work the public rarely sees behind the word “safety.”</p></div>
+          <div class="from"><span class="label">What the experts knew</span><p>Safety work the public rarely sees.</p></div>
           <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
-          <div class="to"><span class="label">What people understood</span><p>A flagship motion film that makes that leadership visible in minutes.</p></div>
+          <div class="to"><span class="label">What people understood</span><p>A film that shows it in minutes.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/safety-anthem/hero.jpg" alt="Still from the Safety Anthem film" loading="lazy"></div>
       </a>
@@ -680,37 +667,33 @@
       <div class="num">05</div>
       <div>
         <h2>You probably need this when…</h2>
-        <p class="lede">The people who understand the thing aren’t the people who decide about it, and the moment to close that gap is now.</p>
+        <p class="lede">The people who understand it aren’t the ones who decide.</p>
       </div>
     </div>
 
     <div class="moments reveal">
       <div class="moment">
         <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="#d63a26"/></svg>
-        <p>You’re presenting to a board, a C-suite or a funding committee.</p>
+        <p>You’re presenting to a board.</p>
       </div>
       <div class="moment">
         <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><path d="M18 2 L34 32 H2 Z" fill="#f0b429"/></svg>
-        <p>A launch needs executive buy-in before it can ship.</p>
+        <p>A launch needs executive buy-in.</p>
       </div>
       <div class="moment">
         <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><rect x="3" y="3" width="30" height="30" fill="#1f4fa3"/></svg>
-        <p>A regulator, policymaker or partner needs a clear explanation.</p>
-      </div>
-      <div class="moment">
-        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><path d="M2 32 A16 16 0 0 1 34 32 Z" fill="#151515"/></svg>
-        <p>Your team needs to understand a change before it goes public.</p>
+        <p>A regulator needs it explained.</p>
       </div>
       <div class="moment">
         <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#151515" stroke-width="3"/><circle cx="18" cy="18" r="6" fill="#d63a26"/></svg>
-        <p>You’ve explained it ten times and it still isn’t landing.</p>
+        <p>You’ve explained it ten times, and it isn’t landing.</p>
       </div>
     </div>
 
     <div class="audiences reveal">
-      <div><h3>Who I work with</h3><p>Engineering, security &amp; privacy, legal, policy, product and marketing leaders</p></div>
-      <div><h3>Who they need to reach</h3><p>Boards, C-suites, regulators, heads of state, investors, and millions of first-time users</p></div>
-      <div><h3>Where</h3><p>Tech, finance, retail, healthcare and education. Startups to Alphabet.</p></div>
+      <div><h3>Who I work with</h3><p>Technical, legal, policy and product leaders</p></div>
+      <div><h3>Who they reach</h3><p>Boards, regulators, investors and first-time users</p></div>
+      <div><h3>Where</h3><p>Startups to Alphabet.</p></div>
     </div>
   </div>
 </section>
