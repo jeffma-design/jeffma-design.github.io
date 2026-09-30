@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -65,12 +66,13 @@
   .brand{text-align:center;}
   .wm-role{display:block; color:var(--ink-soft); margin-top:14px;}
 
-  /* Wordmark: JEFF MA, drawn from Jost Bold's proportions. Vertical-sided M,
-     a J that sits on the baseline, and a dot for the counter of the A.
-     Sized in em so it scales like type: cap height = .7em. */
+  /* Wordmark: JEFF MA, set in Unbounded. */
   .wordmark{display:block; text-decoration:none; text-align:center;}
-  .wm{display:inline-block; font-size:clamp(2.75rem, 12vw, 4.5rem); line-height:0; vertical-align:top;}
-  .wm-svg{display:block; height:.764em; width:auto; overflow:visible;}
+  .wm{
+    display:inline-block; font-family:"Unbounded", var(--sans); font-weight:800; line-height:1;
+    font-size:clamp(2rem, 8.9vw, 3.33rem); letter-spacing:0.01em; white-space:nowrap;
+  }
+  .wm-sm{font-size:1.3rem;}
   .wm-sm{font-size:1.75rem;}
 
   @media (max-width:700px){
@@ -119,6 +121,32 @@
     color:rgba(21,21,21,.78);
   }
   .hero-after{text-align:center; padding-top:clamp(28px, 4vw, 44px); padding-bottom:clamp(56px, 8vw, 96px);}
+
+  /* Sketch 2 (for review): headline halves over two square frames */
+  /* Sketch 3 (for review): the first screen as one frame with a wall */
+  .s3{height:100vh; height:100svh;}
+  .s3-frame{position:relative; height:100%; background:var(--paper); overflow:hidden;}
+  .s3-frame canvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
+  .s3-bar{position:relative; z-index:1;}
+  .s3-topbar{padding:clamp(14px, 2vw, 24px) clamp(16px, 2.5vw, 32px) 0;}
+  /* JEFF MA straddles the wall: JEFF in ink on the off-white, MA in paper on the colour.
+     The script shifts it (--shift) so the space between the words sits on the wall. */
+  .s3-wm{transform:translateX(var(--shift, 0px));}
+  /* MA is paper where the colour is behind it and ink where there is none yet (--x0/--x1: the colour's left and right edges). */
+  .s3-wm.across .s3-b{background-image:linear-gradient(90deg, var(--ink) var(--x0, 0px), var(--paper) var(--x0, 0px), var(--paper) var(--x1, 999px), var(--ink) var(--x1, 999px)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .s3-tag{position:absolute; right:10px; bottom:10px; z-index:1; padding:5px 10px; background:var(--ink); color:var(--paper);}
+  .sketch1-tag-row{border-top:2px solid var(--ink); padding-top:clamp(40px, 6vw, 72px);}
+  .sketch2{border-top:2px solid var(--ink); padding:clamp(40px, 6vw, 72px) 0 clamp(56px, 8vw, 96px);}
+  .sketch2-tag{display:inline-block; margin:0 0 clamp(20px, 3vw, 32px); padding:5px 12px; background:var(--ink); color:var(--paper);}
+  /* Side by side on landscape screens, stacked on portrait ones; either way
+     both frames fit on screen together. */
+  .s2-grid{max-width:min(1000px, calc((100vh - 120px) * 2)); margin:0 auto;}
+  @media (orientation: portrait){ .s2-grid{max-width:min(560px, calc((100vh - 120px) / 2));} }
+  .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+  /* The divider is the grid gap showing the black behind, so both frames stay equal squares. */
+  .s2-frames{display:grid; grid-template-columns:1fr 1fr; gap:clamp(4px, 0.8vw, 9px); border:clamp(4px, 0.8vw, 9px) solid var(--ink); background:var(--ink);}
+  .s2-frames canvas{display:block; width:100%; aspect-ratio:1; background:var(--paper);}
+  @media (orientation: portrait){ .s2-frames{grid-template-columns:1fr;} }
 
   .headline em{font-style:normal;}
   .hl-1, .hl-2{display:block;}
@@ -353,6 +381,31 @@
   </ol>
 </nav>
 
+<!-- ============ SKETCH 3 (for review): one frame, a wall down the middle ============ -->
+<section class="s3" id="top" aria-label="Sketch 3: hero">
+  <div class="s3-frame">
+    <canvas id="s3-canvas" aria-hidden="true"></canvas>
+    <header class="s3-bar">
+      <div class="topbar s3-topbar">
+        <nav class="nav nav-left" aria-label="Sections">
+          <a href="#approach">Approach</a>
+          <a href="#work">Work</a>
+        </nav>
+        <div class="brand">
+          <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span></span></a>
+        </div>
+        <nav class="nav nav-right" aria-label="Contact">
+          <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
+        </nav>
+      </div>
+    </header>
+    <p class="sr-only">I help experts translate what they know for new audiences. An expert’s web of connected dots travels through a wall and builds a Bauhaus-inspired figure on the other side.</p>
+    <span class="label s3-tag">Sketch 3</span>
+  </div>
+</section>
+
+<!-- ============ SKETCH 1 (for review) ============ -->
+<div class="sketch1-tag-row"><div class="wrap"><p class="label sketch2-tag">Sketch 1</p></div></div>
 <div class="first-screen">
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="site-header">
@@ -362,7 +415,7 @@
       <a href="#work">Work</a>
     </nav>
     <div class="brand">
-      <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm"><svg class="wm-svg" viewBox="36 -44 4117 764" role="img" aria-label="Jeff Ma"><g fill="currentColor"><path d="M366 0H530V440A247.0 280 0 0 1 36 440H186A90.0 130 0 0 0 366 440Z"/><path d="M674 0H1138V138H838V265H1118V399H838V561H1138V700H674Z"/><path d="M1287 0H1711V144H1451V283H1701V418H1451V700H1287Z"/><path d="M1850 0H2274V144H2014V283H2264V418H2014V700H1850Z"/><path d="M2663 0L2827 0L2999 370L3171 0L3335 0L3335 700L3171 700L3171 330L2999 700L2827 330L2827 700L2663 700Z"/><path d="M3786 -44L4153 700L3963 700L3898 568L3674 568L3609 700L3419 700Z"/><circle cx="3786" cy="385" r="60" fill="var(--red)"/></g></svg></span></a>
+      <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm">JEFF MA</span></a>
       <p class="wm-role label">Independent creative director</p>
     </div>
     <nav class="nav nav-right" aria-label="Contact">
@@ -372,7 +425,7 @@
 </header>
 
 <!-- ============ HERO ============ -->
-<div class="hero" id="top">
+<div class="hero" id="sketch-1">
   <div class="scene-box">
     <canvas id="scene" role="img" aria-label="A web of connected dots drifts slowly: an expert’s knowledge. In turn, every dot moves into place in a Bauhaus-inspired figure, taking on its color, then returns to the web: a yellow four-point star, blue diamonds, red facing arches, a green circle, pink diamonds, a green ring and a blue asterisk."></canvas>
   </div>
@@ -384,6 +437,20 @@
   <p class="hero-sub">You bring the complexity. I listen, ask questions and edit your story until the people who need to understand it actually do.</p>
 </div>
 
+<!-- ============ SKETCH 2 (for review): two frames, one fill passing between them ============ -->
+<section class="sketch2" aria-label="Sketch 2: an alternative hero">
+  <div class="wrap">
+    <p class="label sketch2-tag">Sketch 2</p>
+    <div class="s2-grid">
+      <p class="sr-only">I help experts explain what they know to people who don’t know what they know.</p>
+      <div class="s2-frames">
+        <canvas id="s2-left" role="img" aria-label="An expert’s web of connected dots, knocked out of a black fill that drains away and refills."></canvas>
+        <canvas id="s2-right" role="img" aria-label="A colour rising and falling, revealing a Bauhaus figure of dots in a darker shade of that colour."></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
 <main>
 
 <!-- ============ 01 PROBLEM ============ -->
@@ -393,7 +460,7 @@
       <div class="num">01</div>
       <div>
         <h2>The closer you are to an idea, the harder it is to explain.</h2>
-        <p class="lede">It’s called the curse of knowledge. Once you know something deeply, you can’t remember what it was like not to. So the explanation that feels obvious to you loses everyone else in the room.</p>
+        <p class="lede">It’s called the curse of knowledge. Once you know something deeply, it’s difficult to remember what it was like not to. So the explanation that feels obvious to you loses everyone else in the room.</p>
       </div>
     </div>
 
@@ -443,7 +510,7 @@
       <div class="num">02</div>
       <div>
         <h2>I connect the dots with you, then for them.</h2>
-        <p class="lede">I don’t start with a brief and decorate it. I start with a conversation, and design is the last step, not the first.</p>
+        <p class="lede">I don’t begin by making things look good. I start with a conversation, and design is the last step, not the first.</p>
       </div>
     </div>
 
@@ -663,8 +730,8 @@
 
 <footer>
   <div class="wrap">
-    <span class="wm wm-sm"><svg class="wm-svg" viewBox="36 -44 4117 764" role="img" aria-label="Jeff Ma"><g fill="currentColor"><path d="M366 0H530V440A247.0 280 0 0 1 36 440H186A90.0 130 0 0 0 366 440Z"/><path d="M674 0H1138V138H838V265H1118V399H838V561H1138V700H674Z"/><path d="M1287 0H1711V144H1451V283H1701V418H1451V700H1287Z"/><path d="M1850 0H2274V144H2014V283H2264V418H2014V700H1850Z"/><path d="M2663 0L2827 0L2999 370L3171 0L3335 0L3335 700L3171 700L3171 330L2999 700L2827 330L2827 700L2663 700Z"/><path d="M3786 -44L4153 700L3963 700L3898 568L3674 568L3609 700L3419 700Z"/><circle cx="3786" cy="385" r="60" fill="var(--red)"/></g></svg></span>
-    <span>© 2026 Jeff Ma · San Francisco</span>
+    <span class="wm wm-sm" aria-label="Jeff Ma">JEFF MA</span>
+    <span>© 2026 Jeff Ma</span>
     <span class="label">Complex ideas, clearly told.</span>
   </div>
 </footer>
@@ -674,6 +741,8 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
 
+  var TILESET = null;   // the hero's chosen tiles and colours, shared with sketch 2
+  var WEBFORMS = null;  // the hero's seven web compositions, shared with sketch 2
   function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
@@ -736,7 +805,7 @@
     var headline = document.getElementById('headline');
     var s, shapes = [];
     var WEB = 3500, MOVE = 2000, HOLD = 2600, CYCLE = WEB + MOVE + HOLD + MOVE;
-    var start = performance.now();
+    var start = performance.now(), revealed = false;
     var INK_RGB = [21, 21, 21];
 
     // ---- The 25 tiles ----
@@ -795,6 +864,7 @@
     // each in one colour. Blue-black isn't used.
     var USE = [[4, 'yellow'], [6, 'blue'], [9, 'red'], [15, 'green'], [22, 'pink'], [23, 'green'], [24, 'blue']];
     var CHOSEN = USE.map(function(u){ var rule = TILES[u[0] - 1]; return function(x, y){ return rule(x, y) ? u[1] : null; }; });
+    TILESET = {rules: CHOSEN, colors: USE.map(function(u){ return PAL[u[1]]; })};
 
     // Contrast ratio between two colours (WCAG), used to pick the text colour
     // on each highlight bar.
@@ -826,50 +896,68 @@
       });
     }
 
-    // ---- The expert's web: one dot for every place in the biggest tile ----
-    // The web always shows the whole pool, with one fixed set of lines, so
-    // nothing appears or disappears while it drifts. For each tile, the dots
-    // nearest it each take one place in it and travel there and back: one to
-    // one, nothing splits and nothing merges. Any dots a tile doesn't need
-    // (mostly at the edges) fade where they are, in step with the web's lines,
-    // while the tile forms, and return with them.
-    var pool = [], webCache = {};
-    function buildPool(){
-      var M = Math.max.apply(null, shapes.map(function(sh){ return sh.pts.length; }));
-      var r = rng(11), tries = 0;
-      // The web's outline is organic, not rectangular: a broad oval with a few
-      // gentle lobes and dents, thinning out toward its edge.
-      var cx = 500, cy = H / 2, rx = 350, ry = (H / 2 - 40) / 1.26;   // stays inside the frame, drift included
-      var ph = [r() * TAU, r() * TAU, r() * TAU];
-      function edge(a){ return 1 + 0.13 * Math.sin(2 * a + ph[0]) + 0.08 * Math.sin(3 * a + ph[1]) + 0.05 * Math.sin(5 * a + ph[2]); }
-      var minD = Math.sqrt(Math.PI * rx * ry / M) * 0.62;
-      pool = [];
-      while (pool.length < M && tries++ < 80000){
-        var u = r() * 2 - 1, v = r() * 2 - 1, rho = Math.hypot(u, v) * 1.25, lim = edge(Math.atan2(v, u));
-        if (rho > lim) continue;
-        if (rho / lim > 0.75 && r() > 1 - (rho / lim - 0.75) * 2.4) continue;   // sparser near the edge
-        var p = {ax: cx + u * 1.25 * rx, ay: cy + v * 1.25 * ry};
-        if (pool.every(function(q){ return Math.hypot(q.ax - p.ax, q.ay - p.ay) > minD; })) pool.push(p);
+    // ---- The expert's webs: seven compositions of knowledge ----
+    // Each web has one dot for every place in the biggest tile, its own shape,
+    // and its own fixed set of lines, always one connected body. The cycle
+    // runs web 1 → tile 1 → web 2 → tile 2 …: dots leave a web for a tile and
+    // arrive in the next web, one to one, nothing splitting or merging. Dots a
+    // tile doesn't need fade where they are, in step with the web's lines, as
+    // the tile forms; the next web's extra dots fade in the same way.
+    var webs = [];
+    // How likely a dot is at a point (dx across, about -1.8 to 1.8; dy down,
+    // -1 to 1), one rule per composition.
+    function lobes(dx, dy, ph, amt){ var a = Math.atan2(dy, dx); return 1 + amt * (0.13 * Math.sin(2 * a + ph[0]) + 0.08 * Math.sin(3 * a + ph[1]) + 0.05 * Math.sin(5 * a + ph[2])); }
+    function soft(d, edge){ return d > 1 ? 0 : d > edge ? (1 - d) / (1 - edge) : 1; }   // thinning toward the outline
+    var FORMS = [
+      function(dx, dy, ph){ return soft(Math.hypot(dx / 1.25, dy / 0.78) / lobes(dx, dy, ph, 1), 0.75); },                     // an irregular blob
+      function(dx, dy, ph){                                                                                                  // a long wavy band
+        var c = 0.34 * Math.sin(dx * 1.6 + ph[0]), w = 0.3 + 0.07 * Math.sin(dx * 2.3 + ph[1]);
+        return soft(Math.abs(dy - c) / w, 0.65) * clamp((1.62 - Math.abs(dx)) / 0.3);
+      },
+      function(dx, dy, ph){                                                                                                  // three clusters
+        return Math.max.apply(null, [[-1.0, -0.28, 0.52], [0.06, 0.3, 0.5], [1.02, -0.22, 0.44]].map(function(c){ return soft(Math.hypot(dx - c[0], dy - c[1]) / (c[2] * lobes(dx - c[0], dy - c[1], ph, 0.8)), 0.6); }));
+      },
+      function(dx, dy, ph){ return soft(Math.abs(Math.hypot(dx / 1.35, dy / 0.84) - 0.7) / (0.26 * lobes(dx, dy, ph, 0.7)), 0.55); },   // a ring around an empty centre
+      function(dx, dy, ph){                                                                                                  // a tilted, curving sweep
+        var a = -0.42, al = dx * Math.cos(a) + dy * Math.sin(a), ac = -dx * Math.sin(a) + dy * Math.cos(a);
+        return soft(Math.hypot(al / 1.62, (ac - 0.14 * al * al + 0.12) / (0.34 * lobes(dx, dy, ph, 0.6))), 0.6);
+      },
+      function(dx, dy, ph){ var rho = Math.hypot(dx / 1.3, dy / 0.86) / lobes(dx, dy, ph, 0.6); return rho < 0.38 ? 1 : rho < 1.1 ? 0.14 : 0; },  // a dense core, sparse outliers
+      function(dx, dy, ph){                                                                                                  // two uneven lobes
+        return Math.max(soft(Math.hypot((dx + 0.62) / 0.82, (dy - 0.08) / 0.74) / lobes(dx + 0.62, dy - 0.08, ph, 0.8), 0.7),
+                        soft(Math.hypot((dx - 0.8) / 0.6, (dy + 0.18) / 0.56) / lobes(dx - 0.8, dy + 0.18, ph, 0.8), 0.7));
       }
-      while (pool.length < M) pool.push({ax: cx + (r() - 0.5) * rx, ay: cy + (r() - 0.5) * ry});
-      pool.forEach(function(d){
-        // Two slow waves per axis, periods of roughly 9 to 26 seconds.
-        d.f = [0, 0, 0, 0].map(function(){ return 0.24 + r() * 0.45; });
-        d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; });
+    ];
+    WEBFORMS = FORMS;
+    function buildWebs(){
+      var M = Math.max.apply(null, shapes.map(function(sh){ return sh.pts.length; }));
+      var cy = H / 2, u = H / 2 - 40;                       // one unit of dy, in canvas units; stays inside the frame, drift included
+      webs = FORMS.map(function(form, w){
+        var r = rng(11 + w * 7), ph = [r() * TAU, r() * TAU, r() * TAU], anchors = [], tries = 0, area = 0, k;
+        for (k = 0; k < 4000; k++) area += form(r() * 3.6 - 1.8, r() * 2 - 1, ph);
+        var minD = Math.sqrt(area / 4000 * (3.6 * u) * (2 * u) / M) * 0.62;
+        while (anchors.length < M && tries++ < 120000){
+          var dx = r() * 3.6 - 1.8, dy = r() * 2 - 1, x = 500 + dx * u, y = cy + dy * u;
+          if (x < 50 || x > 950 || r() > form(dx, dy, ph)) continue;
+          if (anchors.every(function(q){ return Math.hypot(q.ax - x, q.ay - y) > minD; })) anchors.push({ax: x, ay: y});
+        }
+        while (anchors.length < M){ var q = anchors[Math.floor(r() * anchors.length)] || {ax: 500, ay: cy}; anchors.push({ax: q.ax + (r() - 0.5) * minD, ay: q.ay + (r() - 0.5) * minD}); }
+        anchors.forEach(function(d){
+          // Two slow waves per axis, periods of roughly 9 to 26 seconds.
+          d.f = [0, 0, 0, 0].map(function(){ return 0.24 + r() * 0.45; });
+          d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; });
+        });
+        return {anchors: anchors, edges: linesFor(anchors, rng(100 + w))};
       });
-      webCache = {};
     }
-    // The web's lines among the first n dots: each dot to its nearest
-    // neighbours, then any separate clusters joined by their shortest link,
-    // so it's always one connected body.
-    function webFor(n){
-      if (webCache[n]) return webCache[n];
-      var r = rng(100 + n), edges = [], has = {}, i, j;
+    // A web's lines: each dot to its nearest neighbours, then any separate
+    // clusters joined by their shortest link, so it's one connected body.
+    function linesFor(pts, r){
+      var n = pts.length, edges = [], has = {}, i, j, near = [];
       function link(a, b){ var key = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[key]){ has[key] = 1; edges.push([a, b]); } }
-      var near = [];
       for (i = 0; i < n; i++){
         var row = [];
-        for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pool[j].ax - pool[i].ax, pool[j].ay - pool[i].ay), j]);
+        for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pts[j].ax - pts[i].ax, pts[j].ay - pts[i].ay), j]);
         row.sort(function(a, b){ return a[0] - b[0]; });
         near.push(row.map(function(o){ return o[1]; }));
       }
@@ -882,22 +970,28 @@
         var best = null;
         for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){
           if (find(i) === find(j)) continue;
-          var dd = Math.hypot(pool[i].ax - pool[j].ax, pool[i].ay - pool[j].ay);
+          var dd = Math.hypot(pts[i].ax - pts[j].ax, pts[i].ay - pts[j].ay);
           if (!best || dd < best.d) best = {i: i, j: j, d: dd};
         }
         if (!best) break;
         link(best.i, best.j); group[find(best.i)] = find(best.j);
       }
-      return (webCache[n] = edges);
+      return edges;
     }
-    // One to one: every place in the tile is matched to a web dot, closest
-    // pairs first. Dots left unmatched are the tile's spares.
-    function assign(shape){
-      var n = shape.pts.length, pairs = [], usedD = {}, usedP = {}, cx = 0, cy = 0, far = 0;
-      for (var i = 0; i < pool.length; i++) shape.pts.forEach(function(p, k){ pairs.push([Math.hypot(pool[i].ax - p.x, pool[i].ay - p.y), i, k]); });
+    // One to one: every place in a tile is matched to a dot of a web, closest
+    // pairs first. Returns each place's dot, and which of the web's dots are spare.
+    function match(web, shape){
+      var pairs = [], usedD = {}, usedP = {}, src = [];
+      web.anchors.forEach(function(d, i){ shape.pts.forEach(function(p, k){ pairs.push([Math.hypot(d.ax - p.x, d.ay - p.y), i, k]); }); });
       pairs.sort(function(a, b){ return a[0] - b[0]; });
-      pairs.forEach(function(pr){ if (!usedD[pr[1]] && !usedP[pr[2]]){ usedD[pr[1]] = usedP[pr[2]] = 1; shape.pts[pr[2]].src = pr[1]; } });
-      shape.spare = pool.map(function(d, i){ return !usedD[i]; });
+      pairs.forEach(function(pr){ if (!usedD[pr[1]] && !usedP[pr[2]]){ usedD[pr[1]] = usedP[pr[2]] = 1; src[pr[2]] = pr[1]; } });
+      return {src: src, spare: web.anchors.map(function(d, i){ return !usedD[i]; })};
+    }
+    // Tile k gathers from web k and releases into web k + 1.
+    function assign(shape, k){
+      var n = shape.pts.length, cx = 0, cy = 0, far = 0;
+      shape.from = match(webs[k % webs.length], shape);
+      shape.to = match(webs[(k + 1) % webs.length], shape);
       shape.pts.forEach(function(p){ cx += p.x / n; cy += p.y / n; });
       shape.pts.forEach(function(p){ far = Math.max(far, Math.hypot(p.x - cx, p.y - cy)); });
       shape.pts.forEach(function(p){ p.ord = Math.hypot(p.x - cx, p.y - cy) / (far || 1); });   // fill from the centre outward
@@ -921,7 +1015,7 @@
       canvas.style.width = w + 'px'; canvas.style.height = (w * 9 / 16) + 'px';
       s.resize();
       buildShapes();
-      buildPool();
+      buildWebs();
       shapes.forEach(assign);
     }
     function rgba(c, a){ return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + a.toFixed(3) + ')'; }
@@ -934,6 +1028,9 @@
 
     s = Scene(canvas, function(now, dt){
       var T = now - start, tp = T % CYCLE, shape = shapes[Math.floor(T / CYCLE) % shapes.length], i;
+      // The second half of the headline rises in (once) about 1.4 s before its
+      // highlight first begins, halfway through the web becoming the first tile.
+      if (!revealed && T >= WEB + MOVE * 0.5 - 1400){ revealed = true; headline.classList.add('revealed'); }
       // m: 0 = the web, 1 = the tile.
       var m = reduce ? 0 : tp < WEB ? 0 : tp < WEB + MOVE ? (tp - WEB) / MOVE : tp < WEB + MOVE + HOLD ? 1 : 1 - (tp - WEB - MOVE - HOLD) / MOVE;
       var t = reduce ? 0 : now / 1000, tint = ease(clamp(m)), color = mixRGB(INK_RGB, shape.rgb, tint);
@@ -946,29 +1043,33 @@
       headline.style.setProperty('--mp-2', p2.toFixed(3));
       headline.style.setProperty('--mc-2', 'rgb(' + shape.rgb.join(',') + ')');
       headline.style.setProperty('--on-2', shape.lightText ? 'var(--paper)' : 'var(--ink)');
-      for (i = 0; i < pool.length; i++){
-        var d = pool[i];
+      // Gathering (m rising), the tile comes from this cycle's web; releasing
+      // (m falling), it goes to the next web.
+      var k = Math.floor(T / CYCLE) % shapes.length, out = !reduce && tp >= WEB + MOVE + HOLD;
+      var web = webs[(out ? k + 1 : k) % webs.length], link = out ? shape.to : shape.from;
+      web.anchors.forEach(function(d){
         d.hx = d.ax + 12 * Math.sin(t * d.f[0] + d.ph[0]) + 6 * Math.sin(t * d.f[1] + d.ph[1]);
         d.hy = d.ay + 12 * Math.sin(t * d.f[2] + d.ph[2]) + 6 * Math.sin(t * d.f[3] + d.ph[3]);
-        d.x = d.hx; d.y = d.hy; d.col = INK_RGB;
-        d.a = shape.spare[i] ? ease(webA) : 1;                   // spares fade with the web's lines
-      }
-      // Each dot travels to its one place in the tile, the centre filling first.
-      shape.pts.forEach(function(p){
-        var d = pool[p.src], mi = ease(clamp(m * 1.35 - p.ord * 0.35));
-        d.x = lerp(d.hx, p.x, mi); d.y = lerp(d.hy, p.y, mi); d.col = mixRGB(INK_RGB, p.rgb, tint);
       });
+      // Each dot travels between its place in the web and its one place in the
+      // tile, the centre of the tile filling first.
+      shape.pts.forEach(function(p, j){
+        var d = web.anchors[link.src[j]], mi = ease(clamp(m * 1.35 - p.ord * 0.35));
+        p.cx = lerp(d.hx, p.x, mi); p.cy = lerp(d.hy, p.y, mi); p.col = mixRGB(INK_RGB, p.rgb, tint);
+        d.x = p.cx; d.y = p.cy;
+      });
+      web.anchors.forEach(function(d, i){ if (link.spare[i]){ d.x = d.hx; d.y = d.hy; } });
       s.begin();
       // The web's lines give way to the tile's lines, and back again.
-      webFor(pool.length).forEach(function(e){ seg(pool[e[0]], pool[e[1]], color, 0.28 * webA, 1); });
-      shape.edges.forEach(function(e){ var a = pool[shape.pts[e[0]].src], b = pool[shape.pts[e[1]].src]; seg(a, b, a.col, 0.55 * shapeA, 1.1); });
+      web.edges.forEach(function(e){ seg(web.anchors[e[0]], web.anchors[e[1]], color, 0.28 * webA, 1); });
+      shape.edges.forEach(function(e){ var a = shape.pts[e[0]], b = shape.pts[e[1]]; seg({x: a.cx, y: a.cy}, {x: b.cx, y: b.cy}, a.col, 0.55 * shapeA, 1.1); });
       // In a tile, dots never grow so large that neighbours touch (on small
       // screens dots are enlarged), so the lines between them stay visible.
-      var c = s.ctx, r = Math.min(3.4 * s.rMul, SP * 0.3);
-      for (i = 0; i < pool.length; i++){
-        var q = pool[i];
-        if (q.a < 0.02) continue;
-        c.fillStyle = rgba(q.col, 1); c.beginPath(); c.arc(q.x, q.y, r * q.a, 0, TAU); c.fill();
+      var c = s.ctx, r = Math.min(3.4 * s.rMul, SP * 0.3), sa = ease(webA);
+      shape.pts.forEach(function(p){ c.fillStyle = rgba(p.col, 1); c.beginPath(); c.arc(p.cx, p.cy, r, 0, TAU); c.fill(); });
+      if (sa > 0.02){                                        // spare dots fade with the web's lines
+        c.fillStyle = rgba(INK_RGB, 1);
+        web.anchors.forEach(function(d, i){ if (link.spare[i]){ c.beginPath(); c.arc(d.hx, d.hy, r * sa, 0, TAU); c.fill(); } });
       }
     });
 
@@ -976,9 +1077,428 @@
     if (window.ResizeObserver) new ResizeObserver(layout).observe(box);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
 
-    // The headline rises in word by word: the first half, then the second.
+    // The headline rises in word by word: the first half on load; the second
+    // (see the frame loop) just before its first highlight.
     requestAnimationFrame(function(){ headline.classList.add('intro'); });
-    setTimeout(function(){ headline.classList.add('revealed'); }, reduce ? 0 : 1100);
+    if (reduce) headline.classList.add('revealed');
+  })();
+
+  /* ---------- Sketch 2: two frames, one fill passing between them ----------
+     Left frame: the expert's web, knocked out of a solid black fill. The fill
+     drains down while a colour rises in the right frame, revealing one of the
+     Bauhaus tiles knocked out of that colour. Then the colour drains
+     and the black refills the left. Each pass uses the next tile. */
+  (function(){
+    var left = document.getElementById('s2-left'), right = document.getElementById('s2-right');
+    if (!left || !right || !TILESET) return;
+    var lc = left.getContext('2d'), rc = right.getContext('2d');
+    var PAPER = [241, 236, 226], INKC = [21, 21, 21];
+    var HOLD_L = 2600, MOVE = 2600, HOLD_R = 3200, CYCLE = HOLD_L + MOVE + HOLD_R + MOVE;
+    var HEAD_L = 'I help experts explain what they know…', HEAD_R = 'to people who don’t know\nwhat they know.';   // \n: a set line break
+    // One dot size and one line weight for both frames.
+    var LINE_W = 1.1, LINE_A = 0.55;
+    function dotR(){ return Math.max(1.8, size * 0.0065); }
+    // Type size for both halves: 7.2% of the frame, reduced if needed so each
+    // set line (the right half's) fits on one line.
+    function headSize(c){
+      var S = size, fs = S * 0.072, room = S * (1 - 2 * 0.065);
+      c.font = '700 ' + fs + 'px Jost, Futura, sans-serif';
+      HEAD_R.split('\n').forEach(function(line){ var w = c.measureText(line).width; if (w > room) fs = Math.min(fs, fs * room / w); });
+      return Math.floor(fs);
+    }
+    // Each half of the headline, left-aligned in its frame, at the top (the
+    // left frame) or the bottom (the right frame). Set line breaks are kept,
+    // and any other line too long for the frame wraps.
+    function drawHead(c, text, col, atBottom){
+      var S = size, fs = headSize(c), pad = S * 0.065, lh = fs * 1.12, lines = [];
+      c.font = '700 ' + fs + 'px Jost, Futura, sans-serif'; c.fillStyle = css(col); c.textBaseline = 'alphabetic';
+      text.split('\n').forEach(function(para){
+        var line = '';
+        para.split(' ').forEach(function(w){
+          var test = line ? line + ' ' + w : w;
+          if (c.measureText(test).width > S - 2 * pad && line){ lines.push(line); line = w; }
+          else line = test;
+        });
+        lines.push(line);
+      });
+      var y = atBottom ? S - pad - fs * 0.22 - (lines.length - 1) * lh : pad + fs * 0.85;
+      lines.forEach(function(l){ c.fillText(l, pad, y); y += lh; });
+    }
+    var size = 0, dpr = 1, webs = [], tiles = [], start = performance.now(), running = false;
+    var portrait = window.matchMedia('(orientation: portrait)');   // frames stacked (matches the CSS)
+
+    function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
+    function contrast(a, b){ var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+    function mix(a, b, t){ return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
+    function css(c, a){ return 'rgba(' + c.map(Math.round).join(',') + ',' + (a === undefined ? 1 : a) + ')'; }
+
+    // The expert's webs, in a unit square below the type: one for each of the
+    // hero's seven compositions (a blob, a wavy band, three clusters, a ring,
+    // a sweep, a dense core with outliers, two lobes), each a tangle of
+    // connected dots. Each refill of the frame shows the next one.
+    function buildWeb(form, seed){
+      var r = rng(seed), dots = [], tries = 0, ph = [r() * TAU, r() * TAU, r() * TAU], area = 0, k;
+      for (k = 0; k < 3000; k++) area += form(r() * 3.6 - 1.8, r() * 2 - 1, ph);
+      var minD = Math.sqrt(area / 3000 * 0.88 * 0.64 / 110) * 0.7;
+      while (dots.length < 110 && tries++ < 80000){
+        var fx = r() * 3.6 - 1.8, fy = r() * 2 - 1;
+        if (r() > form(fx, fy, ph)) continue;
+        var p = {ax: 0.5 + fx / 1.8 * 0.44, ay: 0.62 + fy * 0.32};
+        if (dots.every(function(q){ return Math.hypot(q.ax - p.ax, q.ay - p.ay) > minD; })) dots.push(p);
+      }
+      dots.forEach(function(d){
+        d.f = [0, 0, 0, 0].map(function(){ return 0.55 + r() * 0.9; });   // periods of roughly 4 to 11 seconds
+        d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; });
+      });
+      var edges = [], has = {}, n = dots.length, i, j;
+      function link(a, b){ var k = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[k]){ has[k] = 1; edges.push([a, b]); } }
+      var near = dots.map(function(d, i){ return dots.map(function(q, j){ return [Math.hypot(q.ax - d.ax, q.ay - d.ay), j]; }).filter(function(o){ return o[1] !== i; }).sort(function(a, b){ return a[0] - b[0]; }).map(function(o){ return o[1]; }); });
+      for (i = 0; i < n; i++) link(i, near[i][0]);
+      for (k = 0; k < n * 1.3; k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 4)]); }
+      for (k = 0; k < n * 0.18; k++){ i = Math.floor(r() * n); link(i, near[i][6 + Math.floor(r() * 10)]); }   // a few longer threads
+      var group = dots.map(function(_, i){ return i; });
+      function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
+      edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
+      for (;;){
+        var best = null;
+        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){ if (find(i) === find(j)) continue; var dd = Math.hypot(dots[i].ax - dots[j].ax, dots[i].ay - dots[j].ay); if (!best || dd < best.d) best = {i: i, j: j, d: dd}; }
+        if (!best) break;
+        link(best.i, best.j); group[find(best.i)] = find(best.j);
+      }
+      return {dots: dots, edges: edges};
+    }
+    // The tiles, in a unit square, as a grid of dots joined to neighbours.
+    function buildTiles(){
+      var n = 15, half = 0.29;
+      tiles = TILESET.rules.map(function(rule, k){
+        var pts = [], at = {}, edges = [], i, j;
+        for (i = 0; i < n; i++) for (j = 0; j < n; j++){
+          var u = -1 + 2 * j / (n - 1), v = -1 + 2 * i / (n - 1);
+          if (rule(u, v)){ at[i + ',' + j] = pts.length; pts.push({x: 0.5 + u * half, y: 0.38 + v * half}); }   // above the type, which sits at the bottom
+        }
+        for (var key in at){ var ij = key.split(','), a = at[key], rr = at[ij[0] + ',' + (+ij[1] + 1)], dn = at[(+ij[0] + 1) + ',' + ij[1]]; if (rr !== undefined) edges.push([a, rr]); if (dn !== undefined) edges.push([a, dn]); }
+        // The tile and type knock out of the colour in paper. Where paper
+        // wouldn't reach 3:1 against the colour (the minimum for large type and
+        // graphics), the colour is deepened just enough that it does.
+        var fill = TILESET.colors[k], t2 = 0;
+        while (contrast(PAPER, fill) < 3 && t2 < 1){ t2 += 0.02; fill = mix(TILESET.colors[k], INKC, t2); }
+        return {pts: pts, edges: edges, fill: fill};
+      });
+    }
+    function fit(){
+      size = left.clientWidth; dpr = Math.min(2, window.devicePixelRatio || 1);
+      [left, right].forEach(function(c){ c.width = Math.round(size * dpr); c.height = Math.round(size * dpr); });
+    }
+
+    function drawWeb(c, web, col){
+      c.strokeStyle = css(col, LINE_A); c.lineWidth = LINE_W;
+      web.edges.forEach(function(e){ var a = web.dots[e[0]], b = web.dots[e[1]]; c.beginPath(); c.moveTo(a.px, a.py); c.lineTo(b.px, b.py); c.stroke(); });
+      c.fillStyle = css(col);
+      web.dots.forEach(function(d){ c.beginPath(); c.arc(d.px, d.py, dotR(), 0, TAU); c.fill(); });
+    }
+    function frame(now){
+      if (!running) return;
+      var T = reduce ? HOLD_L + MOVE : now - start, k = Math.floor(T / CYCLE), tp = T % CYCLE;
+      // The next composition takes over while the left frame is empty.
+      var web = webs[(Math.floor((T - HOLD_L - MOVE) / CYCLE) + 1) % webs.length];
+      // How full the left frame is (1 = full); the right is its complement.
+      var lv = tp < HOLD_L ? 1 : tp < HOLD_L + MOVE ? 1 - ease((tp - HOLD_L) / MOVE) : tp < HOLD_L + MOVE + HOLD_R ? 0 : ease((tp - HOLD_L - MOVE - HOLD_R) / MOVE);
+      var rv = reduce ? 1 : 1 - lv, tile = tiles[k % tiles.length], t = reduce ? 0 : now / 1000, S = size;
+      if (reduce) lv = 1;
+      web.dots.forEach(function(d){
+        d.px = (d.ax + 0.016 * Math.sin(t * d.f[0] + d.ph[0]) + 0.008 * Math.sin(t * d.f[1] + d.ph[1])) * S;
+        d.py = (d.ay + 0.016 * Math.sin(t * d.f[2] + d.ph[2]) + 0.008 * Math.sin(t * d.f[3] + d.ph[3])) * S;
+      });
+      // Left: black fill from the bottom up to its level; the web knocks out of
+      // the fill and isn't shown above it.
+      var ly = S * (1 - lv);
+      lc.setTransform(dpr, 0, 0, dpr, 0, 0); lc.clearRect(0, 0, S, S);
+      lc.fillStyle = css(INKC); lc.fillRect(0, ly, S, S - ly);
+      lc.save(); lc.beginPath(); lc.rect(0, 0, S, ly); lc.clip(); drawHead(lc, HEAD_L, INKC); lc.restore();   // the web only exists in the fill
+      lc.save(); lc.beginPath(); lc.rect(0, ly, S, S - ly); lc.clip(); drawWeb(lc, web, PAPER); drawHead(lc, HEAD_L, PAPER); lc.restore();
+      // Right: the tile's colour fills the frame, revealing the tile knocked out
+      // of it. Side by side it rises from the bottom; stacked (portrait), it
+      // pours in from the top, continuing the black draining down the frame
+      // above, and empties from the bottom up.
+      var stacked = portrait.matches, f0 = stacked ? 0 : S * (1 - rv), f1 = stacked ? S * rv : S;
+      rc.setTransform(dpr, 0, 0, dpr, 0, 0); rc.clearRect(0, 0, S, S);
+      rc.fillStyle = css(tile.fill); rc.fillRect(0, f0, S, f1 - f0);
+      rc.save(); rc.beginPath(); if (stacked) rc.rect(0, f1, S, S - f1); else rc.rect(0, 0, S, f0); rc.clip(); drawHead(rc, HEAD_R, INKC, true); rc.restore();
+      rc.save(); rc.beginPath(); rc.rect(0, f0, S, f1 - f0); rc.clip(); drawHead(rc, HEAD_R, PAPER, true);
+      rc.strokeStyle = css(PAPER, LINE_A); rc.lineWidth = LINE_W;
+      tile.edges.forEach(function(e){ var a = tile.pts[e[0]], b = tile.pts[e[1]]; rc.beginPath(); rc.moveTo(a.x * S, a.y * S); rc.lineTo(b.x * S, b.y * S); rc.stroke(); });
+      rc.fillStyle = css(PAPER);
+      tile.pts.forEach(function(p){ rc.beginPath(); rc.arc(p.x * S, p.y * S, dotR(), 0, TAU); rc.fill(); });
+      rc.restore();
+      requestAnimationFrame(frame);
+    }
+    function setRunning(on){ if (on && !running){ running = true; requestAnimationFrame(frame); } else if (!on) running = false; }
+
+    webs = WEBFORMS.map(function(form, i){ return buildWeb(form, 29 + i * 7); }); buildTiles(); fit();
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(left); else window.addEventListener('resize', fit);
+    var seen = false;
+    new IntersectionObserver(function(es){ seen = es[0].isIntersecting; setRunning(seen && !document.hidden); }).observe(left);
+    document.addEventListener('visibilitychange', function(){ setRunning(seen && !document.hidden); });
+  })();
+
+  /* ---------- Sketch 3: one frame, a wall down the middle ----------
+     The whole first screen is split in two: off-white on one side, a solid
+     colour on the other. An expert's web appears on the off-white side and
+     drifts: a loose, warped abstraction of a simple shape. Then its dots let
+     go of their lines and travel across, one after another, and build that
+     shape cleanly on the colour, where the lines return. After a hold the
+     shape starts sliding out to the right, and the colour wipes away
+     left to right behind it, the next colour following right behind,
+     while the next web appears. Dots, lines and type are ink on the
+     off-white and paper on the colour. */
+  (function(){
+    var canvas = document.getElementById('s3-canvas');
+    if (!canvas || !TILESET) return;
+    var frame = canvas.parentNode, bar = frame.querySelector('.s3-bar'), wm = bar.querySelector('.wm');
+    var ctx = canvas.getContext('2d'), portrait = window.matchMedia('(orientation: portrait)');
+    var PAPER = [241, 236, 226], INKC = [21, 21, 21], WALL = 0;
+    var APPEAR = 1400, WEBT = 2000, TRAVEL = 3600, HOLD = 2600, DRAIN = 1800, CYCLE = APPEAR + WEBT + TRAVEL + HOLD + DRAIN;
+    // The next web starts appearing on the off-white shortly after the dots
+    // have crossed, slowly at first, then faster, finishing just before the
+    // next colour has filled in. GROW: how long each dot takes to appear.
+    var SLIDE = 400, GROW = 500, EARLY = HOLD + DRAIN - 400, REGEN = EARLY - 150 - GROW;
+    var HEAD_L = 'I help experts\ntranslate what they know…', HEAD_R = 'for new audiences.';
+    var Wd = 0, Ht = 0, dpr = 1, A, B, wallR, maLeft = 0, stacked = false, lastX = '', fs = 16, pad = 20, webCache = {}, tiles = [], W = null, start = performance.now(), running = false, seen = false;
+
+    function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
+    function contrast(a, b){ var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+    function mix(a, b, t){ return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
+    function css(c, a){ return 'rgba(' + c.map(Math.round).join(',') + ',' + (a === undefined ? 1 : a) + ')'; }
+    // The shapes: simple graphic ones first, then the hero's tiles. Each is a
+    // rule on the 15 x 15 grid (x and y from -7 to 7, y pointing down), a colour and,
+    // optionally, how much more to warp its web (1 = the usual).
+    function G(f){ return function(u, v){ return f(u * 7, v * 7); }; }
+    function ab(v){ return Math.abs(v); }
+    var C = {blue: [84, 83, 148], pink: [234, 133, 116], yellow: [238, 168, 47], red: [230, 66, 42], green: [61, 139, 79]};
+    // Never red for the plus or the target (a hospital cross, the Target store logo); the plus
+    // also avoids green (a pharmacy cross) and blue (Blue Cross).
+    // The chart line's top edge in each rising column (four dots tall, at 45 degrees);
+    // the flat middle is three dots tall.
+    function chartTop(x){ return x < 0 ? -4 - x : -x; }
+    var SHAPES = [
+      [G(function(x, y){ return (ab(x) <= 2.5 && ab(y) <= 6.5) || (ab(y) <= 2.5 && ab(x) <= 6.5); }), C.pink],                                   // plus
+      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= (6 - x) / 2 + 0.25; }), C.yellow, 2.2],                                                       // triangle, pointing right
+      [G(function(x, y){ x = Math.round(x); y = Math.round(y); return ab(x) <= 2 ? ab(y) <= 1 : ab(x) <= 6 && y >= chartTop(x) && y <= chartTop(x) + 3; }), C.blue],  // chart line: up, flat, up
+      [G(function(x, y){ var a = x + y, b = x - y; return ab(x) <= 6.5 && ab(y) <= 6.5 && ((ab(a) <= 2.5 && ab(b) <= 9.5) || (ab(b) <= 2.5 && ab(a) <= 9.5)); }), C.green],  // X
+      [G(function(x, y){ var r = Math.hypot(x, y); return r <= 2.5 || (r >= 3.5 && r <= 6.7); }), C.yellow],                                         // target: a disc in a thick band
+      [G(function(x, y){ var m = x + 0.5; return (ab(m) <= 2 && y >= 0 && y <= 6.5) || (ab(m) <= 6 && y >= -6.5 && ab(y + ab(m) - 0.5) <= 2.5); }), C.pink, 2.2],  // Y (centred half a dot left, for a four-dot stem)
+      [G(function(x, y){ return Math.hypot(x, y) <= 6.6 && ab(x) >= 0.5; }), C.blue],                                                             // two half-discs
+      [G(function(x, y){ return ab(y) <= 6.5 && ab(x) <= (6 - y) / 2 + 0.25; }), C.yellow],                                                       // triangle, pointing down
+      [G(function(x, y){ return ab(y) <= 6.5 && ab(x) <= (6 + y) / 2 + 0.25; }), C.green],                                                        // triangle, pointing up
+      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 3.5; }), C.red],                                                                         // bar
+      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x) + ab(y) <= 9.5; }), C.blue],                                                // octagon
+      [G(function(x, y){ return (ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x + y) <= 1.5) || Math.hypot(x + 4, y + 4) <= 2.4 || Math.hypot(x - 4, y - 4) <= 2.4; }), C.pink],  // percent
+      [G(function(x, y){ return ab(x) <= 5.5 && ab(y) >= 1.5 && ab(y) <= 5.5; }), C.green]                                                        // two bars
+    ].concat(TILESET.rules.map(function(rule, i){ return [rule, TILESET.colors[i]]; }));
+    // The hero's ring (the sixth tile) is too thin to read as filled here: use a thick band.
+    SHAPES[SHAPES.length - 2][0] = G(function(x, y){ var r = Math.hypot(x, y); return r >= 2.5 && r <= 6.7; });
+    // Each shape's colour, deepened where needed so paper reaches 3:1 on it.
+    var fills = SHAPES.map(function(sh){ return sh[1]; }).map(function(c){ var f = c, t = 0; while (contrast(PAPER, f) < 3 && t < 1){ t += 0.02; f = mix(c, INKC, t); } return f; });
+
+    // Lines of a web: nearest neighbours, extra links, then clusters joined.
+    function linesFor(pts, r){
+      var n = pts.length, edges = [], has = {}, i, j, near = [];
+      function link(a, b){ var k = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[k]){ has[k] = 1; edges.push([a, b]); } }
+      for (i = 0; i < n; i++){ var row = []; for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pts[j].x - pts[i].x, pts[j].y - pts[i].y), j]); row.sort(function(a, b){ return a[0] - b[0]; }); near.push(row.map(function(o){ return o[1]; })); }
+      for (i = 0; i < n; i++) link(i, near[i][0]);
+      for (var k = 0; k < n * 0.9; k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 3)]); }
+      var group = []; for (i = 0; i < n; i++) group.push(i);
+      function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
+      edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
+      for (;;){
+        var best = null;
+        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){ if (find(i) === find(j)) continue; var dd = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y); if (!best || dd < best.d) best = {i: i, j: j, d: dd}; }
+        if (!best) break;
+        link(best.i, best.j); group[find(best.i)] = find(best.j);
+      }
+      return edges;
+    }
+    // A shape's web: the shape turned, warped and blurred, scattered as dots
+    // in the web area and joined loosely. It has one dot for each place in
+    // the shape, and each dot goes to the place it stands for (closest pairs
+    // first, in the shape's own coordinates), so the web straightens out
+    // into the shape.
+    function buildWeb(k){
+      var tile = tiles[k], rule = SHAPES[k][0], wf = SHAPES[k][2] || 1, n = tile.pts.length, r = rng(51 + k * 7), i;
+      var th = (r() < 0.5 ? -1 : 1) * (0.25 + r() * 0.4), cs = Math.cos(th), sn = Math.sin(th), ph = [r() * TAU, r() * TAU, r() * TAU, r() * TAU];
+      var sx = Math.min(W.aw / 2, W.ah / 2 * 1.6), sy = Math.min(W.ah / 2, W.aw / 2 * 1.6);
+      function sample(){
+        var px = r() * 2 - 1, py = r() * 2 - 1, qx = px * 1.35, qy = py * 1.35, x = qx * cs - qy * sn, y = qx * sn + qy * cs;
+        var u = x + wf * (0.17 * Math.sin(2.3 * y + ph[0]) + 0.07 * Math.sin(4.1 * x + ph[1])), v = y + wf * (0.17 * Math.sin(2.0 * x + ph[2]) + 0.07 * Math.sin(3.7 * y + ph[3]));
+        var fu = u + (r() + r() - 1) * 0.1, fv = v + (r() + r() - 1) * 0.1;
+        if (Math.abs(fu) > 1.02 || Math.abs(fv) > 1.02 || !rule(fu, fv)) return null;
+        return {x: W.acx + px * sx, y: W.acy + py * sy, u: u, v: v};
+      }
+      var hit = 0; for (i = 0; i < 3000; i++) if (sample()) hit++;
+      var minD = Math.sqrt(hit / 3000 * 4 * sx * sy / n) * 0.62, pts = [], tries = 0;
+      while (pts.length < n){
+        if (tries++ > 20000){ tries = 0; minD *= 0.85; }
+        var p = sample();
+        if (p && pts.every(function(q){ return Math.hypot(q.x - p.x, q.y - p.y) > minD; })) pts.push(p);
+      }
+      var pairs = [], usedD = {}, usedP = {}, ord = [];
+      pts.forEach(function(d, a){ tile.pts.forEach(function(t, b){ pairs.push([Math.hypot(d.u - t.u, d.v - t.v), a, b]); }); });
+      pairs.sort(function(a, b){ return a[0] - b[0]; });
+      pairs.forEach(function(pr){ if (!usedD[pr[1]] && !usedP[pr[2]]){ usedD[pr[1]] = usedP[pr[2]] = 1; ord[pr[2]] = pts[pr[1]]; } });
+      ord.forEach(function(d){ d.f = [0, 0, 0, 0].map(function(){ return 0.4 + r() * 0.7; }); d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; }); });
+      // Dots nearest the wall set off first.
+      centreY(ord, W.acy);
+      var gaps = ord.map(function(d){ return stacked ? Math.abs(d.y - wallR.y) : Math.abs(d.x - wallR.x); }), far = Math.max.apply(null, gaps) || 1;
+      return {pts: ord, edges: linesFor(ord, rng(200 + k)), goOrd: gaps.map(function(g){ return g / far; })};
+    }
+    // Moves points so the middle of their extent sits at y.
+    function centreY(pts, y){
+      var lo = Math.min.apply(null, pts.map(function(p){ return p.y; })), hi = Math.max.apply(null, pts.map(function(p){ return p.y; }));
+      pts.forEach(function(p){ p.y += y - (lo + hi) / 2; });
+    }
+    function getWeb(k){ return webCache[k] || (webCache[k] = buildWeb(k)); }
+
+    function layout(){
+      Wd = frame.clientWidth; Ht = frame.clientHeight; dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(Wd * dpr); canvas.height = Math.round(Ht * dpr);
+      stacked = portrait.matches; var top = bar.offsetHeight;
+      if (stacked){ var hh = Math.round((Ht - WALL) / 2); A = {x: 0, y: 0, w: Wd, h: hh}; wallR = {x: 0, y: hh, w: Wd, h: WALL}; B = {x: 0, y: hh + WALL, w: Wd, h: Ht - hh - WALL}; }
+      else { var ww = Math.round((Wd - WALL) / 2); A = {x: 0, y: 0, w: ww, h: Ht}; wallR = {x: ww, y: 0, w: WALL, h: Ht}; B = {x: ww + WALL, y: 0, w: Wd - ww - WALL, h: Ht}; }
+      var small = Math.min(A.w, A.h);
+      fs = Math.max(16, Math.min(40, small * 0.062)); pad = Math.max(16, small * 0.06);
+      // Left: the headline under the header, the web below it.
+      ctx.font = '700 ' + fs + 'px Jost, Futura, sans-serif';
+      A.headY = A.y + top + fs * 0.4;
+      // Balanced: the narrowest measure that keeps the same number of lines, so no word sits alone.
+      A.lines = wrap(HEAD_L, A.w - 2 * pad);
+      for (var bw = A.w - 2 * pad; bw > 80; bw -= 4){ var bl = wrap(HEAD_L, bw - 4); if (bl.length > A.lines.length) break; A.lines = bl; }
+      var wTop = A.headY + A.lines.length * fs * 1.12 + pad, wBot = A.y + A.h - pad;
+      // Webs and shapes sit on the optical centre: side by side, a little above
+      // the middle of the viewport; stacked, a little above the middle of the
+      // room each has. Each is sized to stay clear of the type around it.
+      function optical(t, b){ return (t + b) / 2 - (b - t) * 0.03; }
+      var wcy = stacked ? optical(wTop, wBot) : Ht * 0.48;
+      W = {acx: A.x + A.w / 2, acy: wcy, aw: A.w - 2 * pad, ah: 2 * Math.max(40, Math.min(wcy - wTop, wBot - wcy))}; webCache = {};
+      // Right: the tile, above the headline at the bottom.
+      B.lines = wrap(HEAD_R, B.w - 2 * pad);
+      var tTop = B.y + (stacked ? pad : top + pad * 0.5), tBot = B.y + B.h - pad - B.lines.length * fs * 1.12 - pad;
+      var tcy = stacked ? optical(tTop, tBot) : Ht * 0.48, tcx = B.x + B.w / 2;
+      var side = Math.max(60, Math.min(B.w * 0.6, 2 * Math.min(tcy - tTop, tBot - tcy) * 0.92));
+      // The shapes: a grid of dots joined to their neighbours.
+      var n = 15;
+      tiles = SHAPES.map(function(sh){
+        var rule = sh[0];
+        var pts = [], at = {}, edges = [], i, j;
+        for (i = 0; i < n; i++) for (j = 0; j < n; j++){
+          var u = -1 + 2 * j / (n - 1), v = -1 + 2 * i / (n - 1);
+          if (rule(u, v)){ at[i + ',' + j] = pts.length; pts.push({x: tcx + u * side / 2, y: tcy + v * side / 2, u: u, v: v}); }
+        }
+        for (var key in at){ var ij = key.split(','), a = at[key], rr = at[ij[0] + ',' + (+ij[1] + 1)], dn = at[(+ij[0] + 1) + ',' + ij[1]]; if (rr !== undefined) edges.push([a, rr]); if (dn !== undefined) edges.push([a, dn]); }
+        centreY(pts, tcy);   // by its dots, not its grid
+        return {pts: pts, edges: edges};
+      });
+      // JEFF MA straddles the wall: the space between the words sits on it.
+      wm.style.setProperty('--shift', '0px');
+      wm.classList.toggle('across', !stacked);
+      if (!stacked){
+        var cr = canvas.getBoundingClientRect(), ar = wm.querySelector('.s3-a').getBoundingClientRect(), br = wm.querySelector('.s3-b').getBoundingClientRect();
+        wm.style.setProperty('--shift', Math.round(cr.left + wallR.x + wallR.w / 2 - (ar.right + br.left) / 2) + 'px');
+        maLeft = br.left - cr.left; lastX = '';
+      }
+    }
+    function wrap(text, width){
+      var lines = [];
+      text.split('\n').forEach(function(para){
+        var line = '';
+        para.split(' ').forEach(function(w){ var test = line ? line + ' ' + w : w; if (ctx.measureText(test).width > width && line){ lines.push(line); line = w; } else line = test; });
+        lines.push(line);
+      });
+      return lines;
+    }
+    function home(d, t){ return {x: d.x + 9 * Math.sin(t * d.f[0] + d.ph[0]) + 4 * Math.sin(t * d.f[1] + d.ph[1]), y: d.y + 9 * Math.sin(t * d.f[2] + d.ph[2]) + 4 * Math.sin(t * d.f[3] + d.ph[3])}; }
+
+    function frameFn(now){
+      if (!running) return;
+      var T = now - start, c = Math.floor(T / CYCLE), tp = T % CYCLE, k = c % tiles.length, t = now / 1000;
+      if (reduce){ c = 0; k = 0; tp = APPEAR + WEBT + TRAVEL + 1; t = 0; }
+      var tile = tiles[k], web = getWeb(k), nk = (k + 1) % tiles.length;
+      var t1 = APPEAR, t2 = t1 + WEBT, t3 = t2 + TRAVEL, t4 = t3 + HOLD;
+      var phase = tp < t1 ? 'appear' : tp < t2 ? 'web' : tp < t3 ? 'go' : tp < t4 ? 'hold' : 'drain';
+      var q = phase === 'go' ? (tp - t2) / TRAVEL : 0;
+      var homes = web.pts.map(function(d){ return home(d, t); });
+      // How far each web dot has appeared (the web comes in dot by dot).
+      // Dots start appearing at an accelerating rate: the share of them under
+      // way grows as (time / span)^2.5, so each starts at span * share^(1 / 2.5).
+      function appear(d, ms, span){ return ease(clamp((ms - span * Math.pow(d.ph[0] / TAU, 0.4)) / GROW)); }
+      var app = web.pts.map(function(d){ return phase === 'appear' && (c === 0 || reduce) ? appear(d, tp, APPEAR - GROW) : 1; });
+      // The shape slides out to the right, accelerating, starting just before
+      // the colour wipes away behind it.
+      var slide = reduce ? 0 : Math.pow(clamp((tp - t4 + SLIDE) / (DRAIN + SLIDE)), 2) * B.w * 1.4;   // clear of the frame just ahead of the wipe
+      // Where each place of the tile is: 0 = in the web, 1 = in the tile.
+      var pos = tile.pts.map(function(p, i){
+        var pi = phase === 'appear' || phase === 'web' ? 0 : phase === 'go' ? ease(clamp((q - web.goOrd[i] * 0.4) / 0.6)) : 1;
+        var h = homes[i];
+        return {x: lerp(h.x, p.x, pi) + slide, y: lerp(h.y, p.y, pi), pi: pi, a: app[i]};
+      });
+      if (phase === 'hold') getWeb(nk);   // have the next web ready before it's needed
+      // The colour: pours in from the left on first load; after each hold it
+      // wipes away to the right with the next colour following right behind it.
+      var x0 = B.x, x1 = B.x + B.w;
+      if (phase === 'appear' && c === 0 && !reduce) x1 = B.x + B.w * ease(clamp(tp / APPEAR));
+      if (phase === 'drain') x0 = B.x + B.w * ease(clamp((tp - t4) / DRAIN));
+      var lft = phase === 'drain' ? B.x : x0;   // where any colour starts
+      var r = Math.max(1.8, Math.min(A.w, A.h) * 0.0058);
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = css(PAPER); ctx.fillRect(0, 0, Wd, Ht);
+      ctx.fillStyle = css(fills[k]); ctx.fillRect(x0, B.y, x1 - x0, B.h);
+      if (phase === 'drain'){ ctx.fillStyle = css(fills[nk]); ctx.fillRect(B.x, B.y, x0 - B.x, B.h); }
+      function drawAll(col, lineA){
+        ctx.lineWidth = 1.1;
+        // The web's lines let go as soon as either end sets off.
+        web.edges.forEach(function(e){
+          var a = pos[e[0]], b = pos[e[1]], al = lineA * Math.min(a.a, b.a) * (1 - clamp(Math.max(a.pi, b.pi) * 5));
+          if (al > 0.01){ ctx.strokeStyle = css(col, al); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+        });
+        // The tile's lines return as its dots arrive.
+        tile.edges.forEach(function(e){ var a = pos[e[0]], b = pos[e[1]], al = Math.pow(Math.min(a.pi, b.pi), 3); if (al > 0.01){ ctx.strokeStyle = css(col, lineA * al); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); } });
+        ctx.fillStyle = css(col);
+        pos.forEach(function(p){ if (p.a > 0.01){ ctx.beginPath(); ctx.arc(p.x, p.y, r * p.a, 0, TAU); ctx.fill(); } });
+      }
+      // Ink on the off-white side; paper on the colour. Nothing is drawn on
+      // the other side outside the colour, so draining it erases the tile.
+      ctx.save(); ctx.beginPath(); ctx.rect(A.x, A.y, A.w, A.h); ctx.clip(); drawAll(INKC, 0.32);
+      // The next web, appearing while this tile holds and drains.
+      if (!reduce && tp > CYCLE - EARLY){
+        var nw = getWeb(nk), nApp = nw.pts.map(function(d){ return appear(d, tp - (CYCLE - EARLY), REGEN); }), nH = nw.pts.map(function(d){ return home(d, t); });
+        nw.edges.forEach(function(e){ var al = 0.32 * Math.min(nApp[e[0]], nApp[e[1]]); if (al > 0.01){ ctx.strokeStyle = css(INKC, al); ctx.beginPath(); ctx.moveTo(nH[e[0]].x, nH[e[0]].y); ctx.lineTo(nH[e[1]].x, nH[e[1]].y); ctx.stroke(); } });
+        ctx.fillStyle = css(INKC); nH.forEach(function(h, i){ if (nApp[i] > 0.01){ ctx.beginPath(); ctx.arc(h.x, h.y, r * nApp[i], 0, TAU); ctx.fill(); } });
+      }
+      ctx.restore();
+      ctx.save(); ctx.beginPath(); ctx.rect(x0, B.y, x1 - x0, B.h); ctx.clip(); drawAll(PAPER, 0.55); ctx.restore();
+      // The headline halves: top left on the off-white, bottom left on the
+      // colour (in ink wherever there is no colour yet).
+      ctx.font = '700 ' + fs + 'px Jost, Futura, sans-serif'; ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = css(INKC);
+      A.lines.forEach(function(l, i){ ctx.fillText(l, A.x + pad, A.headY + fs * 0.85 + i * fs * 1.12); });
+      var by = B.y + B.h - pad - fs * 0.22 - (B.lines.length - 1) * fs * 1.12;
+      function headR(){ B.lines.forEach(function(l, i){ ctx.fillText(l, B.x + pad, by + i * fs * 1.12); }); }
+      ctx.save(); ctx.beginPath(); ctx.rect(B.x, B.y, lft - B.x, B.h); ctx.rect(x1, B.y, B.x + B.w - x1, B.h); ctx.clip(); ctx.fillStyle = css(INKC); headR(); ctx.restore();
+      ctx.save(); ctx.beginPath(); ctx.rect(lft, B.y, x1 - lft, B.h); ctx.clip(); ctx.fillStyle = css(PAPER); headR(); ctx.restore();
+      // MA in the wordmark follows the colour too.
+      if (!stacked){
+        var xs = Math.round(lft - maLeft) + ',' + Math.round(x1 - maLeft);
+        if (xs !== lastX){ lastX = xs; var xx = xs.split(','); wm.style.setProperty('--x0', xx[0] + 'px'); wm.style.setProperty('--x1', xx[1] + 'px'); }
+      }
+      requestAnimationFrame(frameFn);
+    }
+    function setRunning(on){ if (on && !running){ running = true; requestAnimationFrame(frameFn); } else if (!on) running = false; }
+
+    layout();
+    if (window.ResizeObserver) new ResizeObserver(layout).observe(frame); else window.addEventListener('resize', layout);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+    new IntersectionObserver(function(es){ seen = es[0].isIntersecting; setRunning(seen && !document.hidden); }).observe(frame);
+    document.addEventListener('visibilitychange', function(){ setRunning(seen && !document.hidden); });
   })();
 
   /* ---------- Case "mini" bridges: tangle on the left, clean line on the right ---------- */
