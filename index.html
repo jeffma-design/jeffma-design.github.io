@@ -135,6 +135,7 @@
   /* MA is paper where the colour is behind it and ink where there is none yet (--x0/--x1: the colour's left and right edges). */
   .s3-wm.across .s3-b{background-image:linear-gradient(90deg, var(--ink) var(--x0, 0px), var(--paper) var(--x0, 0px), var(--paper) var(--x1, 999px), var(--ink) var(--x1, 999px)); -webkit-background-clip:text; background-clip:text; color:transparent;}
   .s3-tag{position:absolute; right:10px; bottom:10px; z-index:1; padding:5px 10px; background:var(--ink); color:var(--paper);}
+  @media (orientation: portrait){ .s3-tag{bottom:auto; top:calc(50% + 10px);} }   /* clear of the centred headline */
   .sketch1-tag-row{border-top:2px solid var(--ink); padding-top:clamp(40px, 6vw, 72px);}
   .sketch2{border-top:2px solid var(--ink); padding:clamp(40px, 6vw, 72px) 0 clamp(56px, 8vw, 96px);}
   .sketch2-tag{display:inline-block; margin:0 0 clamp(20px, 3vw, 32px); padding:5px 12px; background:var(--ink); color:var(--paper);}
@@ -381,8 +382,31 @@
   </ol>
 </nav>
 
+<!-- ============ SKETCH 4 (for review): the web stays; copies of its dots cross the wall ============ -->
+<section class="s3" id="top" aria-label="Sketch 4: hero">
+  <div class="s3-frame">
+    <canvas id="s4-canvas" aria-hidden="true"></canvas>
+    <header class="s3-bar">
+      <div class="topbar s3-topbar">
+        <nav class="nav nav-left" aria-label="Sections">
+          <a href="#approach">Approach</a>
+          <a href="#work">Work</a>
+        </nav>
+        <div class="brand">
+          <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span></span></a>
+        </div>
+        <nav class="nav nav-right" aria-label="Contact">
+          <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
+        </nav>
+      </div>
+    </header>
+    <p class="sr-only">I help experts translate what they know for new audiences. An expert’s web of connected dots sends copies of its dots through a wall to build a Bauhaus-inspired figure on the other side, while the web itself stays and slowly changes.</p>
+    <span class="label s3-tag">Sketch 4</span>
+  </div>
+</section>
+
 <!-- ============ SKETCH 3 (for review): one frame, a wall down the middle ============ -->
-<section class="s3" id="top" aria-label="Sketch 3: hero">
+<section class="s3" id="sketch-3" aria-label="Sketch 3">
   <div class="s3-frame">
     <canvas id="s3-canvas" aria-hidden="true"></canvas>
     <header class="s3-bar">
@@ -1251,8 +1275,12 @@
      left to right behind it, the next colour following right behind,
      while the next web appears. Dots, lines and type are ink on the
      off-white and paper on the colour. */
-  (function(){
-    var canvas = document.getElementById('s3-canvas');
+  /* Sketch 4 is the same frame, but the web stays: copies of its dots cross
+     the wall to build the shape while the web itself slowly morphs into the
+     next one. Each new colour pours in from the left just before the next
+     copies set off, chasing the last shape out to the right, so the right
+     side is never bare after the first pour. */
+  function wallSketch(canvas, copies){
     if (!canvas || !TILESET) return;
     var frame = canvas.parentNode, bar = frame.querySelector('.s3-bar'), wm = bar.querySelector('.wm');
     var ctx = canvas.getContext('2d'), portrait = window.matchMedia('(orientation: portrait)');
@@ -1263,7 +1291,7 @@
     // next colour has filled in. GROW: how long each dot takes to appear.
     var SLIDE = 400, GROW = 500, EARLY = HOLD + DRAIN - 400, REGEN = EARLY - 150 - GROW;
     var HEAD_L = 'I help experts\ntranslate what they know…', HEAD_R = 'for new audiences.';
-    var Wd = 0, Ht = 0, dpr = 1, A, B, wallR, maLeft = 0, stacked = false, lastX = '', fs = 16, pad = 20, webCache = {}, tiles = [], W = null, start = performance.now(), running = false, seen = false;
+    var Wd = 0, Ht = 0, dpr = 1, A, B, wallR, maLeft = 0, stacked = false, lastX = '', fs = 16, pad = 20, webCache = {}, morphCache = {}, tiles = [], W = null, start = performance.now(), running = false, seen = false;
 
     function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
     function contrast(a, b){ var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
@@ -1279,22 +1307,26 @@
     // also avoids green (a pharmacy cross) and blue (Blue Cross).
     // The chart line's top edge in each rising column (four dots tall, at 45 degrees);
     // the flat middle is three dots tall.
+    // A triangle pointing along +a: one dot at the tip, then columns 3, 3, 5, 5 ... 11, 11
+    // dots across and a single 13-dot base, so neither the tip nor the flat side doubles up.
+    function tri(a, b){ a = Math.round(a); return a >= -5 && a <= 6 && ab(Math.round(b)) <= Math.ceil((6 - a) / 2); }
     function chartTop(x){ return x < 0 ? -4 - x : -x; }
     var SHAPES = [
-      [G(function(x, y){ return (ab(x) <= 2.5 && ab(y) <= 6.5) || (ab(y) <= 2.5 && ab(x) <= 6.5); }), C.pink],                                   // plus
-      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= (6 - x) / 2 + 0.25; }), C.yellow, 2.2],                                                       // triangle, pointing right
-      [G(function(x, y){ x = Math.round(x); y = Math.round(y); return ab(x) <= 2 ? ab(y) <= 1 : ab(x) <= 6 && y >= chartTop(x) && y <= chartTop(x) + 3; }), C.blue],  // chart line: up, flat, up
-      [G(function(x, y){ var a = x + y, b = x - y; return ab(x) <= 6.5 && ab(y) <= 6.5 && ((ab(a) <= 2.5 && ab(b) <= 9.5) || (ab(b) <= 2.5 && ab(a) <= 9.5)); }), C.green],  // X
-      [G(function(x, y){ var r = Math.hypot(x, y); return r <= 2.5 || (r >= 3.5 && r <= 6.7); }), C.yellow],                                         // target: a disc in a thick band
-      [G(function(x, y){ var m = x + 0.5; return (ab(m) <= 2 && y >= 0 && y <= 6.5) || (ab(m) <= 6 && y >= -6.5 && ab(y + ab(m) - 0.5) <= 2.5); }), C.pink, 2.2],  // Y (centred half a dot left, for a four-dot stem)
-      [G(function(x, y){ return Math.hypot(x, y) <= 6.6 && ab(x) >= 0.5; }), C.blue],                                                             // two half-discs
-      [G(function(x, y){ return ab(y) <= 6.5 && ab(x) <= (6 - y) / 2 + 0.25; }), C.yellow],                                                       // triangle, pointing down
-      [G(function(x, y){ return ab(y) <= 6.5 && ab(x) <= (6 + y) / 2 + 0.25; }), C.green],                                                        // triangle, pointing up
-      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 3.5; }), C.red],                                                                         // bar
-      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x) + ab(y) <= 9.5; }), C.blue],                                                // octagon
-      [G(function(x, y){ return (ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x + y) <= 1.5) || Math.hypot(x + 4, y + 4) <= 2.4 || Math.hypot(x - 4, y - 4) <= 2.4; }), C.pink],  // percent
-      [G(function(x, y){ return ab(x) <= 5.5 && ab(y) >= 1.5 && ab(y) <= 5.5; }), C.green]                                                        // two bars
-    ].concat(TILESET.rules.map(function(rule, i){ return [rule, TILESET.colors[i]]; }));
+      [G(function(x, y){ return (ab(x) <= 2.5 && ab(y) <= 6.5) || (ab(y) <= 2.5 && ab(x) <= 6.5); }), C.yellow],                                   // plus
+      [G(function(x, y){ return tri(x, y); }), C.red, 2.2],                                                       // triangle, pointing right
+      [G(function(x, y){ x = Math.round(x); y = Math.round(y); return ab(x) <= 2 ? ab(y) <= 1 : ab(x) <= 6 && y >= chartTop(x) && y <= chartTop(x) + 3; }), C.green],  // chart line: up, flat, up
+      [G(function(x, y){ var a = x + y, b = x - y; return ab(x) <= 6.5 && ab(y) <= 6.5 && ((ab(a) <= 2.5 && ab(b) <= 9.5) || (ab(b) <= 2.5 && ab(a) <= 9.5)); }), C.blue],  // X
+      [G(function(x, y){ var r = Math.hypot(x, y); return r <= 2.5 || (r >= 3.5 && r <= 6.7); }), C.pink],                                         // target: a disc in a thick band
+      [G(function(x, y){ var m = x + 0.5; return (ab(m) <= 2 && y >= 0 && y <= 6.5) || (ab(m) <= 6 && y >= -6.5 && ab(y + ab(m) - 0.5) <= 2.5); }), C.yellow, 2.2],  // Y (centred half a dot left, for a four-dot stem)
+      [G(function(x, y){ return Math.hypot(x, y) <= 6.6 && ab(x) >= 0.5; }), C.red],                                                             // two half-discs
+      [G(function(x, y){ return tri(y, x); }), C.blue],                                                       // triangle, pointing down
+      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 2.5; }), C.pink],                                                                         // minus: the plus's crossbar, 13 x 5
+      [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x) + ab(y) <= 9.5; }), C.yellow],                                                // octagon
+      [G(function(x, y){ return tri(-y, x); }), C.red],                                                        // triangle, pointing up
+      [G(function(x, y){ return (ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x + y) <= 1.5) || Math.hypot(x + 4, y + 4) <= 2.4 || Math.hypot(x - 4, y - 4) <= 2.4; }), C.green, 3.4],  // percent
+      [G(function(x, y){ y = Math.round(y); return ab(x) <= 5.5 && ((y >= -5 && y <= -2) || (y >= 1 && y <= 4)); }), C.blue]  // two bars, four rows each, two rows apart
+    ].concat(TILESET.rules.map(function(rule, i){ return [rule, C[['pink', 'red', 'yellow', 'blue', 'green', 'pink', 'red'][i]]]; }));
+    // (Colours are mixed up from the hero's, and no two shapes in a row share one, round the loop too.)
     // The hero's ring (the sixth tile) is too thin to read as filled here: use a thick band.
     SHAPES[SHAPES.length - 2][0] = G(function(x, y){ var r = Math.hypot(x, y); return r >= 2.5 && r <= 6.7; });
     // Each shape's colour, deepened where needed so paper reaches 3:1 on it.
@@ -1378,7 +1410,7 @@
       // room each has. Each is sized to stay clear of the type around it.
       function optical(t, b){ return (t + b) / 2 - (b - t) * 0.03; }
       var wcy = stacked ? optical(wTop, wBot) : Ht * 0.48;
-      W = {acx: A.x + A.w / 2, acy: wcy, aw: A.w - 2 * pad, ah: 2 * Math.max(40, Math.min(wcy - wTop, wBot - wcy))}; webCache = {};
+      W = {acx: A.x + A.w / 2, acy: wcy, aw: A.w - 2 * pad, ah: 2 * Math.max(40, Math.min(wcy - wTop, wBot - wcy))}; webCache = {}; morphCache = {};
       // Right: the tile, above the headline at the bottom.
       B.lines = wrap(HEAD_R, B.w - 2 * pad);
       var tTop = B.y + (stacked ? pad : top + pad * 0.5), tBot = B.y + B.h - pad - B.lines.length * fs * 1.12 - pad;
@@ -1417,8 +1449,7 @@
     }
     function home(d, t){ return {x: d.x + 9 * Math.sin(t * d.f[0] + d.ph[0]) + 4 * Math.sin(t * d.f[1] + d.ph[1]), y: d.y + 9 * Math.sin(t * d.f[2] + d.ph[2]) + 4 * Math.sin(t * d.f[3] + d.ph[3])}; }
 
-    function frameFn(now){
-      if (!running) return;
+    function frameWipe(now){
       var T = now - start, c = Math.floor(T / CYCLE), tp = T % CYCLE, k = c % tiles.length, t = now / 1000;
       if (reduce){ c = 0; k = 0; tp = APPEAR + WEBT + TRAVEL + 1; t = 0; }
       var tile = tiles[k], web = getWeb(k), nk = (k + 1) % tiles.length;
@@ -1476,13 +1507,20 @@
       }
       ctx.restore();
       ctx.save(); ctx.beginPath(); ctx.rect(x0, B.y, x1 - x0, B.h); ctx.clip(); drawAll(PAPER, 0.55); ctx.restore();
-      // The headline halves: top left on the off-white, bottom left on the
-      // colour (in ink wherever there is no colour yet).
+      drawHeads(x0, x1, lft);
+    }
+    // The headline halves: top left on the off-white, bottom left on the
+    // colour (in ink wherever there is no colour yet). The colour spans
+    // lft to x1 in the right-hand frame.
+    function drawHeads(x0, x1, lft){
       ctx.font = '700 ' + fs + 'px Jost, Futura, sans-serif'; ctx.textBaseline = 'alphabetic';
       ctx.fillStyle = css(INKC);
-      A.lines.forEach(function(l, i){ ctx.fillText(l, A.x + pad, A.headY + fs * 0.85 + i * fs * 1.12); });
+      // Stacked, each line is centred with its closing punctuation hung
+      // outside the measure; side by side, lines start at the left margin.
+      function lineX(l, R){ return stacked ? R.x + R.w / 2 - ctx.measureText(l.replace(/[.,…:;!?’”)]+$/, '')).width / 2 : R.x + pad; }
+      A.lines.forEach(function(l, i){ ctx.fillText(l, lineX(l, A), A.headY + fs * 0.85 + i * fs * 1.12); });
       var by = B.y + B.h - pad - fs * 0.22 - (B.lines.length - 1) * fs * 1.12;
-      function headR(){ B.lines.forEach(function(l, i){ ctx.fillText(l, B.x + pad, by + i * fs * 1.12); }); }
+      function headR(){ B.lines.forEach(function(l, i){ ctx.fillText(l, lineX(l, B), by + i * fs * 1.12); }); }
       ctx.save(); ctx.beginPath(); ctx.rect(B.x, B.y, lft - B.x, B.h); ctx.rect(x1, B.y, B.x + B.w - x1, B.h); ctx.clip(); ctx.fillStyle = css(INKC); headR(); ctx.restore();
       ctx.save(); ctx.beginPath(); ctx.rect(lft, B.y, x1 - lft, B.h); ctx.clip(); ctx.fillStyle = css(PAPER); headR(); ctx.restore();
       // MA in the wordmark follows the colour too.
@@ -1490,6 +1528,98 @@
         var xs = Math.round(lft - maLeft) + ',' + Math.round(x1 - maLeft);
         if (xs !== lastX){ lastX = xs; var xx = xs.split(','); wm.style.setProperty('--x0', xx[0] + 'px'); wm.style.setProperty('--x1', xx[1] + 'px'); }
       }
+    }
+
+    // How web k morphs into web k + 1: dots paired closest first; any left
+    // over fade out (from web k) or in (to web k + 1).
+    function getMorph(k){
+      if (morphCache[k]) return morphCache[k];
+      var a = getWeb(k), b = getWeb((k + 1) % tiles.length), pairs = [], usedA = {}, usedB = {}, items = [], ofA = [], ofB = [];
+      a.pts.forEach(function(d, i){ b.pts.forEach(function(e, j){ pairs.push([Math.hypot(d.x - e.x, d.y - e.y), i, j]); }); });
+      pairs.sort(function(p, q){ return p[0] - q[0]; });
+      pairs.forEach(function(pr){ if (!usedA[pr[1]] && !usedB[pr[2]]){ usedA[pr[1]] = usedB[pr[2]] = 1; items.push({a: pr[1], b: pr[2]}); } });
+      a.pts.forEach(function(d, i){ if (!usedA[i]) items.push({a: i, b: -1}); });
+      b.pts.forEach(function(d, j){ if (!usedB[j]) items.push({a: -1, b: j}); });
+      items.forEach(function(it, n){ it.s = rng(900 + k * 13 + n)(); if (it.a >= 0) ofA[it.a] = it; if (it.b >= 0) ofB[it.b] = it; });
+      return (morphCache[k] = {a: a, b: b, items: items, ofA: ofA, ofB: ofB});
+    }
+    // Sketch 4's timing. Each cycle starts with the pour; the copies set off
+    // LEAD ms in. The first cycle starts after an intro in which the web
+    // appears. Each web dot starts morphing into the next web as its copy
+    // sets off, so the next pour can chase the shape out after a short hold.
+    var LEAD = 400, POUR = DRAIN, TRAVEL4 = 2600, HOLD4 = 1700, MORPH = 2400, INTRO = APPEAR + WEBT, CYCLE4 = LEAD + TRAVEL4 + HOLD4;
+    function frameCopies(now){
+      var T = now - start - INTRO, c = T < 0 ? 0 : Math.floor(T / CYCLE4), tp = T < 0 ? T : T % CYCLE4, k = c % tiles.length, t = now / 1000;
+      var nt = tiles.length, t2 = LEAD, t3 = t2 + TRAVEL4;
+      if (reduce){ c = 0; k = 0; tp = t3 + 1; t = 0; }
+      var tile = tiles[k], M = getMorph(k), web = M.a, pk = (k + nt - 1) % nt;
+      var phase = tp < t2 ? 'web' : tp < t3 ? 'go' : 'hold';
+      var q = phase === 'go' ? (tp - t2) / TRAVEL4 : 0, r = Math.max(1.8, Math.min(A.w, A.h) * 0.0058);
+      function appear(d, ms, span){ return ease(clamp((ms - span * Math.pow(d.ph[0] / TAU, 0.4)) / GROW)); }
+      // The web on the left: on first load it appears dot by dot; each dot
+      // morphs into its place in the next web as its copy sets off (dots new
+      // to the next web grow in over the same stretch).
+      M.items.forEach(function(it){
+        var go = t2 + (it.a >= 0 ? web.goOrd[it.a] : it.s) * 0.4 * TRAVEL4;
+        var m = reduce ? 0 : ease(clamp((tp - go) / MORPH));
+        var pa = it.a >= 0 ? home(web.pts[it.a], t) : null, pb = it.b >= 0 ? home(M.b.pts[it.b], t) : null;
+        var ap = it.a >= 0 && c === 0 && !reduce ? appear(web.pts[it.a], tp + INTRO, APPEAR - GROW) : 1;
+        it.m = m; it.ap = ap;
+        if (pa && pb){ it.x = lerp(pa.x, pb.x, m); it.y = lerp(pa.y, pb.y, m); it.r = r * ap; }
+        else if (pa){ it.x = pa.x; it.y = pa.y; it.r = r * ap * (1 - m); }
+        else { it.x = pb.x; it.y = pb.y; it.r = r * m; }
+      });
+      if (phase === 'hold') getMorph((k + 1) % nt);   // ready before it's needed
+      // Each shape slides out to the right, accelerating, starting just before
+      // the next colour pours in behind it.
+      function slideAt(ms){ return reduce ? 0 : Math.pow(clamp(ms / (POUR + SLIDE)), 2) * B.w * 1.4; }
+      var slide = slideAt(tp - (CYCLE4 - SLIDE)), prevSlide = c > 0 ? slideAt(tp + SLIDE) : 0;
+      // The copies: they leave the web's dots, nearest the wall first, and
+      // build the shape.
+      var pos = tile.pts.map(function(p, i){
+        var pi = phase === 'web' ? 0 : phase === 'go' ? ease(clamp((q - web.goOrd[i] * 0.4) / 0.6)) : 1;
+        var h = home(web.pts[i], t);   // from where the web dot was
+        return {x: lerp(h.x, p.x, pi) + slide, y: lerp(h.y, p.y, pi), pi: pi};
+      });
+      // This cycle's colour pours in from the left over the last one (or,
+      // on first load, over the off-white).
+      var x1 = reduce ? B.x + B.w : B.x + B.w * ease(clamp(tp / POUR)), right = B.x + B.w;
+      var cx1 = c > 0 || reduce ? right : x1;   // where any colour ends
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = css(PAPER); ctx.fillRect(0, 0, Wd, Ht);
+      if (c > 0){ ctx.fillStyle = css(fills[pk]); ctx.fillRect(x1, B.y, right - x1, B.h); }
+      ctx.fillStyle = css(fills[k]); ctx.fillRect(B.x, B.y, x1 - B.x, B.h);
+      ctx.lineWidth = 1.1;
+      function seg(p, q2, col, al){ if (al > 0.01){ ctx.strokeStyle = css(col, al); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q2.x, q2.y); ctx.stroke(); } }
+      // The last shape, sliding out ahead of the new colour.
+      if (c > 0 && x1 < right){
+        var pt = tiles[pk];
+        ctx.save(); ctx.beginPath(); ctx.rect(x1, B.y, right - x1, B.h); ctx.clip();
+        pt.edges.forEach(function(e){ var a = pt.pts[e[0]], b = pt.pts[e[1]]; seg({x: a.x + prevSlide, y: a.y}, {x: b.x + prevSlide, y: b.y}, PAPER, 0.55); });
+        ctx.fillStyle = css(PAPER); pt.pts.forEach(function(p){ ctx.beginPath(); ctx.arc(p.x + prevSlide, p.y, r, 0, TAU); ctx.fill(); });
+        ctx.restore();
+      }
+      // The web, in ink: its lines fade across from this web's to the next's.
+      ctx.save(); ctx.beginPath(); ctx.rect(A.x, A.y, A.w, A.h); ctx.clip();
+      web.edges.forEach(function(e){ var p = M.ofA[e[0]], q2 = M.ofA[e[1]]; seg(p, q2, INKC, 0.32 * Math.min(p.ap, q2.ap) * (1 - (p.m + q2.m) / 2)); });
+      M.b.edges.forEach(function(e){ var p = M.ofB[e[0]], q2 = M.ofB[e[1]]; seg(p, q2, INKC, 0.32 * (p.m + q2.m) / 2); });
+      ctx.fillStyle = css(INKC);
+      M.items.forEach(function(it){ if (it.r > 0.05){ ctx.beginPath(); ctx.arc(it.x, it.y, it.r, 0, TAU); ctx.fill(); } });
+      ctx.restore();
+      // The copies: ink while they cross the off-white, paper on the colour.
+      function drawCopies(col, lineA){
+        tile.edges.forEach(function(e){ var p = pos[e[0]], q2 = pos[e[1]]; seg(p, q2, col, lineA * Math.pow(Math.min(p.pi, q2.pi), 3)); });
+        ctx.fillStyle = css(col);
+        pos.forEach(function(p){ if (p.pi > 0.001){ ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, TAU); ctx.fill(); } });
+      }
+      if (phase === 'go'){ ctx.save(); ctx.beginPath(); ctx.rect(0, 0, Wd, Ht); ctx.rect(B.x, B.y, cx1 - B.x, B.h); ctx.clip('evenodd'); drawCopies(INKC, 0.32); ctx.restore(); }
+      ctx.save(); ctx.beginPath(); ctx.rect(B.x, B.y, cx1 - B.x, B.h); ctx.clip(); drawCopies(PAPER, 0.55); ctx.restore();
+      drawHeads(B.x, cx1, B.x);
+    }
+    function frameFn(now){
+      if (!running) return;
+      if (copies) frameCopies(now); else frameWipe(now);
       requestAnimationFrame(frameFn);
     }
     function setRunning(on){ if (on && !running){ running = true; requestAnimationFrame(frameFn); } else if (!on) running = false; }
@@ -1499,7 +1629,9 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
     new IntersectionObserver(function(es){ seen = es[0].isIntersecting; setRunning(seen && !document.hidden); }).observe(frame);
     document.addEventListener('visibilitychange', function(){ setRunning(seen && !document.hidden); });
-  })();
+  }
+  wallSketch(document.getElementById('s4-canvas'), true);
+  wallSketch(document.getElementById('s3-canvas'), false);
 
   /* ---------- Case "mini" bridges: tangle on the left, clean line on the right ---------- */
   document.querySelectorAll('svg.mini').forEach(function(m, n){
