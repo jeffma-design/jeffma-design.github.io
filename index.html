@@ -192,8 +192,11 @@
   /* The payoff: a section's closing line in headline type, knocked out of a full-width band of solid colour.
      It recurs: green in section 01, salmon pink in section 02. Set the colour with --payoff. */
   .payoff{margin-top:clamp(48px, 7vw, 96px); margin-bottom:calc(-1 * clamp(48px, 7vw, 96px)); margin-inline:calc(50% - 50vw); background:var(--payoff, var(--green)); padding:clamp(96px, 13.5vw, 192px) var(--gutter); text-align:center;}   /* full window width, and it ends its section: no padding under it */
-  .payoff p{max-width:24em; margin:0 auto; color:var(--paper); font-size:min(clamp(1.6rem, 3vw, 2.5rem), calc((100vw - 32px) / 13.6)); font-weight:700; line-height:1.12; letter-spacing:0; text-wrap:balance;}
-  .payoff p span{white-space:nowrap;}   /* lines break between phrases, never inside one; on the narrowest phones the type shrinks a touch so the longest phrase still fits */
+  .payoff > p:first-child{max-width:24em; margin:0 auto; color:var(--paper); font-size:min(clamp(1.6rem, 3vw, 2.5rem), calc((100vw - 32px) / 13.6)); font-weight:700; line-height:1.12; letter-spacing:0; text-wrap:balance;}
+  .payoff > p:first-child span{white-space:nowrap;}   /* lines break between phrases, never inside one; on the narrowest phones the type shrinks a touch so the longest phrase still fits */
+  .payoff > p:first-child .pl{white-space:normal;}   /* a line group: on wider screens each starts a new line; its phrases may wrap apart on phones */
+  @media (min-width:701px){ .payoff > p:first-child .pl{display:block;} .payoff > p:first-child:has(.pl){max-width:none;} .payoff .only-narrow{display:none;} }
+  @media (max-width:700px){ .payoff .only-wide{display:none;} }   /* phones: “every deck,” closes the line above instead */
   .story2 .s2-p{max-width:38em; margin:16px auto 0; text-wrap:balance;}
   @media (max-width:640px){ .br-lede{display:none;} }   /* narrow screens: let the lede wrap evenly instead */
   .s2-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px; margin:clamp(44px, 6vw, 80px) 0 clamp(20px, 3vw, 32px);   /* more room under the lede */
@@ -252,6 +255,7 @@
   .chapter-head.chapter-head-bar{grid-template-columns:1fr; gap:clamp(28px, 4vw, 48px);}
   #approach{padding-top:clamp(72px, 10.5vw, 144px);}   /* more room above CONVERSATION TO CRAFT, after the green band */
   #approach .chapter-head-bar{gap:clamp(8px, 1.2vw, 16px);}   /* the triangle graphic has its own empty space at the top, so it sits closer to its label */
+  @media (max-width:700px){ #approach .chapter-head-bar{gap:68px;} }   /* phones: more room under the label */
   .num.num-icon{position:relative; justify-self:start; gap:20px; padding:12px 18px 12px 0; background:var(--bar, var(--purple)); color:var(--paper);}
   .num-icon::before{display:none;}
   .num-icon::after{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--bar, var(--purple));}
@@ -286,7 +290,15 @@
   @media (min-width:1100px){ .process{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-inline:auto;} }   /* ten of the twelve columns, centred, so each step's column is narrower */
   .step p .nw{white-space:nowrap;}   /* lines break between phrases */
   @media (min-width:961px){ .step p .nw{display:block;} }   /* in five columns, each phrase gets its own line (Ask's long last word, “thinking.”, stands alone rather than run wide) */
-  @media (max-width:960px){ .process{grid-template-columns:minmax(0, 1fr); row-gap:28px;} }   /* narrower: one step under the next */
+  @media (max-width:960px){
+    .process{grid-template-columns:minmax(0, 1fr); row-gap:28px; width:fit-content; max-width:calc(100% - 4.6em); margin-inline:auto;}   /* narrower: one step under the next, the list centred and about ten characters narrower than the column */
+    .step{--dot:4px; --pitch:10px; --rise:3px;}   /* a smaller dot trail, at the same angle */
+    .step{display:grid; grid-template-columns:auto minmax(0, 1fr); column-gap:18px; align-items:center;}   /* the dot trail beside the name, the line under the name */
+    .step .dots{grid-column:1; grid-row:1; margin-bottom:0;}
+    .step h3{grid-column:2; grid-row:1; margin:0;}
+    .step p{grid-column:2; grid-row:2; margin-top:6px;}
+    .step p .nw{white-space:normal;}   /* here lines may break anywhere, so they fill the measure evenly */
+  }
 
   /* 03 — Outcome (inverted) */
   /* What becomes possible: pairs, from what experts live with now (quiet grey) to what their audience gets (bold ink).
@@ -328,34 +340,62 @@
   .also .label{color:var(--ink-soft);}
   .also span.co{font-weight:600; font-size:1.15rem;}
 
-  /* 05 — Moments */
-  .moments{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;}
-  @media (max-width:1100px){ .moments{grid-template-columns:repeat(2, 1fr);} }
-  @media (max-width:700px){ .moments{grid-template-columns:1fr;} .moment{min-height:0; flex-direction:row; align-items:center;} .moment .ico{flex:none;} }
-  .moment{border:2px solid var(--rule); padding:24px; background:var(--paper); color:var(--ink); display:flex; flex-direction:column; gap:18px; min-height:190px;}
-  .moment .ico{width:36px; height:36px;}
-  .moment p{font-size:1.15rem; font-weight:500; line-height:1.3;}
-  .moment:hover{background:var(--yellow);}
-  .audiences{margin-top:48px; display:grid; grid-template-columns:repeat(3,1fr); gap:32px; border-top:2px solid var(--rule); padding-top:28px;}
-  .audiences h3{font-family:var(--mono); font-size:0.75rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; color:var(--ink-soft);}
-  .audiences p{font-size:1.1rem; line-height:1.6;}
-  @media (max-width:700px){ .audiences{grid-template-columns:1fr; gap:20px;} }
 
   /* 06 — Contact */
-  .contact{background:var(--red); color:var(--paper);}
+  .contact{background:var(--paper); color:var(--ink);}
+  /* Working together: the fit sentence (the headline), the when / who / how axes and lists, the always-true strip and the closing band. */
+  .fit-h{line-height:1.75;}   /* room for the labels under the blanks */
+  .slot{display:inline-flex; flex-direction:column; align-items:center; vertical-align:top; line-height:1.25;}
+  .slot .w{padding:0 .1em; border-bottom:3px solid currentColor; white-space:nowrap;}
+  .slot .k{margin-top:6px; font-family:var(--mono); font-size:.62rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
+  .www{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:40px; margin-top:clamp(32px, 4vw, 48px);}
+  .www-col{border-top:1px solid color-mix(in srgb, currentColor 25%, transparent); padding-top:18px;}
+  .www-col h3{display:flex; align-items:center; gap:10px; margin:0 0 14px; font-size:clamp(1.4rem, 2.2vw, 1.9rem); font-weight:700; letter-spacing:0;}
+  .www .lines{list-style:none; margin:0; padding:0; display:grid; gap:8px; font-size:1.05rem; line-height:1.35;}
+  .www .lines b{font-weight:600;}
+  .www .k{margin:18px 0 8px; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
+  .www .tags{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px;}
+  .www .tags li{padding:3px 9px; border:1px solid color-mix(in srgb, currentColor 40%, transparent); font-size:.9rem; line-height:1.3;}
+  .www .note{margin-top:16px; font-size:.95rem; color:var(--ink-soft);}
+  @media (max-width:900px){ .www{grid-template-columns:minmax(0, 1fr);} }
+  .axes{position:relative; max-width:560px; margin:clamp(56px, 8vw, 96px) auto 0; aspect-ratio:720 / 420;}
+  .axes svg{display:block; width:100%; height:100%; overflow:visible;}
+  .axes path{fill:none; stroke:currentColor; stroke-width:2; vector-effect:non-scaling-stroke;}
+  .ax-k{position:absolute; transform:translate(-50%, 0); font-family:var(--mono); font-size:.8rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;}
+  .ax-when{left:11.1%; top:calc(90.5% + 10px);} .ax-how{left:88.9%; top:calc(90.5% + 10px);} .ax-who{left:50%; top:9.5%; transform:translate(-50%, calc(-100% - 10px));}
+  /* The closing band: the invitation, the button and where I'm based, on ink. */
+  .payoff-end .cta-row{justify-content:center; margin-top:clamp(32px, 4vw, 48px);}
+  .payoff-end .cta-big{white-space:nowrap;}
+  @media (max-width:520px){ .payoff-end .cta-row{flex-direction:column;} .payoff-end .cta-big{padding:16px 20px; gap:12px; font-size:1.1rem;} }
+  @media (max-width:360px){ .payoff-end .cta-big .d{display:none;} }   /* the narrowest phones: drop the dots so the label fits */
+  .payoff-end .cta-big:hover{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}
+  .payoff-end{color:var(--paper);}
+  .payoff-end .alt{color:#e9e2d4;}
+  .payoff-end .based{margin-top:24px; color:#bdb6a8;}
+  /* Sketch 2: square tiles, one scenario each, cycling through six of the palette's colours. In four, three or two
+     columns no two tiles of the same colour touch, and red never meets the salmon pink (left out here). */
+  .tiles{list-style:none; margin:clamp(48px, 7vw, 80px) 0 0; padding:0; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px;}
+  .tile{--bg:var(--paper-2); --fg:var(--ink); aspect-ratio:1; display:flex; flex-direction:column; justify-content:space-between; gap:10px; padding:clamp(14px, 2vw, 24px); background:var(--bg); color:var(--fg);}
+  .tile .n{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; opacity:.75;}
+  .tile p{margin:0; font-size:clamp(1rem, 1.7vw, 1.45rem); font-weight:600; line-height:1.2; text-wrap:balance;}
+  .tile:nth-child(6n+2){--bg:var(--yellow);}
+  .tile:nth-child(6n+3){--bg:var(--blue); --fg:var(--paper);}
+  .tile:nth-child(6n+4){--bg:var(--green); --fg:var(--paper);}
+  .tile:nth-child(6n+5){--bg:var(--red); --fg:var(--paper);}
+  .tile:nth-child(6n){--bg:var(--purple); --fg:var(--paper);}
+  @media (max-width:900px){ .tiles{grid-template-columns:repeat(3, minmax(0, 1fr));} }
+  @media (max-width:600px){ .tiles{grid-template-columns:repeat(2, minmax(0, 1fr));} .tile p{font-size:.98rem;} }
+  .always{list-style:none; margin:0 0 clamp(40px, 6vw, 64px); padding:20px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px 40px;
+    border-block:1px solid color-mix(in srgb, currentColor 25%, transparent); font-size:clamp(1.05rem, 1.6vw, 1.3rem); font-weight:600;}
   /* The contact headline sits in a wallpaper of the hero's shapes in miniature, drawn as dots and kept clear of the
      headline. It runs the full width of the window. Drawn by the script (wallpaper). */
-  #contact{overflow-x:clip;}
+  #contact, #work{overflow-x:clip;}   /* full-width bands and canvases without a sideways scroll */
   .wallpaper{position:relative; padding-block:clamp(56px, 8vw, 112px);}   /* the script sets the padding to fit whole rows */
   .wallpaper > canvas{position:absolute; top:0; left:0; width:100%; height:100%; display:block; pointer-events:none;}
   .wallpaper h2{position:relative;}
-  .contact .num::before{background:var(--paper);}
-  .contact .lede{color:#fbe3dc;}
   /* Sub-sections folded into a section: a small label with room above it. */
   .sub-label{margin:clamp(48px, 6vw, 72px) 0 16px;}
-  .contact .audiences{border-top-color:var(--paper);}
-  .contact .audiences h3{color:#fbe3dc;}
-  .contact .terms{margin-top:clamp(40px, 5vw, 56px);}
+  .contact .shifts{margin-bottom:clamp(48px, 7vw, 80px);}
   .cta-row{display:flex; flex-wrap:wrap; gap:16px 32px; align-items:center;}
   .cta-big{
     display:inline-flex; align-items:center; gap:16px; text-decoration:none;
@@ -370,11 +410,6 @@
   .cta-big .d b{display:block; width:22px; height:2px; background:currentColor;}
   .contact .alt a{font-weight:500; text-underline-offset:4px;}
   .based{margin-top:28px; color:#fbe3dc;}
-  .terms{display:grid; grid-template-columns:repeat(4,1fr); gap:32px; border-top:2px solid var(--paper); padding-top:28px; margin-bottom:clamp(48px,7vw,80px);}
-  .terms h3{font-size:1.25rem; margin-bottom:10px; line-height:1.15;}
-  .terms p{color:#fbe3dc; font-size:1rem; line-height:1.55;}
-  @media (max-width:1000px){ .terms{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:600px){ .terms{grid-template-columns:1fr; gap:24px;} }
 
   footer{padding:32px 0 40px; font-size:.9rem;}
   footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;}
@@ -531,16 +566,7 @@
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3><p><span class="nw">Then I design</span> <span class="nw">what carries it.</span></p></li>
     </ol>
 
-    <p class="label sub-label reveal">What becomes possible</p>
-    <ol class="shifts reveal">
-      <li class="shift shift-head" aria-hidden="true"><span class="from label">Now</span><span></span><span class="to label">After</span></li>
-      <li class="shift"><span class="from">Every meeting starts from scratch.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They get it the first time.</span></li>
-      <li class="shift"><span class="from">The point gets lost in the details.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They see it right away.</span></li>
-      <li class="shift"><span class="from">Decisions keep getting pushed.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They decide with confidence.</span></li>
-      <li class="shift"><span class="from">The story only lives in your head.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They retell it for you.</span></li>
-    </ol>
-
-    <div class="payoff" style="--payoff:var(--pink)"><p><span>Once the thinking is clear,</span> <span>everything that comes after</span> <span>gets easier:</span> <span>every deck, launch</span> <span>and conversation</span> <span>built on it.</span></p></div>
+    <div class="payoff" style="--payoff:var(--pink)"><p><span class="pl"><span>Once the thinking is clear,</span></span> <span class="pl"><span>everything that comes after</span> <span>gets easier:<span class="only-narrow"> every deck,</span></span></span> <span class="pl"><span><span class="only-wide">every deck, </span>launch, and conversation</span> <span>built on it.</span></span></p></div>
   </div>
 </section>
 
@@ -604,61 +630,105 @@
       <span class="co">Apple</span><span class="co">Warby Parker</span><span class="co">Anthropologie</span><span class="co">IBM via VSA Partners</span><span class="co">MAD Worldwide</span>
     </div>
     </div>
+
+    <!-- Placeholder: the work section's payoff, still to be written. -->
+    <div class="payoff" style="--payoff:var(--red)"><p><span>Payoff line to come.</span></p></div>
   </div>
 </section>
 
 <!-- ============ 06 CONTACT ============ -->
 <section class="chapter contact" id="contact">
+  <button class="label sec-sketch" id="wt-toggle" type="button" aria-label="Switch section sketch">Sketch 2</button>
   <div class="wrap">
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon" style="--bar:var(--ink)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="-14" y="-10" width="28" height="20" rx="2"/><path d="M-14 -7L0 3L14 -7"/></svg><span class="num-name">Working together</span></div>
       <div class="sec-intro wallpaper">
         <canvas aria-hidden="true"></canvas>
-        <h2 class="s2-h"><span><span class="nw">Let’s discuss</span> <span class="nw nw-wide"><span class="nw">what you’re trying</span> <span class="nw">to explain</span></span></span> <span><span class="nw">and who needs</span> <span class="nw">to understand it.</span></span></h2>
+        <h2 class="s2-h fit-h"><span>You’re a <span class="slot"><span class="w">policy lead</span><span class="k">your role</span></span> at <span class="slot"><span class="w">a scaling company</span><span class="k">your company</span></span>,</span> <span>and you need <span class="slot"><span class="w">regulators</span><span class="k">your audience</span></span> to <span class="slot"><span class="w">trust</span><span class="k">your goal</span></span> what you’re building.</span></h2>
       </div>
     </div>
 
-    <p class="label sub-label reveal">You probably need this when…</p>
-    <div class="moments reveal">
-      <div class="moment">
-        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="#d63a26"/></svg>
-        <p>You’re presenting to a board.</p>
-      </div>
-      <div class="moment">
-        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><path d="M18 2 L34 32 H2 Z" fill="#f0b429"/></svg>
-        <p>A launch needs executive buy-in.</p>
-      </div>
-      <div class="moment">
-        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><rect x="3" y="3" width="30" height="30" fill="#1f4fa3"/></svg>
-        <p>A regulator needs it explained.</p>
-      </div>
-      <div class="moment">
-        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#151515" stroke-width="3"/><circle cx="18" cy="18" r="6" fill="#1f4fa3"/></svg>
-        <p>You’ve explained it ten times, and it isn’t landing.</p>
-      </div>
+    <div id="wt1" hidden>
+    <!-- When, who and how: three axes from one point, each labelled; the lists below follow the same order. -->
+    <div class="axes reveal" aria-hidden="true">
+      <svg viewBox="0 0 720 420"><path d="M360 300 V40 M360 300 L80 380 M360 300 L640 380"/></svg>
+      <span class="ax-k ax-when">When</span><span class="ax-k ax-who">Who</span><span class="ax-k ax-how">How</span>
+    </div>
+    <div class="www reveal">
+      <section class="www-col" data-plane="when">
+        <h3>When</h3>
+        <ul class="lines">
+          <li>You’re presenting to a board.</li>
+          <li>A launch needs executive buy-in.</li>
+          <li>A regulator needs it explained.</li>
+          <li>You’ve explained it ten times, and it isn’t&nbsp;landing.</li>
+        </ul>
+        <p class="k">To</p>
+        <ul class="tags"><li>earn customers’ trust</li><li>change how employees work</li><li>bring a team through change</li><li>win investors’ support</li><li>build public awareness</li><li>get leaders to decide</li></ul>
+      </section>
+      <section class="www-col" data-plane="who">
+        <h3>Who</h3>
+        <p class="k">Teams</p>
+        <ul class="tags"><li>technical</li><li>legal</li><li>policy</li><li>product</li><li>security and privacy</li><li>research</li><li>communications</li><li>executive</li></ul>
+        <p class="k">Their audiences</p>
+        <ul class="tags"><li>boards</li><li>regulators</li><li>investors</li><li>customers</li><li>employees</li><li>first-time users</li></ul>
+        <p class="k">Companies</p>
+        <ul class="tags"><li>startups</li><li>scaling companies</li><li>global enterprises</li><li>agencies</li></ul>
+        <p class="k">Industries</p>
+        <ul class="tags"><li>technology and AI</li><li>security and privacy</li><li>consumer brands</li><li>corporate reporting</li></ul>
+      </section>
+      <section class="www-col" data-plane="how">
+        <h3>How</h3>
+        <ul class="lines">
+          <li><b>A focused sprint</b> for one presentation, launch or decision.</li>
+          <li><b>A larger project</b> for a story told across many pieces.</li>
+          <li><b>An ongoing partner</b> as the story grows.</li>
+        </ul>
+        <p class="note">After our first conversation, I send a written proposal with scope, timeline and fee.</p>
+      </section>
+    </div>
+    </div>
+    <!-- Sketch 2: the scenarios as square tiles, one each, for a reader to recognise their own. -->
+    <div id="wt2">
+    <ul class="tiles reveal" aria-label="When you might need this">
+      <li class="tile"><span class="n">01</span><p>You’re presenting to a board.</p></li>
+      <li class="tile"><span class="n">02</span><p>A launch needs executive buy-in.</p></li>
+      <li class="tile"><span class="n">03</span><p>A regulator needs it explained.</p></li>
+      <li class="tile"><span class="n">04</span><p>You’ve explained it ten times, and it isn’t&nbsp;landing.</p></li>
+      <li class="tile"><span class="n">05</span><p>Customers need to trust a new&nbsp;feature.</p></li>
+      <li class="tile"><span class="n">06</span><p>Employees need to change how they&nbsp;work.</p></li>
+      <li class="tile"><span class="n">07</span><p>Your team is in the middle of a big&nbsp;change.</p></li>
+      <li class="tile"><span class="n">08</span><p>Investors need to see why it&nbsp;matters.</p></li>
+      <li class="tile"><span class="n">09</span><p>Nobody outside knows the work&nbsp;exists.</p></li>
+      <li class="tile"><span class="n">10</span><p>Leaders need to make a&nbsp;decision.</p></li>
+      <li class="tile"><span class="n">11</span><p>A new strategy has to make sense to&nbsp;everyone.</p></li>
+      <li class="tile"><span class="n">12</span><p>Research has to reach people who won’t read the&nbsp;report.</p></li>
+    </ul>
     </div>
 
-    <div class="audiences reveal">
-      <div><h3>Who I work with</h3><p>Technical, legal, policy and product leaders</p></div>
-      <div><h3>Who they reach</h3><p>Boards, regulators, investors and first-time users</p></div>
-      <div><h3>Where</h3><p>Startups to Alphabet.</p></div>
-    </div>
+    <!-- Parked here for now; still to be designed. -->
+    <p class="label sub-label reveal">What becomes possible</p>
+    <ol class="shifts reveal">
+      <li class="shift shift-head" aria-hidden="true"><span class="from label">Now</span><span></span><span class="to label">After</span></li>
+      <li class="shift"><span class="from">Every meeting starts from scratch.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They get it the first time.</span></li>
+      <li class="shift"><span class="from">The point gets lost in the details.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They see it right away.</span></li>
+      <li class="shift"><span class="from">Decisions keep getting pushed.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They decide with confidence.</span></li>
+      <li class="shift"><span class="from">The story only lives in your head.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They retell it for you.</span></li>
+    </ol>
 
-    <div class="terms reveal">
-      <div><h3>Shaped to the problem</h3><p>Some problems need a focused sprint, some a larger project, some an ongoing partner. After our first conversation I send a written proposal with scope, timeline and fee.</p></div>
-      <div><h3>You work with me</h3><p>The person on the first call is the person in the work, from the first question to the final file.</p></div>
-      <div><h3>Alongside your team</h3><p>I don’t replace your designers, writers or comms team. I help their work land with the people it’s meant for.</p></div>
-      <div><h3>Discretion is standard</h3><p>Board materials, pre-launch plans, security research. Much of my best work will never be public, and that’s how it should be.</p></div>
-    </div>
+    <ul class="always reveal"><li>You work with me.</li><li>I work with your team.</li><li>Discretion is standard.</li></ul>
 
-    <div class="cta-row reveal">
-      <a class="cta-big" href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots">
-        <span class="d" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></span>
-        Let’s connect the dots
-      </a>
-      <p class="alt">or find me on <a href="https://www.linkedin.com/in/jeff-ma-8b6b663/">LinkedIn</a></p>
+    <div class="payoff payoff-end" style="--payoff:var(--ink)">
+      <p><span class="pl"><span>Please get in touch.</span></span> <span class="pl"><span>Let’s discuss</span> <span>what you’re trying to explain</span></span> <span class="pl"><span>and who needs</span> <span>to understand it.</span></span></p>
+      <div class="cta-row">
+        <a class="cta-big" href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots">
+          <span class="d" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></span>
+          Let’s connect the dots
+        </a>
+        <p class="alt">or find me on <a href="https://www.linkedin.com/in/jeff-ma-8b6b663/">LinkedIn</a></p>
+      </div>
+      <p class="based label">Based in San Francisco. Working with teams anywhere.</p>
     </div>
-    <p class="based label reveal">Based in San Francisco. Working with teams anywhere.</p>
   </div>
 </section>
 
@@ -1433,7 +1503,43 @@
     });
   })();
 
-  /* ---------- The contact headline's wallpaper: the hero's shapes in miniature ---------- */
+  /* ---------- Working together: switch between the two sketches ---------- */
+  (function(){
+    var btn = document.getElementById('wt-toggle'), one = document.getElementById('wt1'), two = document.getElementById('wt2');
+    if (!btn || !one || !two) return;
+    btn.addEventListener('click', function(){
+      var showTwo = two.hidden;
+      two.hidden = !showTwo; one.hidden = showTwo;
+      btn.textContent = showTwo ? 'Sketch 2' : 'Sketch 1';
+      window.dispatchEvent(new Event('resize'));
+    });
+  })();
+
+  /* ---------- The steps on narrow screens: centred on what you see ---------- */
+  /* The stacked list's box is centred, but its lines end ragged, so it looks heavy on the left. Measure where the
+     dots and the text actually reach and nudge the list so that ink sits in the middle of the column. */
+  (function(){
+    var list = document.getElementById('process');
+    if (!list) return;
+    function centre(){
+      list.style.transform = '';
+      if (window.matchMedia('(min-width:961px)').matches) return;
+      var col = list.parentElement.getBoundingClientRect(), cs = getComputedStyle(list.parentElement);
+      var left = col.left + parseFloat(cs.paddingLeft), right = col.right - parseFloat(cs.paddingRight);
+      var lo = Infinity, hi = -Infinity, rg = document.createRange();
+      list.querySelectorAll('.dots, h3, p').forEach(function(el){
+        rg.selectNodeContents(el);
+        var rects = el.classList.contains('dots') ? [el.getBoundingClientRect()] : rg.getClientRects();
+        Array.prototype.forEach.call(rects, function(q){ if (q.width){ lo = Math.min(lo, q.left); hi = Math.max(hi, q.right); } });
+      });
+      if (lo < hi) list.style.transform = 'translateX(' + Math.round(((left + right) / 2 - (lo + hi) / 2)) + 'px)';
+    }
+    centre();
+    window.addEventListener('resize', centre);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(centre);
+  })();
+
+  /* ---------- The working-together headline's wallpaper: the hero's shapes in miniature ---------- */
   /* Each shape is drawn from its 15 x 15 dot grid, small, on a square grid of cells. Shapes are placed so the
      same one repeats as far away as the grid allows, and cells near the headline are left empty. */
   document.querySelectorAll('.wallpaper').forEach(function(box){
@@ -1460,8 +1566,8 @@
       var pitch = Wv < 700 ? 3 : 4, cell = pitch * 22, half = pitch * 7, dot = pitch * 0.36, ROWS = 2;
       /* The box is sized so the headline sits in the middle row, with two full rows above and below,
          and its top and bottom edges fall in the gaps between rows. */
-      var th = h.offsetHeight;
-      box.style.paddingBlock = Math.max(0, (ROWS + 0.5) * cell - th / 2) + 'px';
+      var th = h.offsetHeight, k0 = Math.ceil((th / 2 + pitch * 3 + half) / cell);   // the first row that clears the headline
+      box.style.paddingBlock = Math.max(0, (k0 + ROWS - 0.5) * cell - th / 2) + 'px';
       var r = box.getBoundingClientRect(), Hb = r.height;
       cv.style.left = -r.left + 'px'; cv.style.width = Wv + 'px';
       cv.width = Math.round(Wv * dpr); cv.height = Math.round(Hb * dpr);
@@ -1473,7 +1579,7 @@
         clear.push({l: q.left - cell * 0.3, r: q.right + cell * 0.3, t: q.top - r.top - pitch * 3, b: q.bottom - r.top + pitch * 3});
       });
       var midX = r.left + r.width / 2, midY = Hb / 2;   // a cell is centred on the headline
-      var c0 = -Math.ceil(midX / cell) - 1, c1 = Math.ceil((Wv - midX) / cell) + 1, r0 = -ROWS - 1, r1 = ROWS + 1;
+      var c0 = -Math.ceil(midX / cell) - 1, c1 = Math.ceil((Wv - midX) / cell) + 1, r0 = -k0 - ROWS, r1 = k0 + ROWS;
       cx.fillStyle = getComputedStyle(box).color;
       cx.globalAlpha = 0.32;
       for (var row = r0; row <= r1; row++) for (var col = c0; col <= c1; col++){
