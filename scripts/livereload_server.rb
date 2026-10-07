@@ -94,7 +94,7 @@ end
 
 server = WEBrick::HTTPServer.new(
   Port: PORT,
-  BindAddress: '127.0.0.1',
+  BindAddress: '0.0.0.0',   # reachable from other devices on the network (e.g. a phone)
   DocumentRoot: ROOT,
   DocumentRootOptions: { FancyIndexing: true },
   Logger: WEBrick::Log.new($stderr),
@@ -107,5 +107,5 @@ server.mount('/', InjectingFileHandler, ROOT, { FancyIndexing: true })
 trap('INT') { server.shutdown }
 trap('TERM') { server.shutdown }
 
-puts "Live-reload server running at http://127.0.0.1:#{PORT} (serving #{ROOT})"
+puts "Live-reload server running at http://127.0.0.1:#{PORT} (also on this Mac's network address) (serving #{ROOT})"
 server.start

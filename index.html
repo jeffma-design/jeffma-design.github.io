@@ -19,6 +19,11 @@
     --ink-soft:#4b4843;
     --rule:#151515;
     --red:#d63a26;
+    --purple:#545394;   /* the hero's blue-purple */
+    --ochre:#b17f28;    /* the hero's ochre (yellow deepened for off-white type) */
+    --red-deep:#e6422a; /* the hero's red, green and pink, as the section bars use them */
+    --green:#3d8b4f;
+    --pink:#c47163;
     --yellow:#f0b429;
     --blue:#1f4fa3;
     --maxw:1280px;
@@ -104,25 +109,6 @@
   .rail .rl{position:absolute; left:34px; opacity:0; transform:translateX(-4px); transition:opacity .2s, transform .2s; white-space:nowrap; background:var(--ink); color:var(--paper); padding:3px 8px;}
   .rail a:hover .rl, .rail a:focus-visible .rl{opacity:1; transform:none;}
 
-  /* ---------- First screen: header, the 16:9 graphic, the headline ----------
-     The graphic takes the space between the header and the headline, as large
-     as it can be while staying 16:9; the headline sits at the bottom of the
-     viewport. The sub-headline follows just below the fold. */
-  .first-screen{display:flex; flex-direction:column; min-height:100vh; min-height:100svh;}
-  .hero{flex:1; display:flex; flex-direction:column; min-height:0; padding-bottom:clamp(28px, 5vh, 56px);}
-  .scene-box{
-    flex:1; min-height:200px; container-type:size; margin:clamp(12px, 2vh, 24px) var(--gutter) 0;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .scene-box canvas{display:block; width:100%; aspect-ratio:16 / 9; user-select:none; -webkit-user-select:none;}  /* fitted to the box by the script */
-  .headline{
-    margin:clamp(16px, 3vh, 32px) auto 0; padding:0 var(--gutter); max-width:calc(30em + 2 * var(--gutter));
-    text-align:center; font-size:clamp(1.6rem, 3vw, 2.6rem); font-weight:600; line-height:1.15; text-wrap:balance;
-    color:rgba(21,21,21,.78);
-  }
-  .hero-after{text-align:center; padding-top:clamp(28px, 4vw, 44px); padding-bottom:clamp(56px, 8vw, 96px);}
-
-  /* Sketch 2 (for review): headline halves over two square frames */
   /* Sketch 3 (for review): the first screen as one frame with a wall */
   .s3{height:100vh; height:100svh;}
   .s3-frame{position:relative; height:100%; background:var(--paper); overflow:hidden;}
@@ -134,66 +120,146 @@
   .s3-wm{transform:translateX(var(--shift, 0px));}
   /* MA is paper where the colour is behind it and ink where there is none yet (--x0/--x1: the colour's left and right edges). */
   .s3-wm.across .s3-b{background-image:linear-gradient(90deg, var(--ink) var(--x0, 0px), var(--paper) var(--x0, 0px), var(--paper) var(--x1, 999px), var(--ink) var(--x1, 999px)); -webkit-background-clip:text; background-clip:text; color:transparent;}
-  .s3-tag{position:absolute; right:10px; bottom:10px; z-index:1; padding:5px 10px; background:var(--ink); color:var(--paper);}
+  .s3-tag{position:absolute; right:10px; bottom:10px; z-index:1; padding:5px 10px; background:var(--ink); color:var(--paper); border:0; cursor:pointer;}
+  .s3-tag:hover{background:var(--red);}
+  .s3-tag:focus-visible{outline:2px solid var(--paper); outline-offset:2px;}
   @media (orientation: portrait){ .s3-tag{bottom:auto; top:calc(58% + 10px);} }   /* clear of the centred headline */
-  .sketch1-tag-row{border-top:2px solid var(--ink); padding-top:clamp(40px, 6vw, 72px);}
-  .sketch2{border-top:2px solid var(--ink); padding:clamp(40px, 6vw, 72px) 0 clamp(56px, 8vw, 96px);}
-  .sketch2-tag{display:inline-block; margin:0 0 clamp(20px, 3vw, 32px); padding:5px 12px; background:var(--ink); color:var(--paper);}
-  /* Side by side on landscape screens, stacked on portrait ones; either way
-     both frames fit on screen together. */
-  .s2-grid{max-width:min(1000px, calc((100vh - 120px) * 2)); margin:0 auto;}
-  @media (orientation: portrait){ .s2-grid{max-width:min(560px, calc((100vh - 120px) / 2));} }
+  /* The sub-headline, just below the hero: an off-white band boxed in a heavy ink border. */
+  .hero-after{background:var(--paper); border:6px solid var(--ink); text-align:center; padding-block:clamp(40px, 5vw, 64px);}
+  .hero-sub{margin:0 auto; max-width:40em; font-size:clamp(1.25rem, 2.2vw, 1.75rem); font-weight:500; line-height:1.35; color:var(--ink); text-wrap:balance;}
+    /* The sub-headline breaks after “story” where it fits on two lines; narrower, it wraps evenly. */
+  @media (max-width:1100px){ .br-wide{display:none;} }
+  /* A short first-person intro with a small portrait, left-aligned. */
+  /* A layer under the sub-headline: a band in the border's ink, type knocked out, a black-and-white photo. */
+  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px);}
+  .intro{display:flex; align-items:center; justify-content:center; gap:clamp(16px, 2.5vw, 28px);}
+  /* The ring sits on a wrapper; the photo is scaled up a touch inside it so its soft circular edge is cropped away and no dark hairline shows. */
+  .intro-photo{flex:none; display:block; width:clamp(90px, 11.2vw, 134px); aspect-ratio:1; border-radius:50%; overflow:hidden; border:1px solid var(--paper);}
+  .intro-photo img{display:block; width:100%; height:100%; transform:scale(1.04); filter:grayscale(1) contrast(1.05);}
+  @media (max-width:560px){ .intro{flex-direction:column; align-items:flex-start;} }   /* phones: the photo sits above, so the text gets the full width */
+  .intro-text{min-width:0; display:grid; gap:6px;}
+  .intro p{margin:0; max-width:30em; text-align:left; font-size:clamp(1rem, 1.4vw, 1.15rem); line-height:1.5; color:var(--paper); text-wrap:pretty;}   /* pretty: no one-word last lines */
+  .intro .intro-hello{font-size:clamp(1.25rem, 2.2vw, 1.75rem); font-weight:500; line-height:1.35;}   /* matches the sub-headline */
+  /* Section 01's story: the headline, the lede and nine compositions share a
+     three-column grid, from the expert's web (top right) through seven near
+     misses to the finished ring (bottom right, dark). Drawn by the script. */
+  /* Section 01: the headline, then the list beside the expert's map, then the
+     second half of the headline and the lede. Hovering (or choosing) an item
+     in the list turns the map into that mistake. Drawn by the script. */
+  .story{display:grid; grid-template-columns:minmax(200px, 1fr) minmax(0, 2.6fr); column-gap:clamp(24px, 4vw, 56px);
+    grid-template-areas:"l1 l1" "list art" "l2 l2" "ld ld"; --gap-head:clamp(24px, 3vw, 40px);}
+  /* The headline is set like the hero's: Jost bold, tight leading. Both halves sit the same distance from the graphic. */
+  .story-h{display:contents;}
+  .st-l1, .st-l2{font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; letter-spacing:0; text-wrap:balance; text-align:center;}
+  .st-l1{grid-area:l1; margin-bottom:var(--gap-head);}
+  .st-l2{grid-area:l2; margin-top:var(--gap-head);}
+  .story .st-ld{grid-area:ld; margin:14px auto 0; text-align:center;}
+  .st-art{grid-area:art; min-width:0; aspect-ratio:3 / 2;}
+  .st-art canvas{display:block; width:100%; height:100%;}
+  .st-list{grid-area:list; align-self:center; min-width:0;}
+  .st-list .label{margin-bottom:12px;}
+  .st-list ul{list-style:none; margin:0; padding:0; border-top:1px solid color-mix(in srgb, var(--rule) 30%, transparent);}
+  .st-list li{border-bottom:1px solid color-mix(in srgb, var(--rule) 30%, transparent);}
+  .st-list button{display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; padding:11px 0; background:none; border:0; cursor:pointer; text-align:left;
+    font-family:var(--mono); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); transition:color .2s;}
+  .st-list button::after{content:"→"; opacity:0; transform:translateX(-4px); transition:opacity .2s, transform .2s;}
+  .st-list button:hover, .st-list button[aria-pressed="true"]{color:var(--ink);}
+  .st-list button:hover::after, .st-list button[aria-pressed="true"]::after{opacity:1; transform:none;}
+  .st-list button:focus-visible{outline:2px solid var(--purple); outline-offset:2px;}
+  @media (max-width:760px){
+    .story{grid-template-columns:minmax(0, 1fr); grid-template-areas:"l1" "art" "list" "l2" "ld";}
+    .st-list{margin-top:16px;}
+  }
+  /* Section 01, sketch 2: a zoomed-in slice of the expert's map moving
+     slowly, the headline, the lede, the bad explanations, the turn, and three
+     colour blocks, one shape each. */
+  .sec-sketch{position:absolute; top:clamp(48px, 7vw, 96px); right:var(--gutter); z-index:2; padding:5px 10px; background:var(--ink); color:var(--paper); border:0; cursor:pointer;}
+  .sec-sketch:hover{background:var(--red);}
+  .sec-sketch:focus-visible{outline:2px solid var(--purple); outline-offset:2px;}
+  .story2{text-align:center;}
+  /* The banner keeps the content's 16:5 shape, but its canvas runs the full width of the window, so the lines bleed off both edges. */
+  .s2-zoom{position:relative; aspect-ratio:16 / 5; margin-bottom:clamp(24px, 4vw, 48px);}
+  .s2-zoom canvas{position:absolute; top:0; left:50%; width:100vw; height:100%; transform:translateX(-50%); display:block;}
+  #problem{overflow-x:clip;}   /* keep the full-width canvas from adding a sideways scroll */
+  .chapter .s2-h{font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; letter-spacing:0; max-width:none;}
+  .s2-h > span{display:block; text-wrap:balance;}
+  .s2-h .nw{white-space:nowrap;}   /* phrases stay together when a line wraps */
+  @media (max-width:340px){ .s2-h .nw-wide{white-space:normal;} }   /* the narrowest phones: a long phrase may break at its inner seam */
+  /* Other sections open the same way as section 01: the headline and lede centred. */
+  .sec-intro{text-align:center;}
+  .sec-intro .lede{max-width:38em; margin:16px auto 0; text-wrap:balance;}
+  /* The turn, set like the headline. */
+  /* The payoff: a section's closing line in headline type, knocked out of a full-width band of solid colour.
+     It recurs: green in section 01, salmon pink in section 02. Set the colour with --payoff. */
+  .payoff{margin-top:clamp(48px, 7vw, 96px); margin-bottom:calc(-1 * clamp(48px, 7vw, 96px)); margin-inline:calc(50% - 50vw); background:var(--payoff, var(--green)); padding:clamp(96px, 13.5vw, 192px) var(--gutter); text-align:center;}   /* full window width, and it ends its section: no padding under it */
+  .payoff p{max-width:24em; margin:0 auto; color:var(--paper); font-size:min(clamp(1.6rem, 3vw, 2.5rem), calc((100vw - 32px) / 13.6)); font-weight:700; line-height:1.12; letter-spacing:0; text-wrap:balance;}
+  .payoff p span{white-space:nowrap;}   /* lines break between phrases, never inside one; on the narrowest phones the type shrinks a touch so the longest phrase still fits */
+  .story2 .s2-p{max-width:38em; margin:16px auto 0; text-wrap:balance;}
+  @media (max-width:640px){ .br-lede{display:none;} }   /* narrow screens: let the lede wrap evenly instead */
+  .s2-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px; margin:clamp(44px, 6vw, 80px) 0 clamp(20px, 3vw, 32px);   /* more room under the lede */
+    grid-template-areas:"t1 t2 t3 t4" "t9 mid mid t10" "t5 t6 t7 t8";}
+  .s2-mid{grid-area:mid; align-self:center; justify-self:center; display:flex; flex-direction:column; align-items:center; gap:clamp(10px, 1.5vw, 16px); padding:0 12px;}
+  .s2-ends{width:clamp(150px, 18vw, 240px);}   /* the expert's web and the finished ring: where it starts and where it ends */
+  .s2-ends svg{display:block; width:100%; height:auto;}
+  .chapter .s2-mid h3{margin:0; font-size:clamp(1.4rem, 2.6vw, 2.2rem); font-weight:700; line-height:1.12; text-align:center; text-wrap:balance;}
+  .s2-tile.t1{grid-area:t1;} .s2-tile.t2{grid-area:t2;} .s2-tile.t3{grid-area:t3;} .s2-tile.t4{grid-area:t4;} .s2-tile.t5{grid-area:t5;}
+  .s2-tile.t6{grid-area:t6;} .s2-tile.t7{grid-area:t7;} .s2-tile.t8{grid-area:t8;} .s2-tile.t9{grid-area:t9;} .s2-tile.t10{grid-area:t10;}
+  .s2-tile{position:relative; margin:0; aspect-ratio:3 / 2; background:var(--paper-2); min-width:0;}
+  .s2-art, .s2-art svg{display:block; width:100%; height:calc(100% - 11px);}
+  .s2-tile figcaption{position:absolute; left:10px; bottom:6px; font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); text-align:left;}
+  /* Three blocks a hairline apart: ochre, green, purple step from light to dark. */
+  .s2-blocks{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:1px; margin-top:clamp(28px, 4vw, 48px);}
+  .s2-block{aspect-ratio:3 / 2; background:var(--blk);}
+  .s2-block svg{display:block; width:100%; height:100%;}
+  @media (max-width:700px){ .s2-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); grid-template-areas:"t1 t2" "t3 t4" "mid mid" "t9 t10" "t5 t6" "t7 t8";} .s2-mid{padding:18px 0;} .s2-zoom{aspect-ratio:16 / 7;} }
+  [hidden]{display:none !important;}   /* so hidden blocks stay hidden even when they set their own display */
+  /* Section 02's headline: two solid right triangles sharing a baseline and
+     meeting at the centre, one below on the left, one above on the right.
+     Each half of the line sits beside its triangle. Drawn by the script (zline). */
+  .chapter h2.zline{position:relative; aspect-ratio:2 / 1; max-width:none; margin:0; --base:53%;
+    font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; letter-spacing:0;}   /* the same as section 01's headline */
+  .zline canvas{position:absolute; top:0; left:0; width:100%; height:100%; display:block;}   /* the script widens it to the window, so the triangles bleed off both sides */
+  #approach{overflow-x:clip;}
+  .zl-a, .zl-b{position:absolute; max-width:calc(50% - 12px); text-wrap:balance;}
+  .zline .nw{white-space:nowrap;}   /* "I connect the dots", "with you," and "your audience." each stay together when a line wraps */
+  .zl-a{left:0; bottom:calc(100% - var(--base) + .3em);}
+  .zl-b{right:0; max-width:none; top:calc(var(--base) + .25em); text-align:right;}
+  /* Knocked out of the blue triangle, sharing the first half's baseline (the script sets this when the triangle is big enough). */
+  .zline:not(.zl-in) .zl-b .hang{display:inline-block; width:0;}   /* a zero-width box: the full stop hangs past the right edge */
+  /* The lede under the second half (positioned by the script). */
+  .zline + .lede{text-align:right; margin-left:auto; text-wrap:balance;}
+  .zline + .lede .nw{white-space:nowrap;}   /* when it wraps, it breaks after "conversation" */
+  .zline + .lede.zl-lede-in{position:absolute; margin:0;}
+  #approach .chapter-head-bar > div{position:relative;}
+  .zline.zl-in .zl-b{top:auto; bottom:calc(100% - var(--base) + .3em); white-space:nowrap; text-align:right; color:var(--paper);}
+  /* Eleven of the twelve columns, centred: the narrowest grid width that keeps "I connect the dots with you," on one line. Full width below 900px, where eleven columns would wrap it. */
+  .chapter h2.zline{width:calc((100% + var(--col-gap)) * 11 / 12 - var(--col-gap)); margin-inline:auto;}
+  @media (max-width:900px){ .chapter h2.zline{width:auto;} }
+  @media (max-width:700px){ .chapter h2.zline{aspect-ratio:3 / 2;} }
   .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
-  /* The divider is the grid gap showing the black behind, so both frames stay equal squares. */
-  .s2-frames{display:grid; grid-template-columns:1fr 1fr; gap:clamp(4px, 0.8vw, 9px); border:clamp(4px, 0.8vw, 9px) solid var(--ink); background:var(--ink);}
-  .s2-frames canvas{display:block; width:100%; aspect-ratio:1; background:var(--paper);}
-  @media (orientation: portrait){ .s2-frames{grid-template-columns:1fr;} }
-
-  .headline em{font-style:normal;}
-  .hl-1, .hl-2{display:block;}
-  /* Highlight bars, driven by the hero animation. A solid bar grows over the
-     line (line 1 up from the bottom, line 2 down from the top) and the letters
-     knock out to the bar's text colour exactly where it covers them.
-     --mp-1 / --mp-2: how far each bar has grown (0 to 1).
-     --mc-2 / --on-2: the Bauhaus figure's colour, and the text colour on it. */
-  .mark{position:relative; display:inline-block; padding:0 0.14em; isolation:isolate;}
-  /* Each word knocks out where the bar covers it. --t / --h are the word's top
-     and height as fractions of its line's bar (set by the script), so the
-     split lines up with the bar even when a line wraps. The padding lets
-     descenders and accents paint; the negative margin keeps layout unchanged. */
-  .mark .w{
-    padding:0.14em 0; margin:-0.14em 0;
-    color:transparent; -webkit-background-clip:text; background-clip:text;
-    background-image:linear-gradient(var(--dir), var(--on) calc(var(--cov) * 100%), rgba(21,21,21,.78) calc(var(--cov) * 100%));
-  }
-  .mark-1 .w{--cov:clamp(0, (var(--t, 0) + var(--h, 1) - 1 + var(--p)) / var(--h, 1), 1);}
-  .mark-2 .w{--cov:clamp(0, (var(--p) - var(--t, 0)) / var(--h, 1), 1);}
-  .mark::before{
-    content:""; position:absolute; inset:0; z-index:-1; background:var(--bar);
-    transform:scaleY(var(--p)); transform-origin:var(--from);
-  }
-  .mark-1{--p:var(--mp-1, 0); --bar:var(--ink); --on:var(--paper); --dir:to top; --from:bottom;}
-  .mark-2{--p:var(--mp-2, 0); --bar:var(--mc-2, transparent); --on:var(--on-2, var(--paper)); --dir:to bottom; --from:top;}
-  /* Both halves are always in the page (and read by screen readers). They
-     rise in word by word on load: the first half, then the second. */
-  .headline .w{display:inline-block; opacity:0; transform:translateY(.35em); transition:opacity .7s ease, transform .7s ease; transition-delay:calc(var(--i) * 90ms + 300ms);}
-  .headline.intro .hl-1 .w, .headline.revealed .hl-2 .w{opacity:1; transform:none;}
-  .hero-sub{margin:0 auto; max-width:30em; font-size:1.1rem; color:var(--ink-soft); text-wrap:pretty;}  /* ~65 characters a line */
-  @media (max-width:700px){
-    .hero-sub{font-size:1rem;}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .headline .w{transition:none;}
-  }
-
   /* ---------- Sections ---------- */
-  section.chapter{padding:clamp(80px, 12vw, 160px) 0; position:relative; }
-  .chapter-head{display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:start; margin-bottom:clamp(40px, 6vw, 72px);}
+  section.chapter{padding:clamp(48px, 7vw, 96px) 0; position:relative; }
+  .chapter-head{display:grid; grid-template-columns:170px 1fr; gap:24px; align-items:start; margin-bottom:clamp(40px, 6vw, 72px);}
   .num{
     font-family:var(--mono); font-size:0.85rem; display:flex; align-items:center; gap:10px; padding-top:14px;
   }
   .num::before{content:""; width:14px; height:14px; border-radius:50%; background:var(--red);}
-  .chapter h2{font-size:clamp(2rem, 5vw, 4rem); max-width:16ch;}
+  .num-name{text-transform:uppercase; letter-spacing:.08em;}
+  /* Section 01 swaps the dot and number for an eye drawn as connected dots. */
+  /* Section 01: the label is a purple bar running in from the left edge of
+     the screen, with the eye (a dot grid like the hero's shapes) and the
+     label knocked out; the headline sits below it, full width. */
+  .chapter-head.chapter-head-bar{grid-template-columns:1fr; gap:clamp(28px, 4vw, 48px);}
+  #approach{padding-top:clamp(72px, 10.5vw, 144px);}   /* more room above CONVERSATION TO CRAFT, after the green band */
+  #approach .chapter-head-bar{gap:clamp(8px, 1.2vw, 16px);}   /* the triangle graphic has its own empty space at the top, so it sits closer to its label */
+  .num.num-icon{position:relative; justify-self:start; gap:20px; padding:12px 18px 12px 0; background:var(--bar, var(--purple)); color:var(--paper);}
+  .num-icon::before{display:none;}
+  .num-icon::after{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--bar, var(--purple));}
+  .num-eye{flex:none; display:block; width:40px; height:auto;}   /* each bar's icon: simple line drawings in the type's colour */
+  .chapter h2{font-size:clamp(2rem, 5vw, 4rem); max-width:16ch; text-wrap:balance;}   /* even lines, no word left on its own */
+  /* Set on two lines, broken after “idea,”; where a half has to wrap, it wraps evenly, so no word sits alone. */
+  .chapter h2.h2-two{max-width:none;}
+  .h2-two > span{display:block; text-wrap:balance;}
   .chapter .lede{margin-top:20px; font-size:clamp(1.05rem, 1.6vw, 1.3rem); color:var(--ink-soft); max-width:36em;}
   @media (max-width:700px){ .chapter-head{grid-template-columns:1fr; gap:4px;} .num{padding-top:0;} }
 
@@ -201,108 +267,64 @@
   .reveal.in{opacity:1; transform:none;}
 
   /* 01 — Problem */
-  .blind-grid{display:grid; grid-template-columns:repeat(4, 1fr); border-top:2px solid var(--rule); border-left:2px solid var(--rule);}
-  .blind{border-right:2px solid var(--rule); border-bottom:2px solid var(--rule); padding:28px 24px 32px; min-height:190px; display:flex; flex-direction:column; justify-content:space-between; gap:24px;}
-  .blind p{font-size:1.25rem; font-weight:500; line-height:1.25; letter-spacing:-0.01em;}
-  .blind svg{width:56px; height:40px;}
-  .blind:nth-child(2){background:var(--yellow);}
-  .blind:nth-child(4){background:var(--ink); color:var(--paper);}
-  .blind:nth-child(4) svg *{stroke:var(--paper); fill:var(--paper);}
-  @media (max-width:900px){ .blind-grid{grid-template-columns:1fr 1fr;} }
-  @media (max-width:560px){ .blind-grid{grid-template-columns:1fr;} .blind{min-height:0;} }
-  .symptoms{margin-top:48px; display:grid; grid-template-columns:1fr 2fr; gap:24px; align-items:start;}
-  .symptoms ul{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
-  .symptoms li{display:flex; gap:14px; align-items:baseline; font-size:1.15rem;}
-  .symptoms li::before{content:""; flex:none; width:10px; height:10px; background:var(--red); transform:translateY(-2px);}
-  @media (max-width:700px){ .symptoms{grid-template-columns:1fr;} }
 
   /* 02 — Approach */
-  .process{position:relative; display:grid; grid-template-columns:repeat(5, 1fr); gap:16px;}
-  .process-line{position:absolute; top:35px; left:10%; right:10%; height:2px; background:var(--paper-2);}
-  .process-line::after{content:""; position:absolute; inset:0; background:var(--ink); transform:scaleX(0); transform-origin:left; transition:transform 1.6s cubic-bezier(.6,0,.2,1) .2s;}
-  .process.in .process-line::after{transform:scaleX(1);}
-  .step{text-align:center; position:relative;}
-  .step .shape{width:72px; height:72px; margin:0 auto 20px; display:grid; place-items:center; position:relative; z-index:1;}
-  .step .shape svg{width:72px; height:72px;}
-  .step .shape svg > *{transform-origin:center; transform-box:fill-box; transform:scale(0); transition:transform .5s cubic-bezier(.3,1.5,.5,1);}
-  .process.in .step .shape svg > *{transform:scale(1);}
-  .process.in .step:nth-child(2) .shape svg > *{transition-delay:.2s;}
-  .process.in .step:nth-child(3) .shape svg > *{transition-delay:.55s;}
-  .process.in .step:nth-child(4) .shape svg > *{transition-delay:.9s;}
-  .process.in .step:nth-child(5) .shape svg > *{transition-delay:1.25s;}
-  .process.in .step:nth-child(6) .shape svg > *{transition-delay:1.6s;}
-  .step h3{font-size:1.5rem; margin-bottom:8px;}
-  .step p{font-size:0.98rem; color:var(--ink-soft); max-width:17em; margin:0 auto;}
-  @media (max-width:860px){
-    .process{grid-template-columns:1fr; gap:28px;}
-    .process-line{top:36px; bottom:36px; left:35px; right:auto; width:2px; height:auto;}
-    .process-line::after{transform:scaleY(0); transform-origin:top;}
-    .process.in .process-line::after{transform:scaleY(1);}
-    .step{display:grid; grid-template-columns:72px 1fr; gap:20px; text-align:left; align-items:center;}
-    .step .shape{margin:0;}
-    .step p{margin:0;}
-  }
-  .novice{
-    margin-top:clamp(56px, 8vw, 96px); display:grid; grid-template-columns:1fr; border:2px solid var(--rule);
-  }
-  .novice > div{padding:32px;}
-  .novice > div + div{border-left:2px solid var(--rule); background:var(--blue); color:var(--paper);}
-  .novice .label{display:block; margin-bottom:14px;}
-  .novice p{font-size:1.3rem; line-height:1.35; font-weight:500;}
-  @media (max-width:700px){ .novice{grid-template-columns:1fr;} .novice > div + div{border-left:0; border-top:2px solid var(--rule);} }
+  /* The steps side by side in five columns. Above each, a trail of five small dots rising at a fixed angle, with the
+     step's own dot dark: the steps connect, one after the next. */
+  .process{list-style:none; margin:0; padding:clamp(24px, 4vw, 56px) 0; display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:36px;}
+  .step{--dot:5px; --pitch:13px; --rise:3.9px;}   /* dot size, spacing along the row, and the rise per dot (about 17°) */
+  .dots{display:flex; align-items:flex-end; gap:calc(var(--pitch) - var(--dot)); height:calc(var(--dot) + 4 * var(--rise)); margin-bottom:16px;}
+  .dots i{display:block; flex:none; width:var(--dot); height:var(--dot); border-radius:50%; background:color-mix(in srgb, var(--ink) 20%, transparent);}
+  .dots i:nth-child(2){margin-bottom:var(--rise);}
+  .dots i:nth-child(3){margin-bottom:calc(2 * var(--rise));}
+  .dots i:nth-child(4){margin-bottom:calc(3 * var(--rise));}
+  .dots i:nth-child(5){margin-bottom:calc(4 * var(--rise));}
+  .step:nth-child(1) .dots i:nth-child(1), .step:nth-child(2) .dots i:nth-child(2), .step:nth-child(3) .dots i:nth-child(3),
+  .step:nth-child(4) .dots i:nth-child(4), .step:nth-child(5) .dots i:nth-child(5){background:var(--ink);}
+  .step h3{margin:0 0 8px; font-size:clamp(1.4rem, 2.2vw, 1.9rem); font-weight:700; letter-spacing:0;}
+  .step p{margin:0; font-size:clamp(1rem, 1.3vw, 1.15rem); line-height:1.4; color:var(--ink); text-wrap:pretty;}
+  @media (min-width:1100px){ .process{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-inline:auto;} }   /* ten of the twelve columns, centred, so each step's column is narrower */
+  .step p .nw{white-space:nowrap;}   /* lines break between phrases */
+  @media (min-width:961px){ .step p .nw{display:block;} }   /* in five columns, each phrase gets its own line (Ask's long last word, “thinking.”, stands alone rather than run wide) */
+  @media (max-width:960px){ .process{grid-template-columns:minmax(0, 1fr); row-gap:28px;} }   /* narrower: one step under the next */
 
   /* 03 — Outcome (inverted) */
-  .inverse{background:var(--ink); color:var(--paper);}
-  .inverse .chapter .lede, .inverse .lede{color:#bdb7ab;}
-  .inverse .num::before{background:var(--yellow);}
-  .ab{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:0; margin:8px 0 clamp(48px,7vw,80px);}
-  .ab .node{width:clamp(56px,8vw,96px); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:clamp(1.2rem,2vw,1.8rem);}
-  .ab .node.a{background:var(--red); color:var(--paper);}
-  .ab .node.b{background:var(--yellow); color:var(--ink);}
-  .ab .link{height:4px; background:var(--paper); transform:scaleX(0); transform-origin:left; transition:transform 1.2s cubic-bezier(.6,0,.2,1) .3s;}
-  .ab.in .link{transform:scaleX(1);}
-  .ab-labels{display:flex; justify-content:space-between; margin-top:-36px; margin-bottom:clamp(48px,7vw,80px);}
-  .outcomes{display:grid; grid-template-columns:repeat(4,1fr); border-top:2px solid var(--paper);}
-  .outcome{padding:28px 24px 8px 0;}
-  .outcome + .outcome{padding-left:24px; border-left:2px solid #3a3835;}
-  .outcome .big{font-size:clamp(1.5rem,2.4vw,2.1rem); font-weight:600; line-height:1.08; letter-spacing:-0.02em; margin-bottom:10px;}
-  .outcome p{color:#bdb7ab; font-size:1rem;}
-  @media (max-width:900px){ .outcomes{grid-template-columns:1fr 1fr;} .outcome:nth-child(3){padding-left:0; border-left:0;} }
-  @media (max-width:520px){ .outcomes{grid-template-columns:1fr;} .outcome, .outcome + .outcome{padding-left:0; border-left:0; border-bottom:1px solid #3a3835; padding-bottom:24px;} }
-  .compound{margin-top:clamp(56px,8vw,96px); font-size:clamp(1.4rem,2.6vw,2.2rem); line-height:1.25; font-weight:500; max-width:26em; letter-spacing:-0.015em;}
-  .compound .hl{background:var(--yellow); color:var(--ink); padding:0 .15em;}
+  /* What becomes possible: pairs, from what experts live with now (quiet grey) to what their audience gets (bold ink).
+     On the grid: now in columns 1–5, the arrow in 6, after in 7–12. Phones: now above, after below. */
+  .shifts{list-style:none; margin:0; padding:0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .shift{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); align-items:baseline;
+    padding:clamp(16px, 2.2vw, 26px) 0; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .shift .from{grid-column:1 / span 5; font-size:clamp(1.05rem, 1.5vw, 1.3rem); line-height:1.3; color:var(--ink-soft); text-wrap:balance;}
+  .shift .to-arrow{grid-column:6; justify-self:center; font-size:clamp(1.05rem, 1.5vw, 1.3rem); color:var(--ink-soft);}
+  .shift .to{grid-column:7 / -1; font-size:clamp(1.4rem, 2.4vw, 2.1rem); font-weight:600; line-height:1.1; letter-spacing:-0.02em; color:var(--ink); text-wrap:balance;}
+  .shift-head{padding-block:0 10px; border-top:0;}
+  .shift-head .label{font-size:.75rem; font-weight:500; letter-spacing:.08em; color:var(--ink-soft);}
+  @media (max-width:700px){
+    .shift{display:block;}
+    .shift .from{display:block; margin-bottom:4px;}
+    .shift .to-arrow{display:none;}
+    .shift .to::before{content:"→ "; font-weight:400; color:var(--ink-soft);}
+    .shift-head{display:none;}
+  }
 
   /* 04 — Work */
-  .cases{border-top:2px solid var(--rule);}
-  .case{
-    display:grid; grid-template-columns:1.1fr 1.4fr 1.1fr; gap:32px; align-items:center;
-    padding:36px 0; border-bottom:2px solid var(--rule); text-decoration:none; position:relative;
-  }
-  .case-title{grid-column:1 / -1; display:flex; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:-8px;}
-  .case-title h3{font-size:clamp(1.4rem,2.4vw,2rem);}
-  .case-title .arrow{font-size:1.4rem; transition:transform .25s;}
-  .case:hover .case-title .arrow{transform:translateX(6px);}
-  .case:hover .case-title h3{text-decoration:underline; text-decoration-thickness:3px; text-underline-offset:6px;}
-  .case .label{display:block; margin-bottom:8px; color:var(--ink-soft);}
-  .case .from p{font-size:1.05rem; color:var(--ink-soft);}
-  .case .to p{font-size:1.12rem; font-weight:500;}
-  .bridge{display:grid; grid-template-columns:1fr 64px 1fr; align-items:center; gap:0;}
-  .bridge svg.scatter, .bridge svg.clear{width:100%; height:64px; overflow:visible;}
-  .case .thumb{grid-column:3; grid-row:2 / span 1;}
-  .case-body{grid-column:1 / 3; display:grid; grid-template-columns:1fr 150px 1fr; gap:24px; align-items:center;}
-  .case-media{aspect-ratio:16/10; overflow:hidden; background:var(--paper-2); border:2px solid var(--ink);}
+  /* Work samples as cards in columns: image on top, then the title, then what the experts knew and what people understood. */
+  .cases{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:24px;}
+  .case{display:flex; flex-direction:column; gap:16px; padding-bottom:22px; border:2px solid var(--rule); text-decoration:none; color:inherit; position:relative;}
+  .case-media{order:-1; aspect-ratio:16/10; overflow:hidden; background:var(--paper-2); border-bottom:2px solid var(--rule);}
   .case-media img{width:100%; height:100%; object-fit:cover; transition:transform .5s;}
   .case:hover .case-media img{transform:scale(1.04);}
-  .mini{width:150px; height:70px; overflow:visible;}
-  .mini .strand{stroke-dasharray:180; stroke-dashoffset:180; transition:stroke-dashoffset 1s ease .2s;}
-  .case.in .mini .strand{stroke-dashoffset:0;}
-  @media (max-width:980px){
-    .case{grid-template-columns:1fr;}
-    .case-body{grid-column:1; grid-template-columns:1fr;}
-    .mini{margin:-4px 0; width:120px; height:56px;}
-    .case-media{max-width:520px;}
-  }
-  .also{margin-top:40px; display:flex; flex-wrap:wrap; gap:10px 28px; align-items:baseline;}
+  .case-title{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:0 20px;}
+  .case-title h3{font-size:clamp(1.15rem, 1.6vw, 1.35rem); line-height:1.2; text-wrap:balance;}
+  .case-title .arrow{font-size:1.2rem; transition:transform .25s;}
+  .case:hover .case-title .arrow{transform:translateX(6px);}
+  .case:hover .case-title h3{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
+  .case-body{display:grid; gap:12px; padding:0 20px;}
+  .case .label{display:block; margin-bottom:4px; color:var(--ink-soft);}
+  .case .from p{font-size:.98rem; color:var(--ink-soft);}
+  .case .to p{font-size:1.02rem; font-weight:500;}
+  /* The other clients fill the last slot in the grid as a quieter card. */
+  .also{display:flex; flex-direction:column; justify-content:center; gap:8px; padding:24px 20px; border:2px solid var(--rule); background:var(--paper-2);}
   .also .label{color:var(--ink-soft);}
   .also span.co{font-weight:600; font-size:1.15rem;}
 
@@ -310,7 +332,7 @@
   .moments{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;}
   @media (max-width:1100px){ .moments{grid-template-columns:repeat(2, 1fr);} }
   @media (max-width:700px){ .moments{grid-template-columns:1fr;} .moment{min-height:0; flex-direction:row; align-items:center;} .moment .ico{flex:none;} }
-  .moment{border:2px solid var(--rule); padding:24px; background:var(--paper); display:flex; flex-direction:column; gap:18px; min-height:190px;}
+  .moment{border:2px solid var(--rule); padding:24px; background:var(--paper); color:var(--ink); display:flex; flex-direction:column; gap:18px; min-height:190px;}
   .moment .ico{width:36px; height:36px;}
   .moment p{font-size:1.15rem; font-weight:500; line-height:1.3;}
   .moment:hover{background:var(--yellow);}
@@ -321,21 +343,19 @@
 
   /* 06 — Contact */
   .contact{background:var(--red); color:var(--paper);}
+  /* The contact headline sits in a wallpaper of the hero's shapes in miniature, drawn as dots and kept clear of the
+     headline. It runs the full width of the window. Drawn by the script (wallpaper). */
+  #contact{overflow-x:clip;}
+  .wallpaper{position:relative; padding-block:clamp(56px, 8vw, 112px);}   /* the script sets the padding to fit whole rows */
+  .wallpaper > canvas{position:absolute; top:0; left:0; width:100%; height:100%; display:block; pointer-events:none;}
+  .wallpaper h2{position:relative;}
   .contact .num::before{background:var(--paper);}
   .contact .lede{color:#fbe3dc;}
-  .path{display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-bottom:clamp(48px,7vw,80px); position:relative;}
-  .path::before{content:""; position:absolute; top:19px; left:20px; right:33%; height:2px; background:var(--paper);}
-  .pstep{position:relative; padding-right:32px;}
-  .pstep .pdot{width:40px; height:40px; border-radius:50%; border:2px solid var(--paper); background:var(--red); margin-bottom:20px; display:grid; place-items:center; font-family:var(--mono); font-size:.8rem; position:relative;}
-  .pstep:first-child .pdot{background:var(--paper); color:var(--red);}
-  .pstep h3{font-size:1.6rem; margin-bottom:8px;}
-  .pstep p{color:#fbe3dc; max-width:20em;}
-  @media (max-width:760px){
-    .path{grid-template-columns:1fr; gap:28px;}
-    .path::before{top:20px; bottom:40px; left:19px; right:auto; width:2px; height:auto;}
-    .pstep{display:grid; grid-template-columns:40px 1fr; column-gap:20px; padding:0;}
-    .pstep .pdot{grid-row:1 / span 2; margin:0;}
-  }
+  /* Sub-sections folded into a section: a small label with room above it. */
+  .sub-label{margin:clamp(48px, 6vw, 72px) 0 16px;}
+  .contact .audiences{border-top-color:var(--paper);}
+  .contact .audiences h3{color:#fbe3dc;}
+  .contact .terms{margin-top:clamp(40px, 5vw, 56px);}
   .cta-row{display:flex; flex-wrap:wrap; gap:16px 32px; align-items:center;}
   .cta-big{
     display:inline-flex; align-items:center; gap:16px; text-decoration:none;
@@ -362,11 +382,21 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .reveal{opacity:1; transform:none; transition:none;}
-    .process-line::after, .ab .link, .mini .strand, .step .shape svg > *{transition:none !important;}
   }
+  /* A 12-column overlay for checking alignment: press G, or use the Grid button. Not part of the design. */
+  :root{--cols:12; --col-gap:24px;}
+  .grid-overlay{position:fixed; inset:0; z-index:9998; pointer-events:none; display:none;}
+  .grid-overlay.on{display:block;}
+  .grid-overlay .wrap{height:100%; display:grid; grid-template-columns:repeat(var(--cols), minmax(0, 1fr)); column-gap:var(--col-gap);}
+  .grid-overlay i{background:color-mix(in srgb, var(--pink) 18%, transparent); border-inline:1px solid color-mix(in srgb, var(--pink) 55%, transparent);}
+  .grid-toggle{position:fixed; left:12px; bottom:12px; z-index:9999; padding:5px 10px; border:0; cursor:pointer; background:var(--ink); color:var(--paper); opacity:.55;}
+  .grid-toggle:hover, .grid-toggle[aria-pressed="true"]{opacity:1;}
+  @media (max-width:700px){ :root{--cols:4; --col-gap:16px;} .grid-overlay i:nth-child(n+5){display:none;} }
 </style>
 </head>
 <body>
+<div class="grid-overlay" aria-hidden="true"><div class="wrap"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+<button class="grid-toggle label" type="button" aria-pressed="false">Grid</button>
 
 <!-- The thread: each chapter is a dot; scrolling connects them. -->
 <nav class="rail" aria-label="Chapters">
@@ -400,204 +430,127 @@
         </nav>
       </div>
     </header>
-    <p class="sr-only">I help experts translate what they know for new audiences. An expert’s web of connected dots sends copies of its dots through a wall to build a Bauhaus-inspired figure on the other side, while the web itself stays and slowly changes.</p>
-    <span class="label s3-tag">Sketch 4</span>
+    <h1 class="sr-only">I help experts translate what they know for new audiences.</h1>
+    <p class="sr-only">An expert’s web of connected dots sends copies of its dots through a wall to build a Bauhaus-inspired figure on the other side, while the web itself stays and slowly changes.</p>
+    <button class="label s3-tag" id="sketch-toggle" type="button" aria-label="Switch hero sketch">Sketch 4</button>
   </div>
 </section>
 
-<!-- ============ SKETCH 3 (for review): one frame, a wall down the middle ============ -->
-<section class="s3" id="sketch-3" aria-label="Sketch 3">
-  <div class="s3-frame">
-    <canvas id="s3-canvas" aria-hidden="true"></canvas>
-    <header class="s3-bar">
-      <div class="topbar s3-topbar">
-        <nav class="nav nav-left" aria-label="Sections">
-          <a href="#approach">Approach</a>
-          <a href="#work">Work</a>
-        </nav>
-        <div class="brand">
-          <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span></span></a>
-        </div>
-        <nav class="nav nav-right" aria-label="Contact">
-          <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
-        </nav>
-      </div>
-    </header>
-    <p class="sr-only">I help experts translate what they know for new audiences. An expert’s web of connected dots travels through a wall and builds a Bauhaus-inspired figure on the other side.</p>
-    <span class="label s3-tag">Sketch 3</span>
-  </div>
-</section>
+<!-- ============ SUB-HEADLINE ============ -->
+<div class="hero-after">
+  <div class="wrap"><p class="hero-sub">You bring the complexity. I listen, ask questions, and craft your story<br class="br-wide"> until the people who need to understand it actually do.</p></div>
+</div>
 
-<!-- ============ SKETCH 1 (for review) ============ -->
-<div class="sketch1-tag-row"><div class="wrap"><p class="label sketch2-tag">Sketch 1</p></div></div>
-<div class="first-screen">
-<!-- ============ HEADER ============ -->
-<header class="site-header" id="site-header">
-  <div class="wrap topbar">
-    <nav class="nav nav-left" aria-label="Sections">
-      <a href="#approach">Approach</a>
-      <a href="#work">Work</a>
-    </nav>
-    <div class="brand">
-      <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm">JEFF MA</span></a>
-      <p class="wm-role label">Independent creative director</p>
-    </div>
-    <nav class="nav nav-right" aria-label="Contact">
-      <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
-    </nav>
+<!-- ============ INTRO ============ -->
+<div class="intro-band">
+<div class="wrap intro">
+  <span class="intro-photo"><img src="assets/about/jeff-ma.png" alt="Jeff Ma" width="140" height="140"></span>
+  <div class="intro-text">
+    <p class="intro-hello">Hello.</p>
+    <p>For twenty years, I’ve been the person experts call when they need to sell a lifestyle to a customer, explain technology to non-technical people, or report on the health of a&nbsp;corporation.</p>
   </div>
-</header>
-
-<!-- ============ HERO ============ -->
-<div class="hero" id="sketch-1">
-  <div class="scene-box">
-    <canvas id="scene" role="img" aria-label="A web of connected dots drifts slowly: an expert’s knowledge. In turn, every dot moves into place in a Bauhaus-inspired figure, taking on its color, then returns to the web: a yellow four-point star, blue diamonds, red facing arches, a green circle, pink diamonds, a green ring and a blue asterisk."></canvas>
-  </div>
-  <h1 class="headline" id="headline"><span class="hl-1"><span class="mark mark-1"><span class="w" style="--i:0">I</span> <span class="w" style="--i:1">help</span> <span class="w" style="--i:2">experts</span> <span class="w" style="--i:3">explain</span> <span class="w" style="--i:4">what</span> <span class="w" style="--i:5">they</span> <span class="w" style="--i:6">know</span></span></span> <span class="hl-2"><span class="mark mark-2"><span class="w" style="--i:0">to</span> <span class="w" style="--i:1">people</span> <span class="w" style="--i:2">who</span> <em><span class="w" style="--i:3">don’t</span> <span class="w" style="--i:4">know</span> <span class="w" style="--i:5">what</span> <span class="w" style="--i:6">they</span> <span class="w" style="--i:7">know.</span></em></span></span></h1>
 </div>
 </div>
 
-<div class="wrap hero-after">
-  <p class="hero-sub">You bring the complexity. I listen, ask questions and edit your story until the people who need to understand it actually do.</p>
-</div>
-
-<!-- ============ SKETCH 2 (for review): two frames, one fill passing between them ============ -->
-<section class="sketch2" aria-label="Sketch 2: an alternative hero">
-  <div class="wrap">
-    <p class="label sketch2-tag">Sketch 2</p>
-    <div class="s2-grid">
-      <p class="sr-only">I help experts explain what they know to people who don’t know what they know.</p>
-      <div class="s2-frames">
-        <canvas id="s2-left" role="img" aria-label="An expert’s web of connected dots, knocked out of a black fill that drains away and refills."></canvas>
-        <canvas id="s2-right" role="img" aria-label="A colour rising and falling, revealing a Bauhaus figure of dots in a darker shade of that colour."></canvas>
-      </div>
-    </div>
-  </div>
-</section>
 
 <main>
 
 <!-- ============ 01 PROBLEM ============ -->
 <section class="chapter" id="problem">
+  <button class="label sec-sketch" id="obs-toggle" type="button" aria-label="Switch section sketch">Sketch 2</button>
   <div class="wrap">
-    <div class="chapter-head reveal">
-      <div class="num">01</div>
-      <div>
-        <h2>The closer you are to an idea, the harder it is to explain.</h2>
-        <p class="lede">It’s called the curse of knowledge: once you know something deeply, what feels obvious to you loses everyone else.</p>
+    <div class="chapter-head chapter-head-bar reveal">
+      <div class="num num-icon"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true"><path d="M-25 0 Q0 -24 25 0 Q0 24 -25 0 Z" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linejoin="round"/><circle cx="0" cy="0" r="7.5" fill="none" stroke="var(--paper)" stroke-width="2"/><circle cx="0" cy="0" r="3.4" fill="var(--paper)"/></svg><span class="num-name">My observation</span></div>
+    </div>
+
+    <div class="story reveal" id="story" hidden>
+      <h2 class="story-h"><span class="st-l1">The closer you are to an idea,</span> <span class="st-l2">the harder it can be to explain.</span></h2>
+      <p class="lede st-ld">It’s called the curse of knowledge. Once you know something deeply, what feels obvious to you loses everyone else. <em>An outside eye can help you see what to explain, what to leave out, and how to move audiences.</em></p>
+      <p class="sr-only">Illustration: an expert’s map of connected dots builds up slowly, the work of years. The list beside it names eight ways audiences get lost; choosing one shows the map turning into something an audience can’t follow.</p>
+      <div class="st-art" aria-hidden="true"><canvas></canvas></div>
+      <div class="st-list">
+        <p class="label">How audiences get lost</p>
+        <ul>
+          <li><button type="button" data-c="f1" aria-pressed="false">Stay in the weeds</button></li>
+          <li><button type="button" data-c="f8" aria-pressed="false">Oversimplify</button></li>
+          <li><button type="button" data-c="f3" aria-pressed="false">Cover what it’s not</button></li>
+          <li><button type="button" data-c="f5" aria-pressed="false">Look to the future</button></li>
+          <li><button type="button" data-c="f2" aria-pressed="false">Leave big gaps</button></li>
+          <li><button type="button" data-c="f6" aria-pressed="false">Ignore the through line</button></li>
+          <li><button type="button" data-c="f4" aria-pressed="false">Use jargon</button></li>
+          <li><button type="button" data-c="f7" aria-pressed="false">Rush through the story</button></li>
+        </ul>
       </div>
     </div>
 
-    <p class="label reveal" style="margin-bottom:16px">What is difficult for experts to see</p>
-    <div class="blind-grid reveal">
-      <div class="blind">
-        <svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="8" cy="20" r="6" fill="#151515"/><circle cx="28" cy="20" r="6" fill="none" stroke="#151515" stroke-width="2" stroke-dasharray="3 3"/><circle cx="48" cy="20" r="6" fill="#151515"/></svg>
-        <p>What to explain</p>
+    <div class="story2" id="story2">
+      <div class="s2-zoom" aria-hidden="true"><canvas></canvas></div>
+      <h2 class="s2-h"><span><span class="nw">The closer you are</span> <span class="nw">to an idea,</span></span> <span><span class="nw">the harder it can be</span> <span class="nw">to explain.</span></span></h2>
+      <p class="lede s2-p">It’s called the curse of knowledge. Once you know something deeply,<br class="br-lede"> what feels obvious to you loses everyone else.</p>
+      <div class="s2-grid">
+        <figure class="s2-tile t1" data-c="f1"><div class="s2-art" aria-hidden="true"></div><figcaption>Stay in the weeds</figcaption></figure>
+        <figure class="s2-tile t2" data-c="f8"><div class="s2-art" aria-hidden="true"></div><figcaption>Oversimplify</figcaption></figure>
+        <figure class="s2-tile t3" data-c="f3"><div class="s2-art" aria-hidden="true"></div><figcaption>Cover what it’s not</figcaption></figure>
+        <figure class="s2-tile t4" data-c="f7"><div class="s2-art" aria-hidden="true"></div><figcaption>Rush through the story</figcaption></figure>
+        <figure class="s2-tile t5" data-c="f4"><div class="s2-art" aria-hidden="true"></div><figcaption>Use jargon</figcaption></figure>
+        <figure class="s2-tile t6" data-c="f6"><div class="s2-art" aria-hidden="true"></div><figcaption>Ignore the through line</figcaption></figure>
+        <figure class="s2-tile t7" data-c="f5"><div class="s2-art" aria-hidden="true"></div><figcaption>Look to the future</figcaption></figure>
+        <figure class="s2-tile t8" data-c="f2"><div class="s2-art" aria-hidden="true"></div><figcaption>Leave big gaps</figcaption></figure>
+        <div class="s2-mid"><div class="s2-ends" aria-hidden="true"></div><h3>Storytelling can be messy.</h3></div>
+        <figure class="s2-tile t9" data-c="f9"><div class="s2-art" aria-hidden="true"></div><figcaption>Zoom in too far</figcaption></figure>
+        <figure class="s2-tile t10" data-c="f10"><div class="s2-art" aria-hidden="true"></div><figcaption>Answer a different question</figcaption></figure>
       </div>
-      <div class="blind">
-        <svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="10" cy="20" r="6" fill="#151515"/><circle cx="28" cy="10" r="4" fill="#151515" opacity=".3"/><circle cx="30" cy="30" r="4" fill="#151515" opacity=".3"/><circle cx="46" cy="20" r="6" fill="#151515"/></svg>
-        <p>What to leave out</p>
-      </div>
-      <div class="blind">
-        <svg viewBox="0 0 56 40" aria-hidden="true"><path d="M8 30 L28 10 L48 30" fill="none" stroke="#151515" stroke-width="2"/><circle cx="8" cy="30" r="5" fill="#151515"/><circle cx="28" cy="10" r="5" fill="#151515"/><circle cx="48" cy="30" r="5" fill="#151515"/></svg>
-        <p>What order works</p>
-      </div>
-      <div class="blind">
-        <svg viewBox="0 0 56 40" aria-hidden="true"><path d="M6 20 H30" stroke="#151515" stroke-width="2"/><circle cx="6" cy="20" r="5" fill="#151515"/><circle cx="30" cy="20" r="5" fill="#151515"/><circle cx="48" cy="20" r="5" fill="none" stroke="#151515" stroke-width="2"/></svg>
-        <p>Where it stops landing</p>
+      <div class="payoff"><p><span>As an outside eye,</span> <span>I can help you see</span> <span>what to explain,</span> <span>what to leave out,</span> <span>and how to move audiences.</span></p></div>
+      <div class="s2-blocks" aria-hidden="true" hidden>   <!-- hidden for now -->
+        <div class="s2-block" data-shape="plus" style="--blk:var(--ochre)"></div>
+        <div class="s2-block" data-shape="minus" style="--blk:var(--green)"></div>
+        <div class="s2-block" data-shape="tri" style="--blk:var(--purple)"></div>
       </div>
     </div>
 
-    <div class="symptoms reveal">
-      <p class="label" style="padding-top:6px">Sound familiar?</p>
-      <ul>
-        <li>Twenty minutes to explain a two-minute idea.</li>
-        <li>The room nods, then asks what page one answered.</li>
-      </ul>
-    </div>
+
   </div>
 </section>
 
 <!-- ============ 02 APPROACH ============ -->
-<section class="chapter" id="approach" style="background:var(--paper-2)">
+<section class="chapter" id="approach">
   <div class="wrap">
-    <div class="chapter-head reveal">
-      <div class="num">02</div>
+    <div class="chapter-head chapter-head-bar reveal">
+      <div class="num num-icon" style="--bar:var(--ochre)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 -12H12A5 5 0 0 1 17 -7V3A5 5 0 0 1 12 8H-4L-10 14L-9 8H-18A5 5 0 0 1 -23 3V-7A5 5 0 0 1 -18 -12Z"/><path d="M-15 -2Q-11 -8 -7 -2T1 -2T9 -2"/></svg><span class="num-name">Conversation to craft</span></div>
       <div>
-        <h2>I connect the dots with you, then for them.</h2>
-        <p class="lede">I start with a conversation. Design comes last.</p>
+        <h2 class="zline"><canvas aria-hidden="true"></canvas><span class="zl-a"><span class="nw">I connect the dots</span> <span class="nw">with you,</span></span> <span class="zl-b">then for <span class="nw">your audience<span class="hang">.</span></span></span></h2>
+        <p class="lede"><span class="nw">Design starts with a conversation</span> <span class="nw">and guides every step that follows.</span></p>
       </div>
     </div>
 
-    <div class="process reveal" id="process">
-      <div class="process-line" aria-hidden="true"></div>
-      <div class="step">
-        <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="#d63a26"/></svg></div>
-        <div><h3>Listen</h3><p>You talk. I listen and unpack your brain.</p></div>
-      </div>
-      <div class="step">
-        <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><path d="M36 6 L66 62 H6 Z" fill="#f0b429"/></svg></div>
-        <div><h3>Ask</h3><p>I ask what your audience would.</p></div>
-      </div>
-      <div class="step">
-        <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><rect x="10" y="10" width="52" height="52" fill="#1f4fa3"/></svg></div>
-        <div><h3>Edit</h3><p>I find the story and cut the rest.</p></div>
-      </div>
-      <div class="step">
-        <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><path d="M6 60 A30 30 0 0 1 66 60 Z" fill="#151515"/></svg></div>
-        <div><h3>Structure</h3><p>I put it in a newcomer’s order.</p></div>
-      </div>
-      <div class="step">
-        <div class="shape"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="#f1ece2" stroke="#151515" stroke-width="3"/><circle cx="36" cy="36" r="14" fill="#d63a26"/></svg></div>
-        <div><h3>Craft</h3><p>Then I design what carries it.</p></div>
-      </div>
-    </div>
+    <ol class="process reveal" id="process">
+      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Listen</h3><p><span class="nw">I listen and line up</span> <span class="nw">what you’re saying</span> <span class="nw">with what you mean.</span></p></li>
+      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Ask</h3><p><span class="nw">I ask the questions</span> <span class="nw">your audience will,</span> <span class="nw">and the ones they’re</span> <span class="nw">thinking.</span></p></li>
+      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Edit</h3><p><span class="nw">I keep what</span> <span class="nw">this audience needs</span> <span class="nw">and set aside the rest.</span></p></li>
+      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Shape</h3><p><span class="nw">I tune your story</span> <span class="nw">for the people</span> <span class="nw">hearing it.</span></p></li>
+      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3><p><span class="nw">Then I design</span> <span class="nw">what carries it.</span></p></li>
+    </ol>
 
-    <div class="novice reveal">
-      <div>
-        <span class="label">The unusual part</span>
-        <p>I become a beginner in your subject on purpose. Through my eyes you see it fresh, and the clear version appears.</p>
-      </div>
-    </div>
+    <p class="label sub-label reveal">What becomes possible</p>
+    <ol class="shifts reveal">
+      <li class="shift shift-head" aria-hidden="true"><span class="from label">Now</span><span></span><span class="to label">After</span></li>
+      <li class="shift"><span class="from">Every meeting starts from scratch.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They get it the first time.</span></li>
+      <li class="shift"><span class="from">The point gets lost in the details.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They see it right away.</span></li>
+      <li class="shift"><span class="from">Decisions keep getting pushed.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They decide with confidence.</span></li>
+      <li class="shift"><span class="from">The story only lives in your head.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They retell it for you.</span></li>
+    </ol>
+
+    <div class="payoff" style="--payoff:var(--pink)"><p><span>Once the thinking is clear,</span> <span>everything that comes after</span> <span>gets easier:</span> <span>every deck, launch</span> <span>and conversation</span> <span>built on it.</span></p></div>
   </div>
 </section>
-
-<!-- ============ 03 OUTCOME ============ -->
-<div class="inverse">
-<section class="chapter" id="outcome">
-  <div class="wrap">
-    <div class="chapter-head reveal">
-      <div class="num">03</div>
-      <div>
-        <h2>The shortest line between what you know and what they do.</h2>
-      </div>
-    </div>
-
-    <div class="ab reveal" aria-hidden="true">
-      <div class="node a">A</div><div class="link"></div><div class="node b">B</div>
-    </div>
-    <div class="ab-labels label reveal" aria-hidden="true" style="margin-top:12px"><span>What you know</span><span>What they do about it</span></div>
-
-    <div class="outcomes reveal">
-      <div class="outcome"><div class="big">Understood faster</div><p>The point lands in minute one.</p></div>
-      <div class="outcome"><div class="big">Better conversations</div><p>Debating the idea, not decoding it.</p></div>
-      <div class="outcome"><div class="big">Easier decisions</div><p>Leaders decide with confidence.</p></div>
-      <div class="outcome"><div class="big">Work moves</div><p>Projects stop stalling.</p></div>
-    </div>
-
-    <p class="compound reveal">Once the thinking is clear, <span class="hl">everything that comes after gets easier</span>: every deck, launch and conversation built on it.</p>
-  </div>
-</section>
-</div>
 
 <!-- ============ 04 WORK ============ -->
 <section class="chapter" id="work">
   <div class="wrap">
-    <div class="chapter-head reveal">
-      <div class="num">04</div>
-      <div>
-        <h2>Dots I’ve connected.</h2>
-        <p class="lede">Twenty years of this, most recently as a creative director in Google’s privacy, safety and security organization.</p>
+    <div class="chapter-head chapter-head-bar reveal">
+      <div class="num num-icon" style="--bar:var(--green)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -12H12V5"/><rect x="-17" y="-7" width="24" height="19" rx="1"/><path d="M-14 9L-7 1L-2 6L1 3L4 9"/><circle cx="1" cy="-2" r="1.6"/></svg><span class="num-name">Things I’ve made</span></div>
+      <div class="sec-intro">
+        <h2 class="s2-h"><span><span class="nw">I turn complex stories</span> <span class="nw">into work</span></span> <span><span class="nw">people can understand,</span> <span class="nw">value, and act on.</span></span></h2>
       </div>
     </div>
 
@@ -606,7 +559,6 @@
         <div class="case-title"><h3>Secure AI Framework Risk Map</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>How AI gets attacked and defended.</p></div>
-          <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
           <div class="to"><span class="label">What people understood</span><p>One visual map, now an industry reference.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/secure-ai-framework/saif-red-teams.jpg" alt="SAIF risk map visualization" loading="lazy"></div>
@@ -616,7 +568,6 @@
         <div class="case-title"><h3>Security Analysis &amp; Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence.</p></div>
-          <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
           <div class="to"><span class="label">What people understood</span><p>Public reports for the Munich Security Conference.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Spread from the Fog of War report" loading="lazy"></div>
@@ -626,7 +577,6 @@
         <div class="case-title"><h3>Safer with Google Summit</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Six disciplines, six languages.</p></div>
-          <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
           <div class="to"><span class="label">What people understood</span><p>One story across 80+ talks a year.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/safer-with-google-summit/stage-2024.webp" alt="Keynote stage at the Safer with Google Summit" loading="lazy"></div>
@@ -636,7 +586,6 @@
         <div class="case-title"><h3>AI Safety Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Research on the “defender’s dilemma.”</p></div>
-          <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
           <div class="to"><span class="label">What people understood</span><p>A film anyone can follow.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film" loading="lazy"></div>
@@ -646,31 +595,30 @@
         <div class="case-title"><h3>Safety Anthem Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Safety work the public rarely sees.</p></div>
-          <svg class="mini" viewBox="0 0 150 70" aria-hidden="true"></svg>
           <div class="to"><span class="label">What people understood</span><p>A film that shows it in minutes.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/safety-anthem/hero.jpg" alt="Still from the Safety Anthem film" loading="lazy"></div>
       </a>
-    </div>
-
-    <div class="also reveal">
+      <div class="also">
       <span class="label">Also</span>
       <span class="co">Apple</span><span class="co">Warby Parker</span><span class="co">Anthropologie</span><span class="co">IBM via VSA Partners</span><span class="co">MAD Worldwide</span>
+    </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 05 MOMENTS ============ -->
-<section class="chapter" id="moments" style="background:var(--paper-2)">
+<!-- ============ 06 CONTACT ============ -->
+<section class="chapter contact" id="contact">
   <div class="wrap">
-    <div class="chapter-head reveal">
-      <div class="num">05</div>
-      <div>
-        <h2>You probably need this when…</h2>
-        <p class="lede">The people who understand it aren’t the ones who decide.</p>
+    <div class="chapter-head chapter-head-bar reveal">
+      <div class="num num-icon" style="--bar:var(--ink)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="-14" y="-10" width="28" height="20" rx="2"/><path d="M-14 -7L0 3L14 -7"/></svg><span class="num-name">Working together</span></div>
+      <div class="sec-intro wallpaper">
+        <canvas aria-hidden="true"></canvas>
+        <h2 class="s2-h"><span><span class="nw">Let’s discuss</span> <span class="nw nw-wide"><span class="nw">what you’re trying</span> <span class="nw">to explain</span></span></span> <span><span class="nw">and who needs</span> <span class="nw">to understand it.</span></span></h2>
       </div>
     </div>
 
+    <p class="label sub-label reveal">You probably need this when…</p>
     <div class="moments reveal">
       <div class="moment">
         <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="#d63a26"/></svg>
@@ -685,7 +633,7 @@
         <p>A regulator needs it explained.</p>
       </div>
       <div class="moment">
-        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#151515" stroke-width="3"/><circle cx="18" cy="18" r="6" fill="#d63a26"/></svg>
+        <svg class="ico" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#151515" stroke-width="3"/><circle cx="18" cy="18" r="6" fill="#1f4fa3"/></svg>
         <p>You’ve explained it ten times, and it isn’t landing.</p>
       </div>
     </div>
@@ -694,25 +642,6 @@
       <div><h3>Who I work with</h3><p>Technical, legal, policy and product leaders</p></div>
       <div><h3>Who they reach</h3><p>Boards, regulators, investors and first-time users</p></div>
       <div><h3>Where</h3><p>Startups to Alphabet.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 06 CONTACT ============ -->
-<section class="chapter contact" id="contact">
-  <div class="wrap">
-    <div class="chapter-head reveal">
-      <div class="num">06</div>
-      <div>
-        <h2>The first dot is a conversation.</h2>
-        <p class="lede">No brief, no pitch deck, no preparation. Tell me what you’re trying to explain and who needs to understand it.</p>
-      </div>
-    </div>
-
-    <div class="path reveal">
-      <div class="pstep"><div class="pdot">1</div><h3>Talk</h3><p>A short call. You explain it the long way; I listen and ask questions.</p></div>
-      <div class="pstep"><div class="pdot">2</div><h3>Untangle</h3><p>Together we find the story, the audience and what they need to hear first.</p></div>
-      <div class="pstep"><div class="pdot">3</div><h3>Make</h3><p>I craft whatever carries it best: a deck, report, map, film, site or system.</p></div>
     </div>
 
     <div class="terms reveal">
@@ -748,505 +677,13 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
 
-  var TILESET = null;   // the hero's chosen tiles and colours, shared with sketch 2
-  var WEBFORMS = null;  // the hero's seven web compositions, shared with sketch 2
   function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
   function lerp(a, b, t){ return a + (b - a) * t; }
   function el(name, attrs, parent){ var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; }
 
-  /* =====================================================================
-     Hero visual. An expert's knowledge: 24 connected dots in slow,
-     ever-changing motion, with the headline over it.
-     ===================================================================== */
-  var INK = '#151515', TAU = Math.PI * 2;
-  var W = 1000, H = 520;   // H follows the canvas' shape (see Scene.resize)
-
-  function Scene(canvas, onFrame){
-    var s = {ctx: canvas.getContext('2d'), scale: 1, dpr: 1, rMul: 1, ratio: 0, onSeen: null};
-    var running = false, last = 0;
-    s.resize = function(){
-      var w = canvas.clientWidth; s.dpr = Math.min(2, window.devicePixelRatio || 1);
-      var ch = canvas.clientHeight || w * H / W; H = W * ch / w;
-      canvas.width = Math.round(w * s.dpr); canvas.height = Math.round(ch * s.dpr);
-      s.scale = w / W || 1; s.rMul = Math.min(1.8, Math.max(1, 620 / w));
-    };
-    s.begin = function(){ s.ctx.setTransform(s.scale * s.dpr, 0, 0, s.scale * s.dpr, 0, 0); s.ctx.clearRect(0, 0, W, H); };
-    s.dot = function(x, y, r){ var c = s.ctx; c.beginPath(); c.arc(x, y, Math.max(0, r * s.rMul), 0, TAU); c.fillStyle = INK; c.fill(); };
-    s.line = function(a, b, alpha){
-      if (alpha < 0.01) return;
-      var c = s.ctx; c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y);
-      c.strokeStyle = 'rgba(21,21,21,' + (0.32 * alpha).toFixed(3) + ')'; c.lineWidth = 1.1 / s.scale; c.stroke();
-    };
-    function frame(now){
-      if (!running) return;
-      var dt = Math.min(1 / 30, (now - last) / 1000 || 0); last = now;
-      onFrame(now, dt); requestAnimationFrame(frame);
-    }
-    function setRunning(){
-      var on = s.ratio > 0 && !document.hidden;
-      if (on && !running){ running = true; last = performance.now(); requestAnimationFrame(frame); }
-      else if (!on) running = false;
-    }
-    new IntersectionObserver(function(es){
-      s.ratio = es[0].intersectionRatio;
-      if (s.ratio >= 0.35 && s.onSeen){ var f = s.onSeen; s.onSeen = null; f(performance.now()); }
-      setRunning();
-    }, {threshold: [0, 0.35, 1]}).observe(canvas);
-    document.addEventListener('visibilitychange', setRunning);
-    if (window.ResizeObserver) new ResizeObserver(s.resize).observe(canvas); else window.addEventListener('resize', s.resize);
-    s.resize();
-    return s;
-  }
-
-  /* ---------- The hero: an expert's knowledge, finding its form ----------
-     The expert's knowledge is one connected web of 24 dots, drifting. In turn
-     it reshapes into one of seven Bauhaus-inspired tiles (chosen from a set of
-     25, see USE), drawn as tightly packed dots joined to their neighbours,
-     takes on the tile's colour, holds, then relaxes back into the ink web. */
-  (function(){
-    var canvas = document.getElementById('scene');
-    if (!canvas) return;
-    var box = canvas.parentNode;
-    var headline = document.getElementById('headline');
-    var s, shapes = [];
-    var WEB = 3500, MOVE = 2000, HOLD = 2600, CYCLE = WEB + MOVE + HOLD + MOVE;
-    var start = performance.now(), revealed = false;
-    var INK_RGB = [21, 21, 21];
-
-    // ---- The 25 tiles ----
-    // Each tile is a rule: given a point in the tile (x and y from -1 to 1,
-    // y pointing down), which colour is there, if any. The tile is then drawn
-    // as a square grid of dots wherever the rule says so.
-    var PAL = {blue: [84, 83, 148], pink: [234, 133, 116], yellow: [238, 168, 47], ink: [28, 27, 42], red: [230, 66, 42], green: [61, 139, 79]};
-    function hyp(x, y){ return Math.sqrt(x * x + y * y); }
-    function disc(x, y, cx, cy, r){ return hyp(x - cx, y - cy) <= r; }
-    function star4(x, y, s){ return Math.pow(Math.abs(x) / s, 2 / 3) + Math.pow(Math.abs(y) / s, 2 / 3) <= 1; }   // four-point star
-    function stripes(d){ var f = ((d / 0.34) % 1 + 1) % 1; return f < 0.42; }
-    function diamond(x, y, cx, cy, r){ return Math.abs(x - cx) + Math.abs(y - cy) <= r; }
-    function when(test, colour){ return test ? colour : null; }
-    var TILES = [
-      // Row 1
-      function(x, y){ return when(Math.pow(x, 4) + Math.pow(y, 4) <= 0.9 && !star4(x, y, 0.86), 'blue'); },              // rounded square with a star cut out
-      function(x, y){ return when(stripes(x - y), 'pink'); },                                                                   // diagonal stripes
-      function(x, y){ return when((x <= 0 && disc(x, y, -1, 0, 0.98)) || (x >= 0 && disc(x, y, 0, 0, 0.98)), 'yellow'); },   // two half-discs
-      function(x, y){ return when(star4(x, y, 1), 'ink'); },                                                                    // four-point star
-      function(x, y){ var r = hyp(x, y); return r > 0.97 ? null : r > 0.76 ? 'red' : r > 0.56 ? 'ink' : r > 0.37 ? 'red' : r > 0.2 ? 'ink' : null; },  // target
-      // Row 2
-      function(x, y){ return when([[-.5, -.5], [.5, -.5], [-.5, .5], [.5, .5]].some(function(c){ return diamond(x, y, c[0], c[1], 0.48); }), 'ink'); },  // diamonds
-      function(x, y){ var t = ((Math.atan2(y, x) / TAU * 18) % 1 + 1) % 1; return when(hyp(x, y) <= 0.5 + 0.46 * (1 - Math.abs(2 * t - 1)), 'green'); },  // starburst
-      function(x, y){                                                                                                           // meander
-        var xs = [-0.72, -0.24, 0.24, 0.72], w = 0.13, i;
-        for (i = 0; i < 4; i++){ var bottom = (i === 0 || i === 3) ? 0.97 : 0.62; if (Math.abs(x - xs[i]) <= w && y >= -0.62 && y <= bottom) return 'blue'; }
-        var links = [[0, 1, -0.62, -1], [1, 2, 0.62, 1], [2, 3, -0.62, -1]];
-        for (i = 0; i < 3; i++){
-          var l = links[i], cx = (xs[l[0]] + xs[l[1]]) / 2, r = (xs[l[1]] - xs[l[0]]) / 2;
-          if ((y - l[2]) * l[3] >= 0 && Math.abs(hyp(x - cx, y - l[2]) - r) <= w) return 'blue';
-        }
-        return null;
-      },
-      function(x, y){ var a = hyp(x, y + 1), b = hyp(x, y - 1); return when((a >= 0.36 && a <= 0.95) || (b >= 0.36 && b <= 0.95), 'red'); },  // facing arches
-      function(x, y){ return when(stripes(x + y), 'blue'); },                                                                  // diagonal stripes
-      // Row 3
-      function(x, y){ return when([-0.66, 0, 0.66].some(function(cx){ return [-0.66, 0, 0.66].some(function(cy){ return disc(x, y, cx, cy, 0.27); }); }), 'yellow'); },  // nine circles
-      function(x, y){ return when(disc(x, y, 0, 0, 0.45) || [[-.48, -.48], [.48, -.48], [-.48, .48], [.48, .48]].some(function(c){ return disc(x, y, c[0], c[1], 0.5); }), 'red'); },  // four-leaf
-      function(x, y){ var r = hyp(x, y); return when((x >= 0 && r >= 0.38 && r <= 0.95) || (x < 0 && x >= -0.95 && Math.abs(y) >= 0.38 && Math.abs(y) <= 0.95), 'ink'); },  // horseshoe
-      function(x, y){ var r = hyp(x, y), f = ((Math.atan2(y, x) / TAU * 16) % 1 + 1) % 1, d = Math.min(f, 1 - f) * TAU / 16; return when(r <= 0.95 && (r <= 0.1 || r * Math.sin(d) <= 0.06), 'ink'); },  // sunburst
-      function(x, y){ return when(hyp(x, y) <= 0.95, 'green'); },                                                              // circle
-      // Row 4
-      function(x, y){ var r = hyp(x, y), q = r / 0.19 - ((Math.atan2(y, x) / TAU) % 1 + 1) % 1; return when(r <= 0.97 && ((q % 1) + 1) % 1 < 0.5, 'ink'); },  // spiral
-      function(x, y){ return when(stripes(x + y), 'blue'); },                                                                  // diagonal stripes
-      function(x, y){ return when(star4(x, y, 0.95), 'red'); },                                                                // four-point star
-      function(x, y){ return when([-0.72, -0.24, 0.24, 0.72].some(function(cx){ return [-0.48, 0.48].some(function(cy){ return x >= cx - 0.22 && x <= cx + 0.24 && Math.abs(y - cy) <= 0.44 * (cx + 0.24 - x) / 0.46; }); }), 'yellow'); },  // triangles
-      function(x, y){ return when((x <= 0 && disc(x, y, -1, 0, 0.98)) || (x >= 0 && disc(x, y, 1, 0, 0.98)), 'ink'); },      // half-discs, back to back
-      // Row 5
-      function(x, y){ return when(Math.abs(y) <= 0.95 && [-0.62, 0, 0.62].some(function(cx){ var k = 0.16 * (1 - Math.abs(y)); return x >= cx - 0.24 + k && x <= cx + 0.1 + k; }), 'red'); },  // chevrons
-      function(x, y){ return when([[-.52, -.52], [.52, -.52], [0, 0], [-.52, .52], [.52, .52]].some(function(c){ return diamond(x, y, c[0], c[1], 0.44); }), 'ink'); },  // diamonds
-      function(x, y){ var r = hyp(x, y); return when(r >= 0.62 && r <= 0.95, 'green'); },                                     // ring
-      function(x, y){ return when(hyp(x, y) <= 0.3 || [90, 30, 150].some(function(deg){ var a = deg * Math.PI / 180, along = x * Math.cos(a) + y * Math.sin(a), across = -x * Math.sin(a) + y * Math.cos(a); return Math.abs(along) <= 0.95 && Math.abs(across) <= 0.2; }), 'blue'); },  // asterisk
-      function(x, y){ return when(stripes(x - y), 'pink'); }                                                                   // diagonal stripes
-    ];
-    // The tiles the hero uses, in order (numbers as in the 5 x 5 reference),
-    // each in one colour. Blue-black isn't used.
-    var USE = [[4, 'yellow'], [6, 'blue'], [9, 'red'], [15, 'green'], [22, 'pink'], [23, 'green'], [24, 'blue']];
-    var CHOSEN = USE.map(function(u){ var rule = TILES[u[0] - 1]; return function(x, y){ return rule(x, y) ? u[1] : null; }; });
-    TILESET = {rules: CHOSEN, colors: USE.map(function(u){ return PAL[u[1]]; })};
-
-    // Contrast ratio between two colours (WCAG), used to pick the text colour
-    // on each highlight bar.
-    function contrast(a, b){
-      function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
-      var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
-    }
-    // Each tile, as a grid of dots SP apart, each joined to the neighbours of
-    // its own colour (right and below).
-    var SP = 14;
-    function buildShapes(){
-      var half = Math.min(H * 0.38, 260) * 0.55, n = Math.round(2 * half / SP) + 1;
-      shapes = CHOSEN.map(function(rule){
-        var pts = [], at = {}, count = {}, i, j;
-        for (i = 0; i < n; i++) for (j = 0; j < n; j++){
-          var u = -1 + 2 * j / (n - 1), v = -1 + 2 * i / (n - 1), key = rule(u, v);
-          if (!key) continue;
-          at[i + ',' + j] = pts.length; count[key] = (count[key] || 0) + 1;
-          pts.push({x: 500 + u * half, y: H / 2 + v * half, key: key, rgb: PAL[key]});
-        }
-        var edges = [];
-        for (var k in at){
-          var ij = k.split(','), a = at[k], p = pts[a], r = at[ij[0] + ',' + (+ij[1] + 1)], d = at[(+ij[0] + 1) + ',' + ij[1]];
-          if (r !== undefined && pts[r].key === p.key) edges.push([a, r]);
-          if (d !== undefined && pts[d].key === p.key) edges.push([a, d]);
-        }
-        var main = Object.keys(count).sort(function(a, b){ return count[b] - count[a]; })[0];
-        return {pts: pts, edges: edges, rgb: PAL[main], lightText: contrast(PAL[main], [241, 236, 226]) >= 3};
-      });
-    }
-
-    // ---- The expert's webs: seven compositions of knowledge ----
-    // Each web has one dot for every place in the biggest tile, its own shape,
-    // and its own fixed set of lines, always one connected body. The cycle
-    // runs web 1 → tile 1 → web 2 → tile 2 …: dots leave a web for a tile and
-    // arrive in the next web, one to one, nothing splitting or merging. Dots a
-    // tile doesn't need fade where they are, in step with the web's lines, as
-    // the tile forms; the next web's extra dots fade in the same way.
-    var webs = [];
-    // How likely a dot is at a point (dx across, about -1.8 to 1.8; dy down,
-    // -1 to 1), one rule per composition.
-    function lobes(dx, dy, ph, amt){ var a = Math.atan2(dy, dx); return 1 + amt * (0.13 * Math.sin(2 * a + ph[0]) + 0.08 * Math.sin(3 * a + ph[1]) + 0.05 * Math.sin(5 * a + ph[2])); }
-    function soft(d, edge){ return d > 1 ? 0 : d > edge ? (1 - d) / (1 - edge) : 1; }   // thinning toward the outline
-    var FORMS = [
-      function(dx, dy, ph){ return soft(Math.hypot(dx / 1.25, dy / 0.78) / lobes(dx, dy, ph, 1), 0.75); },                     // an irregular blob
-      function(dx, dy, ph){                                                                                                  // a long wavy band
-        var c = 0.34 * Math.sin(dx * 1.6 + ph[0]), w = 0.3 + 0.07 * Math.sin(dx * 2.3 + ph[1]);
-        return soft(Math.abs(dy - c) / w, 0.65) * clamp((1.62 - Math.abs(dx)) / 0.3);
-      },
-      function(dx, dy, ph){                                                                                                  // three clusters
-        return Math.max.apply(null, [[-1.0, -0.28, 0.52], [0.06, 0.3, 0.5], [1.02, -0.22, 0.44]].map(function(c){ return soft(Math.hypot(dx - c[0], dy - c[1]) / (c[2] * lobes(dx - c[0], dy - c[1], ph, 0.8)), 0.6); }));
-      },
-      function(dx, dy, ph){ return soft(Math.abs(Math.hypot(dx / 1.35, dy / 0.84) - 0.7) / (0.26 * lobes(dx, dy, ph, 0.7)), 0.55); },   // a ring around an empty centre
-      function(dx, dy, ph){                                                                                                  // a tilted, curving sweep
-        var a = -0.42, al = dx * Math.cos(a) + dy * Math.sin(a), ac = -dx * Math.sin(a) + dy * Math.cos(a);
-        return soft(Math.hypot(al / 1.62, (ac - 0.14 * al * al + 0.12) / (0.34 * lobes(dx, dy, ph, 0.6))), 0.6);
-      },
-      function(dx, dy, ph){ var rho = Math.hypot(dx / 1.3, dy / 0.86) / lobes(dx, dy, ph, 0.6); return rho < 0.38 ? 1 : rho < 1.1 ? 0.14 : 0; },  // a dense core, sparse outliers
-      function(dx, dy, ph){                                                                                                  // two uneven lobes
-        return Math.max(soft(Math.hypot((dx + 0.62) / 0.82, (dy - 0.08) / 0.74) / lobes(dx + 0.62, dy - 0.08, ph, 0.8), 0.7),
-                        soft(Math.hypot((dx - 0.8) / 0.6, (dy + 0.18) / 0.56) / lobes(dx - 0.8, dy + 0.18, ph, 0.8), 0.7));
-      }
-    ];
-    WEBFORMS = FORMS;
-    function buildWebs(){
-      var M = Math.max.apply(null, shapes.map(function(sh){ return sh.pts.length; }));
-      var cy = H / 2, u = H / 2 - 40;                       // one unit of dy, in canvas units; stays inside the frame, drift included
-      webs = FORMS.map(function(form, w){
-        var r = rng(11 + w * 7), ph = [r() * TAU, r() * TAU, r() * TAU], anchors = [], tries = 0, area = 0, k;
-        for (k = 0; k < 4000; k++) area += form(r() * 3.6 - 1.8, r() * 2 - 1, ph);
-        var minD = Math.sqrt(area / 4000 * (3.6 * u) * (2 * u) / M) * 0.62;
-        while (anchors.length < M && tries++ < 120000){
-          var dx = r() * 3.6 - 1.8, dy = r() * 2 - 1, x = 500 + dx * u, y = cy + dy * u;
-          if (x < 50 || x > 950 || r() > form(dx, dy, ph)) continue;
-          if (anchors.every(function(q){ return Math.hypot(q.ax - x, q.ay - y) > minD; })) anchors.push({ax: x, ay: y});
-        }
-        while (anchors.length < M){ var q = anchors[Math.floor(r() * anchors.length)] || {ax: 500, ay: cy}; anchors.push({ax: q.ax + (r() - 0.5) * minD, ay: q.ay + (r() - 0.5) * minD}); }
-        anchors.forEach(function(d){
-          // Two slow waves per axis, periods of roughly 9 to 26 seconds.
-          d.f = [0, 0, 0, 0].map(function(){ return 0.24 + r() * 0.45; });
-          d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; });
-        });
-        return {anchors: anchors, edges: linesFor(anchors, rng(100 + w))};
-      });
-    }
-    // A web's lines: each dot to its nearest neighbours, then any separate
-    // clusters joined by their shortest link, so it's one connected body.
-    function linesFor(pts, r){
-      var n = pts.length, edges = [], has = {}, i, j, near = [];
-      function link(a, b){ var key = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[key]){ has[key] = 1; edges.push([a, b]); } }
-      for (i = 0; i < n; i++){
-        var row = [];
-        for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pts[j].ax - pts[i].ax, pts[j].ay - pts[i].ay), j]);
-        row.sort(function(a, b){ return a[0] - b[0]; });
-        near.push(row.map(function(o){ return o[1]; }));
-      }
-      for (i = 0; i < n; i++) link(i, near[i][0]);
-      for (var k = 0; k < Math.round(n * 0.5); k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 3)]); }
-      var group = []; for (i = 0; i < n; i++) group.push(i);
-      function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
-      edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
-      for (;;){
-        var best = null;
-        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){
-          if (find(i) === find(j)) continue;
-          var dd = Math.hypot(pts[i].ax - pts[j].ax, pts[i].ay - pts[j].ay);
-          if (!best || dd < best.d) best = {i: i, j: j, d: dd};
-        }
-        if (!best) break;
-        link(best.i, best.j); group[find(best.i)] = find(best.j);
-      }
-      return edges;
-    }
-    // One to one: every place in a tile is matched to a dot of a web, closest
-    // pairs first. Returns each place's dot, and which of the web's dots are spare.
-    function match(web, shape){
-      var pairs = [], usedD = {}, usedP = {}, src = [];
-      web.anchors.forEach(function(d, i){ shape.pts.forEach(function(p, k){ pairs.push([Math.hypot(d.ax - p.x, d.ay - p.y), i, k]); }); });
-      pairs.sort(function(a, b){ return a[0] - b[0]; });
-      pairs.forEach(function(pr){ if (!usedD[pr[1]] && !usedP[pr[2]]){ usedD[pr[1]] = usedP[pr[2]] = 1; src[pr[2]] = pr[1]; } });
-      return {src: src, spare: web.anchors.map(function(d, i){ return !usedD[i]; })};
-    }
-    // Tile k gathers from web k and releases into web k + 1.
-    function assign(shape, k){
-      var n = shape.pts.length, cx = 0, cy = 0, far = 0;
-      shape.from = match(webs[k % webs.length], shape);
-      shape.to = match(webs[(k + 1) % webs.length], shape);
-      shape.pts.forEach(function(p){ cx += p.x / n; cy += p.y / n; });
-      shape.pts.forEach(function(p){ far = Math.max(far, Math.hypot(p.x - cx, p.y - cy)); });
-      shape.pts.forEach(function(p){ p.ord = Math.hypot(p.x - cx, p.y - cy) / (far || 1); });   // fill from the centre outward
-    }
-
-    // Where each word sits within its highlight bar (fractions of the bar),
-    // unaffected by the words' rise-in transforms.
-    function measureMarks(){
-      headline.querySelectorAll('.mark').forEach(function(mark){
-        var mh = mark.offsetHeight || 1;
-        mark.querySelectorAll('.w').forEach(function(w){
-          w.style.setProperty('--t', (w.offsetTop / mh).toFixed(4));
-          w.style.setProperty('--h', (w.offsetHeight / mh).toFixed(4));
-        });
-      });
-    }
-    function layout(){
-      measureMarks();
-      // As large as the box allows while staying 16:9.
-      var w = Math.max(160, Math.min(box.clientWidth, box.clientHeight * 16 / 9));
-      canvas.style.width = w + 'px'; canvas.style.height = (w * 9 / 16) + 'px';
-      s.resize();
-      buildShapes();
-      buildWebs();
-      shapes.forEach(assign);
-    }
-    function rgba(c, a){ return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + a.toFixed(3) + ')'; }
-    function mixRGB(a, b, t){ return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
-    function seg(a, b, color, alpha, width){
-      if (alpha < 0.01) return;
-      var c = s.ctx; c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y);
-      c.strokeStyle = rgba(color, alpha); c.lineWidth = width / s.scale; c.stroke();
-    }
-
-    s = Scene(canvas, function(now, dt){
-      var T = now - start, tp = T % CYCLE, shape = shapes[Math.floor(T / CYCLE) % shapes.length], i;
-      // The second half of the headline rises in (once) about 1.4 s before its
-      // highlight first begins, halfway through the web becoming the first tile.
-      if (!revealed && T >= WEB + MOVE * 0.5 - 1400){ revealed = true; headline.classList.add('revealed'); }
-      // m: 0 = the web, 1 = the tile.
-      var m = reduce ? 0 : tp < WEB ? 0 : tp < WEB + MOVE ? (tp - WEB) / MOVE : tp < WEB + MOVE + HOLD ? 1 : 1 - (tp - WEB - MOVE - HOLD) / MOVE;
-      var t = reduce ? 0 : now / 1000, tint = ease(clamp(m)), color = mixRGB(INK_RGB, shape.rgb, tint);
-      var webA = 1 - clamp(m * 2), shapeA = clamp(m * 2 - 1);
-      // The headline follows along: the first line is highlighted while the
-      // expert's web shows (once the line has risen in), the second while a
-      // figure shows, in that figure's colour.
-      var p1 = Math.min(ease(webA), clamp((T - 1300) / 700)), p2 = ease(shapeA);
-      headline.style.setProperty('--mp-1', p1.toFixed(3));
-      headline.style.setProperty('--mp-2', p2.toFixed(3));
-      headline.style.setProperty('--mc-2', 'rgb(' + shape.rgb.join(',') + ')');
-      headline.style.setProperty('--on-2', shape.lightText ? 'var(--paper)' : 'var(--ink)');
-      // Gathering (m rising), the tile comes from this cycle's web; releasing
-      // (m falling), it goes to the next web.
-      var k = Math.floor(T / CYCLE) % shapes.length, out = !reduce && tp >= WEB + MOVE + HOLD;
-      var web = webs[(out ? k + 1 : k) % webs.length], link = out ? shape.to : shape.from;
-      web.anchors.forEach(function(d){
-        d.hx = d.ax + 12 * Math.sin(t * d.f[0] + d.ph[0]) + 6 * Math.sin(t * d.f[1] + d.ph[1]);
-        d.hy = d.ay + 12 * Math.sin(t * d.f[2] + d.ph[2]) + 6 * Math.sin(t * d.f[3] + d.ph[3]);
-      });
-      // Each dot travels between its place in the web and its one place in the
-      // tile, the centre of the tile filling first.
-      shape.pts.forEach(function(p, j){
-        var d = web.anchors[link.src[j]], mi = ease(clamp(m * 1.35 - p.ord * 0.35));
-        p.cx = lerp(d.hx, p.x, mi); p.cy = lerp(d.hy, p.y, mi); p.col = mixRGB(INK_RGB, p.rgb, tint);
-        d.x = p.cx; d.y = p.cy;
-      });
-      web.anchors.forEach(function(d, i){ if (link.spare[i]){ d.x = d.hx; d.y = d.hy; } });
-      s.begin();
-      // The web's lines give way to the tile's lines, and back again.
-      web.edges.forEach(function(e){ seg(web.anchors[e[0]], web.anchors[e[1]], color, 0.28 * webA, 1); });
-      shape.edges.forEach(function(e){ var a = shape.pts[e[0]], b = shape.pts[e[1]]; seg({x: a.cx, y: a.cy}, {x: b.cx, y: b.cy}, a.col, 0.55 * shapeA, 1.1); });
-      // In a tile, dots never grow so large that neighbours touch (on small
-      // screens dots are enlarged), so the lines between them stay visible.
-      var c = s.ctx, r = Math.min(3.4 * s.rMul, SP * 0.3), sa = ease(webA);
-      shape.pts.forEach(function(p){ c.fillStyle = rgba(p.col, 1); c.beginPath(); c.arc(p.cx, p.cy, r, 0, TAU); c.fill(); });
-      if (sa > 0.02){                                        // spare dots fade with the web's lines
-        c.fillStyle = rgba(INK_RGB, 1);
-        web.anchors.forEach(function(d, i){ if (link.spare[i]){ c.beginPath(); c.arc(d.hx, d.hy, r * sa, 0, TAU); c.fill(); } });
-      }
-    });
-
-    layout();
-    if (window.ResizeObserver) new ResizeObserver(layout).observe(box);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
-
-    // The headline rises in word by word: the first half on load; the second
-    // (see the frame loop) just before its first highlight.
-    requestAnimationFrame(function(){ headline.classList.add('intro'); });
-    if (reduce) headline.classList.add('revealed');
-  })();
-
-  /* ---------- Sketch 2: two frames, one fill passing between them ----------
-     Left frame: the expert's web, knocked out of a solid black fill. The fill
-     drains down while a colour rises in the right frame, revealing one of the
-     Bauhaus tiles knocked out of that colour. Then the colour drains
-     and the black refills the left. Each pass uses the next tile. */
-  (function(){
-    var left = document.getElementById('s2-left'), right = document.getElementById('s2-right');
-    if (!left || !right || !TILESET) return;
-    var lc = left.getContext('2d'), rc = right.getContext('2d');
-    var PAPER = [241, 236, 226], INKC = [21, 21, 21];
-    var HOLD_L = 2600, MOVE = 2600, HOLD_R = 3200, CYCLE = HOLD_L + MOVE + HOLD_R + MOVE;
-    var HEAD_L = 'I help experts explain what they know…', HEAD_R = 'to people who don’t know\nwhat they know.';   // \n: a set line break
-    // One dot size and one line weight for both frames.
-    var LINE_W = 1.1, LINE_A = 0.55;
-    function dotR(){ return Math.max(1.8, size * 0.0065); }
-    // Type size for both halves: 7.2% of the frame, reduced if needed so each
-    // set line (the right half's) fits on one line.
-    function headSize(c){
-      var S = size, fs = S * 0.072, room = S * (1 - 2 * 0.065);
-      c.font = '700 ' + fs + 'px Jost, Futura, sans-serif';
-      HEAD_R.split('\n').forEach(function(line){ var w = c.measureText(line).width; if (w > room) fs = Math.min(fs, fs * room / w); });
-      return Math.floor(fs);
-    }
-    // Each half of the headline, left-aligned in its frame, at the top (the
-    // left frame) or the bottom (the right frame). Set line breaks are kept,
-    // and any other line too long for the frame wraps.
-    function drawHead(c, text, col, atBottom){
-      var S = size, fs = headSize(c), pad = S * 0.065, lh = fs * 1.12, lines = [];
-      c.font = '700 ' + fs + 'px Jost, Futura, sans-serif'; c.fillStyle = css(col); c.textBaseline = 'alphabetic';
-      text.split('\n').forEach(function(para){
-        var line = '';
-        para.split(' ').forEach(function(w){
-          var test = line ? line + ' ' + w : w;
-          if (c.measureText(test).width > S - 2 * pad && line){ lines.push(line); line = w; }
-          else line = test;
-        });
-        lines.push(line);
-      });
-      var y = atBottom ? S - pad - fs * 0.22 - (lines.length - 1) * lh : pad + fs * 0.85;
-      lines.forEach(function(l){ c.fillText(l, pad, y); y += lh; });
-    }
-    var size = 0, dpr = 1, webs = [], tiles = [], start = performance.now(), running = false;
-    var portrait = window.matchMedia('(orientation: portrait)');   // frames stacked (matches the CSS)
-
-    function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
-    function contrast(a, b){ var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
-    function mix(a, b, t){ return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
-    function css(c, a){ return 'rgba(' + c.map(Math.round).join(',') + ',' + (a === undefined ? 1 : a) + ')'; }
-
-    // The expert's webs, in a unit square below the type: one for each of the
-    // hero's seven compositions (a blob, a wavy band, three clusters, a ring,
-    // a sweep, a dense core with outliers, two lobes), each a tangle of
-    // connected dots. Each refill of the frame shows the next one.
-    function buildWeb(form, seed){
-      var r = rng(seed), dots = [], tries = 0, ph = [r() * TAU, r() * TAU, r() * TAU], area = 0, k;
-      for (k = 0; k < 3000; k++) area += form(r() * 3.6 - 1.8, r() * 2 - 1, ph);
-      var minD = Math.sqrt(area / 3000 * 0.88 * 0.64 / 110) * 0.7;
-      while (dots.length < 110 && tries++ < 80000){
-        var fx = r() * 3.6 - 1.8, fy = r() * 2 - 1;
-        if (r() > form(fx, fy, ph)) continue;
-        var p = {ax: 0.5 + fx / 1.8 * 0.44, ay: 0.62 + fy * 0.32};
-        if (dots.every(function(q){ return Math.hypot(q.ax - p.ax, q.ay - p.ay) > minD; })) dots.push(p);
-      }
-      dots.forEach(function(d){
-        d.f = [0, 0, 0, 0].map(function(){ return 0.55 + r() * 0.9; });   // periods of roughly 4 to 11 seconds
-        d.ph = [0, 0, 0, 0].map(function(){ return r() * TAU; });
-      });
-      var edges = [], has = {}, n = dots.length, i, j;
-      function link(a, b){ var k = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[k]){ has[k] = 1; edges.push([a, b]); } }
-      var near = dots.map(function(d, i){ return dots.map(function(q, j){ return [Math.hypot(q.ax - d.ax, q.ay - d.ay), j]; }).filter(function(o){ return o[1] !== i; }).sort(function(a, b){ return a[0] - b[0]; }).map(function(o){ return o[1]; }); });
-      for (i = 0; i < n; i++) link(i, near[i][0]);
-      for (k = 0; k < n * 1.3; k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 4)]); }
-      for (k = 0; k < n * 0.18; k++){ i = Math.floor(r() * n); link(i, near[i][6 + Math.floor(r() * 10)]); }   // a few longer threads
-      var group = dots.map(function(_, i){ return i; });
-      function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
-      edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
-      for (;;){
-        var best = null;
-        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){ if (find(i) === find(j)) continue; var dd = Math.hypot(dots[i].ax - dots[j].ax, dots[i].ay - dots[j].ay); if (!best || dd < best.d) best = {i: i, j: j, d: dd}; }
-        if (!best) break;
-        link(best.i, best.j); group[find(best.i)] = find(best.j);
-      }
-      return {dots: dots, edges: edges};
-    }
-    // The tiles, in a unit square, as a grid of dots joined to neighbours.
-    function buildTiles(){
-      var n = 15, half = 0.29;
-      tiles = TILESET.rules.map(function(rule, k){
-        var pts = [], at = {}, edges = [], i, j;
-        for (i = 0; i < n; i++) for (j = 0; j < n; j++){
-          var u = -1 + 2 * j / (n - 1), v = -1 + 2 * i / (n - 1);
-          if (rule(u, v)){ at[i + ',' + j] = pts.length; pts.push({x: 0.5 + u * half, y: 0.38 + v * half}); }   // above the type, which sits at the bottom
-        }
-        for (var key in at){ var ij = key.split(','), a = at[key], rr = at[ij[0] + ',' + (+ij[1] + 1)], dn = at[(+ij[0] + 1) + ',' + ij[1]]; if (rr !== undefined) edges.push([a, rr]); if (dn !== undefined) edges.push([a, dn]); }
-        // The tile and type knock out of the colour in paper. Where paper
-        // wouldn't reach 3:1 against the colour (the minimum for large type and
-        // graphics), the colour is deepened just enough that it does.
-        var fill = TILESET.colors[k], t2 = 0;
-        while (contrast(PAPER, fill) < 3 && t2 < 1){ t2 += 0.02; fill = mix(TILESET.colors[k], INKC, t2); }
-        return {pts: pts, edges: edges, fill: fill};
-      });
-    }
-    function fit(){
-      size = left.clientWidth; dpr = Math.min(2, window.devicePixelRatio || 1);
-      [left, right].forEach(function(c){ c.width = Math.round(size * dpr); c.height = Math.round(size * dpr); });
-    }
-
-    function drawWeb(c, web, col){
-      c.strokeStyle = css(col, LINE_A); c.lineWidth = LINE_W;
-      web.edges.forEach(function(e){ var a = web.dots[e[0]], b = web.dots[e[1]]; c.beginPath(); c.moveTo(a.px, a.py); c.lineTo(b.px, b.py); c.stroke(); });
-      c.fillStyle = css(col);
-      web.dots.forEach(function(d){ c.beginPath(); c.arc(d.px, d.py, dotR(), 0, TAU); c.fill(); });
-    }
-    function frame(now){
-      if (!running) return;
-      var T = reduce ? HOLD_L + MOVE : now - start, k = Math.floor(T / CYCLE), tp = T % CYCLE;
-      // The next composition takes over while the left frame is empty.
-      var web = webs[(Math.floor((T - HOLD_L - MOVE) / CYCLE) + 1) % webs.length];
-      // How full the left frame is (1 = full); the right is its complement.
-      var lv = tp < HOLD_L ? 1 : tp < HOLD_L + MOVE ? 1 - ease((tp - HOLD_L) / MOVE) : tp < HOLD_L + MOVE + HOLD_R ? 0 : ease((tp - HOLD_L - MOVE - HOLD_R) / MOVE);
-      var rv = reduce ? 1 : 1 - lv, tile = tiles[k % tiles.length], t = reduce ? 0 : now / 1000, S = size;
-      if (reduce) lv = 1;
-      web.dots.forEach(function(d){
-        d.px = (d.ax + 0.016 * Math.sin(t * d.f[0] + d.ph[0]) + 0.008 * Math.sin(t * d.f[1] + d.ph[1])) * S;
-        d.py = (d.ay + 0.016 * Math.sin(t * d.f[2] + d.ph[2]) + 0.008 * Math.sin(t * d.f[3] + d.ph[3])) * S;
-      });
-      // Left: black fill from the bottom up to its level; the web knocks out of
-      // the fill and isn't shown above it.
-      var ly = S * (1 - lv);
-      lc.setTransform(dpr, 0, 0, dpr, 0, 0); lc.clearRect(0, 0, S, S);
-      lc.fillStyle = css(INKC); lc.fillRect(0, ly, S, S - ly);
-      lc.save(); lc.beginPath(); lc.rect(0, 0, S, ly); lc.clip(); drawHead(lc, HEAD_L, INKC); lc.restore();   // the web only exists in the fill
-      lc.save(); lc.beginPath(); lc.rect(0, ly, S, S - ly); lc.clip(); drawWeb(lc, web, PAPER); drawHead(lc, HEAD_L, PAPER); lc.restore();
-      // Right: the tile's colour fills the frame, revealing the tile knocked out
-      // of it. Side by side it rises from the bottom; stacked (portrait), it
-      // pours in from the top, continuing the black draining down the frame
-      // above, and empties from the bottom up.
-      var stacked = portrait.matches, f0 = stacked ? 0 : S * (1 - rv), f1 = stacked ? S * rv : S;
-      rc.setTransform(dpr, 0, 0, dpr, 0, 0); rc.clearRect(0, 0, S, S);
-      rc.fillStyle = css(tile.fill); rc.fillRect(0, f0, S, f1 - f0);
-      rc.save(); rc.beginPath(); if (stacked) rc.rect(0, f1, S, S - f1); else rc.rect(0, 0, S, f0); rc.clip(); drawHead(rc, HEAD_R, INKC, true); rc.restore();
-      rc.save(); rc.beginPath(); rc.rect(0, f0, S, f1 - f0); rc.clip(); drawHead(rc, HEAD_R, PAPER, true);
-      rc.strokeStyle = css(PAPER, LINE_A); rc.lineWidth = LINE_W;
-      tile.edges.forEach(function(e){ var a = tile.pts[e[0]], b = tile.pts[e[1]]; rc.beginPath(); rc.moveTo(a.x * S, a.y * S); rc.lineTo(b.x * S, b.y * S); rc.stroke(); });
-      rc.fillStyle = css(PAPER);
-      tile.pts.forEach(function(p){ rc.beginPath(); rc.arc(p.x * S, p.y * S, dotR(), 0, TAU); rc.fill(); });
-      rc.restore();
-      requestAnimationFrame(frame);
-    }
-    function setRunning(on){ if (on && !running){ running = true; requestAnimationFrame(frame); } else if (!on) running = false; }
-
-    webs = WEBFORMS.map(function(form, i){ return buildWeb(form, 29 + i * 7); }); buildTiles(); fit();
-    if (window.ResizeObserver) new ResizeObserver(fit).observe(left); else window.addEventListener('resize', fit);
-    var seen = false;
-    new IntersectionObserver(function(es){ seen = es[0].isIntersecting; setRunning(seen && !document.hidden); }).observe(left);
-    document.addEventListener('visibilitychange', function(){ setRunning(seen && !document.hidden); });
-  })();
+  var TAU = Math.PI * 2;
 
   /* ---------- Sketch 3: one frame, a wall down the middle ----------
      The whole first screen is split in two: off-white on one side, a solid
@@ -1258,21 +695,50 @@
      left to right behind it, the next colour following right behind,
      while the next web appears. Dots, lines and type are ink on the
      off-white and paper on the colour. */
+  // Lines of a web: nearest neighbours, extra links, then clusters joined.
+  function linesFor(pts, r){
+    var n = pts.length, edges = [], has = {}, i, j, near = [];
+    function link(a, b){ var k = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[k]){ has[k] = 1; edges.push([a, b]); } }
+    for (i = 0; i < n; i++){ var row = []; for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pts[j].x - pts[i].x, pts[j].y - pts[i].y), j]); row.sort(function(a, b){ return a[0] - b[0]; }); near.push(row.map(function(o){ return o[1]; })); }
+    for (i = 0; i < n; i++) link(i, near[i][0]);
+    for (var k = 0; k < n * 0.9; k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 3)]); }
+    var group = []; for (i = 0; i < n; i++) group.push(i);
+    function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
+    edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
+    for (;;){
+      var best = null;
+      for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){ if (find(i) === find(j)) continue; var dd = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y); if (!best || dd < best.d) best = {i: i, j: j, d: dd}; }
+      if (!best) break;
+      link(best.i, best.j); group[find(best.i)] = find(best.j);
+    }
+    return edges;
+  }
+
   /* Sketch 4 is the same frame, but the web stays: copies of its dots cross
      the wall to build the shape while the web itself slowly morphs into the
      next one. Each new colour pours in from the left just before the next
      copies set off, chasing the last shape out to the right, so the right
      side is never bare after the first pour. */
   function wallSketch(canvas, copies){
-    if (!canvas || !TILESET) return;
+    if (!canvas) return;
     var frame = canvas.parentNode, bar = frame.querySelector('.s3-bar'), wm = bar.querySelector('.wm');
     var ctx = canvas.getContext('2d'), portrait = window.matchMedia('(orientation: portrait)');
     var PAPER = [241, 236, 226], INKC = [21, 21, 21], WALL = 0;
-    var APPEAR = 1400, WEBT = 2000, TRAVEL = 3600, HOLD = 2600, DRAIN = 1800, CYCLE = APPEAR + WEBT + TRAVEL + HOLD + DRAIN;
-    // The next web starts appearing on the off-white shortly after the dots
-    // have crossed, slowly at first, then faster, finishing just before the
-    // next colour has filled in. GROW: how long each dot takes to appear.
-    var SLIDE = 400, GROW = 500, EARLY = HOLD + DRAIN - 400, REGEN = EARLY - 150 - GROW;
+    // Timing, set by timing() for the current mode (Sketch 4 copies, or the
+    // Sketch 3 wipe). In Sketch 3 the next web starts appearing on the
+    // off-white shortly after the dots have crossed, slowly at first, then
+    // faster, finishing just before the next colour has filled in (EARLY,
+    // REGEN). GROW: how long each dot takes to appear. Sketch 4's own
+    // timing (LEAD … CYCLE4) is explained above frameCopies.
+    var APPEAR, WEBT, TRAVEL, HOLD, DRAIN, CYCLE, EARLY, REGEN, SLIDE = 400, GROW = 500;
+    var LEAD = 150, TRAVEL4 = 2600, HOLD4 = 1700, MORPH = 2400, POUR, INTRO, CYCLE4;
+    function timing(){
+      if (copies){ APPEAR = 1400; WEBT = 2000; TRAVEL = 3600; HOLD = 2600; DRAIN = 1800; }
+      else { APPEAR = 600; WEBT = 800; TRAVEL = 2000; HOLD = 1300; DRAIN = 1100; }   // Sketch 3: a cycle of about 5.8s
+      CYCLE = APPEAR + WEBT + TRAVEL + HOLD + DRAIN; EARLY = HOLD + DRAIN - 400; REGEN = EARLY - 150 - GROW;
+      POUR = DRAIN; INTRO = APPEAR + WEBT; CYCLE4 = LEAD + TRAVEL4 + HOLD4;
+    }
+    timing();
     var HEAD_L = 'I help experts\ntranslate what they know…', HEAD_R = 'for new audiences.';
     var Wd = 0, Ht = 0, dpr = 1, A, B, wallR, maLeft = 0, stacked = false, lastX = '', fs = 16, pad = 20, webCache = {}, morphCache = {}, tiles = [], W = null, start = performance.now(), running = false, seen = false;
 
@@ -1308,31 +774,21 @@
       [G(function(x, y){ return tri(-y, x); }), C.red],                                                        // triangle, pointing up
       [G(function(x, y){ return (ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x + y) <= 1.5) || Math.hypot(x + 4, y + 4) <= 2.4 || Math.hypot(x - 4, y - 4) <= 2.4; }), C.green, 3.4],  // percent
       [G(function(x, y){ y = Math.round(y); return ab(x) <= 5.5 && ((y >= -5 && y <= -2) || (y >= 1 && y <= 4)); }), C.blue]  // two bars, four rows each, two rows apart
-    ].concat(TILESET.rules.map(function(rule, i){ return [rule, C[['pink', 'red', 'yellow', 'blue', 'green', 'pink', 'red'][i]]]; }));
-    // (Colours are mixed up from the hero's, and no two shapes in a row share one, round the loop too.)
-    // The hero's ring (the sixth tile) is too thin to read as filled here: use a thick band.
-    SHAPES[SHAPES.length - 2][0] = G(function(x, y){ var r = Math.hypot(x, y); return r >= 2.5 && r <= 6.7; });
+    ].concat([
+      // Tiles from the original 5 x 5 Bauhaus reference (in -1 to 1 coordinates).
+      [function(x, y){ return Math.pow(ab(x), 2 / 3) + Math.pow(ab(y), 2 / 3) <= 1; }, C.pink],                                       // four-point star
+      [function(x, y){ return [[-.5, -.5], [.5, -.5], [-.5, .5], [.5, .5]].some(function(c){ return ab(x - c[0]) + ab(y - c[1]) <= 0.48; }); }, C.red],  // four diamonds
+      [function(x, y){ var a = Math.hypot(x, y + 1), b = Math.hypot(x, y - 1); return (a >= 0.36 && a <= 0.95) || (b >= 0.36 && b <= 0.95); }, C.yellow],  // facing arches
+      [function(x, y){ return Math.hypot(x, y) <= 0.95; }, C.blue],                                                                  // circle
+      [function(x, y){ return [[-.52, -.52], [.52, -.52], [0, 0], [-.52, .52], [.52, .52]].some(function(c){ return ab(x - c[0]) + ab(y - c[1]) <= 0.44; }); }, C.green],  // five diamonds
+      [G(function(x, y){ var r = Math.hypot(x, y); return r >= 2.5 && r <= 6.7; }), C.pink],                                       // ring, a thick band
+      [function(x, y){ return Math.hypot(x, y) <= 0.3 || [90, 30, 150].some(function(deg){ var a = deg * Math.PI / 180, along = x * Math.cos(a) + y * Math.sin(a), across = -x * Math.sin(a) + y * Math.cos(a); return ab(along) <= 0.95 && ab(across) <= 0.2; }); }, C.red]  // asterisk
+    ]);
+    wallSketch.shapes = SHAPES;   // shared with the contact section's wallpaper
+    // No two shapes in a row share a colour, round the loop too.
     // Each shape's colour, deepened where needed so paper reaches 3:1 on it.
     var fills = SHAPES.map(function(sh){ return sh[1]; }).map(function(c){ var f = c, t = 0; while (contrast(PAPER, f) < 3 && t < 1){ t += 0.02; f = mix(c, INKC, t); } return f; });
 
-    // Lines of a web: nearest neighbours, extra links, then clusters joined.
-    function linesFor(pts, r){
-      var n = pts.length, edges = [], has = {}, i, j, near = [];
-      function link(a, b){ var k = Math.min(a, b) + '-' + Math.max(a, b); if (a !== b && !has[k]){ has[k] = 1; edges.push([a, b]); } }
-      for (i = 0; i < n; i++){ var row = []; for (j = 0; j < n; j++) if (j !== i) row.push([Math.hypot(pts[j].x - pts[i].x, pts[j].y - pts[i].y), j]); row.sort(function(a, b){ return a[0] - b[0]; }); near.push(row.map(function(o){ return o[1]; })); }
-      for (i = 0; i < n; i++) link(i, near[i][0]);
-      for (var k = 0; k < n * 0.9; k++){ i = Math.floor(r() * n); link(i, near[i][1 + Math.floor(r() * 3)]); }
-      var group = []; for (i = 0; i < n; i++) group.push(i);
-      function find(x){ while (group[x] !== x) x = group[x] = group[group[x]]; return x; }
-      edges.forEach(function(e){ group[find(e[0])] = find(e[1]); });
-      for (;;){
-        var best = null;
-        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++){ if (find(i) === find(j)) continue; var dd = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y); if (!best || dd < best.d) best = {i: i, j: j, d: dd}; }
-        if (!best) break;
-        link(best.i, best.j); group[find(best.i)] = find(best.j);
-      }
-      return edges;
-    }
     // A shape's web: the shape turned, warped and blurred, scattered as dots
     // in the web area and joined loosely. It has one dot for each place in
     // the shape, and each dot goes to the place it stands for (closest pairs
@@ -1539,7 +995,6 @@
     // LEAD ms in. The first cycle starts after an intro in which the web
     // appears. Each web dot starts morphing into the next web as its copy
     // sets off, so the next pour can chase the shape out after a short hold.
-    var LEAD = 150, POUR = DRAIN, TRAVEL4 = 2600, HOLD4 = 1700, MORPH = 2400, INTRO = APPEAR + WEBT, CYCLE4 = LEAD + TRAVEL4 + HOLD4;
     function frameCopies(now){
       var T = now - start - INTRO, c = T < 0 ? 0 : Math.floor(T / CYCLE4), tp = T < 0 ? T : T % CYCLE4, k = c % tiles.length, t = now / 1000;
       var nt = tiles.length, t2 = LEAD, t3 = t2 + TRAVEL4;
@@ -1621,20 +1076,508 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
     new IntersectionObserver(function(es){ seen = es[0].isIntersecting; setRunning(seen && !document.hidden); }).observe(frame);
     document.addEventListener('visibilitychange', function(){ setRunning(seen && !document.hidden); });
+    // Switches between Sketch 4 and Sketch 3, starting the new one from the top.
+    return {toggle: function(){ copies = !copies; timing(); start = performance.now(); lastX = ''; return copies; }};
   }
-  wallSketch(document.getElementById('s4-canvas'), true);
-  wallSketch(document.getElementById('s3-canvas'), false);
+  (function(){
+    var hero = wallSketch(document.getElementById('s4-canvas'), true), tag = document.getElementById('sketch-toggle');
+    if (!hero || !tag) return;
+    tag.addEventListener('click', function(){
+      var four = hero.toggle();
+      tag.textContent = four ? 'Sketch 4' : 'Sketch 3';
+    });
+  })();
 
-  /* ---------- Case "mini" bridges: tangle on the left, clean line on the right ---------- */
-  document.querySelectorAll('svg.mini').forEach(function(m, n){
-    var r = rng(40 + n);
-    var pts = [];
-    for (var i = 0; i < 7; i++) pts.push([6 + r() * 44, 8 + r() * 54]);
-    el('polyline', {points: pts.map(function(p){ return p.join(','); }).join(' '), fill:'none', stroke:'#151515', 'stroke-width':1, opacity:.35}, m);
-    pts.forEach(function(p){ el('circle', {cx:p[0], cy:p[1], r:2.6, fill:'#151515', opacity:.55}, m); });
-    el('path', {class:'strand', d:'M50 35 H140', stroke:'#151515', 'stroke-width':2.5, fill:'none'}, m);
-    el('circle', {cx:50, cy:35, r:6, fill:'#d63a26'}, m);
-    el('circle', {cx:140, cy:35, r:6, fill:'#1f4fa3'}, m);
+  /* ---------- Section 01: from the web, through near misses, to the ring ---------- */
+  (function(){
+    var host = document.getElementById('story');
+    if (!host) return;
+    var NS = 'http://www.w3.org/2000/svg', W = 150, H = 100, S = 6.2, CX = 75, CY = 50;
+    // The ring, as in the hero: a thick band on the 15 x 15 grid.
+    var ring = [], at = {}, a, b;
+    for (a = -7; a <= 7; a++) for (b = -7; b <= 7; b++){ var d = Math.hypot(a, b); if (d >= 2.5 && d <= 6.7){ at[a + ',' + b] = ring.length; ring.push({a: a, b: b, u: a / 7, v: b / 7, x: CX + a * S, y: CY + b * S}); } }
+    var n = ring.length, ringEdges = [];
+    ring.forEach(function(p, i){ [[1, 0], [0, 1]].forEach(function(o){ var q = at[(p.a + o[0]) + ',' + (p.b + o[1])]; if (q !== undefined) ringEdges.push([i, q]); }); });
+    // The expert's web: built the way the hero builds the ring's web (the same
+    // seed, turn, warp and blur), fitted to this frame. Each dot belongs to the
+    // place in the ring it stands for.
+    var K = 18, r = rng(51 + K * 7);
+    var th = (r() < 0.5 ? -1 : 1) * (0.25 + r() * 0.4), cs = Math.cos(th), sn = Math.sin(th), ph = [r() * TAU, r() * TAU, r() * TAU, r() * TAU];
+    var aw = W - 20, ah = H - 16, sx = Math.min(aw / 2, ah / 2 * 1.6), sy = Math.min(ah / 2, aw / 2 * 1.6);
+    function inRing(u, v){ var dd = Math.hypot(u * 7, v * 7); return dd >= 2.5 && dd <= 6.7; }
+    function sample(){
+      var px = r() * 2 - 1, py = r() * 2 - 1, qx = px * 1.35, qy = py * 1.35, x = qx * cs - qy * sn, y = qx * sn + qy * cs;
+      var u = x + 0.17 * Math.sin(2.3 * y + ph[0]) + 0.07 * Math.sin(4.1 * x + ph[1]), v = y + 0.17 * Math.sin(2.0 * x + ph[2]) + 0.07 * Math.sin(3.7 * y + ph[3]);
+      var fu = u + (r() + r() - 1) * 0.1, fv = v + (r() + r() - 1) * 0.1;
+      if (Math.abs(fu) > 1.02 || Math.abs(fv) > 1.02 || !inRing(fu, fv)) return null;
+      return {x: CX + px * sx, y: CY + py * sy, u: u, v: v};
+    }
+    var hit = 0, i; for (i = 0; i < 3000; i++) if (sample()) hit++;
+    var minD = Math.sqrt(hit / 3000 * 4 * sx * sy / n) * 0.62, pts = [], tries = 0;
+    while (pts.length < n){ if (tries++ > 20000){ tries = 0; minD *= 0.85; } var p = sample(); if (p && pts.every(function(q){ return Math.hypot(q.x - p.x, q.y - p.y) > minD; })) pts.push(p); }
+    var pairs = [], usedD = {}, usedP = {}, src = [];
+    pts.forEach(function(dd, x){ ring.forEach(function(t, y){ pairs.push([Math.hypot(dd.u - t.u, dd.v - t.v), x, y]); }); });
+    pairs.sort(function(x, y){ return x[0] - y[0]; });
+    pairs.forEach(function(pr){ if (!usedD[pr[1]] && !usedP[pr[2]]){ usedD[pr[1]] = usedP[pr[2]] = 1; src[pr[2]] = pts[pr[1]]; } });
+    function near(pos, extra){
+      var e = [], has = {};
+      pos.forEach(function(p, i){
+        var dd = pos.map(function(q, j){ return [Math.hypot(q.x - p.x, q.y - p.y), j]; }).filter(function(o){ return o[1] !== i; }).sort(function(x, y){ return x[0] - y[0]; });
+        for (var k = 0; k < extra; k++){ var j = dd[k][1], key = Math.min(i, j) + '-' + Math.max(i, j); if (!has[key]){ has[key] = 1; e.push([i, j]); } }
+      });
+      return e;
+    }
+    function jitter(p, amt, rr){ return {x: p.x + (rr() - .5) * amt, y: p.y + (rr() - .5) * amt}; }
+    function pick(list){ var o = {}; list.forEach(function(i){ o[i] = 1; }); return o; }
+    var webEdges = linesFor(src, rng(200 + K)), denseEdges = near(src, 6), rg = function(i){ return ring[i]; }, wb = function(i){ return src[i]; };
+    var rIn = rng(5), rOut = rng(13), rNear = rng(8), rCut = rng(21);
+    // Inside out: the dots crowd into the middle the ring should leave open.
+    var inside = []; for (a = -4; a <= 4; a++) for (b = -4; b <= 4; b++) if (Math.hypot(a, b) <= 4.3) inside.push({x: CX + a * S, y: CY + b * S});
+    // Kept everything: every near link, plus lines straight across the hole.
+    var cx0 = 0, cy0 = 0; src.forEach(function(p){ cx0 += p.x / n; cy0 += p.y / n; });
+    var angle = src.map(function(p){ return Math.atan2(p.y - cy0, p.x - cx0); }), across = [];
+    for (var t = 0; t < 14; t++){
+      // a chord, not a diameter: aimed a little off the far side, so the lines cross the hole at different places
+      var i1 = Math.floor(rIn() * n), aim = angle[i1] + Math.PI + (rIn() - .5) * 1.8;
+      var opp = src.map(function(p, j){ var dd = Math.abs(((angle[j] - aim) % TAU + TAU + Math.PI) % TAU - Math.PI); return [dd, j]; }).sort(function(x, y){ return x[0] - y[0]; });
+      across.push([i1, opp[0][1]]);
+    }
+    // Lost the point: three small clusters of the web, far apart, everything else gone.
+    var clusters = {}; [[CX - 46, CY - 22], [CX + 8, CY + 26], [CX + 50, CY - 14]].forEach(function(c){
+      src.map(function(p, j){ return [Math.hypot(p.x - c[0], p.y - c[1]), j]; }).sort(function(x, y){ return x[0] - y[0]; }).slice(0, 7).forEach(function(o){ clusters[o[1]] = 1; }); });
+    // Their jargon: dots that read differently (open rings), some dots gone,
+    // and a bite out of the silhouette, so it's never quite the ring.
+    var odd = {}, kept = {};
+    ring.forEach(function(p, j){
+      var ang = Math.atan2(p.b, p.a);
+      if ((ang > 0.5 && ang < 1.1 && Math.hypot(p.a, p.b) > 5.2) || rOut() < 0.1) return;
+      kept[j] = 1; if (rOut() < 0.12) odd[j] = 1;
+    });
+    // Lost them halfway: an uneven cut, with the dots near it half settled.
+    function edge(p){ return 1.6 * Math.sin(p.b * 0.6 + 0.8) + 0.4 * Math.sin(p.b * 1.7) - 0.3; }
+    function settled(p){ return p.a < edge(p); }
+    var mid = ring.map(function(p){ return Math.abs(p.a - edge(p)) < 1.2; });
+    // Nearly: a few dots astray.
+    var astray = pick([3, 19, 36, 58, 71, 90, 104]);
+    // Oversimplified: a handful of big dots standing in for the whole web, a
+    // shape you'd recognise but not quite the same one.
+    var simple = [], simpleEdges = [], rS = rng(17);
+    (function(){
+      var mx = 0, my = 0; src.forEach(function(p){ mx += p.x / n; my += p.y / n; });
+      var SLICES = 14, rim = [];
+      for (var k = 0; k < SLICES; k++){   // the web's typical reach in each slice around the loop
+        var lo = -Math.PI + k * TAU / SLICES, hi = lo + TAU / SLICES;
+        var inSlice = src.filter(function(p){ var t = Math.atan2(p.y - my, p.x - mx); return t >= lo && t < hi; });
+        var dx = 0, dy = 0; inSlice.forEach(function(p){ dx += (p.x - mx) / inSlice.length; dy += (p.y - my) / inSlice.length; });
+        rim.push(inSlice.length ? {x: dx, y: dy} : null);
+      }
+      rim = rim.map(function(v, k){ return v || rim[(k + 1) % SLICES] || rim[(k + SLICES - 1) % SLICES]; });
+      // Smooth the reach with its neighbours, so the far ends round off instead of coming to points.
+      rim = rim.map(function(v, k){ var a = rim[(k + SLICES - 1) % SLICES], b = rim[(k + 1) % SLICES]; return {x: (a.x + 2 * v.x + b.x) / 4, y: (a.y + 2 * v.y + b.y) / 4}; });
+      // Pull it partway towards a plain oval of the same width and height: still the web's silhouette, simplified.
+      var rx = Math.max.apply(null, rim.map(function(v){ return Math.abs(v.x); })), ry = Math.max.apply(null, rim.map(function(v){ return Math.abs(v.y); }));
+      rim = rim.map(function(v, k){ var t = -Math.PI + (k + .5) * TAU / SLICES; return {x: v.x * .6 + Math.cos(t) * rx * .4, y: v.y * .6 + Math.sin(t) * ry * .4}; });
+      // The web runs a little longer and narrower on its left: stretch that end out and pinch it in.
+      rim = rim.map(function(v){ if (v.x >= 0) return v; var w = Math.pow(-v.x / rx, 2); return {x: v.x * (1 + .22 * w), y: v.y * (1 - .32 * w)}; });
+      // An outer and an inner loop of big dots, a thick band like the web's, a little off true.
+      rim.forEach(function(v){ simple.push(jitter({x: mx + v.x * 1.18, y: my + v.y * 1.18}, 4, rS)); });
+      rim.forEach(function(v, k){ if (k % 2 === 0) simple.push(jitter({x: mx + v.x * 0.62, y: my + v.y * 0.62}, 4, rS)); });
+      var inner = SLICES / 2;
+      for (k = 0; k < SLICES; k++) simpleEdges.push([k, (k + 1) % SLICES]);   // outer loop
+      for (k = 0; k < inner; k++){ simpleEdges.push([SLICES + k, SLICES + (k + 1) % inner]); simpleEdges.push([2 * k, SLICES + k]); }   // inner loop and spokes
+      simpleEdges.push([3, SLICES + 4], [10, SLICES + 1]);   // a couple of lines across, as the web has
+    })();
+    // Tidy, not clear: neat rows of uneven length, like a slide full of bullet points.
+    var ROWS = [15, 12, 14, 9, 15, 11, 13, 8, 14], ragged = [0, 2, 1, 3, 0, 2, 1, 3, 1, 0], rowAt = [];   // ragged: each row starts a little further in or out
+    ROWS.forEach(function(len, row){ for (var c = 0; c < len && rowAt.length < n; c++) rowAt.push([row, c]); });
+    for (var extra = 0; rowAt.length < n; extra++) rowAt.push([ROWS.length, extra]);   // any dots left over start a last row
+    // ---- Every picture as the same dots: where each one is, how visible, how big, open or solid ----
+    function state(posFn, opts){
+      opts = opts || {};
+      var st = {x: [], y: [], a: [], r: [], h: [], edges: opts.edges || [], drift: opts.drift || 0};
+      for (var i = 0; i < n; i++){
+        var p = posFn(i); st.x.push(p.x); st.y.push(p.y);
+        st.a.push(opts.show ? (opts.show[i] ? 1 : 0) : 1); st.r.push(1); st.h.push(opts.odd && opts.odd[i] ? 1 : 0);
+      }
+      return st;
+    }
+    var fixed = function(fn){ var cache = []; for (var i = 0; i < n; i++) cache.push(fn(i)); return function(i){ return cache[i]; }; };
+    var rowEdges = []; for (i = 1; i < n; i++) if (rowAt[i][0] === rowAt[i - 1][0]) rowEdges.push([i - 1, i]);
+    // Oversimplified: every dot moves onto one of the few big ones; one dot per big one stays visible.
+    var repOf = [], isRep = {}, taken = {};
+    simple.forEach(function(q, k){ var best = -1, bd = 1e9; src.forEach(function(p, j){ if (taken[j]) return; var d2 = Math.hypot(p.x - q.x, p.y - q.y); if (d2 < bd){ bd = d2; best = j; } }); taken[best] = 1; isRep[best] = k; repOf[k] = best; });
+    var simpleAt = src.map(function(p, j){ if (isRep[j] !== undefined) return isRep[j]; var best = 0, bd = 1e9; simple.forEach(function(q, k){ var d2 = Math.hypot(p.x - q.x, p.y - q.y); if (d2 < bd){ bd = d2; best = k; } }); return best; });
+    var COMPS = {
+      web: state(wb, {edges: webEdges, drift: 1}),
+      f1: state(wb, {edges: denseEdges.concat(across), drift: .6}),   // stay in the weeds
+      f2: state(wb, {show: clusters, edges: webEdges.concat(near(src, 3))}),   // leave big gaps
+      f3: state(fixed(function(i){ return jitter(inside[i % inside.length], 5, rIn); })),   // cover what it's not
+      f4: state(rg, {show: kept, edges: ringEdges, odd: odd}),   // use jargon
+      f5: state(fixed(function(i){ var p = ring[i]; if (settled(p)) return mid[i] ? jitter(p, 4, rCut) : p; return mid[i] ? {x: (p.x + src[i].x) / 2, y: (p.y + src[i].y) / 2} : src[i]; }),
+                {edges: ringEdges.filter(function(e){ return settled(ring[e[0]]) && settled(ring[e[1]]) && !mid[e[0]] && !mid[e[1]]; }).concat(webEdges.filter(function(e){ return !settled(ring[e[0]]) && !settled(ring[e[1]]); }))}),   // look to the future
+      f6: state(function(i){ var row = rowAt[i][0]; return {x: CX - 44 + (ragged[row] + rowAt[i][1]) * 6.2, y: CY - 32 + row * 7.6}; }, {edges: rowEdges}),   // ignore the through line
+      f7: state(fixed(function(i){ return astray[i] ? jitter(ring[i], 30, rNear) : ring[i]; }), {edges: ringEdges.filter(function(e){ return !astray[e[0]] && !astray[e[1]]; })}),   // rush through the story
+      f9: (function(){   // zoom in too far: a close crop of the web that runs off the edges; the bottom strip is kept clear for the label
+        var Zc = 2.7, fx = CX - 34, fy = CY - 8;
+        var st = state(function(i){ return {x: CX + (src[i].x - fx) * Zc, y: CY + (src[i].y - fy) * Zc}; }, {edges: webEdges});
+        for (var i = 0; i < n; i++){ st.a[i] = st.y[i] < H - 16 ? 1 : 0; st.r[i] = 1.6; }
+        return st;
+      })(),
+      f10: (function(){   // answer a different question: the dots make a clean shape, just not this one
+        var tri = [], at2 = {};
+        for (var a3 = -5; a3 <= 6; a3++) for (var b3 = -6; b3 <= 6; b3++) if (Math.abs(b3) <= Math.ceil((6 - a3) / 2)){ at2[a3 + ',' + b3] = tri.length; tri.push([a3, b3]); }
+        var st = state(function(i){ var q = tri[i % tri.length]; return {x: CX + q[0] * S, y: CY + q[1] * S}; });
+        for (var i = 0; i < n; i++) st.a[i] = i < tri.length ? 1 : 0;
+        tri.forEach(function(q, i){ [[1, 0], [0, 1]].forEach(function(o){ var j2 = at2[(q[0] + o[0]) + ',' + (q[1] + o[1])]; if (j2 !== undefined) st.edges.push([i, j2]); }); });
+        return st;
+      })(),
+      f8: (function(){   // oversimplify
+        var st = state(function(i){ return simple[simpleAt[i]]; }, {edges: simpleEdges.map(function(e){ return [repOf[e[0]], repOf[e[1]]]; })});
+        for (var i = 0; i < n; i++){ st.a[i] = isRep[i] !== undefined ? 1 : 0; st.r[i] = 2.2; }
+        return st;
+      })()
+    };
+
+    // ---- Drawing ----
+    var art = host.querySelector('.st-art'), canvas = art.querySelector('canvas'), ctx = canvas.getContext('2d');
+    var cssv = getComputedStyle(document.documentElement);
+    function rgbOf(name){ var c = document.createElement('canvas').getContext('2d'); c.fillStyle = cssv.getPropertyValue(name).trim(); var hx = c.fillStyle; return [parseInt(hx.slice(1, 3), 16), parseInt(hx.slice(3, 5), 16), parseInt(hx.slice(5, 7), 16)]; }
+    var INKc = rgbOf('--ink'), PAPc = rgbOf('--paper'), GHOST = INKc.map(function(v, k){ return Math.round(PAPc[k] + (v - PAPc[k]) * 0.24); });
+    function rgba(c, al){ return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + al + ')'; }
+    var Wpx = 0, Hpx = 0, dpr = 1, k0 = 1;
+    function size(){ var r2 = art.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); Wpx = r2.width; Hpx = r2.height; canvas.width = Math.round(Wpx * dpr); canvas.height = Math.round(Hpx * dpr); k0 = Math.min(Wpx / W, Hpx / H); }
+    // Each dot drifts slowly on its own small loop.
+    var drift = src.map(function(_, i){ var rr = rng(500 + i); return [rr() * TAU, rr() * TAU, .25 + rr() * .35, .2 + rr() * .3]; });
+
+    // The build grows the way knowledge does: from one idea outward, each new
+    // dot reached by a line threaded from a dot already there; then the other
+    // connections fill in between dots that are both in place.
+    var nbr = src.map(function(){ return []; }); webEdges.forEach(function(e){ nbr[e[0]].push(e[1]); nbr[e[1]].push(e[0]); });
+    var rb = rng(31), arrive = [], parent = [], got = {}, frontier = [], tt = 0;
+    function reach(j, from){ got[j] = 1; parent[j] = from; arrive[j] = tt; nbr[j].forEach(function(q){ if (!got[q] && frontier.indexOf(q) < 0) frontier.push(q); }); }
+    var seed = src.reduce(function(best, p, j){ return p.x < src[best].x ? j : best; }, 0);   // start at the left end
+    reach(seed, -1); tt += 500;
+    while (frontier.length){
+      var batch = rb() < 0.35 ? 2 : 1;
+      for (var q = 0; q < batch && frontier.length; q++){
+        var pickAt = Math.floor(rb() * Math.min(frontier.length, 6)), j = frontier.splice(pickAt, 1)[0];   // mostly the oldest open ends: it spreads, rather than racing off in one direction
+        var from = nbr[j].filter(function(x){ return got[x]; }); reach(j, from[Math.floor(rb() * from.length)]);
+      }
+      tt += 70 + rb() * 60;
+    }
+    for (var u = 0; u < n; u++) if (!got[u]){ reach(u, -1); tt += 60; }   // anything not joined to the rest
+    var THREAD = 380, BUILD = tt + 900, buildStart = null;
+    var isTree = {}; parent.forEach(function(p2, j2){ if (p2 >= 0) isTree[Math.min(p2, j2) + '-' + Math.max(p2, j2)] = 1; });
+
+    // The morph between pictures: each dot travels on its own slightly
+    // staggered clock; dots that aren't needed shrink away, new ones grow in;
+    // the old lines let go first and the new ones thread in at the end.
+    var cur = 'web', from = null, to = COMPS.web, mStart = 0, MORPH = reduce ? 0 : 1150, STAGGER = reduce ? 0 : 320;
+    var lag = src.map(function(p){ return (p.x - CX) / W + .5; });   // left to right
+    var shown = {x: to.x.slice(), y: to.y.slice(), a: to.a.slice(), r: to.r.slice(), h: to.h.slice(), drift: 1};
+    function setComp(key){
+      if (!COMPS[key] || key === cur) return;
+      if (buildStart === null || performance.now() - buildStart < BUILD) buildStart = performance.now() - BUILD;   // finish the build at once
+      from = {x: shown.x.slice(), y: shown.y.slice(), a: shown.a.slice(), r: shown.r.slice(), h: shown.h.slice(), drift: shown.drift, edges: to.edges, key: cur};
+      to = COMPS[key]; cur = key; mStart = performance.now();
+      buttons.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-c') === key ? 'true' : 'false'); });
+      wake();
+    }
+
+    function frameDraw(now){
+      var t = now / 1000, el2 = now - mStart, kAll = MORPH ? clamp(el2 / MORPH) : 1, i;
+      if (from){
+        for (i = 0; i < n; i++){
+          var ki = MORPH ? ease(clamp((el2 - lag[i] * STAGGER) / (MORPH - STAGGER))) : 1;
+          shown.x[i] = lerp(from.x[i], to.x[i], ki); shown.y[i] = lerp(from.y[i], to.y[i], ki);
+          shown.a[i] = lerp(from.a[i], to.a[i], ki); shown.r[i] = lerp(from.r[i], to.r[i], ki); shown.h[i] = ki < .5 ? from.h[i] : to.h[i];
+        }
+        shown.drift = lerp(from.drift, to.drift, ease(kAll));
+        if (kAll >= 1) from = null;
+      }
+      var webness = cur === 'web' ? (from ? ease(kAll) : 1) : (from && from.key === 'web' ? 1 - ease(clamp(kAll * 2.5)) : 0);
+      var since = buildStart === null ? -1 : now - buildStart, building = cur === 'web' && !from && since < BUILD;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, Wpx, Hpx);
+      var ox = (Wpx - W * k0) / 2, oy = (Hpx - H * k0) / 2;
+      function X(v){ return ox + v * k0; } function Y(v){ return oy + v * k0; }
+      var px = [], py = [];
+      for (i = 0; i < n; i++){ var d = drift[i], m = reduce ? 0 : shown.drift; px.push(shown.x[i] + m * 1.1 * Math.sin(t * d[2] + d[0])); py.push(shown.y[i] + m * 1.1 * Math.sin(t * d[3] + d[1])); }
+      var R = 1.45 * k0;
+      function line(i1, i2, col, reachFr){ var ax = X(px[i1]), ay = Y(py[i1]), bx = X(px[i2]), by = Y(py[i2]); ctx.strokeStyle = col; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ax + (bx - ax) * reachFr, ay + (by - ay) * reachFr); ctx.stroke(); }
+      ctx.lineWidth = .7 * k0;
+      // The map in a tone a little darker than the page: there from the start, moving slowly.
+      if (webness > 0.01){
+        webEdges.forEach(function(e){ line(e[0], e[1], rgba(GHOST, webness), 1); });
+        ctx.fillStyle = rgba(GHOST, webness);
+        for (i = 0; i < n; i++){ ctx.beginPath(); ctx.arc(X(px[i]), Y(py[i]), R, 0, TAU); ctx.fill(); }
+      }
+      // Lines in ink.
+      var INKL = rgba(INKc, .45);
+      if (cur === 'web' && !from){
+        to.edges.forEach(function(e){
+          var a1 = arrive[e[0]], a2 = arrive[e[1]], tree = isTree[Math.min(e[0], e[1]) + '-' + Math.max(e[0], e[1])];
+          if (!building){ line(e[0], e[1], INKL, 1); return; }
+          if (tree){   // threaded out from the dot already there to the one arriving
+            var newer = a1 > a2 ? e[0] : e[1], older = newer === e[0] ? e[1] : e[0], fr = clamp((since - (arrive[newer] - THREAD)) / THREAD);
+            if (fr > 0) line(older, newer, INKL, ease(fr));
+          } else {     // a connection filled in once both ends are there
+            var fr2 = clamp((since - Math.max(a1, a2) - 250) / 500);
+            if (fr2 > 0) line(a1 < a2 ? e[0] : e[1], a1 < a2 ? e[1] : e[0], INKL, ease(fr2));
+          }
+        });
+      } else {
+        var out = from ? 1 - clamp(el2 / (MORPH * .3)) : 0, inFr = from ? clamp((el2 - MORPH * .55) / (MORPH * .45)) : 1;
+        if (out > 0) from.edges.forEach(function(e){ if (Math.min(from.a[e[0]], from.a[e[1]]) > .5) line(e[0], e[1], rgba(INKc, .45 * out), 1); });
+        if (inFr > 0) to.edges.forEach(function(e){ if (Math.min(to.a[e[0]], to.a[e[1]]) > .5) line(e[0], e[1], INKL, ease(inFr)); });
+      }
+      // Dots in ink: solid, never half-transparent; size carries arriving and leaving.
+      for (i = 0; i < n; i++){
+        var g = building ? clamp((since - arrive[i]) / 220) : 1, vis = shown.a[i] * (building ? ease(g) : 1);
+        if (vis < 0.02) continue;
+        var rr = R * shown.r[i] * vis, hol = shown.h[i];
+        ctx.beginPath(); ctx.arc(X(px[i]), Y(py[i]), rr * (1 + .3 * hol), 0, TAU);
+        if (hol > 0.5){ ctx.fillStyle = rgba(PAPc, 1); ctx.fill(); ctx.lineWidth = .7 * k0; ctx.strokeStyle = rgba(INKc, 1); ctx.stroke(); }
+        else { ctx.fillStyle = rgba(INKc, 1); ctx.fill(); }
+      }
+    }
+
+    // Runs only while the graphic is on screen.
+    var running = false, onScreen = false;
+    function loop(now){ if (!running) return; frameDraw(now); requestAnimationFrame(loop); }
+    function wake(){ if (onScreen && !running){ running = true; requestAnimationFrame(loop); } }
+    size(); window.addEventListener('resize', function(){ size(); frameDraw(performance.now()); });
+    var seen = new IntersectionObserver(function(es){
+      onScreen = es[0].isIntersecting;
+      if (onScreen && buildStart === null && es[0].intersectionRatio > 0.5) buildStart = reduce ? performance.now() - BUILD : performance.now();
+      if (onScreen) wake(); else running = false;
+    }, {threshold: [0, 0.5, 0.75]});
+    seen.observe(art);
+    frameDraw(performance.now());
+
+    // ---- The list: hover, focus or tap an item to see the map turn into that mistake ----
+    // The picture stays while the pointer moves over to look at it; it turns
+    // back into the map when the pointer leaves this part of the section.
+    var list = host.querySelector('.st-list ul'), buttons = Array.prototype.slice.call(list.querySelectorAll('button'));
+    buttons.forEach(function(b){
+      b.addEventListener('mouseenter', function(){ setComp(b.getAttribute('data-c')); });
+      b.addEventListener('focus', function(){ setComp(b.getAttribute('data-c')); });
+      b.addEventListener('click', function(){ setComp(cur === b.getAttribute('data-c') && !matchMedia('(hover: hover)').matches ? 'web' : b.getAttribute('data-c')); });
+    });
+    host.addEventListener('mouseleave', function(){ setComp('web'); });
+    list.addEventListener('focusout', function(e){ if (!list.contains(e.relatedTarget)) setComp('web'); });
+
+    // ---- Sketch 2 ----
+    var host2 = document.getElementById('story2');
+    if (host2){
+      // The bad explanations, drawn still from the same pictures.
+      host2.querySelectorAll('.s2-tile').forEach(function(fig){
+        var st2 = COMPS[fig.getAttribute('data-c')], svg = el2('svg', {viewBox: '0 0 ' + W + ' ' + H});
+        var gl = el2('g', {stroke: 'var(--ink)', 'stroke-opacity': .4, 'stroke-width': .7}, svg), gc = el2('g', {fill: 'var(--ink)'}, svg);
+        st2.edges.forEach(function(e){ if (st2.a[e[0]] > .5 && st2.a[e[1]] > .5) el2('line', {x1: st2.x[e[0]], y1: st2.y[e[0]], x2: st2.x[e[1]], y2: st2.y[e[1]]}, gl); });
+        for (var i2 = 0; i2 < n; i2++){
+          if (st2.a[i2] < .5) continue;
+          if (st2.h[i2] > .5) el2('circle', {cx: st2.x[i2], cy: st2.y[i2], r: 1.9, fill: 'var(--paper-2)', stroke: 'var(--ink)', 'stroke-width': .7}, gc);
+          else el2('circle', {cx: st2.x[i2], cy: st2.y[i2], r: 1.45 * st2.r[i2]}, gc);
+        }
+        fig.querySelector('.s2-art').appendChild(svg);
+      });
+      // Beside the middle headline: the web and the finished ring, small, with an arrow between.
+      var ends = host2.querySelector('.s2-ends');
+      if (ends){
+        var esv = el2('svg', {viewBox: '0 0 360 100'}), gW = el2('g', {}, esv), gR = el2('g', {transform: 'translate(210 0)'}, esv);
+        [[gW, src, webEdges], [gR, ring, ringEdges]].forEach(function(o){
+          var gl2 = el2('g', {stroke: 'var(--ink)', 'stroke-opacity': .45, 'stroke-width': 1}, o[0]), gc2 = el2('g', {fill: 'var(--ink)'}, o[0]);
+          o[2].forEach(function(e){ el2('line', {x1: o[1][e[0]].x, y1: o[1][e[0]].y, x2: o[1][e[1]].x, y2: o[1][e[1]].y}, gl2); });
+          o[1].forEach(function(p){ el2('circle', {cx: p.x, cy: p.y, r: 1.8}, gc2); });
+        });
+        el2('path', {d: 'M160 50H198M191 44L198 50L191 56', fill: 'none', stroke: 'var(--ink)', 'stroke-width': 1.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, esv);
+        ends.appendChild(esv);
+      }
+      // Three colour blocks, one clean shape each, drawn as the hero draws them.
+      var SHAPE = {
+        plus: function(a, b){ return (Math.abs(a) <= 2 && Math.abs(b) <= 6) || (Math.abs(b) <= 2 && Math.abs(a) <= 6); },
+        minus: function(a, b){ return Math.abs(b) <= 2 && Math.abs(a) <= 6; },   // the plus's crossbar on its own
+        tri: function(a, b){ return a >= -5 && a <= 6 && Math.abs(b) <= Math.ceil((6 - a) / 2); }
+      };
+      host2.querySelectorAll('.s2-block').forEach(function(blk){
+        var rule = SHAPE[blk.getAttribute('data-shape')], svg = el2('svg', {viewBox: '0 0 ' + W + ' ' + H}), here = {}, pts2 = [];
+        for (var a2 = -7; a2 <= 7; a2++) for (var b2 = -7; b2 <= 7; b2++) if (rule(a2, b2)){ here[a2 + ',' + b2] = 1; pts2.push([a2, b2]); }
+        var gl = el2('g', {stroke: 'var(--paper)', 'stroke-opacity': .55, 'stroke-width': .7}, svg), gc = el2('g', {fill: 'var(--paper)'}, svg);
+        pts2.forEach(function(p){
+          [[1, 0], [0, 1]].forEach(function(o){ if (here[(p[0] + o[0]) + ',' + (p[1] + o[1])]) el2('line', {x1: CX + p[0] * S, y1: CY + p[1] * S, x2: CX + (p[0] + o[0]) * S, y2: CY + (p[1] + o[1]) * S}, gl); });
+          el2('circle', {cx: CX + p[0] * S, cy: CY + p[1] * S, r: 1.45}, gc);
+        });
+        blk.appendChild(svg);
+      });
+      // The banner: one big dot from the map, close up, with a line out of each side.
+      var zbox = host2.querySelector('.s2-zoom'), zc = zbox.querySelector('canvas'), zx = zc.getContext('2d'), zW = 0, zH = 0, zd = 1;
+      function zsize(){ var r3 = zc.getBoundingClientRect(); zd = Math.min(2, window.devicePixelRatio || 1); zW = r3.width; zH = r3.height; zc.width = Math.round(zW * zd); zc.height = Math.round(zH * zd); }
+      function zdraw(){   // still: one big dot, centred, with a thin line falling away to each side
+        var cx = zW / 2, cy = zH / 2, rad = zH * 0.45;
+        zx.setTransform(zd, 0, 0, zd, 0, 0); zx.clearRect(0, 0, zW, zH);
+        zx.lineWidth = 1; zx.strokeStyle = rgba(INKc, .45);
+        zx.beginPath(); zx.moveTo(-2, zH * 0.9); zx.lineTo(cx, cy); zx.lineTo(zW + 2, zH * 0.68); zx.stroke();   // both fall away from the dot, the left more steeply
+        zx.fillStyle = rgba(INKc, 1); zx.beginPath(); zx.arc(cx, cy, rad, 0, TAU); zx.fill();
+      }
+      zsize(); zdraw(); window.addEventListener('resize', function(){ zsize(); zdraw(); });
+    }
+    function el2(name, attrs, parent){ var e = document.createElementNS('http://www.w3.org/2000/svg', name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+
+    // ---- Switching between the section's two sketches ----
+    var obsToggle = document.getElementById('obs-toggle');
+    if (obsToggle && host2) obsToggle.addEventListener('click', function(){
+      var showTwo = host2.hidden;
+      host2.hidden = !showTwo; host.hidden = showTwo;
+      obsToggle.textContent = showTwo ? 'Sketch 2' : 'Sketch 1';
+      window.dispatchEvent(new Event('resize'));
+    });
+  })();
+
+  /* ---------- The contact headline's wallpaper: the hero's shapes in miniature ---------- */
+  /* Each shape is drawn from its 15 x 15 dot grid, small, on a square grid of cells. Shapes are placed so the
+     same one repeats as far away as the grid allows, and cells near the headline are left empty. */
+  document.querySelectorAll('.wallpaper').forEach(function(box){
+    var cv = box.querySelector('canvas'), cx = cv.getContext('2d'), h = box.querySelector('h2');
+    var shapes = (wallSketch.shapes || []).map(function(sh){
+      var rule = sh[0], pts = [];
+      for (var j = -7; j <= 7; j++) for (var i = -7; i <= 7; i++) if (rule(i / 7, j / 7)) pts.push([i, j]);
+      return pts;
+    });
+    var N = shapes.length;
+    if (!N) return;
+    /* The step k for which index = (col + k * row) mod N puts repeats of a shape farthest apart. */
+    var bestK = 1, bestD = 0;
+    for (var k = 1; k < N; k++){
+      var dmin = Infinity;
+      for (var dr = 0; dr < N; dr++) for (var dc = -N; dc <= N; dc++){
+        if (!dr && dc <= 0) continue;
+        if (((dc + k * dr) % N + N) % N === 0) dmin = Math.min(dmin, Math.hypot(dc, dr));
+      }
+      if (dmin > bestD){ bestD = dmin; bestK = k; }
+    }
+    function draw(){
+      var Wv = document.documentElement.clientWidth, dpr = Math.min(2, window.devicePixelRatio || 1);
+      var pitch = Wv < 700 ? 3 : 4, cell = pitch * 22, half = pitch * 7, dot = pitch * 0.36, ROWS = 2;
+      /* The box is sized so the headline sits in the middle row, with two full rows above and below,
+         and its top and bottom edges fall in the gaps between rows. */
+      var th = h.offsetHeight;
+      box.style.paddingBlock = Math.max(0, (ROWS + 0.5) * cell - th / 2) + 'px';
+      var r = box.getBoundingClientRect(), Hb = r.height;
+      cv.style.left = -r.left + 'px'; cv.style.width = Wv + 'px';
+      cv.width = Math.round(Wv * dpr); cv.height = Math.round(Hb * dpr);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, Wv, Hb);
+      /* Keep clear of the headline's lines: a little room above and below, more at the ends. */
+      var rg = document.createRange(), clear = [];
+      rg.selectNodeContents(h);
+      Array.prototype.forEach.call(rg.getClientRects(), function(q){
+        clear.push({l: q.left - cell * 0.3, r: q.right + cell * 0.3, t: q.top - r.top - pitch * 3, b: q.bottom - r.top + pitch * 3});
+      });
+      var midX = r.left + r.width / 2, midY = Hb / 2;   // a cell is centred on the headline
+      var c0 = -Math.ceil(midX / cell) - 1, c1 = Math.ceil((Wv - midX) / cell) + 1, r0 = -ROWS - 1, r1 = ROWS + 1;
+      cx.fillStyle = getComputedStyle(box).color;
+      cx.globalAlpha = 0.32;
+      for (var row = r0; row <= r1; row++) for (var col = c0; col <= c1; col++){
+        var x = midX + col * cell, y = midY + row * cell;
+        if (clear.some(function(c){ return x + half > c.l && x - half < c.r && y + half > c.t && y - half < c.b; })) continue;
+        var pts = shapes[((col + bestK * row) % N + N * 1000) % N];
+        cx.beginPath();
+        pts.forEach(function(p){ cx.moveTo(x + p[0] * pitch + dot, y + p[1] * pitch); cx.arc(x + p[0] * pitch, y + p[1] * pitch, dot, 0, TAU); });
+        cx.fill();
+      }
+      cx.globalAlpha = 1;
+    }
+    draw();
+    window.addEventListener('resize', draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  });
+
+  /* ---------- Section 02's headline: two solid triangles ---------- */
+  document.querySelectorAll('h2.zline').forEach(function(h){
+    var cv = h.querySelector('canvas'), cx2 = cv.getContext('2d');
+    function draw(){
+      var zb = h.querySelector('.zl-b'), za = h.querySelector('.zl-a'), rg = document.createRange();
+      var em = parseFloat(getComputedStyle(h).fontSize), Wz = document.documentElement.clientWidth;
+      /* Start from the CSS proportions; the script then sizes the box to the triangles. */
+      h.style.height = ''; h.style.aspectRatio = ''; h.style.removeProperty('--base');
+      var r4 = h.getBoundingClientRect(), H0 = r4.height, base0 = H0 * 0.53, mid = r4.left + r4.width / 2;   // the tips meet at the headline's centre
+
+      /* First choice: the second half knocked out of the blue triangle, on the first half's baseline, out toward the window's edge
+         (one gutter in), where the triangle is tallest. Each triangle is just tall enough to hold that line (the same fit at every
+         width); where it would have to be taller than the graphic allows (phones, small tablets), the line falls back to sitting
+         below, in ink, and the triangles keep three quarters of their old height. */
+      var wr = h.closest('.wrap'), edgeRight = Wz - parseFloat(getComputedStyle(wr).paddingRight);
+      zb.style.left = zb.style.width = zb.style.textAlign = '';
+      h.classList.add('zl-in');
+      zb.style.right = (r4.right - edgeRight) + 'px';
+      rg.selectNodeContents(zb);
+      var need = 0;
+      Array.prototype.forEach.call(rg.getClientRects(), function(q){
+        var frac = (q.left - mid) / (Wz - mid);   // how far along the slope the line starts
+        var height = base0 - (q.top - r4.top) + em * 0.15;   // the triangle's height needed there
+        need = Math.max(need, frac > 0 ? height / frac : Infinity);   // the peak height that gives it
+      });
+      var inside = need <= base0, T;
+      if (inside) T = need;
+      else {
+        h.classList.remove('zl-in'); zb.style.right = '';
+        T = (H0 - base0) * 0.75;
+        /* The fallback: the second half sits below the triangle in ink, flush right with its full stop hung past the edge.
+           Where one line would reach back past the centre (phones), it narrows to "your audience." so it breaks after "then for". */
+        zb.style.textAlign = 'right';
+        rg.selectNodeContents(zb);
+        var bLeft = Infinity;
+        Array.prototype.forEach.call(rg.getClientRects(), function(q){ bLeft = Math.min(bLeft, q.left); });
+        if (bLeft < mid + em * 0.5) zb.style.width = 'min-content';
+      }
+
+      /* Size the box to the triangles: the line sits T below the top (or lower, if the first half needs the room), and the box ends
+         T below the line (or lower, if the fallback line needs the room). */
+      var aTop = za.getBoundingClientRect().top - r4.top, aAbove = base0 - aTop;
+      var base = Math.max(T, aAbove), below = T;
+      if (!inside) below = Math.max(T, zb.getBoundingClientRect().bottom - r4.top - base0);
+
+      /* The lede sits under the second half, flush right with it: inside the graphic, below the line on the right, when the second
+         half is in the blue; simply after the graphic, right-aligned, when the second half falls back below. */
+      var ld = h.parentElement.querySelector('.lede');
+      if (ld){
+        ld.classList.toggle('zl-lede-in', inside);
+        ld.style.top = ld.style.right = ld.style.maxWidth = ld.style.marginTop = '';
+        if (inside){
+          var gapL = em * 0.35;
+          ld.style.right = (h.parentElement.getBoundingClientRect().right - edgeRight) + 'px';   // its box is the column, wider than the headline
+          ld.style.maxWidth = (edgeRight - mid - em) + 'px';   // never reaching back over the ink triangle
+          below = Math.max(below, gapL + ld.offsetHeight);
+          ld.style.top = (h.offsetTop + base + gapL) + 'px';
+        }
+      }
+
+      var Hz = base + below;
+      h.style.aspectRatio = 'auto'; h.style.height = Hz + 'px'; h.style.setProperty('--base', base + 'px');
+
+      /* In the fallback the lede tucks up close under the second half, as long as it stays clear of the ink triangle. */
+      if (ld && !inside){
+        var lrg = document.createRange(), lLeft = Infinity;
+        lrg.selectNodeContents(ld);
+        Array.prototype.forEach.call(lrg.getClientRects(), function(q){ lLeft = Math.min(lLeft, q.left); });
+        var depth = lLeft < mid ? T * (mid - lLeft) / mid : 0;   // the ink triangle's depth below the line at the lede's left end
+        var zbBottom = zb.getBoundingClientRect().bottom - h.getBoundingClientRect().top;   // where the second half ends, in the box's terms
+        var ledeTop = Math.max(zbBottom + em * 0.75, base + depth + em * 0.3);
+        ld.style.marginTop = (ledeTop - Hz) + 'px';
+      }
+
+      /* The canvas spans the whole window; the headline's halves stay where they are, in the column. */
+      var dpr2 = Math.min(2, window.devicePixelRatio || 1);
+      cv.style.left = -r4.left + 'px'; cv.style.width = Wz + 'px';
+      cv.width = Math.round(Wz * dpr2); cv.height = Math.round(Hz * dpr2);
+      cx2.setTransform(dpr2, 0, 0, dpr2, 0, 0); cx2.clearRect(0, 0, Wz, Hz);
+      cx2.fillStyle = getComputedStyle(h).color;
+      cx2.beginPath(); cx2.moveTo(0, base); cx2.lineTo(mid, base); cx2.lineTo(0, base + T); cx2.closePath(); cx2.fill();   // below the line, on the left
+      cx2.fillStyle = getComputedStyle(h).getPropertyValue('--blue').trim();   // the palette's blue
+      cx2.beginPath(); cx2.moveTo(mid, base); cx2.lineTo(Wz, base); cx2.lineTo(Wz, base - T); cx2.closePath(); cx2.fill();   // above the line, on the right
+    }
+    draw();
+    window.addEventListener('resize', draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
   });
 
   /* ---------- Reveal on scroll ---------- */
@@ -1659,6 +1602,17 @@
     requestAnimationFrame(function(){ ticking = false; updateRail(); });
   }, {passive:true});
   updateRail();
+})();
+</script>
+<script>
+/* The column overlay: the button or the G key turns it on and off. */
+(function(){
+  var ov=document.querySelector('.grid-overlay'), btn=document.querySelector('.grid-toggle');
+  function set(on){ ov.classList.toggle('on', on); btn.setAttribute('aria-pressed', on); }
+  btn.addEventListener('click', function(){ set(!ov.classList.contains('on')); });
+  document.addEventListener('keydown', function(e){
+    if((e.key==='g'||e.key==='G') && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea/i.test(e.target.tagName)) set(!ov.classList.contains('on'));
+  });
 })();
 </script>
 </body>
