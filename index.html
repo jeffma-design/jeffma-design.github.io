@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jeff Ma — Independent Creative Director</title>
-<meta name="description" content="Jeff Ma is a strategic creative director who helps experts explain complex, high-stakes ideas to the boards, executives, regulators and audiences who need to act on them.">
+<meta name="description" content="Jeff Ma is a strategic creative director who helps experts explain complex, high-stakes ideas to the boards, executives, regulators, and audiences who need to act on them.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap" rel="stylesheet">
 
 <style>
@@ -232,6 +232,8 @@
   /* The lede under the second half (positioned by the script). */
   .zline + .lede{text-align:right; margin-left:auto; text-wrap:balance;}
   .zline + .lede .nw{white-space:nowrap;}   /* when it wraps, it breaks after "conversation" */
+  .zline + .lede:not(.zl-lede-in) .nw{display:block;}   /* below the graphic (tablets, phones), always two lines, broken after “conversation” */
+  .zline + .lede:not(.zl-lede-in) .hang{display:inline-block; width:0;}   /* its full stop hangs past the edge, like the headline’s above it */
   .zline + .lede.zl-lede-in{position:absolute; margin:0;}
   #approach .chapter-head-bar > div{position:relative;}
   .zline.zl-in .zl-b{top:auto; bottom:calc(100% - var(--base) + .3em); white-space:nowrap; text-align:right; color:var(--paper);}
@@ -301,22 +303,23 @@
   }
 
   /* 03 — Outcome (inverted) */
-  /* What becomes possible: pairs, from what experts live with now (quiet grey) to what their audience gets (bold ink).
-     On the grid: now in columns 1–5, the arrow in 6, after in 7–12. Phones: now above, after below. */
-  .shifts{list-style:none; margin:0; padding:0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .shift{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); align-items:baseline;
-    padding:clamp(16px, 2.2vw, 26px) 0; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .shift .from{grid-column:1 / span 5; font-size:clamp(1.05rem, 1.5vw, 1.3rem); line-height:1.3; color:var(--ink-soft); text-wrap:balance;}
-  .shift .to-arrow{grid-column:6; justify-self:center; font-size:clamp(1.05rem, 1.5vw, 1.3rem); color:var(--ink-soft);}
-  .shift .to{grid-column:7 / -1; font-size:clamp(1.4rem, 2.4vw, 2.1rem); font-weight:600; line-height:1.1; letter-spacing:-0.02em; color:var(--ink); text-wrap:balance;}
-  .shift-head{padding-block:0 10px; border-top:0;}
-  .shift-head .label{font-size:.75rem; font-weight:500; letter-spacing:.08em; color:var(--ink-soft);}
+  /* What you gain: the benefits of the process as a numbered, ruled list on the grid:
+     columns 2–11 of the page grid (the first and last left empty): the number and the benefit in four of them, what it means in six. Phones: stacked. */
+  @media (min-width:1100px){ #approach .gains-k, #approach .gains{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }   /* columns 2–11, from the width where the steps above also narrow to ten columns */
+  .gains-k{font-size:clamp(1.05rem, 1.5vw, 1.3rem); font-weight:500; color:var(--ink-soft);}   /* the lead-in: the list's type, a step down */
+  .gains{list-style:none; margin:0; padding:0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .gains li{display:grid; grid-template-columns:repeat(10, minmax(0, 1fr)); column-gap:var(--col-gap); align-items:baseline;
+    padding:clamp(14px, 2vw, 22px) 0; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .gains .g-h{grid-column:1 / span 4; display:flex; align-items:baseline; gap:.3em; font-size:clamp(1.25rem, 2vw, 1.75rem); line-height:1.15;}   /* the number sits just before the name */
+  .gains .g-n{flex:none; min-width:1.05em; font-weight:400; color:color-mix(in srgb, var(--ink) 45%, transparent);}   /* in the list's own type, a lighter weight and grey */
+  .gains b{font-weight:700; letter-spacing:-0.01em; text-wrap:balance;}
+  .gains li > span:last-child{grid-column:5 / -1; font-size:clamp(1.02rem, 1.4vw, 1.2rem); line-height:1.4; color:var(--ink-soft); text-wrap:pretty;}
   @media (max-width:700px){
-    .shift{display:block;}
-    .shift .from{display:block; margin-bottom:4px;}
-    .shift .to-arrow{display:none;}
-    .shift .to::before{content:"→ "; font-weight:400; color:var(--ink-soft);}
-    .shift-head{display:none;}
+    .gains li{grid-template-columns:minmax(0, 1fr); row-gap:4px;}
+    .gains .g-h, .gains li > span:last-child{grid-column:1;}
+    .gains li > span:last-child{padding-left:calc((1.05 + .3) * 1.25rem);}   /* lines up under the name, not the number (the name is 1.25rem here) */
+  }
+
   }
 
   /* 04 — Work */
@@ -343,26 +346,24 @@
 
   /* 06 — Contact */
   .contact{background:var(--paper); color:var(--ink);}
-  /* Working together: the fit sentence (the headline), the when / who / how axes and lists, the always-true strip and the closing band. */
+  /* Working together: the fit sentence (the headline), the scenario tiles, the ways to work together, the always-true strip and the closing band. */
   .fit-h{line-height:1.75;}   /* room for the labels under the blanks */
   .slot{display:inline-flex; flex-direction:column; align-items:center; vertical-align:top; line-height:1.25;}
   .slot .w{padding:0 .1em; border-bottom:3px solid currentColor; white-space:nowrap;}
   .slot .k{margin-top:6px; font-family:var(--mono); font-size:.62rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
-  .www{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:40px; margin-top:clamp(32px, 4vw, 48px);}
-  .www-col{border-top:1px solid color-mix(in srgb, currentColor 25%, transparent); padding-top:18px;}
-  .www-col h3{display:flex; align-items:center; gap:10px; margin:0 0 14px; font-size:clamp(1.4rem, 2.2vw, 1.9rem); font-weight:700; letter-spacing:0;}
-  .www .lines{list-style:none; margin:0; padding:0; display:grid; gap:8px; font-size:1.05rem; line-height:1.35;}
-  .www .lines b{font-weight:600;}
-  .www .k{margin:18px 0 8px; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
-  .www .tags{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px;}
-  .www .tags li{padding:3px 9px; border:1px solid color-mix(in srgb, currentColor 40%, transparent); font-size:.9rem; line-height:1.3;}
-  .www .note{margin-top:16px; font-size:.95rem; color:var(--ink-soft);}
-  @media (max-width:900px){ .www{grid-template-columns:minmax(0, 1fr);} }
-  .axes{position:relative; max-width:560px; margin:clamp(56px, 8vw, 96px) auto 0; aspect-ratio:720 / 420;}
-  .axes svg{display:block; width:100%; height:100%; overflow:visible;}
-  .axes path{fill:none; stroke:currentColor; stroke-width:2; vector-effect:non-scaling-stroke;}
-  .ax-k{position:absolute; transform:translate(-50%, 0); font-family:var(--mono); font-size:.8rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;}
-  .ax-when{left:11.1%; top:calc(90.5% + 10px);} .ax-how{left:88.9%; top:calc(90.5% + 10px);} .ax-who{left:50%; top:9.5%; transform:translate(-50%, calc(-100% - 10px));}
+  /* Who (in the work section): four small groups of tags. */
+  .who{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:24px; margin-top:clamp(40px, 5vw, 64px); padding-top:20px; border-top:1px solid color-mix(in srgb, currentColor 25%, transparent);}
+  .who .k{margin:0 0 10px; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
+  .who .tags{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px;}
+  .who .tags li{padding:3px 9px; border:1px solid color-mix(in srgb, currentColor 40%, transparent); font-size:.9rem; line-height:1.3;}
+  @media (max-width:900px){ .who{grid-template-columns:repeat(2, minmax(0, 1fr));} }
+  @media (max-width:520px){ .who{grid-template-columns:minmax(0, 1fr);} }
+  /* How (in working together): three ways, side by side, and the proposal note. */
+  .ways{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:16px; font-size:clamp(1.05rem, 1.5vw, 1.25rem); line-height:1.35;}
+  .ways li{padding-top:14px; border-top:1px solid color-mix(in srgb, currentColor 25%, transparent);}
+  .ways b{display:block; font-weight:700;}
+  .ways-note{margin:20px 0 clamp(40px, 6vw, 64px); color:var(--ink-soft);}
+  @media (max-width:700px){ .ways{grid-template-columns:minmax(0, 1fr);} }
   /* The closing band: the invitation, the button and where I'm based, on ink. */
   .payoff-end .cta-row{justify-content:center; margin-top:clamp(32px, 4vw, 48px);}
   .payoff-end .cta-big{white-space:nowrap;}
@@ -385,6 +386,33 @@
   .tile:nth-child(6n){--bg:var(--purple); --fg:var(--paper);}
   @media (max-width:900px){ .tiles{grid-template-columns:repeat(3, minmax(0, 1fr));} }
   @media (max-width:600px){ .tiles{grid-template-columns:repeat(2, minmax(0, 1fr));} .tile p{font-size:.98rem;} }
+  /* Sketch 2: stories on the left, what each needs on the right, and the eye (me) in the middle joining them. */
+  .bridge{position:relative; display:grid; grid-template-columns:minmax(0, 1fr) clamp(120px, 14vw, 200px) minmax(0, 1fr); grid-template-rows:auto 1fr; column-gap:clamp(24px, 4vw, 64px); margin-top:clamp(48px, 7vw, 80px);}
+  .bridge-k{margin:0 0 18px; color:var(--ink-soft);}
+  .bridge-k-from{grid-column:1; text-align:right;} .bridge-k-to{grid-column:3;}
+  .bridge-from, .bridge-to{list-style:none; margin:0; padding:0; display:grid; gap:clamp(10px, 1.4vw, 16px); position:relative; z-index:1;}
+  .bridge-from{grid-column:1; grid-row:2; text-align:right; font-size:clamp(1rem, 1.4vw, 1.2rem); color:var(--ink-soft);}
+  .bridge-to{grid-column:3; grid-row:2; font-size:clamp(1.05rem, 1.6vw, 1.35rem); font-weight:600;}
+  .bridge li{cursor:default; transition:opacity .2s, color .2s;}
+  .bridge-me{grid-column:2; grid-row:2; align-self:center; justify-self:center; position:relative; z-index:2; width:clamp(72px, 8vw, 104px); aspect-ratio:1; border-radius:50%; background:var(--ink); color:var(--paper); display:grid; place-items:center;}
+  .bridge-me svg{width:62%; height:auto;}
+  .bridge-lines{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none;}
+  .bridge-lines path{fill:none; stroke:var(--ink); stroke-opacity:.28; stroke-width:1; transition:stroke-opacity .2s, stroke-width .2s;}
+  .bridge-lines circle{fill:var(--ink); transition:opacity .2s;}
+  .bridge.focus li, .bridge.focus .bridge-lines path, .bridge.focus .bridge-lines circle{opacity:.25;}
+  .bridge.focus li.on, .bridge.focus .bridge-lines .on{opacity:1;}
+  .bridge.focus .bridge-lines path.on{stroke-opacity:1; stroke-width:1.75;}
+  .bridge.focus .bridge-from li.on{color:var(--ink);}
+  .bridge-pairs{display:none;}
+  @media (max-width:760px){
+    .bridge{display:none;}
+    .bridge-pairs{display:grid; list-style:none; margin:clamp(40px, 8vw, 56px) 0 0; padding:0; gap:0;}
+    .bridge-pairs li{display:grid; gap:2px; padding:12px 0; border-top:1px solid color-mix(in srgb, currentColor 20%, transparent);}
+    .bridge-pairs li:last-child{border-bottom:1px solid color-mix(in srgb, currentColor 20%, transparent);}
+    .bridge-pairs .f{color:var(--ink-soft);}
+    .bridge-pairs .t{font-weight:600;}
+    .bridge-pairs .t::before{content:"→ "; font-weight:400; color:var(--ink-soft);}
+  }
   .always{list-style:none; margin:0 0 clamp(40px, 6vw, 64px); padding:20px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px 40px;
     border-block:1px solid color-mix(in srgb, currentColor 25%, transparent); font-size:clamp(1.05rem, 1.6vw, 1.3rem); font-weight:600;}
   /* The contact headline sits in a wallpaper of the hero's shapes in miniature, drawn as dots and kept clear of the
@@ -395,7 +423,6 @@
   .wallpaper h2{position:relative;}
   /* Sub-sections folded into a section: a small label with room above it. */
   .sub-label{margin:clamp(48px, 6vw, 72px) 0 16px;}
-  .contact .shifts{margin-bottom:clamp(48px, 7vw, 80px);}
   .cta-row{display:flex; flex-wrap:wrap; gap:16px 32px; align-items:center;}
   .cta-big{
     display:inline-flex; align-items:center; gap:16px; text-decoration:none;
@@ -482,7 +509,7 @@
   <span class="intro-photo"><img src="assets/about/jeff-ma.png" alt="Jeff Ma" width="140" height="140"></span>
   <div class="intro-text">
     <p class="intro-hello">Hello.</p>
-    <p>For twenty years, I’ve been the person experts call when they need to sell a lifestyle to a customer, explain technology to non-technical people, or report on the health of a&nbsp;corporation.</p>
+    <p>For twenty years, I’ve been the person experts call when they need to sell a lifestyle to a customer, explain technology to non-technical audiences, or report on the health of a&nbsp;corporation.</p>
   </div>
 </div>
 </div>
@@ -554,7 +581,7 @@
       <div class="num num-icon" style="--bar:var(--ochre)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 -12H12A5 5 0 0 1 17 -7V3A5 5 0 0 1 12 8H-4L-10 14L-9 8H-18A5 5 0 0 1 -23 3V-7A5 5 0 0 1 -18 -12Z"/><path d="M-15 -2Q-11 -8 -7 -2T1 -2T9 -2"/></svg><span class="num-name">Conversation to craft</span></div>
       <div>
         <h2 class="zline"><canvas aria-hidden="true"></canvas><span class="zl-a"><span class="nw">I connect the dots</span> <span class="nw">with you,</span></span> <span class="zl-b">then for <span class="nw">your audience<span class="hang">.</span></span></span></h2>
-        <p class="lede"><span class="nw">Design starts with a conversation</span> <span class="nw">and guides every step that follows.</span></p>
+        <p class="lede"><span class="nw">Design starts with a conversation</span> <span class="nw">and guides every step that follows<span class="hang">.</span></span></p>
       </div>
     </div>
 
@@ -564,6 +591,17 @@
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Edit</h3><p><span class="nw">I keep what</span> <span class="nw">this audience needs</span> <span class="nw">and set aside the rest.</span></p></li>
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Shape</h3><p><span class="nw">I tune your story</span> <span class="nw">for the people</span> <span class="nw">hearing it.</span></p></li>
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3><p><span class="nw">Then I design</span> <span class="nw">what carries it.</span></p></li>
+    </ol>
+
+    <p class="sub-label gains-k reveal">What you gain</p>
+    <ol class="gains reveal">
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">1</span><b>Faster understanding</b></span> <span>The story, and the details that matter, land in minutes, not meetings.</span></li>
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">2</span><b>Sharper focus</b></span> <span>Audiences follow the key points and get details as needed.</span></li>
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">3</span><b>Better conversations</b></span> <span>Time goes to discussing and advancing the idea, not decoding it.</span></li>
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">4</span><b>Meaningful visuals</b></span> <span>One picture can replace paragraphs and keep things moving.</span></li>
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">5</span><b>Lasting impressions</b></span> <span>Visual stories hold attention and stick.</span></li>
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">6</span><b>Built-in champions</b></span> <span>People who remember the story pass it on for you.</span></li>
+      <li><span class="g-h"><span class="g-n" aria-hidden="true">7</span><b>Wider connection</b></span> <span>A distilled story can be adapted for boards, teams, or the public.</span></li>
     </ol>
 
     <div class="payoff" style="--payoff:var(--pink)"><p><span class="pl"><span>Once the thinking is clear,</span></span> <span class="pl"><span>everything that comes after</span> <span>gets easier:<span class="only-narrow"> every deck,</span></span></span> <span class="pl"><span><span class="only-wide">every deck, </span>launch, and conversation</span> <span>built on it.</span></span></p></div>
@@ -631,6 +669,14 @@
     </div>
     </div>
 
+    <!-- Who: the teams I work with, the audiences they reach, and where. -->
+    <div class="who reveal">
+      <div><p class="k">Teams</p><ul class="tags"><li>technical</li><li>legal</li><li>policy</li><li>product</li><li>security and privacy</li><li>research</li><li>communications</li><li>executive</li></ul></div>
+      <div><p class="k">Their audiences</p><ul class="tags"><li>boards</li><li>regulators</li><li>investors</li><li>customers</li><li>employees</li><li>first-time users</li></ul></div>
+      <div><p class="k">Companies</p><ul class="tags"><li>startups</li><li>scaling companies</li><li>global enterprises</li><li>agencies</li></ul></div>
+      <div><p class="k">Industries</p><ul class="tags"><li>technology and AI</li><li>security and privacy</li><li>consumer brands</li><li>corporate reporting</li></ul></div>
+    </div>
+
     <!-- Placeholder: the work section's payoff, still to be written. -->
     <div class="payoff" style="--payoff:var(--red)"><p><span>Payoff line to come.</span></p></div>
   </div>
@@ -649,47 +695,7 @@
     </div>
 
     <div id="wt1" hidden>
-    <!-- When, who and how: three axes from one point, each labelled; the lists below follow the same order. -->
-    <div class="axes reveal" aria-hidden="true">
-      <svg viewBox="0 0 720 420"><path d="M360 300 V40 M360 300 L80 380 M360 300 L640 380"/></svg>
-      <span class="ax-k ax-when">When</span><span class="ax-k ax-who">Who</span><span class="ax-k ax-how">How</span>
-    </div>
-    <div class="www reveal">
-      <section class="www-col" data-plane="when">
-        <h3>When</h3>
-        <ul class="lines">
-          <li>You’re presenting to a board.</li>
-          <li>A launch needs executive buy-in.</li>
-          <li>A regulator needs it explained.</li>
-          <li>You’ve explained it ten times, and it isn’t&nbsp;landing.</li>
-        </ul>
-        <p class="k">To</p>
-        <ul class="tags"><li>earn customers’ trust</li><li>change how employees work</li><li>bring a team through change</li><li>win investors’ support</li><li>build public awareness</li><li>get leaders to decide</li></ul>
-      </section>
-      <section class="www-col" data-plane="who">
-        <h3>Who</h3>
-        <p class="k">Teams</p>
-        <ul class="tags"><li>technical</li><li>legal</li><li>policy</li><li>product</li><li>security and privacy</li><li>research</li><li>communications</li><li>executive</li></ul>
-        <p class="k">Their audiences</p>
-        <ul class="tags"><li>boards</li><li>regulators</li><li>investors</li><li>customers</li><li>employees</li><li>first-time users</li></ul>
-        <p class="k">Companies</p>
-        <ul class="tags"><li>startups</li><li>scaling companies</li><li>global enterprises</li><li>agencies</li></ul>
-        <p class="k">Industries</p>
-        <ul class="tags"><li>technology and AI</li><li>security and privacy</li><li>consumer brands</li><li>corporate reporting</li></ul>
-      </section>
-      <section class="www-col" data-plane="how">
-        <h3>How</h3>
-        <ul class="lines">
-          <li><b>A focused sprint</b> for one presentation, launch or decision.</li>
-          <li><b>A larger project</b> for a story told across many pieces.</li>
-          <li><b>An ongoing partner</b> as the story grows.</li>
-        </ul>
-        <p class="note">After our first conversation, I send a written proposal with scope, timeline and fee.</p>
-      </section>
-    </div>
-    </div>
-    <!-- Sketch 2: the scenarios as square tiles, one each, for a reader to recognise their own. -->
-    <div id="wt2">
+    <!-- When: the scenarios as square tiles, one each, for a reader to recognise their own. -->
     <ul class="tiles reveal" aria-label="When you might need this">
       <li class="tile"><span class="n">01</span><p>You’re presenting to a board.</p></li>
       <li class="tile"><span class="n">02</span><p>A launch needs executive buy-in.</p></li>
@@ -705,21 +711,34 @@
       <li class="tile"><span class="n">12</span><p>Research has to reach people who won’t read the&nbsp;report.</p></li>
     </ul>
     </div>
+    <!-- Sketch 2: your story on the left, the audience it has to reach on the right, and me in the middle,
+         joining each story to its audience. Lines drawn by the script (bridge). Phones get the pairs as a list. -->
+    <div id="wt2">
+    <div class="bridge reveal">
+      <p class="bridge-k bridge-k-from label">Your story</p>
+      <p class="bridge-k bridge-k-to label">What it needs to win</p>
+      <ol class="bridge-from" aria-label="Your story"><li data-i="0">Corporate reporting</li><li data-i="1">Product launch</li><li data-i="2">Upcoming policy enforcement</li><li data-i="3">Restructuring</li><li data-i="4">Capital raise round</li><li data-i="5">Cultural shift</li><li data-i="6">Decision point</li><li data-i="7">New strategy</li><li data-i="8">New research</li></ol>
+      <div class="bridge-me" aria-label="Me"><svg viewBox="-28 -15 56 30" aria-hidden="true"><path d="M-25 0 Q0 -24 25 0 Q0 24 -25 0 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="0" cy="0" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="0" cy="0" r="3.4" fill="currentColor"/></svg></div>
+      <ol class="bridge-to" aria-label="What it needs to win"><li data-i="0">Board of directors guidance</li><li data-i="1">Executive buy-in</li><li data-i="2">Compliance explained to regulators</li><li data-i="3">Internal team understanding</li><li data-i="4">Investor support</li><li data-i="5">Cross-functional adoption</li><li data-i="6">Executive decision</li><li data-i="7">Cross-functional support</li><li data-i="8">Team usage</li></ol>
+      <svg class="bridge-lines" aria-hidden="true"></svg>
+    </div>
+    <ol class="bridge-pairs reveal"><li><span class="f">Corporate reporting</span><span class="t"><span class="sr-only">to </span>Board of directors guidance</span></li><li><span class="f">Product launch</span><span class="t"><span class="sr-only">to </span>Executive buy-in</span></li><li><span class="f">Upcoming policy enforcement</span><span class="t"><span class="sr-only">to </span>Compliance explained to regulators</span></li><li><span class="f">Restructuring</span><span class="t"><span class="sr-only">to </span>Internal team understanding</span></li><li><span class="f">Capital raise round</span><span class="t"><span class="sr-only">to </span>Investor support</span></li><li><span class="f">Cultural shift</span><span class="t"><span class="sr-only">to </span>Cross-functional adoption</span></li><li><span class="f">Decision point</span><span class="t"><span class="sr-only">to </span>Executive decision</span></li><li><span class="f">New strategy</span><span class="t"><span class="sr-only">to </span>Cross-functional support</span></li><li><span class="f">New research</span><span class="t"><span class="sr-only">to </span>Team usage</span></li></ol>
+    </div>
 
-    <!-- Parked here for now; still to be designed. -->
-    <p class="label sub-label reveal">What becomes possible</p>
-    <ol class="shifts reveal">
-      <li class="shift shift-head" aria-hidden="true"><span class="from label">Now</span><span></span><span class="to label">After</span></li>
-      <li class="shift"><span class="from">Every meeting starts from scratch.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They get it the first time.</span></li>
-      <li class="shift"><span class="from">The point gets lost in the details.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They see it right away.</span></li>
-      <li class="shift"><span class="from">Decisions keep getting pushed.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They decide with confidence.</span></li>
-      <li class="shift"><span class="from">The story only lives in your head.</span><span class="to-arrow" aria-hidden="true">→</span><span class="to"><span class="sr-only">After: </span>They retell it for you.</span></li>
-    </ol>
+
+    <!-- How: the ways to work together. -->
+    <p class="label sub-label reveal">Ways to work together</p>
+    <ul class="ways reveal">
+      <li><b>A focused sprint</b> for one presentation, launch, or decision.</li>
+      <li><b>A larger project</b> for a story told across many pieces.</li>
+      <li><b>An ongoing partner</b> as the story grows.</li>
+    </ul>
+    <p class="ways-note reveal">After our first conversation, I send a written proposal with scope, timeline, and fee.</p>
 
     <ul class="always reveal"><li>You work with me.</li><li>I work with your team.</li><li>Discretion is standard.</li></ul>
 
     <div class="payoff payoff-end" style="--payoff:var(--ink)">
-      <p><span class="pl"><span>Please get in touch.</span></span> <span class="pl"><span>Let’s discuss</span> <span>what you’re trying to explain</span></span> <span class="pl"><span>and who needs</span> <span>to understand it.</span></span></p>
+      <p><span class="pl"><span>Let’s discuss</span> <span>what you’re trying to explain</span></span> <span class="pl"><span>and who needs</span> <span>to understand it.</span></span></p>
       <div class="cta-row">
         <a class="cta-big" href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots">
           <span class="d" aria-hidden="true"><i></i><b></b><i></i><b></b><i></i></span>
@@ -1515,6 +1534,42 @@
     });
   })();
 
+  /* ---------- Working together, sketch 2: each story joined to its audience through the eye ---------- */
+  /* A line runs from each story into the eye and out to the audience it belongs to. Pointing at either end
+     brings that pair forward. */
+  document.querySelectorAll('.bridge').forEach(function(box){
+    var svg = box.querySelector('.bridge-lines'), me = box.querySelector('.bridge-me'), NS = 'http://www.w3.org/2000/svg';
+    var from = box.querySelectorAll('.bridge-from li'), to = box.querySelectorAll('.bridge-to li');
+    function draw(){
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      var b = box.getBoundingClientRect(); if (!b.width) return;
+      var m = me.getBoundingClientRect(), cx = m.left + m.width / 2 - b.left, cy = m.top + m.height / 2 - b.top, rr = m.width / 2;
+      var rg = document.createRange();
+      Array.prototype.forEach.call(from, function(li, i){
+        var a = li, z = to[i];
+        rg.selectNodeContents(a); var ra = rg.getBoundingClientRect();
+        rg.selectNodeContents(z); var rz = rg.getBoundingClientRect();
+        var x1 = ra.right - b.left + 10, y1 = ra.top + ra.height / 2 - b.top, x2 = rz.left - b.left - 10, y2 = rz.top + rz.height / 2 - b.top;
+        var inX = cx - rr * 0.9, outX = cx + rr * 0.9, k = (cx - x1) * 0.5;
+        var d = 'M' + x1 + ' ' + y1 + ' C' + (x1 + k) + ' ' + y1 + ' ' + (inX - k * 0.6) + ' ' + cy + ' ' + inX + ' ' + cy +
+                ' L' + outX + ' ' + cy + ' C' + (outX + k * 0.6) + ' ' + cy + ' ' + (x2 - k) + ' ' + y2 + ' ' + x2 + ' ' + y2;
+        var p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.dataset.i = i; svg.appendChild(p);
+        [[x1, y1], [x2, y2]].forEach(function(pt){ var c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', pt[0]); c.setAttribute('cy', pt[1]); c.setAttribute('r', 2.5); c.dataset.i = i; svg.appendChild(c); });
+      });
+    }
+    function focus(i){
+      box.classList.toggle('focus', i !== null);
+      box.querySelectorAll('[data-i]').forEach(function(el){ el.classList.toggle('on', i !== null && el.dataset.i === String(i)); });
+    }
+    box.querySelectorAll('li[data-i]').forEach(function(li){
+      li.addEventListener('mouseenter', function(){ focus(li.dataset.i); });
+      li.addEventListener('mouseleave', function(){ focus(null); });
+    });
+    draw();
+    window.addEventListener('resize', draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  });
+
   /* ---------- The steps on narrow screens: centred on what you see ---------- */
   /* The stacked list's box is centred, but its lines end ragged, so it looks heavy on the left. Measure where the
      dots and the text actually reach and nudge the list so that ink sits in the middle of the column. */
@@ -1663,11 +1718,16 @@
       /* In the fallback the lede tucks up close under the second half, as long as it stays clear of the ink triangle. */
       if (ld && !inside){
         var lrg = document.createRange(), lLeft = Infinity;
-        lrg.selectNodeContents(ld);
-        Array.prototype.forEach.call(lrg.getClientRects(), function(q){ lLeft = Math.min(lLeft, q.left); });
-        var depth = lLeft < mid ? T * (mid - lLeft) / mid : 0;   // the ink triangle's depth below the line at the lede's left end
+        /* Measure the text itself: its phrases can be block-level, and a block's box runs the full width. */
+        var walker = document.createTreeWalker(ld, NodeFilter.SHOW_TEXT), tn;
+        while ((tn = walker.nextNode())){ if (!tn.data.trim()) continue; lrg.selectNodeContents(tn);
+          Array.prototype.forEach.call(lrg.getClientRects(), function(q){ if (q.width) lLeft = Math.min(lLeft, q.left); }); }
+        /* Keep a clear gap between the lede and the ink triangle's slope: at the lede's top, the slope must sit at least
+           this far to the left of where the lede starts. */
+        var gapX = em * 0.8, edge = lLeft - gapX;
+        var depth = edge < mid ? T * (mid - Math.max(0, edge)) / mid : 0;   // how far below the line the slope is that far left
         var zbBottom = zb.getBoundingClientRect().bottom - h.getBoundingClientRect().top;   // where the second half ends, in the box's terms
-        var ledeTop = Math.max(zbBottom + em * 0.75, base + depth + em * 0.3);
+        var ledeTop = Math.max(zbBottom + em * 0.75, base + depth + em * 0.4);
         ld.style.marginTop = (ledeTop - Hz) + 'px';
       }
 

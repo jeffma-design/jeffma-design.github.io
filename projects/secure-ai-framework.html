@@ -1,253 +1,260 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure AI Framework (SAIF) Risk Map — Jeff Ma</title>
-<meta name="description" content="A technically accurate visualization of Google's SAIF Risk Map, adopted across an industry consortium.">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secure AI Framework Risk Map — Jeff Ma</title>
+<meta name="description" content="Case study: turning how AI systems get attacked and defended into one visual map, now a reference for the Coalition for Secure AI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#161615;
-  --paper:#d0a955;
-  --paper-light:#fff1d2;
-  --line:#dedcd7;
-  --muted:#4a3712;
-  --accent:#1a2c8a;
-  --divider:#b28c2d;
-  --maxw:1320px;
-  --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --sans: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
-  font-size:17px; line-height:1.7; -webkit-font-smoothing:antialiased;
-  font-feature-settings:"ss01" 1;
-}
-a{color:inherit;}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
-h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-0.02em;}
+  /* Case study template. Shares the homepage's tokens, type and grid. Parts still to be written are
+     marked with .todo (a yellow highlight) so they're easy to find; remove the class as each is filled. */
+  :root{
+    --paper:#f1ece2; --paper-2:#e7e0d2; --ink:#151515; --ink-soft:#4b4843; --rule:#151515;
+    --red:#d63a26; --purple:#545394; --ochre:#b17f28; --green:#3d8b4f; --pink:#c47163; --yellow:#f0b429; --blue:#1f4fa3;
+    --maxw:1280px; --gutter:clamp(16px, 4vw, 48px); --col-gap:24px;
+    --sans:"Jost", "Futura", "Century Gothic", -apple-system, sans-serif;
+    --mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:18px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  a{color:inherit;}
+  img{display:block; max-width:100%;}
+  h1, h2, h3, p{margin:0;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);}
+  .label{font-family:var(--mono); font-size:.75rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase;}
+  .nw{white-space:nowrap;}
+  @media (max-width:700px){ .lede .nw, .payoff .nw{white-space:normal;} }   /* phones: long phrases may wrap rather than overflow */
+  .todo{background:color-mix(in srgb, var(--yellow) 55%, transparent); box-shadow:0 0 0 2px color-mix(in srgb, var(--yellow) 55%, transparent);}
+  .todo::before{content:"To fill: "; font-family:var(--mono); font-size:.7em; letter-spacing:.06em; text-transform:uppercase;}
 
-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:22px 28px; max-width:var(--maxw);}
-.wordmark{display:flex; flex-direction:column; gap:3px; text-decoration:none; line-height:1.2;}
-.wordmark .wm-name{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
-.wordmark .wm-title{font-family:var(--sans); font-weight:600; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted);}
-header nav{display:flex; gap:24px;}
-header nav a{text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted); border-bottom:1px solid transparent; padding-bottom:2px;}
-header nav a.active{color:var(--ink); border-bottom-color:var(--accent);}
-@media (max-width:480px){
-  header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
-  header nav{gap:18px;}
-}
+  /* Header: the wordmark home, a way back to the work, and the way to get in touch. */
+  .bar{display:flex; justify-content:space-between; align-items:center; gap:24px; padding-block:clamp(18px, 2.5vw, 30px);}
+  .wm{font-family:"Unbounded", var(--sans); font-weight:800; font-size:1.5rem; line-height:1; text-decoration:none; white-space:nowrap;}
+  .bar nav{display:flex; align-items:center; gap:24px;}
+  .bar nav a{text-decoration:none; font-weight:500; font-size:.95rem;}
+  .bar nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px;}
+  .btn{display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:var(--paper); padding:10px 18px; font-weight:600;}
+  .btn:hover{background:var(--red);}
+  .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
+  @media (max-width:520px){ .bar nav a:not(.btn){display:none;} }
 
-.back-link{display:inline-block; text-decoration:none; font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:28px;}
-.back-link:hover{color:var(--ink);}
+  /* Section labels: the homepage's bars, running in from the left edge. */
+  .bar-k{position:relative; display:inline-flex; align-items:center; gap:14px; padding:10px 18px 10px 0; background:var(--k, var(--green)); color:var(--paper);}
+  .bar-k::after{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--k, var(--green));}
+  section{padding-block:clamp(48px, 7vw, 96px);}
+  section + section{padding-top:0;}
 
-.index-label{margin-bottom:14px;}
-.index-label .lbl{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); font-weight:600;}
+  /* Opening */
+  .open h1{margin-top:clamp(28px, 4vw, 48px); font-size:clamp(2.2rem, 5.4vw, 4.4rem); font-weight:700; line-height:1.02; letter-spacing:-0.02em; text-wrap:balance;}
+  .open .lede{margin-top:18px; max-width:34em; font-size:clamp(1.15rem, 1.8vw, 1.45rem); line-height:1.4; color:var(--ink-soft); text-wrap:balance;}
+  .hero-img{margin-top:clamp(32px, 5vw, 56px); background:var(--paper-2);}
+  .hero-img img{width:100%; height:auto;}
 
-/* ---------- Project hero (two-column) ---------- */
-.project-hero{padding:12px 0 24px;}
-.project-hero-grid{display:grid; grid-template-columns:1fr; gap:32px; align-items:start;}
-.phg-title{font-size:clamp(2.2rem, 6vw, 4rem); line-height:1.02; letter-spacing:-0.02em;}
-.phg-media{border-radius:12px; overflow:hidden; background:var(--paper-light); aspect-ratio:16/9;}
-.phg-media img{display:block; width:100%; height:100%; object-fit:cover;}
-.phg-media.mono{display:flex; align-items:center; justify-content:center;}
-.phg-media.mono .mono-text{font-family:var(--display); font-weight:800; letter-spacing:-0.03em; font-size:clamp(4rem, 14vw, 9rem);}
-.phg-media.bg-ink{background:var(--ink); color:var(--paper-light);}
-.phg-media.bg-accent{background:var(--accent); color:var(--paper-light);}
-.phg-media.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
-.phg-media.contain{background:#fff; display:flex; align-items:center; justify-content:center; padding:10%;}
-.phg-media.contain img{width:auto; height:auto; max-width:70%; max-height:70%; object-fit:contain;}
-@media (min-width:1200px){
-  .project-hero-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
-}
+  /* Snapshot: the facts at a glance, on the 12-column grid. */
+  .snap{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:22px; padding-top:22px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .snap div{grid-column:span 4;}
+  .snap dt{margin-bottom:6px; color:var(--ink-soft);}
+  .snap dd{margin:0; font-size:1.05rem; line-height:1.4;}
+  @media (max-width:900px){ .snap div{grid-column:span 6;} }
+  @media (max-width:520px){ .snap div{grid-column:1 / -1;} }
 
-/* ---------- Project image stack ----------
-   Shares the hero's exact grid-column widths (empty left spacer +
-   minmax(240,360)/1fr right column) so the stack lines up with the hero
-   image above it — same width, same left/right edges. */
-.project-stack-section{padding:0 0 16px;}
-.project-stack-grid{display:grid; grid-template-columns:1fr;}
-.project-stack{display:flex; flex-direction:column; gap:15px;}
-.project-stack .stack-item{margin:0; border-radius:12px; overflow:hidden; background:var(--paper-light);}
-.project-stack .stack-item img{display:block; width:100%; height:auto;}
-.project-stack .stack-item.pad{padding:10%; display:flex; align-items:center; justify-content:center; background:#fff;}
-.project-stack .stack-item.pad img{width:60%; height:auto;}
-.project-stack .stack-item.video{aspect-ratio:16/9; position:relative; background:var(--ink);}
-.project-stack .stack-item.video iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
-/* Cutout photos already carry their own transparent background and
-   rounded corners — no card behind them, so the page's own gold shows
-   through instead of a cream box. These source files have no built-in
-   padding around the actual content (unlike an earlier, incorrectly
-   exported set that did — cropping to trim that padding also cropped
-   real photo pixels), so no forced aspect-ratio/crop is needed: plain
-   width:100%/height:auto, inherited from the base rule, already fills
-   the same 100% stack width as everything else. Same gap as every other
-   item too (no per-item margin tweak), so the rhythm stays uniform. */
-.project-stack .stack-item.cutout{background:none; border-radius:0;}
-/* Lower-fidelity clips (e.g. a GIF) sit on a full-width designed card
-   instead of being stretched edge-to-edge, so compression artifacts
-   aren't scaled up into visibility. The card (outer figure) keeps the
-   standard rounded corners; the clip itself stays square-cornered. 30px
-   of padding above and below so the card doesn't hug the clip exactly. */
-.project-stack .stack-item.framed{
-  background:var(--ink); display:flex; align-items:center; justify-content:center;
-  padding:30px 0;
-}
-.project-stack .stack-item.framed img{width:auto; max-width:55%; height:auto;}
-@media (min-width:1200px){
-  .project-stack-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
-}
+  /* Story and audience: two short blocks side by side. */
+  .pair{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:40px;}
+  .pair > div{grid-column:span 6;}
+  .pair h2, .h2{font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; text-wrap:balance;}
+  .pair p{margin-top:14px; font-size:1.1rem; line-height:1.5; max-width:32em;}
+  @media (max-width:800px){ .pair > div{grid-column:1 / -1;} }
 
-/* ---------- Project about (left-aligned with the imagery, not the eyebrow) ---------- */
-.project-about{padding:56px 0; border-top:1px solid var(--divider);}
-.project-about-grid{display:grid; grid-template-columns:1fr;}
-.about-copy{font-size:1.1rem; line-height:1.65; max-width:66ch; color:#33322f; margin:0 0 24px;}
-.role-line{font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); font-weight:600;}
-.report-links{display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:24px; font-size:0.92rem;}
-.report-links a{text-decoration:none; color:var(--ink); font-weight:600; border-bottom:1px solid var(--line);}
-.report-links a:hover{border-color:var(--ink);}
-@media (min-width:1200px){
-  .project-about-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
-}
+  /* The five steps, each with the homepage's dot trail and an artifact beside it. */
+  .steps-head{display:flex; flex-direction:column; align-items:flex-start; gap:clamp(28px, 4vw, 48px);}
+  .steps{list-style:none; margin:clamp(32px, 4vw, 48px) 0 0; padding:0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .step{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:16px; padding-block:clamp(24px, 3vw, 40px); border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .step-name{grid-column:1 / span 3;}
+  .step-body{grid-column:4 / span 4; font-size:1.05rem; line-height:1.55;}
+  .step-art{grid-column:9 / -1;}
+  .step h3{margin-top:12px; font-size:clamp(1.4rem, 2.2vw, 1.9rem); font-weight:700;}
+  .dots{display:flex; align-items:flex-end; gap:8px; height:22px;}
+  .dots i{display:block; width:5px; height:5px; border-radius:50%; background:color-mix(in srgb, var(--ink) 20%, transparent);}
+  .dots i:nth-child(2){margin-bottom:3.9px;} .dots i:nth-child(3){margin-bottom:7.8px;} .dots i:nth-child(4){margin-bottom:11.7px;} .dots i:nth-child(5){margin-bottom:15.6px;}
+  .step:nth-child(1) .dots i:nth-child(1), .step:nth-child(2) .dots i:nth-child(2), .step:nth-child(3) .dots i:nth-child(3),
+  .step:nth-child(4) .dots i:nth-child(4), .step:nth-child(5) .dots i:nth-child(5){background:var(--ink);}
+  .slot{aspect-ratio:4 / 3; display:grid; place-items:center; padding:16px; text-align:center; border:1.5px dashed color-mix(in srgb, var(--ink) 35%, transparent); color:var(--ink-soft); font-family:var(--mono); font-size:.75rem; letter-spacing:.04em;}
+  @media (max-width:900px){ .step-name{grid-column:1 / -1;} .step-body{grid-column:1 / span 7;} .step-art{grid-column:8 / -1;} }
+  @media (max-width:600px){ .step-body, .step-art{grid-column:1 / -1;} }
 
-/* ---------- More projects (subtler — thumbnail + quiet type, same row height) ---------- */
-.more-projects{padding:48px 0; border-top:1px solid var(--divider);}
-.more-list{display:flex; flex-direction:column; margin-top:24px;}
-.more-list a{
-  display:flex; align-items:center; gap:20px;
-  padding:16px 0; border-top:1px solid var(--line); text-decoration:none; color:var(--ink);
-}
-.more-list a:last-child{border-bottom:1px solid var(--line);}
-.mp-thumb{
-  width:64px; height:48px; border-radius:8px; overflow:hidden; flex:0 0 auto;
-  background:var(--paper-light);
-}
-.mp-thumb img{display:block; width:100%; height:100%; object-fit:cover;}
-.mp-thumb.mono{display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:800; font-size:0.8rem;}
-.mp-thumb.bg-ink{background:var(--ink); color:var(--paper-light);}
-.mp-thumb.bg-accent{background:var(--accent); color:var(--paper-light);}
-.mp-thumb.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
-.more-list .mp-title{font-family:var(--sans); font-weight:600; font-size:1.02rem; color:var(--ink); flex:1;}
-.more-list .mp-cat{font-size:0.78rem; color:var(--muted); white-space:nowrap;}
-.more-list a:hover .mp-title{color:var(--accent);}
-@media (max-width:600px){
-  .more-list .mp-cat{display:none;}
-}
+  /* What was made: the deliverables. */
+  .made{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:var(--col-gap); margin-top:clamp(28px, 4vw, 40px);}
+  .made figure{margin:0; grid-column:span 6;}
+  .made figure.wide{grid-column:1 / -1;}
+  .made img{width:100%; height:auto; background:var(--paper-2);}
+  .made figcaption{margin-top:10px; font-size:.95rem; color:var(--ink-soft);}
+  @media (max-width:700px){ .made figure{grid-column:1 / -1;} }
 
-footer{padding:36px 0; background:#000; color:#9a9a9a; font-size:0.85rem; border-top:1px solid var(--divider);}
-footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  /* What changed: the outcome, knocked out of a band of colour like the homepage's payoffs. */
+  .payoff{margin-inline:calc(50% - 50vw); background:var(--green); color:var(--paper); padding:clamp(72px, 10vw, 144px) var(--gutter); text-align:center;}
+  .payoff .label{opacity:.85;}
+  .payoff p.big{max-width:24em; margin:18px auto 0; font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; text-wrap:balance;}
+  .gains{list-style:none; margin:28px auto 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px;}
+  .gains li{padding:4px 12px; border:1px solid color-mix(in srgb, var(--paper) 55%, transparent); font-size:.95rem;}
+  .proof{max-width:34em; margin:28px auto 0; font-size:1.05rem;}
 
+  /* Who was involved */
+  .who{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:20px; margin-top:clamp(28px, 4vw, 40px);}
+  .who div{grid-column:span 4; padding-top:14px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
+  .who b{display:block; font-size:1.15rem;}
+  .who span{color:var(--ink-soft);}
+  @media (max-width:800px){ .who div{grid-column:span 6;} }
+  @media (max-width:520px){ .who div{grid-column:1 / -1;} }
+
+  /* Next: the other two case studies. */
+  .next{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--col-gap); margin-top:clamp(28px, 4vw, 40px);}
+  .next a{display:flex; flex-direction:column; text-decoration:none; border:2px solid var(--rule);}
+  .next .m{aspect-ratio:16 / 10; overflow:hidden; background:var(--paper-2); border-bottom:2px solid var(--rule);}
+  .next img{width:100%; height:100%; object-fit:cover; transition:transform .5s;}
+  .next a:hover img{transform:scale(1.04);}
+  .next .t{display:flex; justify-content:space-between; gap:12px; padding:16px 20px 20px; font-size:1.2rem; font-weight:600;}
+  .back{display:inline-block; margin-top:28px; font-weight:500;}
+  @media (max-width:640px){ .next{grid-template-columns:1fr;} }
+
+  footer{padding:32px 0 40px; font-size:.9rem;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <a class="wordmark" href="../index.html">
-      <span class="wm-name">Jeff Ma</span>
-      <span class="wm-title">Strategic Creative Director</span>
-    </a>
-    <nav>
-      <a href="../index.html">Home</a>
-      <a href="../work.html" class="active" aria-current="page">Work</a>
-      <a href="../about.html">About</a>
-      <a href="../index.html#contact">Contact</a>
-    </nav>
-  </div>
+<header class="wrap bar">
+  <a class="wm" href="../index.html" aria-label="Jeff Ma, home">JEFF MA</a>
+  <nav aria-label="Site">
+    <a href="../index.html#work">Work</a>
+    <a class="btn" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
+  </nav>
 </header>
 
-<main id="top">
+<main>
 
-  <section class="project-hero">
+  <!-- Opening: the project in one line, then the main image. -->
+  <section class="open">
     <div class="wrap">
-      <a class="back-link" href="../work.html">← All Work</a>
-      <div class="project-hero-grid">
-        <div>
-          <div class="index-label"><span class="lbl">Systems & Information Design</span></div>
-          <h1 class="phg-title">Secure AI Framework (SAIF) Risk Map</h1>
-        </div>
-        <div class="phg-media"><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of a Google report on the role of red teams in securing AI systems, part of the Secure AI Framework series"></div>
+      <span class="bar-k label">Case study</span>
+      <h1>Secure AI Framework <span class="nw">Risk Map</span></h1>
+      <p class="lede"><span class="nw">How AI systems get attacked and defended,</span> <span class="nw">in one map the industry now uses.</span></p>
+      <figure class="hero-img" style="margin-inline:0"><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of a Google report on the role of red teams in securing AI systems, part of the Secure AI Framework series" width="1400" height="1050"></figure>
+    </div>
+  </section>
+
+  <!-- Snapshot: the facts at a glance. -->
+  <section>
+    <div class="wrap">
+      <dl class="snap">
+        <div><dt class="label">Client</dt><dd>Google, Privacy, Safety &amp; Security</dd></div>
+        <div><dt class="label">My role</dt><dd>Information design, technical visualization, stakeholder validation</dd></div>
+        <div><dt class="label">Worked with</dt><dd>Security engineering teams <span class="todo">other teams and roles</span></dd></div>
+        <div><dt class="label">Timeline</dt><dd><span class="todo">year and length</span></dd></div>
+        <div><dt class="label">Made</dt><dd>The SAIF Risk Map <span class="todo">other deliverables: reports, slides, versions</span></dd></div>
+        <div><dt class="label">Used by</dt><dd>Google product teams and the Coalition for Secure AI (CoSAI)</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- The story they had, and who needed to get it. -->
+  <section>
+    <div class="wrap pair">
+      <div>
+        <span class="label" style="color:var(--ink-soft)">The story they had</span>
+        <h2 style="margin-top:12px">How AI gets attacked and defended.</h2>
+        <p>The experts knew the risks and the controls in depth. <span class="todo">what made it hard to follow: how many risks and controls, what form it lived in (documents, spreadsheets, talks), and why it wasn’t landing</span></p>
+      </div>
+      <div>
+        <span class="label" style="color:var(--ink-soft)">Who needed to get it</span>
+        <h2 style="margin-top:12px">Product teams and the wider industry.</h2>
+        <p>Google product teams and industry organizations needed a way to navigate AI security risks and the controls for each. <span class="todo">what they needed to do with it: decide, build, audit, adopt</span></p>
       </div>
     </div>
   </section>
 
-<section class="project-stack-section">
-  <div class="wrap">
-    <div class="project-stack-grid">
-      <div></div>
-      <div class="project-stack">
-      <figure class="stack-item"><img src="../assets/work/secure-ai-framework/pss-brand-system.jpg" alt="Google's Privacy, Safety & Security brand system, the visual language SAIF materials are built on"></figure>
+  <!-- The five steps: the homepage's process, shown on this project. -->
+  <section>
+    <div class="wrap">
+      <div class="steps-head">
+        <span class="bar-k label" style="--k:var(--ochre)">Conversation to craft</span>
+        <p class="h2">The five steps, on this project.</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Listen</h3></div>
+          <div class="step-body"><p><span class="todo">who you sat down with, what they walked you through, and what you heard that they hadn’t said outright</span></p></div>
+          <div class="step-art"><div class="slot">Artifact: interview notes or the source material, redacted if needed</div></div>
+        </li>
+        <li class="step">
+          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Ask</h3></div>
+          <div class="step-body"><p><span class="todo">the questions a product team or an outside reader would ask, and the one that unlocked the structure</span></p></div>
+          <div class="step-art"><div class="slot">Artifact: a list of audience questions</div></div>
+        </li>
+        <li class="step">
+          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Edit</h3></div>
+          <div class="step-body"><p><span class="todo">what stayed in for this audience, what was set aside, and why</span></p></div>
+          <div class="step-art"><div class="slot">Artifact: a cut list or an early, crowded draft</div></div>
+        </li>
+        <li class="step">
+          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Shape</h3></div>
+          <div class="step-body"><p><span class="todo">the structure you chose (how risks, controls, and responsibilities relate) and the order a newcomer reads it in</span></p></div>
+          <div class="step-art"><div class="slot">Artifact: a structure sketch or wireframe</div></div>
+        </li>
+        <li class="step">
+          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3></div>
+          <div class="step-body"><p>The map was visualized with technical accuracy, and that accuracy was validated directly with security engineering teams. <span class="todo">the visual decisions that made it readable, and how many rounds of review it took</span></p></div>
+          <div class="step-art"><div class="slot">Artifact: the final map, or a detail of it</div></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- What was made -->
+  <section>
+    <div class="wrap">
+      <p class="h2">What was made.</p>
+      <div class="made">
+        <figure class="wide"><div class="slot" style="aspect-ratio:16 / 7">The SAIF Risk Map, full view</div></figure>
+        <figure><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of a Google report on the role of red teams in securing AI systems" width="1400" height="1050" loading="lazy"><figcaption>A report in the Secure AI Framework series. <span class="todo">your part in it</span></figcaption></figure>
+        <figure><img src="../assets/work/secure-ai-framework/pss-brand-system.jpg" alt="Google’s Privacy, Safety &amp; Security brand system" width="1200" height="611" loading="lazy"><figcaption>The Privacy, Safety &amp; Security brand system the SAIF materials are built on.</figcaption></figure>
       </div>
     </div>
+  </section>
+
+  <!-- What changed: the outcome as a payoff band. -->
+  <div class="payoff">
+    <span class="label">What changed</span>
+    <p class="big"><span class="nw">Adopted as a foundational reference</span> <span class="nw">for the Coalition for Secure AI,</span> <span class="nw">an open-source, cross-industry consortium.</span></p>
+    <ul class="gains" aria-label="What this project shows"><li>Understood faster</li><li>Retold for you</li><li>Ready for any audience</li></ul>
+    <p class="proof"><span class="todo">proof: where else it’s used, a quote from an engineer or partner, any numbers</span></p>
   </div>
-</section>
 
-  <section class="project-about">
+  <!-- Who was involved -->
+  <section style="padding-top:clamp(48px, 7vw, 96px)">
     <div class="wrap">
-      <div class="project-about-grid">
-        <div></div>
-        <div>
-          <div class="index-label"><span class="lbl">About</span></div>
-          <p class="about-copy">Visualized, with technical accuracy, Google’s SAIF Risk Map — a guide used by Google product teams and industry organizations to navigate AI security risks and controls. Technical accuracy was validated directly with security engineering teams, and the map was adopted as a foundational reference for the Coalition for Secure AI (CoSAI), an open-source, cross-industry consortium.</p>
-          <div class="role-line">Role — Information design, technical visualization, stakeholder validation</div>
-        </div>
+      <p class="h2">Who was involved.</p>
+      <div class="who">
+        <div><b>Security engineering</b><span>Validated the technical accuracy</span></div>
+        <div><b><span class="todo">team</span></b><span><span class="todo">their part</span></span></div>
+        <div><b><span class="todo">team</span></b><span><span class="todo">their part</span></span></div>
       </div>
     </div>
   </section>
 
-  <section class="more-projects">
+  <!-- Next: the other two case studies. -->
+  <section>
     <div class="wrap">
-      <div class="index-label"><span class="lbl">More Work</span></div>
-      <div class="more-list">
-        <a href="safer-with-google-summit.html">
-          <span class="mp-thumb"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt=""></span>
-          <span class="mp-title">Safer with Google Summit</span>
-          <span class="mp-cat">Brand Strategy · Event Design</span>
-        </a>
-        <a href="security-reporting.html">
-          <span class="mp-thumb"><img src="../assets/work/security-reporting/fog-of-war-cover.jpg" alt=""></span>
-          <span class="mp-title">Security Analysis & Reporting</span>
-          <span class="mp-cat">Editorial & Content Design</span>
-        </a>
-        <a href="safety-anthem.html">
-          <span class="mp-thumb"><img src="../assets/work/safety-anthem/hero.jpg" alt=""></span>
-          <span class="mp-title">Safety Anthem Film</span>
-          <span class="mp-cat">Brand Film · Creative Direction</span>
-        </a>
-        <a href="ai-safety.html">
-          <span class="mp-thumb"><img src="../assets/work/ai-safety/hero.jpg" alt=""></span>
-          <span class="mp-title">AI Safety Film</span>
-          <span class="mp-cat">Brand Film · Creative Direction</span>
-        </a>
-        <a href="warby-parker.html">
-          <span class="mp-thumb mono bg-accent">WP</span>
-          <span class="mp-title">Warby Parker</span>
-          <span class="mp-cat">Retail & Brand Experience</span>
-        </a>
-        <a href="ibm.html">
-          <span class="mp-thumb mono bg-ink">IBM</span>
-          <span class="mp-title">IBM</span>
-          <span class="mp-cat">Brand & Communication Design</span>
-        </a>
-        <a href="anthropologie.html">
-          <span class="mp-thumb mono bg-light">A</span>
-          <span class="mp-title">Anthropologie</span>
-          <span class="mp-cat">Retail & Brand Design</span>
-        </a>
-        <a href="hollister.html">
-          <span class="mp-thumb mono bg-accent">H</span>
-          <span class="mp-title">Hollister</span>
-          <span class="mp-cat">Retail & Brand Design</span>
-        </a>
+      <p class="label" style="color:var(--ink-soft)">More case studies</p>
+      <div class="next">
+        <a href="security-reporting.html"><span class="m"><img src="../assets/work/security-reporting/fog-of-war-cover.jpg" alt="" loading="lazy"></span><span class="t">Security Analysis &amp; Reporting <span aria-hidden="true">→</span></span></a>
+        <a href="safer-with-google-summit.html"><span class="m"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt="" loading="lazy"></span><span class="t">Safer with Google Summit <span aria-hidden="true">→</span></span></a>
       </div>
+      <a class="back" href="../index.html#work">← All work</a>
     </div>
   </section>
 
@@ -255,8 +262,9 @@ footer .wrap{display:flex; justify-content:space-between; align-items:center; fl
 
 <footer>
   <div class="wrap">
+    <span class="wm" style="font-size:1.3rem" aria-label="Jeff Ma">JEFF MA</span>
     <span>© 2026 Jeff Ma</span>
-    <span>Strategic Creative Director · San Francisco</span>
+    <span class="label">Complex ideas, clearly told.</span>
   </div>
 </footer>
 
