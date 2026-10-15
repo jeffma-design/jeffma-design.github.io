@@ -67,6 +67,20 @@
   }
   .nav{display:flex; gap:28px; align-items:center; min-height:46px;}
   .nav-right{justify-content:flex-end;}
+  .nav-role{margin:0; font-size:0.95rem; font-weight:500; white-space:nowrap;}   /* what I do, where the section links were */
+  .nav-left{position:relative; gap:16px;}
+  /* The menu button: three ink bars, square like everything else; they turn into an X when the menu is open. */
+  .menu-btn{flex:none; display:grid; place-content:center; gap:5px; width:46px; height:46px; padding:0; border:2px solid var(--ink); background:var(--paper); cursor:pointer;}
+  .menu-btn i{display:block; width:20px; height:2px; background:var(--ink); transition:transform .2s, opacity .2s;}
+  .menu-btn:hover{background:var(--ink);} .menu-btn:hover i{background:var(--paper);}
+  .menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-btn[aria-expanded="true"] i:nth-child(2){opacity:0;}
+  .menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .menu{position:absolute; top:calc(100% + 8px); left:0; z-index:20; display:flex; flex-direction:column; min-width:240px; padding:8px 0; background:var(--ink);}
+  .menu[hidden]{display:none;}
+  .menu a{padding:12px 20px; color:var(--paper); text-decoration:none; font-size:var(--fs-title); font-weight:700; line-height:1.15;}
+  .menu a:hover, .menu a:focus-visible{background:var(--red); outline:none;}
+  @media (max-width:520px){ .nav-role{white-space:normal; line-height:1.2; font-size:.85rem;} .nav-left{gap:10px;} }   /* phones: the role wraps beside the button */
   .nav a{text-decoration:none; font-size:0.95rem; font-weight:500;}
   .nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
   .btn{
@@ -685,10 +699,16 @@
     <canvas id="s4-canvas" aria-hidden="true"></canvas>
     <header class="s3-bar">
       <div class="topbar s3-topbar">
-        <nav class="nav nav-left" aria-label="Sections">
-          <a href="#approach">Approach</a>
-          <a href="#work">Work</a>
-        </nav>
+        <div class="nav nav-left">   <!-- the menu, then what I do (the section links moved into the menu) -->
+          <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu"><i></i><i></i><i></i></button>
+          <p class="nav-role">Strategic Creative Direction</p>
+          <nav class="menu" id="site-menu" aria-label="Sections" hidden>
+            <a href="#problem">The problem</a>
+            <a href="#approach">How I work</a>
+            <a href="#work">The work</a>
+            <a href="#contact">Working together</a>
+          </nav>
+        </div>
         <div class="brand">
           <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span></span></a>
           <p class="wm-tag sr-only"><span class="tg-a">Your ideas,</span> <span class="tg-b">clearly told</span></p>
@@ -2569,6 +2589,17 @@
   set();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(set);
   var t; window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(set, 150); });   // line blocks change at breakpoints
+})();
+</script>
+<script>
+/* The menu: the button opens and closes it; a link, Escape, or a click elsewhere closes it. */
+(function(){
+  var btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu'); if (!btn || !menu) return;
+  function set(open){ btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Menu'); menu.hidden = !open; if (open) menu.querySelector('a').focus(); }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); set(menu.hidden); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function(e){ if (!menu.hidden && !menu.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !menu.hidden){ set(false); btn.focus(); } });
 })();
 </script>
 </body>
