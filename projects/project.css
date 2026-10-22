@@ -1,0 +1,209 @@
+/* Project pages. The homepage's system, carried over: paper and ink, Jost for reading, DM Mono for labels, Unbounded
+   for the wordmark only, the six-level type scale, square corners, a heavy ink rule opening each section, and full-width
+   bands of colour for a payoff. The pages lead with photos; the words come after. */
+:root{
+  --paper:#f1ece2; --paper-2:#e7e0d2; --ink:#151515; --ink-soft:#4b4843; --rule:#151515;
+  --red:#d63a26; --ochre:#b17f28; --green:#3d8b4f; --pink:#c47163; --yellow:#f0b429; --blue:#1f4fa3;
+  --fs-headline:clamp(1.75rem, 1rem + 2.1vw, 2.625rem);      /* 28 → 42 */
+  --fs-statement:clamp(1.375rem, 1rem + 1.25vw, 2rem);       /* 22 → 32 */
+  --fs-title:clamp(1.2rem, 1rem + .65vw, 1.5rem);            /* 19 → 24 */
+  --fs-lede:clamp(1.1rem, .95rem + .45vw, 1.25rem);          /* 18 → 20 */
+  --fs-body:clamp(1rem, .9rem + .3vw, 1.125rem);             /* 16 → 18 */
+  --fs-small:.875rem;
+  --maxw:1280px; --gutter:clamp(16px, 4vw, 48px); --col-gap:24px;
+  --sans:"Jost", "Futura", "Century Gothic", -apple-system, sans-serif;
+  --mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (max-width:700px){ :root{--col-gap:16px;} }
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:var(--fs-body); line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+a{color:inherit;}
+img{display:block; max-width:100%;}
+h1, h2, h3, p, figure{margin:0;}
+h1, h2, h3{font-weight:700; letter-spacing:-0.025em; line-height:1.02;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);}
+.label{font-family:var(--mono); font-size:.75rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase;}
+.nw{white-space:nowrap;}
+@media (max-width:700px){ .nw{white-space:normal;} }   /* phones: long phrases may wrap rather than overflow */
+.sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+
+/* Header: the homepage's, as it is there with no colour behind it: the menu on the left, the wordmark lockup in the
+   middle (MA in outline, what I do in an ink panel; on phones, MA solid with the outlined strip under it), "Let's talk" on
+   the right. Copied from index.html; keep the two in step. */
+.s3-topbar{padding:clamp(14px, 2vw, 24px) clamp(16px, 2.5vw, 32px) 0;}
+/* ---------- Header: nav in the corners, name in the center ---------- */
+.site-header{position:relative; z-index:5;}
+.topbar{
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:start; gap:24px;
+  padding-top:clamp(20px, 3vw, 36px); padding-bottom:14px;
+}
+.nav{display:flex; gap:28px; align-items:center; min-height:46px;}
+.nav-right{justify-content:flex-end;}
+.nav-role{margin:0; font-size:0.95rem; font-weight:500; white-space:nowrap;}   /* what I do, where the section links were */
+.nav-left{position:relative; gap:16px;}
+/* The menu button: three ink bars, square like everything else; they turn into an X when the menu is open. */
+.menu-btn{flex:none; display:grid; place-content:center; gap:5px; width:46px; height:46px; padding:0; border:2px solid var(--ink); background:var(--paper); cursor:pointer;}
+.menu-btn i{display:block; width:20px; height:2px; background:var(--ink); transition:transform .2s, opacity .2s;}
+.menu-btn:hover{background:var(--ink);} .menu-btn:hover i{background:var(--paper);}
+.menu-btn[aria-expanded="true"] i:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.menu-btn[aria-expanded="true"] i:nth-child(2){opacity:0;}
+.menu-btn[aria-expanded="true"] i:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.menu{position:absolute; top:calc(100% + 8px); left:0; z-index:20; display:flex; flex-direction:column; min-width:240px; padding:8px 0; background:var(--ink);}
+.menu[hidden]{display:none;}
+.menu a{padding:12px 20px; color:var(--paper); text-decoration:none; font-size:var(--fs-title); font-weight:700; line-height:1.15;}
+.menu a:hover, .menu a:focus-visible{background:var(--red); outline:none;}
+/* ---------- Contact overlay: paper, ink, square corners, the site's own type ---------- */
+/* In the menu it's an action, not a place: a paper button like the header's, set apart under a rule. */
+.menu .menu-talk{display:flex; align-items:center; gap:10px; margin:10px 20px 10px; padding:12px 18px; background:var(--paper); color:var(--ink); font-size:var(--fs-body); font-weight:500; position:relative;}
+.menu .menu-talk::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--yellow); flex:none;}
+.menu .menu-talk::after{content:""; position:absolute; left:-20px; right:-20px; top:-11px; height:1px; background:color-mix(in srgb, var(--paper) 25%, transparent);}
+.menu .menu-talk:hover, .menu .menu-talk:focus-visible{background:var(--yellow); color:var(--ink);}
+.menu .menu-talk:hover::before, .menu .menu-talk:focus-visible::before{background:var(--ink);}
+@media (max-width:520px){ .nav-role{white-space:normal; line-height:1.2; font-size:.85rem;} .nav-left{gap:10px;} }   /* phones: the role wraps beside the button */
+.nav a{text-decoration:none; font-size:0.95rem; font-weight:500;}
+.nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--ink); color:var(--paper); text-decoration:none;
+  padding:12px 20px; font-weight:500; font-size:0.95rem; border:2px solid var(--ink); white-space:nowrap; flex:none;
+  transition:background .2s, color .2s;
+}
+.btn:hover{background:var(--red); border-color:var(--red);}
+.btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
+.brand{text-align:center;}
+/* The lockup: what I do, in a paper panel after MA. All in em of the wordmark, measured from Unbounded 800:
+   the panel is the caps' height (0.75em), its left edge runs parallel to the A's right stroke (0.45 across per 1 down),
+   and the ink bar that ends it is as wide as the M's stem (0.22em). */
+.wm-panel{--h:.75em; display:inline-block; box-sizing:border-box; height:var(--h); overflow:hidden; vertical-align:baseline;   /* inline-block with overflow hidden: its bottom edge sits on MA's baseline */
+  width:3.374em; margin-left:-.056em; padding:.0525em .11em .0475em 0; background:var(--paper);   /* clear of the A by 0.28em all the way down, a touch more than the A's right stroke */
+  clip-path:polygon(0 0, 100% 0, 100% 100%, calc(.45 * var(--h)) 100%);
+  font-family:"Unbounded", var(--sans); font-weight:700; font-size:1em; letter-spacing:0; text-transform:uppercase; color:var(--ink); -webkit-text-fill-color:var(--ink);}
+/* Unbounded's E bows in on its left side; here it is redrawn plain, from the font's own measurements (stem 0.196em,
+   arms 0.168/0.15/0.168em, same advance), as a picture behind the real, transparent letter, so the text still reads and copies. */
+.ealt{display:inline-block; width:.7936em; height:.75em; overflow:hidden; vertical-align:baseline; letter-spacing:0; margin-right:var(--ls, 0);
+  color:transparent; -webkit-text-fill-color:transparent; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 793.6 750'%3E%3Cg fill='%23151515'%3E%3Crect x='47' y='0' width='196' height='750'/%3E%3Crect x='47' y='0' width='692' height='168'/%3E%3Crect x='47' y='300' width='663' height='150'/%3E%3Crect x='47' y='582' width='697' height='168'/%3E%3C/g%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%; font-weight:inherit; line-height:1;}
+.wm-bar{display:inline-block; width:.1em; height:.75em; overflow:hidden; vertical-align:baseline; background:var(--ink);}   /* the bar that ends the panel: narrower than any stem (0.1em against the M's 0.22em), so it never reads as a letter of the name; outside the panel so it stays ink */
+@media (max-width:639px){ .wm-bar{display:none;} }
+/* Stacked, with no colour behind it, the lockup inverts: MA in outline, the panel in ink with paper type, the bar in outline. */
+.s3-wm:not(.across) .s3-b{color:var(--paper); -webkit-text-fill-color:var(--paper); text-shadow:1.50px 0.00px 0 var(--ink), 1.39px 0.57px 0 var(--ink), 1.06px 1.06px 0 var(--ink), 0.57px 1.39px 0 var(--ink), 0.00px 1.50px 0 var(--ink), -0.57px 1.39px 0 var(--ink), -1.06px 1.06px 0 var(--ink), -1.39px 0.57px 0 var(--ink), -1.50px 0.00px 0 var(--ink), -1.39px -0.57px 0 var(--ink), -1.06px -1.06px 0 var(--ink), -0.57px -1.39px 0 var(--ink), -0.00px -1.50px 0 var(--ink), 0.57px -1.39px 0 var(--ink), 1.06px -1.06px 0 var(--ink), 1.39px -0.57px 0 var(--ink);}   /* outline drawn as a ring of shadows: a stroke would trace Unbounded's overlapping contours inside the letters */
+.s3-wm:not(.across) .wm-panel{background:var(--ink); color:var(--paper); -webkit-text-fill-color:var(--paper);}
+.s3-wm:not(.across) .wm-panel .ealt{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 793.6 750'%3E%3Cg fill='%23f1ece2'%3E%3Crect x='47' y='0' width='196' height='750'/%3E%3Crect x='47' y='0' width='692' height='168'/%3E%3Crect x='47' y='300' width='663' height='150'/%3E%3Crect x='47' y='582' width='697' height='168'/%3E%3C/g%3E%3C/svg%3E"); -webkit-text-fill-color:transparent;}
+.s3-wm:not(.across) .wm-bar{background:none; box-shadow:inset 0 0 0 1.5px var(--ink);}
+.wm-panel-in{display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; height:100%;}
+.wm-panel-in span{display:block; font-size:.205em; line-height:.86; white-space:nowrap; letter-spacing:var(--ls); margin-right:calc(-1 * var(--ls));}   /* the trailing tracking is taken back, so the ink ends flush */
+/* Each line tracked so it starts 0.16em in from the slanted edge, at its own height: the left edges follow the A's angle.
+   The first line sits 0.03em further in: its round S, open at the top left, looks set out against the angle otherwise. */
+.wm-panel-in span:nth-child(1){--ls:.0292em;}   /* "Strategy and story": re-tracked so its ink starts where "Story and message" did */
+.wm-panel-in span:nth-child(2){--ls:.0199em;}
+.wm-panel-in span:nth-child(3){--ls:.0229em;}
+@media (max-width:639px){ .wm-panel{display:none;} }   /* phones: the line under the name instead */
+/* Under 1,060px the lockup and "Let's talk" can't both fit, so the button gives way (it's in the menu); the wordmark
+   scales so the lockup (about 9.1em wide) fits between the side columns. */
+@media (min-width:640px) and (max-width:1059px){ .topbar .nav-right .btn{display:none;} .topbar .wordmark .s3-wm{font-size:min(3.33rem, calc((100vw - 2 * clamp(16px, 2.5vw, 32px) - 140px) / 9.1));} }
+/* Small: MA in solid ink, and what I do in a strip of its own under the name: one line, outlined in ink, its left edge and
+   dividers at the A's angle (0.45 across per 1 down), closed by the same ink bar as the lockup. All in em of the strip's type. */
+.wm-services{display:none;}
+@media (max-width:639px){
+  .s3-wm:not(.across) .s3-b{color:var(--ink); -webkit-text-fill-color:var(--ink); text-shadow:none;}
+  .wm-services{--h:1.4em; --b:max(1.25px, .09em); --bar:.4em; position:relative; display:flex; width:max-content; height:var(--h); box-sizing:border-box; margin:.6em auto 0; padding-right:var(--bar);
+    background:var(--ink); clip-path:polygon(0 0, 100% 0, 100% 100%, calc(.45 * var(--h)) 100%);
+    font:700 min(14px, calc((100vw - 32px) / 45.4))/1 "Unbounded", var(--sans); text-transform:uppercase; white-space:nowrap; color:var(--ink);}   /* as wide as the window allows, gutters kept */
+  .wm-services::before{content:""; position:absolute; inset:0 var(--bar) 0 0; background:var(--paper);   /* the paper inside the outline: a rule all round (0.09em, as in the drawing, but never under 1.25px), measured square to the slanted edge */
+    clip-path:polygon(calc(1.547 * var(--b)) var(--b), 100% var(--b), 100% calc(100% - var(--b)), calc(.45 * var(--h) + .647 * var(--b)) calc(100% - var(--b)));}
+  .wm-services .sv{position:relative; display:block; padding:0 .45em 0 .5em; line-height:var(--h);}
+  .wm-services .sv:first-child{padding-left:.85em;}   /* half the slant (0.315em) in from the corner, then the same 0.5em as after each divider */
+  .wm-services .sv:last-child{padding-right:.5em;}
+  .wm-services .sv + .sv::before{content:""; position:absolute; left:calc(-.5 * var(--b)); top:0; bottom:0; width:var(--b); background:var(--ink); transform:skewX(24.23deg);}   /* atan(0.45) */
+}
+
+/* Wordmark: JEFF MA, set in Unbounded. */
+.wordmark{display:block; text-decoration:none; text-align:center;}
+.wm{
+  display:inline-block; font-family:"Unbounded", var(--sans); font-weight:800; line-height:1;
+  font-size:clamp(2rem, 8.9vw, 3.33rem); letter-spacing:0.01em; white-space:nowrap;
+}
+
+@media (max-width:700px){
+  .topbar{grid-template-columns:1fr 1fr; row-gap:18px;}
+  .topbar .brand{grid-column:1 / -1; grid-row:2;}
+  .nav{gap:20px;}
+}
+
+
+/* Section marks, as on the homepage: a heavy ink rule and a label just under it. */
+.sec-mark{margin:0 0 clamp(28px, 4vw, 48px); padding-top:14px; border-top:6px solid var(--ink); font-family:var(--sans); font-weight:600; font-size:var(--fs-small); letter-spacing:.1em;}
+section{padding-block:clamp(48px, 7vw, 96px) 0;}
+
+/* Opening: what it is, the title, the one-line story (the homepage card's), then the main picture. */
+.open{padding-top:clamp(32px, 5vw, 64px);}
+.open h1{font-size:var(--fs-headline); max-width:20em; text-wrap:balance;}
+.lede{margin-top:14px; max-width:34em; font-size:var(--fs-lede); line-height:1.45; color:var(--ink-soft); text-wrap:pretty;}
+.lede .to{color:var(--ink); font-weight:500;}
+@media (min-width:701px){ .lede > span{white-space:nowrap;} }   /* the story's two halves each stay on one line: "turned into …" starts its own when they don't fit together */
+.hero{margin-top:clamp(28px, 4vw, 48px); background:var(--paper-2);}
+.hero img{width:100%; height:auto;}
+/* No picture yet: a field of colour with the client's initials, until the photos come. */
+.hero.mono{aspect-ratio:16 / 9; display:grid; place-items:center; font-weight:700; letter-spacing:-0.03em; font-size:clamp(4rem, 14vw, 9rem);}
+.mono.on-ink{background:var(--ink); color:var(--paper);}
+.mono.on-blue{background:var(--blue); color:var(--paper);}
+.mono.on-paper{background:var(--paper-2); color:var(--ink);}
+
+/* The photos, in rows of one, two or three. Pictures sharing a row are sized by their proportions (flex-grow is each one's
+   width over its height), so they come out the same height and the row runs the full width. Phones: one to a row. */
+.photos{display:flex; flex-direction:column; gap:var(--col-gap); padding-top:var(--col-gap);}
+.prow{display:flex; gap:var(--col-gap); align-items:flex-start;}
+.prow > figure{flex:var(--r) 1 0; min-width:0; position:relative;}
+.photos figure > img, .photos figure > iframe{background:var(--paper-2);}
+.photos img{width:100%; height:auto;}
+.photos .cutout > img{background:none;}   /* cutouts carry their own shape; the paper shows through */
+.photos .framed{display:flex; justify-content:center; padding:clamp(20px, 3vw, 40px) 0; background:var(--ink);}   /* a low-resolution clip, kept small on ink rather than stretched */
+.photos .framed img{width:auto; max-width:55%;}
+.photos .video .frame{position:relative; aspect-ratio:16 / 9; background:var(--ink);}
+.photos .video iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+.photos figcaption{margin-top:10px; color:var(--ink-soft);}
+/* To redo: a picture that still has the old rounded corners, marked so it isn't mistaken for finished. */
+.redo::after{content:"To redo · square corners"; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-8deg); padding:.4em .9em; background:var(--red); color:var(--paper); font-family:var(--mono); font-size:clamp(.8rem, .6rem + 1vw, 1.3rem); font-weight:500; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; pointer-events:none;}
+.redo > img{opacity:.55;}
+@media (max-width:600px){ .prow{flex-direction:column;} .prow > figure{flex:none; width:100%;} }
+
+/* About: the label on the left, the account in a readable measure beside it, on the 12-column grid. */
+.about{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:20px;}
+.about .sec-mark{grid-column:1 / -1; margin-bottom:0;}
+.about-copy{grid-column:1 / span 7; font-size:var(--fs-lede); line-height:1.55; text-wrap:pretty;}
+.about-copy p + p{margin-top:1em;}
+.facts{grid-column:9 / -1; margin:0; display:flex; flex-direction:column; gap:18px;}
+.facts dt{margin-bottom:4px; color:var(--ink-soft);}
+.facts dd{margin:0; line-height:1.45;}
+.links{display:flex; flex-direction:column; gap:8px; margin:0; padding:0; list-style:none;}
+.links a{text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px;}
+.links a:hover{text-decoration-thickness:2px;}
+@media (max-width:900px){ .about-copy, .facts{grid-column:1 / -1;} }
+
+/* What changed: the outcome, knocked out of a band of colour, as the homepage's payoffs are. */
+.payoff{margin-top:clamp(48px, 7vw, 96px); background:var(--payoff, var(--green)); color:var(--paper); padding:clamp(72px, 10vw, 144px) var(--gutter); text-align:center;}
+.payoff .label{opacity:.85;}
+.payoff p.big{max-width:24em; margin:18px auto 0; font-size:var(--fs-headline); font-weight:700; line-height:1.2; text-wrap:balance;}
+.payoff .gains{list-style:none; margin:28px auto 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px;}
+.payoff .gains li{padding:.02em .5em .06em; background:var(--paper); color:var(--payoff, var(--green)); font-weight:500;}   /* small madlib boxes: a set, showing the range */
+
+/* More work: the other projects, a thumbnail and the title on each ruled line. */
+.more-list{display:flex; flex-direction:column; margin:0; padding:0; list-style:none;}
+.more-list a{display:grid; grid-template-columns:72px minmax(0, 1fr) auto; align-items:center; gap:20px; padding:14px 0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent); text-decoration:none;}
+.more-list li:first-child a{padding-top:0;}
+.mp-thumb{width:72px; aspect-ratio:3 / 2; overflow:hidden; background:var(--paper-2);}
+.mp-thumb img{width:100%; height:100%; object-fit:cover;}
+.mp-thumb.mono{display:grid; place-items:center; font-weight:700; font-size:.85rem;}
+.mp-title{font-size:var(--fs-title); font-weight:700; letter-spacing:-0.01em; line-height:1.15;}
+.mp-cat{color:var(--ink-soft); white-space:nowrap;}
+.more-list a:hover .mp-title{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
+@media (max-width:640px){ .mp-cat{display:none;} .more-list a{grid-template-columns:64px minmax(0, 1fr);} .mp-thumb{width:64px;} }
+.back{display:inline-block; margin-top:28px; font-weight:500;}
+
+footer{margin-top:clamp(64px, 9vw, 128px); padding:32px 0 40px; font-size:var(--fs-small);}
+footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;}
+.foot-name{display:inline-flex; align-items:center; gap:12px;}
+.foot-name .wm{font-size:1.3rem;}
+.foot-in{display:block; width:22px; height:22px; color:var(--ink);}
+.foot-in svg{display:block; width:100%; height:100%; fill:currentColor;}
+.foot-in:hover{color:var(--blue);}

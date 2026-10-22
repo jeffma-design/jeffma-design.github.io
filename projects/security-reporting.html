@@ -1,263 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Security Analysis & Reporting — Jeff Ma</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Analysis and Reporting — Jeff Ma</title>
 <meta name="description" content="Editorial design direction for a series of public Google reports on geopolitical and commercial security topics.">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --ink:#161615;
-  --paper:#d0a955;
-  --paper-light:#fff1d2;
-  --line:#dedcd7;
-  --muted:#4a3712;
-  --accent:#1a2c8a;
-  --divider:#b28c2d;
-  --maxw:1320px;
-  --display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --sans: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
-  font-size:17px; line-height:1.7; -webkit-font-smoothing:antialiased;
-  font-feature-settings:"ss01" 1;
-}
-a{color:inherit;}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
-h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; letter-spacing:-0.02em;}
-
-header .wrap{display:flex; align-items:center; justify-content:space-between; padding:22px 28px; max-width:var(--maxw);}
-.wordmark{display:flex; flex-direction:column; gap:3px; text-decoration:none; line-height:1.2;}
-.wordmark .wm-name{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
-.wordmark .wm-title{font-family:var(--sans); font-weight:600; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted);}
-header nav{display:flex; gap:24px;}
-header nav a{text-decoration:none; font-size:0.9rem; font-weight:600; color:var(--muted); border-bottom:1px solid transparent; padding-bottom:2px;}
-header nav a.active{color:var(--ink); border-bottom-color:var(--accent);}
-@media (max-width:480px){
-  header .wrap{flex-direction:column; align-items:flex-start; gap:12px;}
-  header nav{gap:18px;}
-}
-
-.back-link{display:inline-block; text-decoration:none; font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:28px;}
-.back-link:hover{color:var(--ink);}
-
-.index-label{margin-bottom:14px;}
-.index-label .lbl{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); font-weight:600;}
-
-/* ---------- Project hero (two-column) ---------- */
-.project-hero{padding:12px 0 24px;}
-.project-hero-grid{display:grid; grid-template-columns:1fr; gap:32px; align-items:start;}
-.phg-title{font-size:clamp(2.2rem, 6vw, 4rem); line-height:1.02; letter-spacing:-0.02em;}
-.phg-media{border-radius:12px; overflow:hidden; background:var(--paper-light); aspect-ratio:16/9;}
-.phg-media img{display:block; width:100%; height:100%; object-fit:cover;}
-.phg-media.mono{display:flex; align-items:center; justify-content:center;}
-.phg-media.mono .mono-text{font-family:var(--display); font-weight:800; letter-spacing:-0.03em; font-size:clamp(4rem, 14vw, 9rem);}
-.phg-media.bg-ink{background:var(--ink); color:var(--paper-light);}
-.phg-media.bg-accent{background:var(--accent); color:var(--paper-light);}
-.phg-media.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
-.phg-media.contain{background:#fff; display:flex; align-items:center; justify-content:center; padding:10%;}
-.phg-media.contain img{width:auto; height:auto; max-width:70%; max-height:70%; object-fit:contain;}
-@media (min-width:1200px){
-  .project-hero-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
-}
-
-/* ---------- Project image stack ----------
-   Shares the hero's exact grid-column widths (empty left spacer +
-   minmax(240,360)/1fr right column) so the stack lines up with the hero
-   image above it — same width, same left/right edges. */
-.project-stack-section{padding:0 0 16px;}
-.project-stack-grid{display:grid; grid-template-columns:1fr;}
-.project-stack{display:flex; flex-direction:column; gap:15px;}
-.project-stack .stack-item{margin:0; border-radius:12px; overflow:hidden; background:var(--paper-light);}
-.project-stack .stack-item img{display:block; width:100%; height:auto;}
-.project-stack .stack-item.pad{padding:10%; display:flex; align-items:center; justify-content:center; background:#fff;}
-.project-stack .stack-item.pad img{width:60%; height:auto;}
-.project-stack .stack-item.video{aspect-ratio:16/9; position:relative; background:var(--ink);}
-.project-stack .stack-item.video iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
-/* Cutout photos already carry their own transparent background and
-   rounded corners — no card behind them, so the page's own gold shows
-   through instead of a cream box. These source files have no built-in
-   padding around the actual content (unlike an earlier, incorrectly
-   exported set that did — cropping to trim that padding also cropped
-   real photo pixels), so no forced aspect-ratio/crop is needed: plain
-   width:100%/height:auto, inherited from the base rule, already fills
-   the same 100% stack width as everything else. Same gap as every other
-   item too (no per-item margin tweak), so the rhythm stays uniform. */
-.project-stack .stack-item.cutout{background:none; border-radius:0;}
-/* Lower-fidelity clips (e.g. a GIF) sit on a full-width designed card
-   instead of being stretched edge-to-edge, so compression artifacts
-   aren't scaled up into visibility. The card (outer figure) keeps the
-   standard rounded corners; the clip itself stays square-cornered. 30px
-   of padding above and below so the card doesn't hug the clip exactly. */
-.project-stack .stack-item.framed{
-  background:var(--ink); display:flex; align-items:center; justify-content:center;
-  padding:30px 0;
-}
-.project-stack .stack-item.framed img{width:auto; max-width:55%; height:auto;}
-@media (min-width:1200px){
-  .project-stack-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
-}
-
-/* ---------- Project about (left-aligned with the imagery, not the eyebrow) ---------- */
-.project-about{padding:56px 0; border-top:1px solid var(--divider);}
-.project-about-grid{display:grid; grid-template-columns:1fr;}
-.about-copy{font-size:1.1rem; line-height:1.65; max-width:66ch; color:#33322f; margin:0 0 24px;}
-.role-line{font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); font-weight:600;}
-.report-links{display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:24px; font-size:0.92rem;}
-.report-links a{text-decoration:none; color:var(--ink); font-weight:600; border-bottom:1px solid var(--line);}
-.report-links a:hover{border-color:var(--ink);}
-@media (min-width:1200px){
-  .project-about-grid{grid-template-columns:minmax(240px, 360px) 1fr; gap:56px;}
-}
-
-/* ---------- More projects (subtler — thumbnail + quiet type, same row height) ---------- */
-.more-projects{padding:48px 0; border-top:1px solid var(--divider);}
-.more-list{display:flex; flex-direction:column; margin-top:24px;}
-.more-list a{
-  display:flex; align-items:center; gap:20px;
-  padding:16px 0; border-top:1px solid var(--line); text-decoration:none; color:var(--ink);
-}
-.more-list a:last-child{border-bottom:1px solid var(--line);}
-.mp-thumb{
-  width:64px; height:48px; border-radius:8px; overflow:hidden; flex:0 0 auto;
-  background:var(--paper-light);
-}
-.mp-thumb img{display:block; width:100%; height:100%; object-fit:cover;}
-.mp-thumb.mono{display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:800; font-size:0.8rem;}
-.mp-thumb.bg-ink{background:var(--ink); color:var(--paper-light);}
-.mp-thumb.bg-accent{background:var(--accent); color:var(--paper-light);}
-.mp-thumb.bg-light{background:var(--paper-light); color:var(--ink); border:1px solid var(--divider);}
-.more-list .mp-title{font-family:var(--sans); font-weight:600; font-size:1.02rem; color:var(--ink); flex:1;}
-.more-list .mp-cat{font-size:0.78rem; color:var(--muted); white-space:nowrap;}
-.more-list a:hover .mp-title{color:var(--accent);}
-@media (max-width:600px){
-  .more-list .mp-cat{display:none;}
-}
-
-footer{padding:36px 0; background:#000; color:#9a9a9a; font-size:0.85rem; border-top:1px solid var(--divider);}
-footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
-
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..800;1,400..600&family=DM+Mono:wght@400;500&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project.css">
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <a class="wordmark" href="../index.html">
-      <span class="wm-name">Jeff Ma</span>
-      <span class="wm-title">Strategic Creative Director</span>
-    </a>
-    <nav>
-      <a href="../index.html">Home</a>
-      <a href="../work.html" class="active" aria-current="page">Work</a>
-      <a href="../about.html">About</a>
-      <a href="../index.html#contact">Contact</a>
+<header class="site-header">
+  <div class="topbar s3-topbar">
+    <div class="nav nav-left">
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu"><i></i><i></i><i></i></button>
+      <nav class="menu" id="site-menu" aria-label="Sections" hidden>
+        <a href="../index.html#about">Introduction</a>
+        <a href="../index.html#problem">Why it’s hard</a>
+        <a href="../index.html#approach">How I help</a>
+        <a href="../index.html#work">Things I’ve made</a>
+        <a href="../index.html#contact">Getting started</a>
+        <a class="menu-talk" href="../index.html#contact-form">Let’s talk</a>
+      </nav>
+    </div>
+    <div class="brand">
+      <a class="wordmark" href="../index.html" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span><span class="wm-panel"><span class="wm-panel-in"><span>Strat<b class="ealt">e</b>gy and story</span><span>Visual <b class="ealt">e</b>xplanation</span><span>Cr<b class="ealt">e</b>ativ<b class="ealt">e</b> dir<b class="ealt">e</b>ction</span></span></span><span class="wm-bar" aria-hidden="true"></span></span></a>
+      <p class="wm-services"><span class="sv">Strat<b class="ealt">e</b>gy and story</span><span class="sv">Visual <b class="ealt">e</b>xplanation</span><span class="sv">Cr<b class="ealt">e</b>ativ<b class="ealt">e</b> dir<b class="ealt">e</b>ction</span></p>
+    </div>
+    <nav class="nav nav-right" aria-label="Contact">
+      <a class="btn" href="../index.html#contact-form"><span class="dot"></span>Let’s talk</a>
     </nav>
   </div>
 </header>
 
-<main id="top">
+<main>
 
-  <section class="project-hero">
+  <!-- Opening: what it is, the title, the story in one line, then the main picture. -->
+  <section class="open">
     <div class="wrap">
-      <a class="back-link" href="../work.html">← All Work</a>
-      <div class="project-hero-grid">
-        <div>
-          <div class="index-label"><span class="lbl">Editorial & Content Design</span></div>
-          <h1 class="phg-title">Security Analysis & Reporting</h1>
-        </div>
-        <div class="phg-media"><img src="../assets/work/security-reporting/fog-of-war-cover.jpg" alt="Cover of “Fog of War: How the Ukraine Conflict Transformed the Cyber Threat Landscape,” a Google security report"></div>
-      </div>
+      <p class="sec-mark label">Editorial &amp; Content Design</p>
+      <h1>Security Analysis and Reporting</h1>
+      <p class="lede"><span>Dense threat intelligence,</span> <span class="to">turned into public reports for the Munich Security&nbsp;Conference.</span></p>
+      <figure class="hero"><img src="../assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report"></figure>
     </div>
   </section>
 
-<section class="project-stack-section">
-  <div class="wrap">
-    <div class="project-stack-grid">
-      <div></div>
-      <div class="project-stack">
-      <figure class="stack-item"><img src="../assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Interior spread from the Fog of War report comparing two Russia-linked threat actors, their targeted nations, and primary targets"></figure>
-      <figure class="stack-item"><img src="../assets/work/security-reporting/fog-of-war-spread-2.jpg" alt="Interior spread from the Fog of War report showing a 2021–2022 targeting-activity timeline"></figure>
-      <figure class="stack-item"><img src="../assets/work/security-reporting/defenders-dilemma-cover.jpg" alt="Cover of “Secure, Empower, Advance: How AI Can Reverse the Defender’s Dilemma,” a Google security report"></figure>
-      <figure class="stack-item"><img src="../assets/work/security-reporting/defenders-dilemma-spread-1.jpg" alt="Interior spread from the Secure, Empower, Advance report featuring a quote from Google CEO Sundar Pichai"></figure>
-      <figure class="stack-item"><img src="../assets/work/security-reporting/defenders-dilemma-spread-2.jpg" alt="Interior spread from the Secure, Empower, Advance report on how AI expands the reasoning capabilities of cyber defenders"></figure>
-      <figure class="stack-item"><img src="../assets/work/security-reporting/buying-spying-infographic.jpg" alt="Editorial infographic illustrating a commercial spyware infection chain, from a Google report on commercial surveillance vendors"></figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <section class="project-about">
-    <div class="wrap">
-      <div class="project-about-grid">
-        <div></div>
-        <div>
-          <div class="index-label"><span class="lbl">About</span></div>
-          <p class="about-copy">Editorial design direction for a recurring series of public Google reports on geopolitical and commercial security topics — <em>Fog of War: How the Ukraine Conflict Transformed the Cyber Threat Landscape</em>, <em>Secure, Empower, Advance: How AI Can Reverse the Defender’s Dilemma</em>, and <em>Buying Spying: Commercial Surveillance Vendors</em>. A consistent editorial system built to hold up across sensitive, high-visibility subject matter, distributed at events including the Munich Security Conference.</p>
-          <div class="role-line">Role — Editorial design direction, cross-report system design</div>
-<div class="report-links">
-  <a href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener">Fog of War ↗</a>
-          <a href="https://blog.google/innovation-and-ai/technology/safety-security/google-ai-cyber-defense-initiative/" target="_blank" rel="noopener">Defender’s Dilemma ↗</a>
-          <a href="https://blog.google/threat-analysis-group/commercial-surveillance-vendors-google-tag-report/" target="_blank" rel="noopener">Buying Spying ↗</a>
-</div>
-        </div>
-      </div>
+  <!-- The photos, in rows of one, two or three. -->
+  <section style="padding-top:0">
+    <div class="wrap photos">
+      <div class="prow"><figure style="--r:0.667"><img src="../assets/work/security-reporting/fog-of-war-cover.jpg" alt="Cover of “Fog of War: How the Ukraine Conflict Transformed the Cyber Threat Landscape,” a Google security report" width="800" height="1200" loading="lazy"></figure><figure style="--r:0.667"><img src="../assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Interior spread from the Fog of War report comparing two Russia-linked threat actors, their targeted nations, and primary targets" width="800" height="1200" loading="lazy"></figure><figure style="--r:0.667"><img src="../assets/work/security-reporting/fog-of-war-spread-2.jpg" alt="Interior spread from the Fog of War report showing a 2021–2022 targeting-activity timeline" width="800" height="1200" loading="lazy"></figure></div>
+      <div class="prow"><figure style="--r:0.667"><img src="../assets/work/security-reporting/defenders-dilemma-cover.jpg" alt="Cover of “Secure, Empower, Advance: How AI Can Reverse the Defender’s Dilemma,” a Google security report" width="800" height="1200" loading="lazy"></figure><figure style="--r:1.333"><img src="../assets/work/security-reporting/defenders-dilemma-spread-1.jpg" alt="Interior spread from the Secure, Empower, Advance report featuring a quote from Google CEO Sundar Pichai" width="1200" height="900" loading="lazy"></figure></div>
+      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/defenders-dilemma-spread-2.jpg" alt="Interior spread from the Secure, Empower, Advance report on how AI expands the reasoning capabilities of cyber defenders" width="1200" height="900" loading="lazy"></figure><figure style="--r:1.005"><img src="../assets/work/security-reporting/buying-spying-infographic.jpg" alt="Editorial infographic illustrating a commercial spyware infection chain, from a Google report on commercial surveillance vendors" width="1200" height="1194" loading="lazy"></figure></div>
     </div>
   </section>
 
-  <section class="more-projects">
+  <!-- About: the account, and the facts beside it. -->
+  <section>
+    <div class="wrap about">
+      <p class="sec-mark label">About</p>
+      <div class="about-copy"><p>Editorial design direction for a recurring series of public Google reports on geopolitical and commercial security topics — <em>Fog of War: How the Ukraine Conflict Transformed the Cyber Threat Landscape</em>, <em>Secure, Empower, Advance: How AI Can Reverse the Defender’s Dilemma</em>, and <em>Buying Spying: Commercial Surveillance Vendors</em>. A consistent editorial system built to hold up across sensitive, high-visibility subject matter, distributed at events including the Munich Security Conference.</p></div>
+      <dl class="facts"><div><dt class="label">Role</dt><dd>Editorial design direction, cross-report system design</dd></div><div><dt class="label">Read the reports</dt><dd><ul class="links"><li><a href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener">Fog of War ↗</a></li><li><a href="https://blog.google/innovation-and-ai/technology/safety-security/google-ai-cyber-defense-initiative/" target="_blank" rel="noopener">Defender’s Dilemma ↗</a></li><li><a href="https://blog.google/threat-analysis-group/commercial-surveillance-vendors-google-tag-report/" target="_blank" rel="noopener">Buying Spying ↗</a></li></ul></dd></div></dl>
+    </div>
+  </section>
+
+  <!-- More work -->
+  <section>
     <div class="wrap">
-      <div class="index-label"><span class="lbl">More Work</span></div>
-      <div class="more-list">
-        <a href="safer-with-google-summit.html">
-          <span class="mp-thumb"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt=""></span>
-          <span class="mp-title">Safer with Google Summit</span>
-          <span class="mp-cat">Brand Strategy · Event Design</span>
-        </a>
-        <a href="safety-anthem.html">
-          <span class="mp-thumb"><img src="../assets/work/safety-anthem/hero.jpg" alt=""></span>
-          <span class="mp-title">Safety Anthem Film</span>
-          <span class="mp-cat">Brand Film · Creative Direction</span>
-        </a>
-        <a href="ai-safety.html">
-          <span class="mp-thumb"><img src="../assets/work/ai-safety/hero.jpg" alt=""></span>
-          <span class="mp-title">AI Safety Film</span>
-          <span class="mp-cat">Brand Film · Creative Direction</span>
-        </a>
-        <a href="secure-ai-framework.html">
-          <span class="mp-thumb"><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt=""></span>
-          <span class="mp-title">Secure AI Framework (SAIF) Risk Map</span>
-          <span class="mp-cat">Systems & Information Design</span>
-        </a>
-        <a href="warby-parker.html">
-          <span class="mp-thumb mono bg-accent">WP</span>
-          <span class="mp-title">Warby Parker</span>
-          <span class="mp-cat">Retail & Brand Experience</span>
-        </a>
-        <a href="ibm.html">
-          <span class="mp-thumb mono bg-ink">IBM</span>
-          <span class="mp-title">IBM</span>
-          <span class="mp-cat">Brand & Communication Design</span>
-        </a>
-        <a href="anthropologie.html">
-          <span class="mp-thumb mono bg-light">A</span>
-          <span class="mp-title">Anthropologie</span>
-          <span class="mp-cat">Retail & Brand Design</span>
-        </a>
-        <a href="hollister.html">
-          <span class="mp-thumb mono bg-accent">H</span>
-          <span class="mp-title">Hollister</span>
-          <span class="mp-cat">Retail & Brand Design</span>
-        </a>
-      </div>
+      <p class="sec-mark label">More work</p>
+      <ul class="more-list">
+        <li><a href="safer-with-google-summit.html"><span class="mp-thumb"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt="" loading="lazy"></span><span class="mp-title">Safer with Google Summit</span><span class="mp-cat">Brand Strategy · Event Design</span></a></li>
+        <li><a href="films.html"><span class="mp-thumb"><img src="../assets/work/ai-safety/card.jpg" alt="" loading="lazy"></span><span class="mp-title">Brand Films</span><span class="mp-cat">Brand Film · Creative Direction</span></a></li>
+        <li><a href="secure-ai-framework.html"><span class="mp-thumb"><img src="../assets/work/secure-ai-framework/risk-map-card.webp" alt="" loading="lazy"></span><span class="mp-title">Secure AI Framework Risk Map</span><span class="mp-cat">Systems &amp; Information Design</span></a></li>
+        <li><a href="warby-parker.html"><span class="mp-thumb mono on-blue" aria-hidden="true">WP</span><span class="mp-title">Warby Parker</span><span class="mp-cat">Retail &amp; Brand Experience</span></a></li>
+        <li><a href="ibm.html"><span class="mp-thumb mono on-ink" aria-hidden="true">IBM</span><span class="mp-title">IBM</span><span class="mp-cat">Brand &amp; Communication Design</span></a></li>
+        <li><a href="anthropologie.html"><span class="mp-thumb mono on-paper" aria-hidden="true">A</span><span class="mp-title">Anthropologie</span><span class="mp-cat">Retail &amp; Brand Design</span></a></li>
+        <li><a href="hollister.html"><span class="mp-thumb mono on-blue" aria-hidden="true">H</span><span class="mp-title">Hollister</span><span class="mp-cat">Retail &amp; Brand Design</span></a></li>
+      </ul>
+      <a class="back" href="../index.html#work">← All work</a>
     </div>
   </section>
 
@@ -265,10 +86,22 @@ footer .wrap{display:flex; justify-content:space-between; align-items:center; fl
 
 <footer>
   <div class="wrap">
+    <span class="foot-name"><a class="wm" href="../index.html" aria-label="Jeff Ma, home">JEFF MA</a><a class="foot-in" href="https://www.linkedin.com/in/jeff-ma-8b6b663/" aria-label="Jeff Ma on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24"/><path d="M5.5 9.5h3v9h-3zM7 4.8a1.75 1.75 0 1 1 0 3.5a1.75 1.75 0 0 1 0-3.5zM10.5 9.5h2.9v1.3c.5-.8 1.5-1.5 3-1.5c2.9 0 3.4 1.9 3.4 4.3v4.9h-3v-4.3c0-1.1 0-2.4-1.5-2.4s-1.8 1.1-1.8 2.3v4.4h-3z" fill="var(--paper)"/></svg></a></span>
     <span>© 2026 Jeff Ma</span>
-    <span>Strategic Creative Director · San Francisco</span>
+    <span class="label">Your ideas, clearly told.</span>
   </div>
 </footer>
 
+<script>
+/* The menu, as on the homepage: the button opens and closes it; a link, Escape, or a click elsewhere closes it. */
+(function(){
+  var btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu'); if (!btn || !menu) return;
+  function set(open){ btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Menu'); menu.hidden = !open; if (open) menu.querySelector('a').focus(); }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); set(menu.hidden); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function(e){ if (!menu.hidden && !menu.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !menu.hidden){ set(false); btn.focus(); } });
+})();
+</script>
 </body>
 </html>

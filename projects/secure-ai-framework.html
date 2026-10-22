@@ -4,256 +4,85 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Secure AI Framework Risk Map — Jeff Ma</title>
-<meta name="description" content="Case study: turning how AI systems get attacked and defended into one visual map, now a reference for the Coalition for Secure AI.">
+<meta name="description" content="How AI systems get attacked and defended, turned into one visual map, now a foundational reference for the Coalition for Secure AI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap" rel="stylesheet">
-<style>
-  /* Case study template. Shares the homepage's tokens, type and grid. Parts still to be written are
-     marked with .todo (a yellow highlight) so they're easy to find; remove the class as each is filled. */
-  :root{
-    --paper:#f1ece2; --paper-2:#e7e0d2; --ink:#151515; --ink-soft:#4b4843; --rule:#151515;
-    --red:#d63a26; --purple:#545394; --ochre:#b17f28; --green:#3d8b4f; --pink:#c47163; --yellow:#f0b429; --blue:#1f4fa3;
-    --maxw:1280px; --gutter:clamp(16px, 4vw, 48px); --col-gap:24px;
-    --sans:"Jost", "Futura", "Century Gothic", -apple-system, sans-serif;
-    --mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:18px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
-  a{color:inherit;}
-  img{display:block; max-width:100%;}
-  h1, h2, h3, p{margin:0;}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);}
-  .label{font-family:var(--mono); font-size:.75rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase;}
-  .nw{white-space:nowrap;}
-  @media (max-width:700px){ .lede .nw, .payoff .nw{white-space:normal;} }   /* phones: long phrases may wrap rather than overflow */
-  .todo{background:color-mix(in srgb, var(--yellow) 55%, transparent); box-shadow:0 0 0 2px color-mix(in srgb, var(--yellow) 55%, transparent);}
-  .todo::before{content:"To fill: "; font-family:var(--mono); font-size:.7em; letter-spacing:.06em; text-transform:uppercase;}
-
-  /* Header: the wordmark home, a way back to the work, and the way to get in touch. */
-  .bar{display:flex; justify-content:space-between; align-items:center; gap:24px; padding-block:clamp(18px, 2.5vw, 30px);}
-  .wm{font-family:"Unbounded", var(--sans); font-weight:800; font-size:1.5rem; line-height:1; text-decoration:none; white-space:nowrap;}
-  .bar nav{display:flex; align-items:center; gap:24px;}
-  .bar nav a{text-decoration:none; font-weight:500; font-size:.95rem;}
-  .bar nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px;}
-  .btn{display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:var(--paper); padding:10px 18px; font-weight:600;}
-  .btn:hover{background:var(--red);}
-  .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
-  @media (max-width:520px){ .bar nav a:not(.btn){display:none;} }
-
-  /* Section labels: the homepage's bars, running in from the left edge. */
-  .bar-k{position:relative; display:inline-flex; align-items:center; gap:14px; padding:10px 18px 10px 0; background:var(--k, var(--green)); color:var(--paper);}
-  .bar-k::after{content:""; position:absolute; top:0; bottom:0; right:100%; width:100vw; background:var(--k, var(--green));}
-  section{padding-block:clamp(48px, 7vw, 96px);}
-  section + section{padding-top:0;}
-
-  /* Opening */
-  .open h1{margin-top:clamp(28px, 4vw, 48px); font-size:clamp(2.2rem, 5.4vw, 4.4rem); font-weight:700; line-height:1.02; letter-spacing:-0.02em; text-wrap:balance;}
-  .open .lede{margin-top:18px; max-width:34em; font-size:clamp(1.15rem, 1.8vw, 1.45rem); line-height:1.4; color:var(--ink-soft); text-wrap:balance;}
-  .hero-img{margin-top:clamp(32px, 5vw, 56px); background:var(--paper-2);}
-  .hero-img img{width:100%; height:auto;}
-
-  /* Snapshot: the facts at a glance, on the 12-column grid. */
-  .snap{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:22px; padding-top:22px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .snap div{grid-column:span 4;}
-  .snap dt{margin-bottom:6px; color:var(--ink-soft);}
-  .snap dd{margin:0; font-size:1.05rem; line-height:1.4;}
-  @media (max-width:900px){ .snap div{grid-column:span 6;} }
-  @media (max-width:520px){ .snap div{grid-column:1 / -1;} }
-
-  /* Story and audience: two short blocks side by side. */
-  .pair{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:40px;}
-  .pair > div{grid-column:span 6;}
-  .pair h2, .h2{font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; text-wrap:balance;}
-  .pair p{margin-top:14px; font-size:1.1rem; line-height:1.5; max-width:32em;}
-  @media (max-width:800px){ .pair > div{grid-column:1 / -1;} }
-
-  /* The five steps, each with the homepage's dot trail and an artifact beside it. */
-  .steps-head{display:flex; flex-direction:column; align-items:flex-start; gap:clamp(28px, 4vw, 48px);}
-  .steps{list-style:none; margin:clamp(32px, 4vw, 48px) 0 0; padding:0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .step{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:16px; padding-block:clamp(24px, 3vw, 40px); border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .step-name{grid-column:1 / span 3;}
-  .step-body{grid-column:4 / span 4; font-size:1.05rem; line-height:1.55;}
-  .step-art{grid-column:9 / -1;}
-  .step h3{margin-top:12px; font-size:clamp(1.4rem, 2.2vw, 1.9rem); font-weight:700;}
-  .dots{display:flex; align-items:flex-end; gap:8px; height:22px;}
-  .dots i{display:block; width:5px; height:5px; border-radius:50%; background:color-mix(in srgb, var(--ink) 20%, transparent);}
-  .dots i:nth-child(2){margin-bottom:3.9px;} .dots i:nth-child(3){margin-bottom:7.8px;} .dots i:nth-child(4){margin-bottom:11.7px;} .dots i:nth-child(5){margin-bottom:15.6px;}
-  .step:nth-child(1) .dots i:nth-child(1), .step:nth-child(2) .dots i:nth-child(2), .step:nth-child(3) .dots i:nth-child(3),
-  .step:nth-child(4) .dots i:nth-child(4), .step:nth-child(5) .dots i:nth-child(5){background:var(--ink);}
-  .slot{aspect-ratio:4 / 3; display:grid; place-items:center; padding:16px; text-align:center; border:1.5px dashed color-mix(in srgb, var(--ink) 35%, transparent); color:var(--ink-soft); font-family:var(--mono); font-size:.75rem; letter-spacing:.04em;}
-  @media (max-width:900px){ .step-name{grid-column:1 / -1;} .step-body{grid-column:1 / span 7;} .step-art{grid-column:8 / -1;} }
-  @media (max-width:600px){ .step-body, .step-art{grid-column:1 / -1;} }
-
-  /* What was made: the deliverables. */
-  .made{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:var(--col-gap); margin-top:clamp(28px, 4vw, 40px);}
-  .made figure{margin:0; grid-column:span 6;}
-  .made figure.wide{grid-column:1 / -1;}
-  .made img{width:100%; height:auto; background:var(--paper-2);}
-  .made figcaption{margin-top:10px; font-size:.95rem; color:var(--ink-soft);}
-  @media (max-width:700px){ .made figure{grid-column:1 / -1;} }
-
-  /* What changed: the outcome, knocked out of a band of colour like the homepage's payoffs. */
-  .payoff{margin-inline:calc(50% - 50vw); background:var(--green); color:var(--paper); padding:clamp(72px, 10vw, 144px) var(--gutter); text-align:center;}
-  .payoff .label{opacity:.85;}
-  .payoff p.big{max-width:24em; margin:18px auto 0; font-size:clamp(1.6rem, 3vw, 2.5rem); font-weight:700; line-height:1.12; text-wrap:balance;}
-  .gains{list-style:none; margin:28px auto 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px;}
-  .gains li{padding:4px 12px; border:1px solid color-mix(in srgb, var(--paper) 55%, transparent); font-size:.95rem;}
-  .proof{max-width:34em; margin:28px auto 0; font-size:1.05rem;}
-
-  /* Who was involved */
-  .who{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:20px; margin-top:clamp(28px, 4vw, 40px);}
-  .who div{grid-column:span 4; padding-top:14px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .who b{display:block; font-size:1.15rem;}
-  .who span{color:var(--ink-soft);}
-  @media (max-width:800px){ .who div{grid-column:span 6;} }
-  @media (max-width:520px){ .who div{grid-column:1 / -1;} }
-
-  /* Next: the other two case studies. */
-  .next{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:var(--col-gap); margin-top:clamp(28px, 4vw, 40px);}
-  .next a{display:flex; flex-direction:column; text-decoration:none; border:2px solid var(--rule);}
-  .next .m{aspect-ratio:16 / 10; overflow:hidden; background:var(--paper-2); border-bottom:2px solid var(--rule);}
-  .next img{width:100%; height:100%; object-fit:cover; transition:transform .5s;}
-  .next a:hover img{transform:scale(1.04);}
-  .next .t{display:flex; justify-content:space-between; gap:12px; padding:16px 20px 20px; font-size:1.2rem; font-weight:600;}
-  .back{display:inline-block; margin-top:28px; font-weight:500;}
-  @media (max-width:640px){ .next{grid-template-columns:1fr;} }
-
-  footer{padding:32px 0 40px; font-size:.9rem;}
-  footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..800;1,400..600&family=DM+Mono:wght@400;500&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project.css">
 </head>
 <body>
 
-<header class="wrap bar">
-  <a class="wm" href="../index.html" aria-label="Jeff Ma, home">JEFF MA</a>
-  <nav aria-label="Site">
-    <a href="../index.html#work">Work</a>
-    <a class="btn" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
-  </nav>
+<header class="site-header">
+  <div class="topbar s3-topbar">
+    <div class="nav nav-left">
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu"><i></i><i></i><i></i></button>
+      <nav class="menu" id="site-menu" aria-label="Sections" hidden>
+        <a href="../index.html#about">Introduction</a>
+        <a href="../index.html#problem">Why it’s hard</a>
+        <a href="../index.html#approach">How I help</a>
+        <a href="../index.html#work">Things I’ve made</a>
+        <a href="../index.html#contact">Getting started</a>
+        <a class="menu-talk" href="../index.html#contact-form">Let’s talk</a>
+      </nav>
+    </div>
+    <div class="brand">
+      <a class="wordmark" href="../index.html" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span><span class="wm-panel"><span class="wm-panel-in"><span>Strat<b class="ealt">e</b>gy and story</span><span>Visual <b class="ealt">e</b>xplanation</span><span>Cr<b class="ealt">e</b>ativ<b class="ealt">e</b> dir<b class="ealt">e</b>ction</span></span></span><span class="wm-bar" aria-hidden="true"></span></span></a>
+      <p class="wm-services"><span class="sv">Strat<b class="ealt">e</b>gy and story</span><span class="sv">Visual <b class="ealt">e</b>xplanation</span><span class="sv">Cr<b class="ealt">e</b>ativ<b class="ealt">e</b> dir<b class="ealt">e</b>ction</span></p>
+    </div>
+    <nav class="nav nav-right" aria-label="Contact">
+      <a class="btn" href="../index.html#contact-form"><span class="dot"></span>Let’s talk</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 
-  <!-- Opening: the project in one line, then the main image. -->
+  <!-- Opening: what it is, the title, the story in one line, then the main picture. -->
   <section class="open">
     <div class="wrap">
-      <span class="bar-k label">Case study</span>
-      <h1>Secure AI Framework <span class="nw">Risk Map</span></h1>
-      <p class="lede"><span class="nw">How AI systems get attacked and defended,</span> <span class="nw">in one map the industry now uses.</span></p>
-      <figure class="hero-img" style="margin-inline:0"><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of a Google report on the role of red teams in securing AI systems, part of the Secure AI Framework series" width="1400" height="1050"></figure>
+      <p class="sec-mark label">Systems &amp; Information Design</p>
+      <h1>Secure AI Framework Risk Map</h1>
+      <p class="lede"><span>How AI gets attacked and defended,</span> <span class="to">turned into one visual map, now an industry&nbsp;reference.</span></p>
+      <figure class="hero"><img src="../assets/work/secure-ai-framework/risk-map-card.webp" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter"></figure>
     </div>
   </section>
 
-  <!-- Snapshot: the facts at a glance. -->
+  <!-- The photos, in rows of one, two or three. -->
+  <section style="padding-top:0">
+    <div class="wrap photos">
+      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a report in the Secure AI Framework series" width="1400" height="1050" loading="lazy"></figure><figure style="--r:1.964"><img src="../assets/work/secure-ai-framework/pss-brand-system.jpg" alt="Google’s Privacy, Safety &amp; Security brand system, which the Secure AI Framework materials are built on" width="1200" height="611" loading="lazy"></figure></div>
+    </div>
+  </section>
+
+  <!-- About: the account, and the facts beside it. -->
   <section>
-    <div class="wrap">
-      <dl class="snap">
-        <div><dt class="label">Client</dt><dd>Google, Privacy, Safety &amp; Security</dd></div>
-        <div><dt class="label">My role</dt><dd>Information design, technical visualization, stakeholder validation</dd></div>
-        <div><dt class="label">Worked with</dt><dd>Security engineering teams <span class="todo">other teams and roles</span></dd></div>
-        <div><dt class="label">Timeline</dt><dd><span class="todo">year and length</span></dd></div>
-        <div><dt class="label">Made</dt><dd>The SAIF Risk Map <span class="todo">other deliverables: reports, slides, versions</span></dd></div>
-        <div><dt class="label">Used by</dt><dd>Google product teams and the Coalition for Secure AI (CoSAI)</dd></div>
-      </dl>
+    <div class="wrap about">
+      <p class="sec-mark label">About</p>
+      <div class="about-copy"><p>Google product teams, and the organizations Google works with across the industry, needed a way to find their way through the risks to AI systems and the controls for each. The security experts knew both in depth. I turned how AI systems get attacked and defended into one visual map, drawn with technical accuracy and checked directly with Google’s security engineering teams.</p></div>
+      <dl class="facts"><div><dt class="label">Client</dt><dd>Google, Privacy, Safety &amp; Security</dd></div><div><dt class="label">Role</dt><dd>Information design, technical visualization, stakeholder validation</dd></div><div><dt class="label">Used by</dt><dd>Google product teams and the Coalition for Secure AI (CoSAI)</dd></div></dl>
     </div>
   </section>
 
-  <!-- The story they had, and who needed to get it. -->
-  <section>
-    <div class="wrap pair">
-      <div>
-        <span class="label" style="color:var(--ink-soft)">The story they had</span>
-        <h2 style="margin-top:12px">How AI gets attacked and defended.</h2>
-        <p>The experts knew the risks and the controls in depth. <span class="todo">what made it hard to follow: how many risks and controls, what form it lived in (documents, spreadsheets, talks), and why it wasn’t landing</span></p>
-      </div>
-      <div>
-        <span class="label" style="color:var(--ink-soft)">Who needed to get it</span>
-        <h2 style="margin-top:12px">Product teams and the wider industry.</h2>
-        <p>Google product teams and industry organizations needed a way to navigate AI security risks and the controls for each. <span class="todo">what they needed to do with it: decide, build, audit, adopt</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- The five steps: the homepage's process, shown on this project. -->
-  <section>
-    <div class="wrap">
-      <div class="steps-head">
-        <span class="bar-k label" style="--k:var(--ochre)">Conversation to craft</span>
-        <p class="h2">The five steps, on this project.</p>
-      </div>
-      <ol class="steps">
-        <li class="step">
-          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Listen</h3></div>
-          <div class="step-body"><p><span class="todo">who you sat down with, what they walked you through, and what you heard that they hadn’t said outright</span></p></div>
-          <div class="step-art"><div class="slot">Artifact: interview notes or the source material, redacted if needed</div></div>
-        </li>
-        <li class="step">
-          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Ask</h3></div>
-          <div class="step-body"><p><span class="todo">the questions a product team or an outside reader would ask, and the one that unlocked the structure</span></p></div>
-          <div class="step-art"><div class="slot">Artifact: a list of audience questions</div></div>
-        </li>
-        <li class="step">
-          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Edit</h3></div>
-          <div class="step-body"><p><span class="todo">what stayed in for this audience, what was set aside, and why</span></p></div>
-          <div class="step-art"><div class="slot">Artifact: a cut list or an early, crowded draft</div></div>
-        </li>
-        <li class="step">
-          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Shape</h3></div>
-          <div class="step-body"><p><span class="todo">the structure you chose (how risks, controls, and responsibilities relate) and the order a newcomer reads it in</span></p></div>
-          <div class="step-art"><div class="slot">Artifact: a structure sketch or wireframe</div></div>
-        </li>
-        <li class="step">
-          <div class="step-name"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3></div>
-          <div class="step-body"><p>The map was visualized with technical accuracy, and that accuracy was validated directly with security engineering teams. <span class="todo">the visual decisions that made it readable, and how many rounds of review it took</span></p></div>
-          <div class="step-art"><div class="slot">Artifact: the final map, or a detail of it</div></div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- What was made -->
-  <section>
-    <div class="wrap">
-      <p class="h2">What was made.</p>
-      <div class="made">
-        <figure class="wide"><div class="slot" style="aspect-ratio:16 / 7">The SAIF Risk Map, full view</div></figure>
-        <figure><img src="../assets/work/secure-ai-framework/saif-red-teams.jpg" alt="Cover of a Google report on the role of red teams in securing AI systems" width="1400" height="1050" loading="lazy"><figcaption>A report in the Secure AI Framework series. <span class="todo">your part in it</span></figcaption></figure>
-        <figure><img src="../assets/work/secure-ai-framework/pss-brand-system.jpg" alt="Google’s Privacy, Safety &amp; Security brand system" width="1200" height="611" loading="lazy"><figcaption>The Privacy, Safety &amp; Security brand system the SAIF materials are built on.</figcaption></figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- What changed: the outcome as a payoff band. -->
+  <!-- What changed: the outcome, as a payoff band. -->
   <div class="payoff">
     <span class="label">What changed</span>
     <p class="big"><span class="nw">Adopted as a foundational reference</span> <span class="nw">for the Coalition for Secure AI,</span> <span class="nw">an open-source, cross-industry consortium.</span></p>
-    <ul class="gains" aria-label="What this project shows"><li>Understood faster</li><li>Retold for you</li><li>Ready for any audience</li></ul>
-    <p class="proof"><span class="todo">proof: where else it’s used, a quote from an engineer or partner, any numbers</span></p>
+    <ul class="gains" aria-label="What you gain"><li>Faster understanding</li><li>Better conversations</li><li>A story that travels</li></ul>
   </div>
 
-  <!-- Who was involved -->
-  <section style="padding-top:clamp(48px, 7vw, 96px)">
-    <div class="wrap">
-      <p class="h2">Who was involved.</p>
-      <div class="who">
-        <div><b>Security engineering</b><span>Validated the technical accuracy</span></div>
-        <div><b><span class="todo">team</span></b><span><span class="todo">their part</span></span></div>
-        <div><b><span class="todo">team</span></b><span><span class="todo">their part</span></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Next: the other two case studies. -->
+  <!-- More work -->
   <section>
     <div class="wrap">
-      <p class="label" style="color:var(--ink-soft)">More case studies</p>
-      <div class="next">
-        <a href="security-reporting.html"><span class="m"><img src="../assets/work/security-reporting/fog-of-war-cover.jpg" alt="" loading="lazy"></span><span class="t">Security Analysis &amp; Reporting <span aria-hidden="true">→</span></span></a>
-        <a href="safer-with-google-summit.html"><span class="m"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt="" loading="lazy"></span><span class="t">Safer with Google Summit <span aria-hidden="true">→</span></span></a>
-      </div>
+      <p class="sec-mark label">More work</p>
+      <ul class="more-list">
+        <li><a href="security-reporting.html"><span class="mp-thumb"><img src="../assets/work/security-reporting/red-teams-card.jpg" alt="" loading="lazy"></span><span class="mp-title">Security Analysis and Reporting</span><span class="mp-cat">Editorial &amp; Content Design</span></a></li>
+        <li><a href="safer-with-google-summit.html"><span class="mp-thumb"><img src="../assets/work/safer-with-google-summit/stage-2024.webp" alt="" loading="lazy"></span><span class="mp-title">Safer with Google Summit</span><span class="mp-cat">Brand Strategy · Event Design</span></a></li>
+        <li><a href="films.html"><span class="mp-thumb"><img src="../assets/work/ai-safety/card.jpg" alt="" loading="lazy"></span><span class="mp-title">Brand Films</span><span class="mp-cat">Brand Film · Creative Direction</span></a></li>
+        <li><a href="warby-parker.html"><span class="mp-thumb mono on-blue" aria-hidden="true">WP</span><span class="mp-title">Warby Parker</span><span class="mp-cat">Retail &amp; Brand Experience</span></a></li>
+        <li><a href="ibm.html"><span class="mp-thumb mono on-ink" aria-hidden="true">IBM</span><span class="mp-title">IBM</span><span class="mp-cat">Brand &amp; Communication Design</span></a></li>
+        <li><a href="anthropologie.html"><span class="mp-thumb mono on-paper" aria-hidden="true">A</span><span class="mp-title">Anthropologie</span><span class="mp-cat">Retail &amp; Brand Design</span></a></li>
+        <li><a href="hollister.html"><span class="mp-thumb mono on-blue" aria-hidden="true">H</span><span class="mp-title">Hollister</span><span class="mp-cat">Retail &amp; Brand Design</span></a></li>
+      </ul>
       <a class="back" href="../index.html#work">← All work</a>
     </div>
   </section>
@@ -262,11 +91,22 @@
 
 <footer>
   <div class="wrap">
-    <span class="wm" style="font-size:1.3rem" aria-label="Jeff Ma">JEFF MA</span>
+    <span class="foot-name"><a class="wm" href="../index.html" aria-label="Jeff Ma, home">JEFF MA</a><a class="foot-in" href="https://www.linkedin.com/in/jeff-ma-8b6b663/" aria-label="Jeff Ma on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24"/><path d="M5.5 9.5h3v9h-3zM7 4.8a1.75 1.75 0 1 1 0 3.5a1.75 1.75 0 0 1 0-3.5zM10.5 9.5h2.9v1.3c.5-.8 1.5-1.5 3-1.5c2.9 0 3.4 1.9 3.4 4.3v4.9h-3v-4.3c0-1.1 0-2.4-1.5-2.4s-1.8 1.1-1.8 2.3v4.4h-3z" fill="var(--paper)"/></svg></a></span>
     <span>© 2026 Jeff Ma</span>
     <span class="label">Your ideas, clearly told.</span>
   </div>
 </footer>
 
+<script>
+/* The menu, as on the homepage: the button opens and closes it; a link, Escape, or a click elsewhere closes it. */
+(function(){
+  var btn = document.querySelector('.menu-btn'), menu = document.getElementById('site-menu'); if (!btn || !menu) return;
+  function set(open){ btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Menu'); menu.hidden = !open; if (open) menu.querySelector('a').focus(); }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); set(menu.hidden); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function(e){ if (!menu.hidden && !menu.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !menu.hidden){ set(false); btn.focus(); } });
+})();
+</script>
 </body>
 </html>

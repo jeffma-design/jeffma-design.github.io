@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -80,6 +80,51 @@
   .menu[hidden]{display:none;}
   .menu a{padding:12px 20px; color:var(--paper); text-decoration:none; font-size:var(--fs-title); font-weight:700; line-height:1.15;}
   .menu a:hover, .menu a:focus-visible{background:var(--red); outline:none;}
+  /* ---------- Contact overlay: paper, ink, square corners, the site's own type ---------- */
+  /* In the menu it's an action, not a place: a paper button like the header's, set apart under a rule. */
+  .menu .menu-talk{display:flex; align-items:center; gap:10px; margin:10px 20px 10px; padding:12px 18px; background:var(--paper); color:var(--ink); font-size:var(--fs-body); font-weight:500; position:relative;}
+  .menu .menu-talk::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--yellow); flex:none;}
+  .menu .menu-talk::after{content:""; position:absolute; left:-20px; right:-20px; top:-11px; height:1px; background:color-mix(in srgb, var(--paper) 25%, transparent);}
+  .menu .menu-talk:hover, .menu .menu-talk:focus-visible{background:var(--yellow); color:var(--ink);}
+  .menu .menu-talk:hover::before, .menu .menu-talk:focus-visible::before{background:var(--ink);}
+  .cdlg{width:min(600px, calc(100vw - 32px)); max-height:calc(100vh - 48px); padding:0; border:2px solid var(--ink); background:var(--paper); color:var(--ink); overflow:auto;}
+  .cdlg::backdrop{background:color-mix(in srgb, var(--ink) 70%, transparent);}
+  .cdlg-in{position:relative; padding:clamp(24px, 4vw, 40px);}
+  .cdlg-x{position:absolute; top:12px; right:12px; width:44px; height:44px; padding:0; border:0; background:none; cursor:pointer;}
+  .cdlg-x i{position:absolute; left:11px; top:21px; width:22px; height:2px; background:var(--ink); transform:rotate(45deg);} .cdlg-x i + i{transform:rotate(-45deg);}
+  .cdlg-x:hover i{background:var(--red);}
+  .cdlg-h{margin:0 48px 0 0; font-size:var(--fs-statement); font-weight:500; line-height:1.2; text-wrap:balance;}
+  .cdlg-sub{margin:8px 0 24px; font-size:var(--fs-body); color:var(--ink-soft);}
+  .cf{display:block; margin-bottom:18px;}
+  .cf .label{display:block; margin-bottom:6px; color:var(--ink-soft);}
+  .cf input, .cf textarea{display:block; width:100%; box-sizing:border-box; padding:10px 12px; border:2px solid var(--ink); border-radius:0; background:#fff; color:var(--ink); font:400 var(--fs-body)/1.45 var(--sans);}
+  .cf textarea{resize:vertical; min-height:5.5em;}
+  .cf input:focus, .cf textarea:focus{outline:3px solid var(--yellow); outline-offset:0;}
+  .cf ::placeholder{color:color-mix(in srgb, var(--ink-soft) 70%, transparent);}
+  .cf-set{margin:0 0 18px; padding:0; border:0; min-width:0;}
+  .cf-set legend{padding:0; margin-bottom:8px; color:var(--ink-soft);}
+  .chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{position:relative; cursor:pointer;}
+  .chip input{position:absolute; opacity:0; width:1px; height:1px;}   /* the box itself is the control */
+  .chip span{display:block; padding:.25em .55em .3em; border:1.5px solid var(--ink); font-size:var(--fs-body); font-weight:500; line-height:1.15; color:var(--ink); background:var(--paper); transition:background .15s, color .15s;}
+  .chip:hover span{background:color-mix(in srgb, var(--ink) 8%, var(--paper));}
+  .chip input:checked + span{background:var(--ink); color:var(--paper);}   /* chosen: it fills in, like the madlib boxes */
+  .chip input:focus-visible + span{outline:3px solid var(--yellow); outline-offset:1px;}
+  .cf-opt{margin-left:6px; text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:var(--fs-small); font-weight:400;}
+  .cf-row{display:grid; grid-template-columns:1fr 1fr; column-gap:16px;}
+  .cf-hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0;}
+  .cf-send{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:6px;}
+  .cf-send .btn{cursor:pointer; font-family:var(--sans);}
+  .cf-status{margin:0; font-size:var(--fs-small); color:var(--ink-soft);}
+  .cf-alt{margin:22px 0 0; padding-top:16px; border-top:1px solid color-mix(in srgb, var(--ink) 25%, transparent); font-size:var(--fs-small); color:var(--ink-soft);}
+  .cf-alt a{color:var(--ink);}
+  .cf-copy{margin-left:8px; padding:3px 8px; border:1px solid var(--ink); background:none; color:var(--ink); cursor:pointer;}
+  .cf-copy:hover{background:var(--ink); color:var(--paper);}
+  .cdlg-done .cdlg-sub{margin-bottom:0;}
+  @media (max-width:639px){   /* phones: a full-screen sheet */
+    .cdlg{width:100vw; max-width:none; height:100%; max-height:none; margin:0; border:0;}
+    .cf-row{grid-template-columns:1fr;}
+  }
   @media (max-width:520px){ .nav-role{white-space:normal; line-height:1.2; font-size:.85rem;} .nav-left{gap:10px;} }   /* phones: the role wraps beside the button */
   .nav a{text-decoration:none; font-size:0.95rem; font-weight:500;}
   .nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
@@ -92,6 +137,51 @@
   .btn:hover{background:var(--red); border-color:var(--red);}
   .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
   .brand{text-align:center;}
+  /* The lockup: what I do, in a paper panel after MA. All in em of the wordmark, measured from Unbounded 800:
+     the panel is the caps' height (0.75em), its left edge runs parallel to the A's right stroke (0.45 across per 1 down),
+     and the ink bar that ends it is as wide as the M's stem (0.22em). */
+  .wm-panel{--h:.75em; display:inline-block; box-sizing:border-box; height:var(--h); overflow:hidden; vertical-align:baseline;   /* inline-block with overflow hidden: its bottom edge sits on MA's baseline */
+    width:3.374em; margin-left:-.056em; padding:.0525em .11em .0475em 0; background:var(--paper);   /* clear of the A by 0.28em all the way down, a touch more than the A's right stroke */
+    clip-path:polygon(0 0, 100% 0, 100% 100%, calc(.45 * var(--h)) 100%);
+    font-family:"Unbounded", var(--sans); font-weight:700; font-size:1em; letter-spacing:0; text-transform:uppercase; color:var(--ink); -webkit-text-fill-color:var(--ink);}
+  /* Unbounded's E bows in on its left side; here it is redrawn plain, from the font's own measurements (stem 0.196em,
+     arms 0.168/0.15/0.168em, same advance), as a picture behind the real, transparent letter, so the text still reads and copies. */
+  .ealt{display:inline-block; width:.7936em; height:.75em; overflow:hidden; vertical-align:baseline; letter-spacing:0; margin-right:var(--ls, 0);
+    color:transparent; -webkit-text-fill-color:transparent; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 793.6 750'%3E%3Cg fill='%23151515'%3E%3Crect x='47' y='0' width='196' height='750'/%3E%3Crect x='47' y='0' width='692' height='168'/%3E%3Crect x='47' y='300' width='663' height='150'/%3E%3Crect x='47' y='582' width='697' height='168'/%3E%3C/g%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%; font-weight:inherit; line-height:1;}
+  .wm-bar{display:inline-block; width:.1em; height:.75em; overflow:hidden; vertical-align:baseline; background:var(--ink);}   /* the bar that ends the panel: narrower than any stem (0.1em against the M's 0.22em), so it never reads as a letter of the name; outside the panel so it stays ink */
+  @media (max-width:639px){ .wm-bar{display:none;} }
+  /* Stacked, with no colour behind it, the lockup inverts: MA in outline, the panel in ink with paper type, the bar in outline. */
+  .s3-wm:not(.across) .s3-b{color:var(--paper); -webkit-text-fill-color:var(--paper); text-shadow:1.50px 0.00px 0 var(--ink), 1.39px 0.57px 0 var(--ink), 1.06px 1.06px 0 var(--ink), 0.57px 1.39px 0 var(--ink), 0.00px 1.50px 0 var(--ink), -0.57px 1.39px 0 var(--ink), -1.06px 1.06px 0 var(--ink), -1.39px 0.57px 0 var(--ink), -1.50px 0.00px 0 var(--ink), -1.39px -0.57px 0 var(--ink), -1.06px -1.06px 0 var(--ink), -0.57px -1.39px 0 var(--ink), -0.00px -1.50px 0 var(--ink), 0.57px -1.39px 0 var(--ink), 1.06px -1.06px 0 var(--ink), 1.39px -0.57px 0 var(--ink);}   /* outline drawn as a ring of shadows: a stroke would trace Unbounded's overlapping contours inside the letters */
+  .s3-wm:not(.across) .wm-panel{background:var(--ink); color:var(--paper); -webkit-text-fill-color:var(--paper);}
+  .s3-wm:not(.across) .wm-panel .ealt{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 793.6 750'%3E%3Cg fill='%23f1ece2'%3E%3Crect x='47' y='0' width='196' height='750'/%3E%3Crect x='47' y='0' width='692' height='168'/%3E%3Crect x='47' y='300' width='663' height='150'/%3E%3Crect x='47' y='582' width='697' height='168'/%3E%3C/g%3E%3C/svg%3E"); -webkit-text-fill-color:transparent;}
+  .s3-wm:not(.across) .wm-bar{background:none; box-shadow:inset 0 0 0 1.5px var(--ink);}
+  .wm-panel-in{display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; height:100%;}
+  .wm-panel-in span{display:block; font-size:.205em; line-height:.86; white-space:nowrap; letter-spacing:var(--ls); margin-right:calc(-1 * var(--ls));}   /* the trailing tracking is taken back, so the ink ends flush */
+  /* Each line tracked so it starts 0.16em in from the slanted edge, at its own height: the left edges follow the A's angle.
+     The first line sits 0.03em further in: its round S, open at the top left, looks set out against the angle otherwise. */
+  .wm-panel-in span:nth-child(1){--ls:.0292em;}   /* "Strategy and story": re-tracked so its ink starts where "Story and message" did */
+  .wm-panel-in span:nth-child(2){--ls:.0199em;}
+  .wm-panel-in span:nth-child(3){--ls:.0229em;}
+  @media (max-width:639px){ .wm-panel{display:none;} }   /* phones: the line under the name instead */
+  /* Under 1,060px the lockup and the header's "Let's talk" can't both fit, so the button gives way (it's in the menu, and the page ends on it).
+     The lockup reaches 5.92em right of the wall, which sits mid-window; below about 760px the wordmark scales so it still fits,
+     everything in the panel scaling with it, until the panel's type would drop under 10px. */
+  @media (min-width:640px) and (max-width:1059px){ .s3-bar .nav-right .btn{display:none;} .s3-bar .wordmark .s3-wm{font-size:min(3.33rem, calc((50vw - 40px) / 5.92));} }
+  /* Small: MA in solid ink, and what I do in a strip of its own under the name: one line, outlined in ink, its left edge and
+     dividers at the A's angle (0.45 across per 1 down), closed by the same ink bar as the lockup. All in em of the strip's type. */
+  .wm-services{display:none;}
+  @media (max-width:639px){
+    .s3-wm:not(.across) .s3-b{color:var(--ink); -webkit-text-fill-color:var(--ink); text-shadow:none;}
+    .wm-services{--h:1.4em; --b:max(1.25px, .09em); --bar:.4em; position:relative; display:flex; width:max-content; height:var(--h); box-sizing:border-box; margin:.6em auto 0; padding-right:var(--bar);
+      background:var(--ink); clip-path:polygon(0 0, 100% 0, 100% 100%, calc(.45 * var(--h)) 100%);
+      font:700 min(14px, calc((100vw - 32px) / 45.4))/1 "Unbounded", var(--sans); text-transform:uppercase; white-space:nowrap; color:var(--ink);}   /* as wide as the window allows, gutters kept */
+    .wm-services::before{content:""; position:absolute; inset:0 var(--bar) 0 0; background:var(--paper);   /* the paper inside the outline: a rule all round (0.09em, as in the drawing, but never under 1.25px), measured square to the slanted edge */
+      clip-path:polygon(calc(1.547 * var(--b)) var(--b), 100% var(--b), 100% calc(100% - var(--b)), calc(.45 * var(--h) + .647 * var(--b)) calc(100% - var(--b)));}
+    .wm-services .sv{position:relative; display:block; padding:0 .45em 0 .5em; line-height:var(--h);}
+    .wm-services .sv:first-child{padding-left:.85em;}   /* half the slant (0.315em) in from the corner, then the same 0.5em as after each divider */
+    .wm-services .sv:last-child{padding-right:.5em;}
+    .wm-services .sv + .sv::before{content:""; position:absolute; left:calc(-.5 * var(--b)); top:0; bottom:0; width:var(--b); background:var(--ink); transform:skewX(24.23deg);}   /* atan(0.45) */
+  }
   .wm-role{display:block; color:var(--ink-soft); margin-top:14px;}
 
   /* Wordmark: JEFF MA, set in Unbounded. */
@@ -136,11 +226,11 @@
   .s3{height:100vh; height:100svh;}
   .s3-frame{position:relative; height:100%; background:var(--paper); overflow:hidden;}
   .s3-frame canvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
-  .s3-bar{position:relative; z-index:1;}
+  .s3-bar{position:relative;}   /* no z-index: it paints over the canvas by source order, and stays in the canvas's layer so the lockup panel can blend with it */
   .s3-topbar{padding:clamp(14px, 2vw, 24px) clamp(16px, 2.5vw, 32px) 0;}
   /* JEFF MA straddles the wall: JEFF in ink on the off-white, MA in paper on the colour.
      The script shifts it (--shift) so the space between the words sits on the wall. */
-  .s3-wm{transform:translateX(var(--shift, 0px));}
+  .s3-wm{position:relative; left:var(--shift, 0px);}   /* left, not transform: a transform would isolate the panel's blend from the canvas */
   /* The title, for screen readers; on screen the hero's script draws it at the foot of the hero, either side of the wall. */
   .wm-tag{margin:clamp(10px, 1.4vw, 18px) 0 0; width:max-content; margin-inline:auto; white-space:nowrap; color:transparent;
     font-size:clamp(1.3rem, 3vw, 2.6rem); font-weight:700; line-height:1.05; letter-spacing:-0.01em;}   /* the page's main statement: above the madlib in size and weight */
@@ -345,7 +435,12 @@
   .process-lead{margin:clamp(88px, 11vw, 160px) 0 0; font-size:var(--fs-statement); font-weight:500; line-height:1.2; text-wrap:balance;}
   @media (min-width:700px){ .process-lead .nw{display:block; white-space:nowrap;} }   /* broken after "conversation" */
   @media (min-width:1100px){ .process-lead{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-inline:auto;} }   /* on the steps' columns */
-  @media (max-width:960px){ .process-lead{text-align:center;} }   /* over the centred, stacked steps */
+  /* Narrower, over the stacked steps: the lead starts where the step names do. The two share one centred column as wide as
+     the steps (the lead, contained, doesn't widen it), and the lead is set in past the dot trail: 4 × 10px pitch + a 4px dot, and the 18px gap. */
+  @media (max-width:960px){
+    .process-group{display:grid; grid-template-columns:fit-content(calc(100% - 4.6em)); justify-content:center;}
+    .process-lead{contain:inline-size; padding-left:62px; text-align:left;}
+  }
   .process{list-style:none; margin:0; padding:clamp(24px, 4vw, 56px) 0; display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:36px;}
   .step{--dot:5px; --pitch:13px; --rise:3.9px;}   /* dot size, spacing along the row, and the rise per dot (about 17°) */
   .dots{display:flex; align-items:flex-end; gap:calc(var(--pitch) - var(--dot)); height:calc(var(--dot) + 4 * var(--rise)); margin-bottom:16px;}
@@ -365,13 +460,13 @@
   .step:nth-child(5) .dots i:nth-child(-n+5):not(:first-child)::before{
     content:""; position:absolute; left:50%; top:50%; width:calc(var(--pitch) * 1.044 - var(--dot)); height:calc(var(--dot) * .15); margin-top:calc(var(--dot) * -.075);   /* line weight to dot as in the hero (1.1px lines on ~7.3px dots) */
     background:color-mix(in srgb, var(--ink) 20%, transparent); transform-origin:0 50%; transform:rotate(163.3deg) translateX(calc(var(--dot) / 2));}
-  .step h3{margin:0 0 8px; font-size:var(--fs-title); font-weight:700; letter-spacing:0;}
+  .step h3{margin:0 0 8px; font-size:var(--fs-title); font-weight:700; line-height:1.15; letter-spacing:-0.01em;}   /* the same title style as the three kinds and the gains */
   .step p{margin:0; font-size:var(--fs-body); line-height:1.4; color:var(--ink); text-wrap:pretty;}
   @media (min-width:1100px){ .process{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-inline:auto;} }   /* ten of the twelve columns, centred, so each step's column is narrower */
   .step p .nw{white-space:nowrap;}   /* lines break between phrases */
   @media (min-width:961px){ .step p .nw{display:block;} }   /* in five columns, each phrase gets its own line (Ask's long last word, “thinking.”, stands alone rather than run wide) */
   @media (max-width:960px){
-    .process{grid-template-columns:minmax(0, 1fr); row-gap:28px; width:fit-content; max-width:calc(100% - 4.6em); margin-inline:auto;}   /* narrower: one step under the next, the list centred and about ten characters narrower than the column */
+    .process{grid-template-columns:minmax(0, 1fr); row-gap:28px;}   /* narrower: one step under the next; .process-group centres the list, about ten characters narrower than the column */
     .step{--dot:4px; --pitch:10px; --rise:3px;}   /* a smaller dot trail, at the same angle */
     .step{display:grid; grid-template-columns:auto minmax(0, 1fr); column-gap:18px; align-items:center;}   /* the dot trail beside the name, the line under the name */
     .step .dots{grid-column:1; grid-row:1; margin-bottom:0;}
@@ -381,18 +476,42 @@
   }
 
   /* 03 — Outcome (inverted) */
-  /* What you gain: the benefits of the process as a numbered, ruled list on the grid:
-     columns 2–11 of the page grid (the first and last left empty): the number and the benefit in four of them, what it means in six. Phones: stacked. */
-  @media (min-width:1100px){ #approach .gains-k, #approach .gains{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }   /* columns 2–11, from the width where the steps above also narrow to ten columns */
+  /* What you gain: a yellow disc of three bands. Widest (1,200px and up), each gain's label sits by its leader (--x, --w, and
+     --y in the map's 500 units), on columns 2–11; narrower, a list, each gain beside a small disc marking its band. */
+  @media (min-width:1100px){ #approach .gains-k, #approach .gain-map{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }
   .gains-k{font-size:var(--fs-title); font-weight:700; color:var(--ink-soft);}
   .gains-k.gets-k{font-size:var(--fs-statement); font-weight:500; line-height:1.2; color:var(--ink);}   /* a Statement, leading into the three kinds */
   @media (min-width:560px){ .gets-k .nw{display:block; white-space:nowrap;} }   /* broken after "produces" */   /* the lead-in: the list's type, a step down */
-  .gains{list-style:none; margin:0; padding:0; border-bottom:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .gains li{display:grid; grid-template-columns:repeat(10, minmax(0, 1fr)); column-gap:var(--col-gap); align-items:baseline;
-    padding:clamp(14px, 2vw, 22px) 0; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}
-  .gains .g-h{grid-column:1 / span 4; display:flex; align-items:baseline; gap:.3em; font-size:var(--fs-title); line-height:1.15;}   /* the number sits just before the name */
-  .gains .g-n{flex:none; min-width:1.05em; font-weight:400; color:color-mix(in srgb, var(--ink) 45%, transparent);}   /* in the list's own type, a lighter weight and grey */
+  .gain-map{position:relative; margin-top:clamp(32px, 4vw, 56px);}
+  .gm-disc{display:block;}
+  .gm-field{fill:var(--yellow);}
+  .gm-hair{fill:none; stroke:var(--paper); stroke-width:1.5px; vector-effect:non-scaling-stroke;}
+  .gm-hole{fill:var(--paper);}
+  .gm-lead path{fill:none; stroke:var(--ink); stroke-width:1.5px; vector-effect:non-scaling-stroke;}
+  .gm-lead circle{fill:var(--ink);}
+  .gains{list-style:none; margin:0; padding:0;}
+  .gains li > div{display:flex; flex-direction:column; gap:8px;}
+  .gains .g-h{font-size:var(--fs-title); line-height:1.15;}
   .gains b{font-weight:700; letter-spacing:-0.01em; text-wrap:balance;}
+  @media (min-width:1200px){   /* widest: the map, on columns 2–11 like the lead-in above it */
+    .gain-map{aspect-ratio:1334 / 500; margin-bottom:40px;}   /* room for the last label, which runs a little below the disc */
+    .gm-disc{position:absolute; left:calc(372 / 1334 * 100%); top:calc(10 / 500 * 100%); width:calc(482 / 1334 * 100%);}
+    .gm-lead{position:absolute; inset:0; width:100%; height:100%;}
+    .gains li{position:absolute; left:var(--x); width:var(--w); top:calc(var(--y) / 500 * 100%);}   /* just under its leader */
+    .gains .gl{display:block; white-space:nowrap;}   /* the body copy broken as drawn */
+  }
+  .g-ic{display:none;}
+  @media (max-width:1199px){   /* narrower: each gain beside a small copy of the disc, its own band in yellow and the others in the second paper */
+    .gm-disc, .gm-lead{display:none;}
+    .gains{display:flex; flex-direction:column; gap:clamp(28px, 1rem + 2.5vw, 48px);
+      width:fit-content; max-width:100%; margin-inline:auto;}   /* with room to spare, the list sits centred by its box */
+    .gains li{display:grid; grid-template-columns:auto minmax(0, 1fr); column-gap:clamp(16px, .5rem + 1.5vw, 32px); align-items:center;}
+    .g-ic{display:block; width:clamp(64px, 2rem + 7vw, 128px); height:auto; aspect-ratio:1;}   /* grows with the window: 64px on phones to about 110px by 1,100px, so the section gains weight as the page widens */
+    .g-ic circle{fill:var(--paper-2);}
+    [data-band="1"] .gi-b1, [data-band="2"] .gi-b2, [data-band="3"] .gi-b3{fill:var(--yellow);}
+    .g-ic .gi-gap{fill:none; stroke:var(--paper); stroke-width:2px; vector-effect:non-scaling-stroke;}
+    .g-ic .gm-hole{fill:var(--paper);}
+  }
   /* Examples of what you might get: a 3 x 2 grid in the stacks' language, a heavy ink bar on top and 2px ink rules
      between the cells (the grid's ink shows through the gaps). */
   .gets-grid{list-style:none; margin:0 0 clamp(96px, 12vw, 176px); padding:0; display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:2px; background:var(--ink); border-top:6px solid var(--ink);}
@@ -401,18 +520,13 @@
   .gets-grid h3{margin:0 0 6px; font-size:var(--fs-title); line-height:1.15; letter-spacing:-0.01em;}
   .gets-grid p{margin:0; font-size:var(--fs-body); line-height:1.4; color:var(--ink-soft); text-wrap:pretty;}
   .gg-num{display:block; margin:0 0 14px; font-size:clamp(4.5rem, 3rem + 5vw, 8rem); font-weight:700; line-height:.8; letter-spacing:-0.03em; color:var(--ink);}   /* large numerals: they build on each other, in order */
-  /* A field of faint dots on the grid's pitch, waiting for a graphic. */
-  .gain-field{height:clamp(220px, 28vw, 380px); margin:clamp(24px, 3vw, 40px) calc(50% - 50vw) clamp(32px, 4vw, 56px);
-    background-image:radial-gradient(circle, color-mix(in srgb, var(--ink) 22%, transparent) 1.3px, transparent 1.6px); background-size:16px 16px; background-position:center;}
-  .gg-items{list-style:none; margin:16px 0 0; padding:0; font-size:var(--fs-body); line-height:1.35;}
-  .gg-items li{padding:8px 0; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent); background:none;}
+  /* The examples of each kind, as small madlib boxes stacked one under the next: the range of what each kind can be.
+     Set like .ml-box (ink box, paper words, 0.14em either side), at body size. */
+  .gg-items{list-style:none; margin:18px 0 0; padding:0; display:flex; flex-direction:column; align-items:flex-start; gap:6px; font-size:var(--fs-body); line-height:1.1;}
+  .gg-items li{padding:.02em .14em .06em; background:var(--ink); color:var(--paper); font-weight:500;}   /* Medium: paper on ink at body size needs more than the body's weight */
   @media (min-width:1100px){ #approach .gets-grid{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }
   @media (max-width:760px){ .gets-grid{grid-template-columns:minmax(0, 1fr);} .gets-grid > li{padding-inline:0;} }
-  .gains li > span:last-child{grid-column:5 / -1; font-size:var(--fs-body); line-height:1.4; color:var(--ink-soft); text-wrap:pretty;}
-  @media (max-width:700px){
-    .gains li{grid-template-columns:minmax(0, 1fr); row-gap:4px;}
-    .gains .g-h, .gains li > span:last-child{grid-column:1;}
-  }
+  .gains .g-d{font-size:var(--fs-body); line-height:1.4; color:var(--ink-soft); text-wrap:pretty;}
 
   }
 
@@ -609,7 +723,8 @@
   .chapter-head .num-icon{display:none;}
 
   /* ---------- Section marks: a heavy ink rule and a label open each section ---------- */
-  .sec-mark{margin:0 0 clamp(40px, 5vw, 64px); padding:14px 0 0 .15em; border-top:6px solid var(--ink); color:var(--ink);}   /* the label sits just inside the rule's left edge, so its first letter never looks to overhang it */
+  .sec-mark{margin:0 0 clamp(40px, 5vw, 64px); padding:14px 0 0; border-top:6px solid var(--ink); color:var(--ink);}
+  .sec-mark.label{font-family:var(--sans); font-weight:600; font-size:var(--fs-small); letter-spacing:.1em;}   /* Jost SemiBold in capitals; its first letter is set on the rule's edge by the optical-margin script */
   #approach .sec-mark{margin-bottom:clamp(72px, 9vw, 128px);}   /* more room before the triangles open the section */
 
   /* ---------- Madlibs: a blank in a sentence whose word changes. The script swaps the words. ---------- */
@@ -665,7 +780,6 @@
   .wc-t{margin:0; font-size:var(--fs-title); font-weight:700; line-height:1.15; text-wrap:balance;}
   .wc-d{margin:8px 0 0; max-width:30em; font-size:var(--fs-body); line-height:1.45; color:var(--ink-soft); text-wrap:pretty;}
   .wc-to{color:var(--ink); font-weight:500;}
-  .wc-to::before{content:"→ "; color:var(--ink-soft); font-weight:400;}
   .work-cards a:hover .wc-t{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
   @media (max-width:640px){ .work-cards{grid-template-columns:minmax(0, 1fr);} .wc-intro{padding-top:0;} .wc-range{padding-left:0;} .wc-media{aspect-ratio:4 / 3;} }   /* phones: headline, four cards, then the range */
   .work-also{margin-top:clamp(36px, 4.5vw, 56px); padding-top:20px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent); color:var(--ink-soft);}
@@ -684,12 +798,11 @@
   <ol>
     <span class="fill" aria-hidden="true"></span>
     <li data-for="top"><a href="#top"><span class="pip"></span><span class="rl label">Start</span></a></li>
-    <li data-for="problem"><a href="#problem"><span class="pip"></span><span class="rl label">01 Problem</span></a></li>
-    <li data-for="approach"><a href="#approach"><span class="pip"></span><span class="rl label">02 Approach</span></a></li>
-    <li data-for="outcome"><a href="#outcome"><span class="pip"></span><span class="rl label">03 Outcome</span></a></li>
-    <li data-for="work"><a href="#work"><span class="pip"></span><span class="rl label">04 Proof</span></a></li>
-    <li data-for="moments"><a href="#moments"><span class="pip"></span><span class="rl label">05 Moments</span></a></li>
-    <li data-for="contact"><a href="#contact"><span class="pip"></span><span class="rl label">06 Start</span></a></li>
+    <li data-for="about"><a href="#about"><span class="pip"></span><span class="rl label">Introduction</span></a></li>
+    <li data-for="problem"><a href="#problem"><span class="pip"></span><span class="rl label">Why it’s hard</span></a></li>
+    <li data-for="approach"><a href="#approach"><span class="pip"></span><span class="rl label">How I help</span></a></li>
+    <li data-for="work"><a href="#work"><span class="pip"></span><span class="rl label">Things I’ve made</span></a></li>
+    <li data-for="contact"><a href="#contact"><span class="pip"></span><span class="rl label">Getting started</span></a></li>
   </ol>
 </nav>
 
@@ -701,20 +814,23 @@
       <div class="topbar s3-topbar">
         <div class="nav nav-left">   <!-- the menu, then what I do (the section links moved into the menu) -->
           <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu"><i></i><i></i><i></i></button>
-          <p class="nav-role">Strategic Creative Direction</p>
+          <p class="nav-role" hidden>Strategic Creative Direction</p>   <!-- hidden for now: the services line under the name says it -->
           <nav class="menu" id="site-menu" aria-label="Sections" hidden>
-            <a href="#problem">The problem</a>
-            <a href="#approach">How I work</a>
-            <a href="#work">The work</a>
-            <a href="#contact">Working together</a>
+            <a href="#about">Introduction</a>
+            <a href="#problem">Why it’s hard</a>
+            <a href="#approach">How I help</a>
+            <a href="#work">Things I’ve made</a>
+            <a href="#contact">Getting started</a>
+            <a class="menu-talk" href="#contact" data-contact>Let’s talk</a>   <!-- at every width, so the menu always holds the same six items -->
           </nav>
         </div>
         <div class="brand">
-          <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span></span></a>
+          <a class="wordmark" href="#top" aria-label="Jeff Ma, home"><span class="wm s3-wm"><span class="s3-a">JEFF</span> <span class="s3-b">MA</span><span class="wm-panel"><span class="wm-panel-in"><span>Strat<b class="ealt">e</b>gy and story</span><span>Visual <b class="ealt">e</b>xplanation</span><span>Cr<b class="ealt">e</b>ativ<b class="ealt">e</b> dir<b class="ealt">e</b>ction</span></span></span><span class="wm-bar" aria-hidden="true"></span></span></a>
           <p class="wm-tag sr-only"><span class="tg-a">Your ideas,</span> <span class="tg-b">clearly told</span></p>
+          <p class="wm-services"><span class="sv">Strat<b class="ealt">e</b>gy and story</span><span class="sv">Visual <b class="ealt">e</b>xplanation</span><span class="sv">Cr<b class="ealt">e</b>ativ<b class="ealt">e</b> dir<b class="ealt">e</b>ction</span></p>   <!-- small viewports: the lockup panel's words, in a strip under the name -->
         </div>
         <nav class="nav nav-right" aria-label="Contact">
-          <a class="btn" href="#contact"><span class="dot"></span>Let’s talk</a>
+          <a class="btn" href="#contact" data-contact><span class="dot"></span>Let’s talk</a>
         </nav>
       </div>
     </header>
@@ -728,7 +844,7 @@
 </section>
 
 <!-- ============ SUB-HEADLINE ============ -->
-<div class="hero-after">
+<div class="hero-after" id="about">   <!-- the menu's Introduction jumps here -->
   <!-- Review tools (to remove before launch): the grid overlay and the hero sketch. -->
   <div class="review-bar">
     <button class="grid-toggle label" type="button" aria-pressed="false">Grid</button>
@@ -755,7 +871,7 @@
 <section class="chapter" id="problem">
   <button class="label sec-sketch" id="obs-toggle" type="button" aria-label="Switch section sketch" hidden>Sketch 2</button>   <!-- sketch 1 retired for now; the toggle is hidden -->
   <div class="wrap">
-    <p class="sec-mark label">The problem</p>   <!-- marks the start of a new section -->
+    <p class="sec-mark label">Why it’s hard</p>   <!-- marks the start of a new section -->
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true"><path d="M-25 0 Q0 -24 25 0 Q0 24 -25 0 Z" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linejoin="round"/><circle cx="0" cy="0" r="7.5" fill="none" stroke="var(--paper)" stroke-width="2"/><circle cx="0" cy="0" r="3.4" fill="var(--paper)"/></svg><span class="num-name">My observation</span></div>
     </div>
@@ -809,7 +925,7 @@
         <!-- The ways a story goes wrong, as a list: the sentence's start, and every way it could end. Pointing at one
              (or focusing it) turns the picture above into that mistake. -->
       </div>
-      <div class="payoff payoff-lines"><p><span class="pl"><span>The gap between knowing</span> <span class="pk"><span>and explaining</span> <span>isn’t your fault.</span></span></span> <span class="pl"><span>Closing that gap is a different</span> <span>kind of work.</span></span></p></div>
+      <div class="payoff payoff-lines"><p><span class="pl"><span>The gap between knowing</span> <span class="pk"><span>and explaining</span> <span>can be difficult to&nbsp;bridge.</span></span></span> <span class="pl"><span>Closing that gap is a different</span> <span>kind of work.</span></span></p></div>
       <div class="s2-blocks" aria-hidden="true" hidden>   <!-- hidden for now -->
         <div class="s2-block" data-shape="plus" style="--blk:var(--ochre)"></div>
         <div class="s2-block" data-shape="minus" style="--blk:var(--green)"></div>
@@ -825,7 +941,7 @@
 <!-- ============ 02 APPROACH ============ -->
 <section class="chapter" id="approach">
   <div class="wrap">
-    <p class="sec-mark label">How I work</p>   <!-- marks the start of a new section -->
+    <p class="sec-mark label">How I help</p>   <!-- marks the start of a new section -->
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon" style="--bar:var(--ochre)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 -12H12A5 5 0 0 1 17 -7V3A5 5 0 0 1 12 8H-4L-10 14L-9 8H-18A5 5 0 0 1 -23 3V-7A5 5 0 0 1 -18 -12Z"/><path d="M-15 -2Q-11 -8 -7 -2T1 -2T9 -2"/></svg><span class="num-name">Conversation to craft</span></div>
       <div>
@@ -834,6 +950,7 @@
     </div>
 
     <!-- The steps' lead-in, at the Statement level: a step below the section headline. -->
+    <div class="process-group">
     <p class="process-lead reveal"><span class="nw">Design starts with a conversation</span> <span class="nw">and guides every step that follows.</span></p>
     <ol class="process reveal" id="process">
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Listen</h3><p><span class="nw">I listen and line up</span> <span class="nw">what you’re saying</span> <span class="nw">with what you mean.</span></p></li>
@@ -842,29 +959,33 @@
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Shape</h3><p><span class="nw">I tune your story</span> <span class="nw">for the people</span> <span class="nw">hearing it.</span></p></li>
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3><p><span class="nw">Then I design</span> <span class="nw">what carries it.</span></p></li>
     </ol>
+    </div>
 
     <!-- What you get, in three kinds that build on each other: the message, the kit, and the story. The ways to work
          together refer back to them. -->
     <p class="sub-label gains-k gets-k reveal"><span class="nw">Working together produces</span> <span class="nw">three kinds of work.</span></p>
     <!-- The three kinds side by side, text only (the work section carries the pictures). -->
     <ul class="gets-grid reveal">
-      <li><span class="gg-num" aria-hidden="true">1</span><h3>The Message</h3><p>What you know, distilled into a story that holds together.</p><ul class="gg-items"><li>Workshops</li><li>A messaging playbook</li></ul></li>
-      <li><span class="gg-num" aria-hidden="true">2</span><h3>The Kit</h3><p>What you need to tell it, made for each audience.</p><ul class="gg-items"><li>Key artifacts for specific audiences</li><li>Key visuals and visual metaphors</li></ul></li>
-      <li><span class="gg-num" aria-hidden="true">3</span><h3>The Story</h3><p>Finished tellings, made for the people who need them.</p><ul class="gg-items"><li>A telling for a specific audience</li><li>A comprehensive campaign</li></ul></li>
+      <li><span class="gg-num" aria-hidden="true">1</span><h3>The Message</h3><p>What you know, distilled into a story that holds together</p><ul class="gg-items"><li>Strategy workshops</li><li>Messaging playbook</li><li>Core narrative</li></ul></li>
+      <li><span class="gg-num" aria-hidden="true">2</span><h3>The Kit</h3><p>What you need to tell your story, made for each audience</p><ul class="gg-items"><li>One-pagers and briefs</li><li>Key visuals and metaphors</li><li>Presentation templates</li></ul></li>
+      <li><span class="gg-num" aria-hidden="true">3</span><h3>The Story</h3><p>Finished pieces, made for the people who need them</p><ul class="gg-items"><li>Keynote or pitch</li><li>Explainer video</li><li>Full campaign</li></ul></li>
     </ul>
 
     <p class="sub-label gains-k gets-k gain-k reveal">And here’s what you&nbsp;gain.</p>
-    <!-- A field of faint dots, the full width of the window, for a graphic to come. -->
-    <div class="gain-field" aria-hidden="true"></div>
-    <ul class="gains reveal">
-    <li><span class="g-h"><b>Faster understanding</b></span> <span>The story, and the details that matter, land in minutes, not meetings.</span></li>
-    <li><span class="g-h"><b>Sharper focus</b></span> <span>Audiences follow the key points and get details as needed.</span></li>
-    <li><span class="g-h"><b>Better conversations</b></span> <span>Time goes to discussing and advancing the idea, not decoding it.</span></li>
-    <li><span class="g-h"><b>Meaningful visuals</b></span> <span>One picture can replace paragraphs and keep things moving.</span></li>
-    <li><span class="g-h"><b>Lasting impressions</b></span> <span>Visual stories hold attention and stick.</span></li>
-    <li><span class="g-h"><b>Built-in champions</b></span> <span>People who remember the story pass it on for you.</span></li>
-    <li><span class="g-h"><b>Wider connection</b></span> <span>A distilled story can be adapted for boards, teams, or the public.</span></li>
+    <!-- The gains as one yellow disc, divided by paper hairlines into three bands widening from a small open centre:
+         the inner band (the point lands), the middle (the conversation), the outer (everyone beyond it). Widest screens:
+         each gain's leader runs from its band to its label, the first on the left, the other two on the right.
+         Map coordinates: 1334 x 500; the disc's centre at 613, 251, radius 241, the hairlines at 101 and 171, the centre 30.
+         Narrower: each gain beside a small copy of the disc with its own band in yellow. -->
+    <div class="gain-map reveal">
+    <svg class="gm-disc" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gm-field"/><circle cx="241" cy="241" r="101" class="gm-hair"/><circle cx="241" cy="241" r="171" class="gm-hair"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg>
+    <svg class="gm-lead" viewBox="0 0 1334 500" aria-hidden="true"><path d="M0 251H548"/><circle cx="548" cy="251" r="6"/><path d="M667 127H1334"/><circle cx="667" cy="127" r="6"/><path d="M778 375H1318"/><circle cx="778" cy="375" r="6"/></svg>
+    <ul class="gains">
+    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes,</span> <span class="gl">with the details there when</span> <span class="gl">people want&nbsp;them</span></span></div></li>
+    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time goes to moving the idea forward,</span> <span class="gl">not decoding&nbsp;it</span></span></div></li>
+    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it on to boards,</span> <span class="gl">teams, or the&nbsp;public</span></span></div></li>
     </ul>
+    </div>
 
     <div class="payoff" style="--payoff:var(--pink)"><p><span class="pl"><span>Once the thinking is clear,</span></span> <span class="pl"><span>everything that comes after</span> <span>gets easier:<span class="only-narrow"> every deck,</span></span></span> <span class="pl"><span><span class="only-wide">every deck, </span>launch, and conversation.</span></span></p></div>
   </div>
@@ -873,7 +994,7 @@
 <!-- ============ 04 WORK ============ -->
 <section class="chapter" id="work">
   <div class="wrap">
-    <p class="sec-mark label">The work</p>   <!-- marks the start of a new section -->
+    <p class="sec-mark label">Things I’ve made</p>   <!-- marks the start of a new section -->
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon" style="--bar:var(--green)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -12H12V5"/><rect x="-17" y="-7" width="24" height="19" rx="1"/><path d="M-14 9L-7 1L-2 6L1 3L4 9"/><circle cx="1" cy="-2" r="1.6"/></svg><span class="num-name">Things I’ve made</span></div>
     </div>
@@ -881,13 +1002,13 @@
     <!-- The work: the headline and four cards on two columns, closing on the range. Picture slots hold placeholders until the crops are chosen. -->
     <ul class="work-cards reveal">
       <li class="wc-intro"><h2 class="s2-h"><span class="nw">I turn complex stories</span> <span class="nw">into work</span> <span class="nw">people can</span> <span class="nw">understand, value,</span> <span class="nw">and act on.</span></h2></li>
-      <li class="wc"><a href="projects/secure-ai-framework.html"><div class="wc-media"><span class="wc-ph" aria-hidden="true">Image to come</span></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d"><span>How AI gets attacked and defended.</span> <span class="wc-to"><span class="sr-only">became </span>One visual map, now an industry&nbsp;reference.</span></p></a></li>
-      <li class="wc"><a href="projects/security-reporting.html"><div class="wc-media"><span class="wc-ph" aria-hidden="true">Image to come</span></div><div class="wc-head"><h3 class="wc-t">Security Analysis &amp; Reporting</h3></div><p class="wc-d"><span>Dense threat intelligence.</span> <span class="wc-to"><span class="sr-only">became </span>Public reports for the Munich Security&nbsp;Conference.</span></p></a></li>
-      <li class="wc"><a href="projects/safer-with-google-summit.html"><div class="wc-media"><span class="wc-ph" aria-hidden="true">Image to come</span></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit</h3></div><p class="wc-d"><span>Six disciplines, six languages.</span> <span class="wc-to"><span class="sr-only">became </span>One story across 80+ talks a&nbsp;year.</span></p></a></li>
-      <li class="wc"><a href="projects/ai-safety.html"><div class="wc-media"><span class="wc-ph" aria-hidden="true">Image to come</span></div><div class="wc-head"><h3 class="wc-t">AI Safety Film</h3></div><p class="wc-d"><span>Research on the “defender’s dilemma.”</span> <span class="wc-to"><span class="sr-only">became </span>A film anyone can&nbsp;follow.</span></p></a></li>
+      <li class="wc"><a href="projects/secure-ai-framework.html"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-card.webp" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d"><span>How AI gets attacked and defended,</span> <span class="wc-to">turned into one visual map, now an industry&nbsp;reference.</span></p></a></li>
+      <li class="wc"><a href="projects/security-reporting.html"><div class="wc-media"><img src="assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Security Analysis and Reporting</h3></div><p class="wc-d"><span>Dense threat intelligence,</span> <span class="wc-to">turned into public reports for the Munich Security&nbsp;Conference.</span></p></a></li>
+      <li class="wc"><a href="projects/safer-with-google-summit.html"><div class="wc-media"><img src="assets/work/safer-with-google-summit/stage-2024.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit</h3></div><p class="wc-d"><span>Six disciplines, six languages,</span> <span class="wc-to">turned into one story across 80+ talks a&nbsp;year.</span></p></a></li>
+      <li class="wc"><a href="projects/films.html"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Brand Films</h3></div><p class="wc-d"><span>Technical safety work,</span> <span class="wc-to">turned into films anyone can&nbsp;follow.</span></p></a></li>
       <li class="wc-range"><p class="wc-range-h">Every room needs the story&nbsp;to&nbsp;land.</p><p class="wc-range-l">Boardrooms and company-wide meetings.<br>Investor pitches and policy hearings.<br>Engineering reviews and living rooms.</p></li>
     </ul>
-    <p class="work-also reveal"><span class="label">Also</span> Apple, Warby Parker, Anthropologie, IBM via VSA Partners, and MAD Worldwide</p>
+    <p class="work-also reveal"><span class="label">Also</span> Apple, Warby Parker, Anthropologie, IBM, First Round Network, Abercrombie &amp; Fitch</p>
 
     <div class="cases" hidden>
       <a class="case reveal" href="projects/secure-ai-framework.html">
@@ -900,7 +1021,7 @@
       </a>
 
       <a class="case reveal" href="projects/security-reporting.html">
-        <div class="case-title"><h3>Security Analysis &amp; Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
+        <div class="case-title"><h3>Security Analysis and Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence.</p></div>
           <div class="to"><span class="label">What people understood</span><p>Public reports for the Munich Security Conference.</p></div>
@@ -917,7 +1038,7 @@
         <div class="case-media"><img src="assets/work/safer-with-google-summit/stage-2024.webp" alt="Keynote stage at the Safer with Google Summit" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="projects/ai-safety.html">
+      <a class="case reveal" href="projects/films.html">
         <div class="case-title"><h3>AI Safety Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Research on the “defender’s dilemma.”</p></div>
@@ -926,7 +1047,7 @@
         <div class="case-media"><img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="projects/safety-anthem.html">
+      <a class="case reveal" href="projects/films.html">
         <div class="case-title"><h3>Safety Anthem Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Safety work the public rarely sees.</p></div>
@@ -936,7 +1057,7 @@
       </a>
       <div class="also">
       <span class="label">Also</span>
-      <span class="co">Apple</span><span class="co">Warby Parker</span><span class="co">Anthropologie</span><span class="co">IBM via VSA Partners</span><span class="co">MAD Worldwide</span>
+      <span class="co">Apple</span><span class="co">Warby Parker</span><span class="co">Anthropologie</span><span class="co">IBM</span><span class="co">First Round Network</span><span class="co">Abercrombie &amp; Fitch</span>
     </div>
     </div>
 
@@ -949,7 +1070,7 @@
 <section class="chapter contact" id="contact">
   <button class="label sec-sketch" id="wt-toggle" type="button" aria-label="Switch section sketch" hidden>Sketch 2</button>   <!-- both sketches retired for now -->
   <div class="wrap">
-    <p class="sec-mark label">Working together</p>   <!-- marks the start of a new section -->
+    <p class="sec-mark label">Getting started</p>   <!-- marks the start of a new section -->
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon" style="--bar:var(--ink)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="-14" y="-10" width="28" height="20" rx="2"/><path d="M-14 -7L0 3L14 -7"/></svg><span class="num-name">Working together</span></div>
       <!-- The working-together headline (the earlier fit sentence and its shape wallpaper are in drafts/before-wt-headline-placeholder.html). -->
@@ -1013,7 +1134,7 @@
     <div class="payoff payoff-end" style="--payoff:var(--ink)">
       <p><span class="pl"><span>Send one line:</span></span> <span class="pl"><span>what you’re trying to explain,</span> <span>and to&nbsp;whom.</span></span></p>
       <div class="cta-row">
-        <a class="cta-big" href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots&body=What%20I%E2%80%99m%20trying%20to%20explain%3A%0A%0AWho%20needs%20to%20understand%20it%3A%0A%0AWhen%3A%0A">
+        <a class="cta-big" data-contact href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots&body=What%20I%E2%80%99m%20trying%20to%20explain%3A%0A%0AWho%20needs%20to%20understand%20it%3A%0A%0AWhen%3A%0A">
           <span class="dot" aria-hidden="true"></span>
           Let’s connect the dots
         </a>
@@ -1032,6 +1153,36 @@
     <span class="label">Your ideas, clearly told.</span>
   </div>
 </footer>
+
+<!-- The contact form, in an overlay. "Let's talk" (header and menu) and "Let's connect the dots" open it; so does #contact-form in the address.
+     FORM_ENDPOINT: until a form service (Formspree, Basin, …) is set as the action, sending opens the visitor's email app with their answers filled in. -->
+<dialog class="cdlg" id="contact-dialog" aria-labelledby="cdlg-title">
+  <div class="cdlg-in">
+    <button class="cdlg-x" type="button" aria-label="Close"><i></i><i></i></button>
+    <form class="cdlg-form" method="post" action="FORM_ENDPOINT">
+      <h2 class="cdlg-h" id="cdlg-title">Tell me a little about&nbsp;it.</h2>
+      <p class="cdlg-sub">Pick whatever fits. No confidential details needed: we can get into specifics when we talk.</p>
+      <!-- Choices, not descriptions: they're quick to answer and give nothing private away. The options are small madlib
+           boxes, a set showing the range; a chosen one fills in. Only the name and email are required. -->
+      <fieldset class="cf cf-set"><legend class="label">What are you trying to explain?</legend><div class="chips"><label class="chip"><input type="checkbox" name="explain" value="A strategy"><span>A strategy</span></label><label class="chip"><input type="checkbox" name="explain" value="Research"><span>Research</span></label><label class="chip"><input type="checkbox" name="explain" value="A product"><span>A product</span></label><label class="chip"><input type="checkbox" name="explain" value="A policy"><span>A policy</span></label><label class="chip"><input type="checkbox" name="explain" value="A risk"><span>A risk</span></label><label class="chip"><input type="checkbox" name="explain" value="Results"><span>Results</span></label><label class="chip"><input type="checkbox" name="explain" value="Something else"><span>Something else</span></label></div></fieldset>
+      <fieldset class="cf cf-set"><legend class="label">Who needs to get it?</legend><div class="chips"><label class="chip"><input type="checkbox" name="audience" value="Leadership or a board"><span>Leadership or a board</span></label><label class="chip"><input type="checkbox" name="audience" value="A team"><span>A team</span></label><label class="chip"><input type="checkbox" name="audience" value="Customers"><span>Customers</span></label><label class="chip"><input type="checkbox" name="audience" value="The public"><span>The public</span></label><label class="chip"><input type="checkbox" name="audience" value="Regulators"><span>Regulators</span></label><label class="chip"><input type="checkbox" name="audience" value="Investors"><span>Investors</span></label></div></fieldset>
+      <fieldset class="cf cf-set"><legend class="label">Where are you with it?</legend><div class="chips"><label class="chip"><input type="radio" name="stage" value="Just an idea"><span>Just an idea</span></label><label class="chip"><input type="radio" name="stage" value="In progress"><span>In progress</span></label><label class="chip"><input type="radio" name="stage" value="Made, but not landing"><span>Made, but not landing</span></label><label class="chip"><input type="radio" name="stage" value="Needed soon"><span>Needed soon</span></label></div></fieldset>
+      <fieldset class="cf cf-set"><legend class="label">What would help most?</legend><div class="chips"><label class="chip"><input type="radio" name="help" value="Strategy and story"><span>Strategy and story</span></label><label class="chip"><input type="radio" name="help" value="Visual explanation"><span>Visual explanation</span></label><label class="chip"><input type="radio" name="help" value="Creative direction"><span>Creative direction</span></label><label class="chip"><input type="radio" name="help" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
+      <label class="cf"><span class="label">Anything you’d like me to know? <span class="cf-opt">Optional</span></span><textarea name="note" rows="3"></textarea></label>
+      <div class="cf-row">
+        <label class="cf"><span class="label">Your name</span><input name="name" type="text" autocomplete="name" required></label>
+        <label class="cf"><span class="label">Your email</span><input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <input class="cf-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">   <!-- spam trap: people never fill it -->
+      <div class="cf-send"><button class="btn" type="submit"><span class="dot"></span>Send</button><p class="cf-status" role="status" aria-live="polite"></p></div>
+      <p class="cf-alt">Or email me at <a href="mailto:majeff@gmail.com">majeff@gmail.com</a> <button class="cf-copy label" type="button">Copy</button></p>
+    </form>
+    <div class="cdlg-done" hidden>
+      <h2 class="cdlg-h">Thanks. I’ll be in&nbsp;touch.</h2>
+      <p class="cdlg-sub">Your note is on its way to me.</p>
+    </div>
+  </div>
+</dialog>
 
 <script>
 (function(){
@@ -1098,11 +1249,11 @@
     // Sketch 4, each cycle: the map's copies build the shape (TRAVEL4) and the right word changes with it; the
     // finished sentence holds (MAPHOLD); the map changes to the next one (MAPGO) and, just after it starts, the left
     // word changes too (LEFTGO), finishing a little after the map; a short pause; and the next shape starts to form.
-    var MAPHOLD = 3400, MAPGO = 1900, LEFTGO = 2400;   // MAPHOLD: the map starts changing 3.5s after the right word settles (it lands 100ms before the shape is done)
+    var MAPHOLD = 700, MAPGO = 1600, LEFTGO = 2000;   // MAPHOLD: the map starts changing 0.8s after the right word settles (it lands 100ms before the shape is done). Every later moment in the cycle is measured from it, so they all move up together. Was 3400/1900/2400, then 1600, then 900; sped up.
     // tileOf: sketch 4's shape for each cycle, starting on the red triangle (KOFF) and, at the end, back on it.
     function tileOf(cc){ return cc >= STOPC ? KOFF : (cc + KOFF) % tiles.length; }
     var DONE = false, doneAt = 0, pausedAt = 0, PROG = 0;
-    var KOFF = 1, LEAD = 150, TRAVEL4 = 2600, HOLD4 = MAPHOLD + 100 + LEFTGO + 300, POUR, INTRO, CYCLE4;
+    var KOFF = 1, LEAD = 150, TRAVEL4 = 2100, HOLD4 = MAPHOLD + 100 + LEFTGO + 300, POUR, INTRO, CYCLE4;
     function timing(){
       if (copies){ APPEAR = 1400; WEBT = 2000; TRAVEL = 3600; HOLD = 2600; DRAIN = 1800; }
       else { APPEAR = 600; WEBT = 800; TRAVEL = 2000; HOLD = 3500; DRAIN = 1100; }   // Sketch 3: a cycle of about 8s, held long enough to read
@@ -1594,6 +1745,8 @@
       ctx.save(); ctx.beginPath(); band(lft, x1); ctx.clip(); ctx.fillStyle = css(PAPER); drawTitle(); ctx.restore();
       // MA in the wordmark follows the colour too.
       if (!stacked){
+        var crL = canvas.getBoundingClientRect().left;   // measured live: the header can reflow after layout (fonts loading into the lockup panel)
+        maLeft = wm.querySelector('.s3-b').getBoundingClientRect().left - crL;
         var xs = Math.round(lft - maLeft) + ',' + Math.round(x1 - maLeft);
         if (xs !== lastX){ lastX = xs; var xx = xs.split(','); wm.style.setProperty('--x0', xx[0] + 'px'); wm.style.setProperty('--x1', xx[1] + 'px');
 }
@@ -2541,7 +2694,7 @@
    letter (C, O, S, a, e) passes it by 0.03em, and a pointed one (A, V, W) by 0.05em. A wrapped paragraph is shifted as a
    block to its later lines, then its first line is indented to match. Set in em; run again once the fonts load and on resize. */
 (function(){
-  var SEL = '#problem .s2-h, #problem .s2-p, #problem .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
+  var SEL = '.sec-mark, #problem .s2-h, #problem .s2-p, #problem .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
   var POINTED = 'AVWYvwy', ROUND = 'CGOQSacdegoqs';
   var cv = document.createElement('canvas').getContext('2d');
   function want(ch, fc){   // where this letter's ink should sit, in em from the edge, and how far in it sits now
@@ -2600,6 +2753,54 @@
   menu.addEventListener('click', function(e){ if (e.target.closest('a')) set(false); });
   document.addEventListener('click', function(e){ if (!menu.hidden && !menu.contains(e.target)) set(false); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !menu.hidden){ set(false); btn.focus(); } });
+})();
+</script>
+<script>
+/* The contact overlay. A native dialog: focus moves in and stays in, Escape closes it, focus goes back to the button.
+   The draft is kept (this tab only) so closing by accident loses nothing. */
+(function(){
+  var dlg = document.getElementById('contact-dialog'); if (!dlg || !dlg.showModal) return;
+  var form = dlg.querySelector('.cdlg-form'), done = dlg.querySelector('.cdlg-done'), status = dlg.querySelector('.cf-status');
+  var KEY = 'contact-draft', store = null; try { store = window.sessionStorage; } catch (e) {}
+  function open(e){
+    if (e) e.preventDefault();
+    var menu = document.getElementById('site-menu'); if (menu && !menu.hidden){ var mb = document.querySelector('.menu-btn'); if (mb) mb.click(); }
+    try { var d = JSON.parse(store && store.getItem(KEY) || '{}');
+      Object.keys(d).forEach(function(k){ var v = d[k];
+        if (Array.isArray(v)) form.querySelectorAll('input[name="' + k + '"]').forEach(function(i){ i.checked = v.indexOf(i.value) > -1; });
+        else if (form.elements[k] && !form.elements[k].value) form.elements[k].value = v; }); } catch (err) {}
+    form.hidden = false; done.hidden = true; status.textContent = '';
+    dlg.showModal(); form.querySelector('.chip input').focus();
+  }
+  function picked(k){ return [].map.call(form.querySelectorAll('input[name="' + k + '"]:checked'), function(i){ return i.value; }); }
+  var SETS = ['explain', 'audience', 'stage', 'help'];
+  function save(){ if (!store) return; var d = {}; SETS.forEach(function(k){ d[k] = picked(k); }); ['note','name','email'].forEach(function(k){ d[k] = form.elements[k].value; }); try { store.setItem(KEY, JSON.stringify(d)); } catch (err) {} }
+  document.querySelectorAll('[data-contact]').forEach(function(a){ a.addEventListener('click', open); });
+  dlg.querySelector('.cdlg-x').addEventListener('click', function(){ dlg.close(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });   // a click on the dimmed backdrop
+  form.addEventListener('input', save); form.addEventListener('change', save);
+  dlg.querySelector('.cf-copy').addEventListener('click', function(){
+    var b = this; (navigator.clipboard ? navigator.clipboard.writeText('majeff@gmail.com') : Promise.reject()).then(function(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy'; }, 1600); }, function(){});
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (form.elements._gotcha.value) return;
+    var f = form.elements, action = form.getAttribute('action');
+    if (!action || action === 'FORM_ENDPOINT'){   // no form service yet: hand the answers to the visitor's email app
+      var line = function(q, k){ var v = picked(k); return v.length ? q + ' ' + v.join(', ') + '\n' : ''; };
+      var body = line('Explaining:', 'explain') + line('For:', 'audience') + line('Where it is:', 'stage') + line('Would help most:', 'help')
+        + (f.note.value ? '\n' + f.note.value + '\n' : '') + '\n' + f.name.value + '\n' + f.email.value;
+      location.href = 'mailto:majeff@gmail.com?subject=' + encodeURIComponent('Let’s connect the dots') + '&body=' + encodeURIComponent(body);
+      status.textContent = 'Your email app should open with this filled in.'; return;
+    }
+    status.textContent = 'Sending…';
+    fetch(action, {method: 'POST', body: new FormData(form), headers: {Accept: 'application/json'}}).then(function(r){
+      if (!r.ok) throw 0;
+      form.reset(); if (store) try { store.removeItem(KEY); } catch (err) {}
+      form.hidden = true; done.hidden = false; done.querySelector('.cdlg-h').setAttribute('tabindex', '-1'); done.querySelector('.cdlg-h').focus();
+    }).catch(function(){ status.textContent = 'That didn’t send. Please email me at majeff@gmail.com.'; });
+  });
+  if (location.hash === '#contact-form') open();
 })();
 </script>
 </body>
