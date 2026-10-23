@@ -62,14 +62,17 @@ h1, h2, h3{font-weight:700; letter-spacing:-0.025em; line-height:1.02;}
 .menu .menu-talk:hover::before, .menu .menu-talk:focus-visible::before{background:var(--ink);}
 @media (max-width:520px){ .nav-role{white-space:normal; line-height:1.2; font-size:.85rem;} .nav-left{gap:10px;} }   /* phones: the role wraps beside the button */
 .nav a{text-decoration:none; font-size:0.95rem; font-weight:500;}
+.nav a.btn{font-size:1.05rem;}   /* the button keeps its own size, not the nav links' */
 .nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
 .btn{
   display:inline-flex; align-items:center; gap:10px;
   background:var(--ink); color:var(--paper); text-decoration:none;
-  padding:12px 20px; font-weight:500; font-size:0.95rem; border:2px solid var(--ink); white-space:nowrap; flex:none;
+  padding:12px 20px; font-weight:500; font-size:1.05rem; border:2px solid var(--ink); white-space:nowrap; flex:none;   /* the closing band's "Let's talk" size */
   transition:background .2s, color .2s;
 }
-.btn:hover{background:var(--red); border-color:var(--red);}
+.btn:hover{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}   /* as the closing band's "Let's talk": yellow, its dot turning ink */
+.btn:hover .dot{background:var(--ink);}
+.btn:hover, .cta-big:hover, .menu .menu-talk:hover{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}   /* the buttons' words underline on hover, as the nav links do */
 .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
 .brand{text-align:center;}
 /* The lockup: what I do, in a paper panel after MA. All in em of the wordmark, measured from Unbounded 800:

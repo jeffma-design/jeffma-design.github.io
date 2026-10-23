@@ -119,14 +119,17 @@
   }
   @media (max-width:520px){ .nav-role{white-space:normal; line-height:1.2; font-size:.85rem;} .nav-left{gap:10px;} }   /* phones: the role wraps beside the button */
   .nav a{text-decoration:none; font-size:0.95rem; font-weight:500;}
+  .nav a.btn{font-size:1.05rem;}   /* the button keeps its own size, not the nav links' */
   .nav a:not(.btn):hover{text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px;}
   .btn{
     display:inline-flex; align-items:center; gap:10px;
     background:var(--ink); color:var(--paper); text-decoration:none;
-    padding:12px 20px; font-weight:500; font-size:0.95rem; border:2px solid var(--ink); white-space:nowrap; flex:none;
+    padding:12px 20px; font-weight:500; font-size:1.05rem; border:2px solid var(--ink); white-space:nowrap; flex:none;   /* the closing band's "Let's talk" size */
     transition:background .2s, color .2s;
   }
-  .btn:hover{background:var(--red); border-color:var(--red);}
+  .btn:hover{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}   /* as the closing band's "Let's talk": yellow, its dot turning ink */
+  .btn:hover .dot{background:var(--ink);}
+  .btn:hover, .cta-big:hover, .menu .menu-talk:hover{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}   /* the buttons' words underline on hover, as the nav links do */
   .btn .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow);}
   .brand{text-align:center;}
   /* The lockup: what I do, in a paper panel after MA. All in em of the wordmark, measured from Unbounded 800:
@@ -642,11 +645,11 @@
   .payoff-end .cta-row{justify-content:center; margin-top:clamp(28px, 3.5vw, 40px);}
   .payoff-end .cta-big{white-space:nowrap;}
   @media (max-width:520px){ .payoff-end .cta-row{flex-direction:column;} }
-  .payoff-end .cta-big:hover{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}
+  .payoff-end .cta-big:hover{background:var(--ink); color:var(--paper); border-color:var(--ink);}
   .payoff-end{position:relative; color:var(--paper);}
-  .payoff-end .cta-big{background:var(--ink); color:var(--paper); border-color:var(--ink);}   /* the button in ink, so it can't be mistaken for the paper madlib box above it */
-  .payoff-end .cta-big .dot{background:var(--yellow);}
-  .payoff-end .cta-big:hover .dot{background:var(--ink);}
+  .payoff-end .cta-big{background:var(--yellow); color:var(--ink); border-color:var(--yellow);}   /* yellow, the brightest thing in the band, so the eye lands on the button rather than the paper madlib box above it */
+  .payoff-end .cta-big .dot{background:var(--ink);}
+  .payoff-end .cta-big:hover .dot{background:var(--yellow);}   /* on hover the colours swap: ink, its dot yellow */
   .end-motion{position:absolute; right:calc(max(10px, env(safe-area-inset-right, 0px)) + var(--sbw, 0px) / 2); bottom:10px;}   /* where the hero keeps its control. The band is 100vw wide, so it runs under the scrollbar by half its width on this side (--sbw, set by script); the offset makes up for it */
   .payoff.payoff-end{padding-block:clamp(48px, 6vw, 80px);}
   /* Where the madlib's longest word won't fit on its line, the whole animation keeps two lines ("Tell me about" over the
@@ -749,22 +752,10 @@
     html{scroll-behavior:auto;}
     .reveal{opacity:1; transform:none; transition:none;}
   }
-  /* A 12-column overlay for checking alignment: press G, or use the Grid button. Not part of the design. */
-  :root{--cols:12; --col-gap:24px; --steps-col:calc(32 * var(--fs-body));}   /* --steps-col: the stacked steps' column, which the three kinds share until they fit three across */
-  .grid-overlay{position:fixed; inset:0; z-index:9998; pointer-events:none; display:none;}
-  .grid-overlay.on{display:block;}
-  .grid-overlay .wrap{height:100%; display:grid; grid-template-columns:repeat(var(--cols), minmax(0, 1fr)); column-gap:var(--col-gap);}
-  .grid-overlay i{background:color-mix(in srgb, var(--pink) 18%, transparent); border-inline:1px solid color-mix(in srgb, var(--pink) 55%, transparent);}
-  /* Review tools: a row of small buttons under the hero. */
-  .review-bar{display:flex; flex-wrap:wrap; gap:6px; padding:10px var(--gutter);}
-  .review-bar button{padding:5px 10px; border:0; cursor:pointer; background:var(--ink); color:var(--paper); opacity:.55;}
-  .review-bar button:hover, .review-bar button:focus-visible{opacity:1;}
+  :root{--col-gap:24px; --steps-col:calc(32 * var(--fs-body));}   /* --steps-col: the stacked steps' column, which the three kinds share until they fit three across */
   .hero-after{position:relative;}
   .hero-after > .wrap{width:100%;}   /* its auto margins would otherwise shrink it to its text, and the reply under the hero measures its compositions against this width */
-  .hero-after .review-bar{position:absolute; left:10px; top:10px; padding:0;}   /* tucked in the box's top-left corner, clear of the centred line */
-  .grid-toggle{padding:5px 10px; border:0; cursor:pointer; background:var(--ink); color:var(--paper); opacity:.55;}
-  .grid-toggle:hover, .grid-toggle[aria-pressed="true"]{opacity:1;}
-  @media (max-width:700px){ :root{--cols:4; --col-gap:16px;} .grid-overlay i:nth-child(n+5){display:none;} }
+  @media (max-width:700px){ :root{--col-gap:16px;} }
 
   /* ---------- Placeholders: copy still to be written ---------- */
   .ph{background:color-mix(in srgb, var(--yellow) 55%, transparent); box-shadow:0 0 0 2px color-mix(in srgb, var(--yellow) 55%, transparent);}
@@ -846,7 +837,6 @@
 </style>
 </head>
 <body>
-<div class="grid-overlay" aria-hidden="true"><div class="wrap"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
 
 <!-- The thread: each chapter is a dot; scrolling connects them. -->
 <nav class="rail" aria-label="Chapters">
@@ -900,11 +890,6 @@
 
 <!-- ============ SUB-HEADLINE ============ -->
 <div class="hero-after" id="about">   <!-- the menu's Introduction jumps here -->
-  <!-- Review tools (to remove before launch): the grid overlay and the hero sketch. -->
-  <div class="review-bar">
-    <button class="grid-toggle label" type="button" aria-pressed="false">Grid</button>
-    <button class="label s3-tag s3-sketch" id="sketch-toggle" type="button" aria-label="Switch hero sketch">Sketch 4</button>
-  </div>
   <div class="wrap"><p class="hero-sub">You bring what you need to say.</p><p class="hero-sub rag" data-rag="wide">I listen, ask questions,<br class="r-p"> and craft<br class="r-m"> your story<br class="r-p r-w"> until the people who need<br class="r-p r-m"> to understand it actually&nbsp;do.</p></div>
 </div>
 
@@ -1117,7 +1102,7 @@
     </div>
 
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff" style="--payoff:var(--red)"><p><span class="pl"><span>I let what you’re saying,</span></span> <span class="pl"><span>and the room it’s for,</span> <span>choose the form,</span></span> <span class="pl"><span>then build it with&nbsp;you.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;form.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
@@ -1983,13 +1968,8 @@
     return api;
   }
   (function(){
-    var hero = wallSketch(document.getElementById('s4-canvas'), true), tag = document.getElementById('sketch-toggle');
-    if (!hero || !tag) return;
-    tag.addEventListener('click', function(){
-      var four = hero.toggle();
-      tag.textContent = four ? 'Sketch 4' : 'Sketch 3';
-      show();
-    });
+    var hero = wallSketch(document.getElementById('s4-canvas'), true);
+    if (!hero) return;
     // The pause button: Pause while things move, Play while paused, Replay once the hero has finished.
     var mt = document.getElementById('motion-toggle');
     var ICON = {pause: '<rect x="1.5" y="1" width="2.4" height="8"/><rect x="6.1" y="1" width="2.4" height="8"/>', play: '<path d="M2 1 L9 5 L2 9 Z"/>', replay: ''};
@@ -2366,13 +2346,15 @@
       // Beside the headline, the canvas reaches up into the black intro band above and out past the window's right edge
       // (the section clips it there with overflow-x: clip, so the page never scrolls sideways).
       var zUp = 0, zBandBottom = 0, zBoxW = 0, zBoxH = 0;
+      // Page positions from the layout itself (offsetTop), so an element still sliding in (a transform) doesn't skew them.
+      function pageTop(el){ var y = 0; for (; el; el = el.offsetParent) y += el.offsetTop; return y; }
       function zsize(){
         zc.style.top = zc.style.height = zc.style.width = '';
-        var side = window.matchMedia('(min-width: 761px)').matches, b = zbox.getBoundingClientRect();
+        var side = window.matchMedia('(min-width: 761px)').matches, b = zbox.getBoundingClientRect(), bTop = pageTop(zbox);
         zBoxW = b.width; zBoxH = b.height; zUp = 0; zBandBottom = 0;
         if (side){
-          var top = zBand ? zBand.getBoundingClientRect().top : (zMark ? zMark.getBoundingClientRect().top : b.top);
-          zUp = Math.max(0, b.top - top); zBandBottom = zMark ? zMark.getBoundingClientRect().top + 6 - top : (zBand ? zBand.getBoundingClientRect().bottom - top : 0);   // ends on the section mark's 6px rule
+          var top = zBand ? pageTop(zBand) : (zMark ? pageTop(zMark) : bTop);
+          zUp = Math.max(0, bTop - top); zBandBottom = zMark ? pageTop(zMark) + 6 - top : (zBand ? top + zBand.offsetHeight - top : 0);   // ends under the section mark's 6px rule, never across it
           zc.style.top = -zUp + 'px'; zc.style.height = (zBoxH + zUp) + 'px';
           zc.style.width = (document.documentElement.clientWidth - b.left + 40) + 'px';   // past the window's edge; clipped
         }
@@ -2392,6 +2374,10 @@
         zx.fillStyle = rgba(INKc, 1); zx.beginPath(); zx.arc(cx, cy, rad, 0, TAU); zx.fill();
       }
       zsize(); zdraw(); window.addEventListener('resize', function(){ zsize(); zdraw(); });
+      // And whenever the page's layout shifts (fonts arriving, the lines above re-breaking), so the line keeps to the rule.
+      var zq = 0, zre = function(){ cancelAnimationFrame(zq); zq = requestAnimationFrame(function(){ zsize(); zdraw(); }); };
+      if (window.ResizeObserver) new ResizeObserver(zre).observe(document.body);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(zre);
       }
       var zBand = (function(){ var e = document.querySelector('.intro-hello'); while (e && e !== document.body){ var bg = getComputedStyle(e).backgroundColor; if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return e; e = e.parentElement; } return null; })();
       zoomDot(host2.querySelector('.s2-zoom'), document.querySelector('#problem .sec-mark'), zBand);
@@ -2732,17 +2718,6 @@
     requestAnimationFrame(function(){ ticking = false; updateRail(); });
   }, {passive:true});
   updateRail();
-})();
-</script>
-<script>
-/* The column overlay: the button or the G key turns it on and off. */
-(function(){
-  var ov=document.querySelector('.grid-overlay'), btn=document.querySelector('.grid-toggle');
-  function set(on){ ov.classList.toggle('on', on); btn.setAttribute('aria-pressed', on); }
-  btn.addEventListener('click', function(){ set(!ov.classList.contains('on')); });
-  document.addEventListener('keydown', function(e){
-    if((e.key==='g'||e.key==='G') && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea/i.test(e.target.tagName)) set(!ov.classList.contains('on'));
-  });
 })();
 </script>
 <script>
