@@ -10,13 +10,13 @@
   --fs-lede:clamp(1.1rem, .95rem + .45vw, 1.25rem);          /* 18 → 20 */
   --fs-body:clamp(1rem, .9rem + .3vw, 1.125rem);             /* 16 → 18 */
   --fs-small:.875rem;
-  --maxw:1280px; --gutter:clamp(16px, 4vw, 48px); --col-gap:24px;
+  --maxw:1280px; --gutter:max(clamp(16px, 4vw, 48px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px)); --col-gap:24px;
   --sans:"Jost", "Futura", "Century Gothic", -apple-system, sans-serif;
   --mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 @media (max-width:700px){ :root{--col-gap:16px;} }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}
 body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:var(--fs-body); line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
 a{color:inherit;}
 img{display:block; max-width:100%;}
@@ -31,7 +31,7 @@ h1, h2, h3{font-weight:700; letter-spacing:-0.025em; line-height:1.02;}
 /* Header: the homepage's, as it is there with no colour behind it: the menu on the left, the wordmark lockup in the
    middle (MA in outline, what I do in an ink panel; on phones, MA solid with the outlined strip under it), "Let's talk" on
    the right. Copied from index.html; keep the two in step. */
-.s3-topbar{padding:clamp(14px, 2vw, 24px) clamp(16px, 2.5vw, 32px) 0;}
+.s3-topbar{padding:clamp(14px, 2vw, 24px) max(clamp(16px, 2.5vw, 32px), env(safe-area-inset-right, 0px)) 0 max(clamp(16px, 2.5vw, 32px), env(safe-area-inset-left, 0px));}
 /* ---------- Header: nav in the corners, name in the center ---------- */
 .site-header{position:relative; z-index:5;}
 .topbar{
@@ -139,7 +139,6 @@ section{padding-block:clamp(48px, 7vw, 96px) 0;}
 .open{padding-top:clamp(32px, 5vw, 64px);}
 .open h1{font-size:var(--fs-headline); max-width:20em; text-wrap:balance;}
 .lede{margin-top:14px; max-width:34em; font-size:var(--fs-lede); line-height:1.45; color:var(--ink-soft); text-wrap:pretty;}
-.lede .to{color:var(--ink); font-weight:500;}
 @media (min-width:701px){ .lede > span{white-space:nowrap;} }   /* the story's two halves each stay on one line: "turned into …" starts its own when they don't fit together */
 .hero{margin-top:clamp(28px, 4vw, 48px); background:var(--paper-2);}
 .hero img{width:100%; height:auto;}

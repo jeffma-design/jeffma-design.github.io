@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3.4 224.5 865.2 409.5" width="1834" height="868">
+  <!-- The poster crop of the Secure AI Framework risk map: risk-map-full.svg seen through an 865.2 × 409.5 window from 3.4, 224.5 (below the pale band at the top of the disc, above the one at the bottom),
+       matching risk-map-card.webp (1834 × 868). Edit the drawing in risk-map-full.svg and copy it here. -->
+  <defs>
+    <clipPath id="disc"><circle cx="436.5" cy="435" r="273"/></clipPath>
+    <g id="warn">
+      <!-- a warning marker, about 35 × 30.5 as it shows, its box's top-left at 0,0 -->
+      <path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/>   <!-- a triangle 35.7 wide, its corners rounded at 1.5: a smaller one with a round-jointed stroke -->
+      <rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/>
+      <circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/>
+    </g>
+  </defs>
+  <rect width="872" height="872" fill="#E8F0FE"/>
+
+  <!-- The icon: an organisation chart in a blue disc. -->
+  <circle cx="107.3" cy="107.3" r="49.6" fill="#1A73E8"/>
+  <g fill="#fff">
+    <circle cx="106.75" cy="90.4" r="8.6"/>
+    <rect x="104.9" y="97" width="3.7" height="8"/>
+    <rect x="90.6" y="104.4" width="33" height="4.6"/>
+    <rect x="90.6" y="104.4" width="4.6" height="10"/>
+    <rect x="119" y="104.4" width="4.6" height="10"/>
+    <circle cx="92.75" cy="122.75" r="8.75"/>
+    <rect x="113" y="113.8" width="16.5" height="16.4"/>
+  </g>
+
+  <!-- The dashed bracket down the left, ending in an arrow. -->
+  <g fill="none" stroke="#9DB6D6" stroke-width="2">
+    <path d="M262.5 138.6H226a23.9 23.9 0 0 0-23.9 23.9V702a23.9 23.9 0 0 0 23.9 23.9H244.5" stroke-dasharray="6.4 4.6"/>
+    <path d="M244.5 720.2l6 5.7-6 5.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- The white disc and everything clipped to it. -->
+  <circle cx="436.5" cy="435" r="273" fill="#fff"/>
+  <g clip-path="url(#disc)">
+    <rect x="444" y="120" width="300" height="62.5" rx="4" fill="#1A73E8"/>
+    <rect x="283" y="344" width="460" height="66" rx="4" fill="#4285F4"/>
+    <rect x="282" y="416" width="270" height="46" rx="4" fill="#AECBFA"/>
+    <rect x="642" y="416" width="120" height="46" rx="4" fill="#AECBFA"/>
+    <rect x="438" y="590" width="300" height="44" rx="4" fill="#AECBFA"/>
+    <!-- the box at top right, cut by the disc's edge, with a break in its left side -->
+    <path d="M700 257H646.5a4.75 4.75 0 0 0-4.75 4.75V263M641.75 285v15.25a4.75 4.75 0 0 0 4.75 4.75H700" fill="none" stroke="#A9C3EC" stroke-width="2"/>
+    <!-- the gaps between the rows: the background colour, ruled across the disc -->
+    <g fill="#E8F0FE">
+      <rect x="150" y="218" width="580" height="6"/>
+      <rect x="150" y="410" width="580" height="6"/>
+      <rect x="150" y="634" width="580" height="6"/>
+    </g>
+  </g>
+  <!-- The last bar runs past the disc's edge. -->
+  <rect x="439" y="641" width="309" height="45" rx="4" fill="#4285F4"/>
+
+  <!-- Boxes, connectors and arrows. Each box has a break or two in its outline. -->
+  <g fill="none" stroke="#A9C3EC" stroke-width="2" stroke-linecap="butt" stroke-linejoin="round">
+    <!-- the connector from the top bar, through the first box, with its arrow -->
+    <path d="M420.1 163V254M420.1 308V331"/>
+    <path d="M413.3 324.8l6.8 6.8 6.8-6.8" stroke-linecap="round"/>
+    <!-- the first box: open where the connector passes and on its right side -->
+    <path d="M283 257H407.5M430 257H545.25a4.75 4.75 0 0 1 4.75 4.75V269M550 289.5v10.75a4.75 4.75 0 0 1-4.75 4.75H430M407.5 305H286.15a4.75 4.75 0 0 1-4.75-4.75V285"/>
+    <!-- the bracket from the big bar down to the lower boxes -->
+    <path d="M261.5 369.6H249.5a4.75 4.75 0 0 0-4.75 4.75V515.2a4.75 4.75 0 0 0 4.75 4.75H262.5"/>
+    <path d="M257.3 514.4l5.6 5.6-5.6 5.6" stroke-linecap="round"/>
+    <!-- the lower left box -->
+    <path d="M339.5 496.5H286a4.75 4.75 0 0 0-4.75 4.75V545.5a4.75 4.75 0 0 0 4.75 4.75H303.5M326 550.25H456.15a4.75 4.75 0 0 0 4.75-4.75V545M360.5 496.5H458M460.9 513V530.5"/>
+    <!-- the lower right box -->
+    <path d="M567.5 496.5H513.5a4.75 4.75 0 0 0-4.75 4.75V545.5a4.75 4.75 0 0 0 4.75 4.75H531.5M552.5 550.25H683.25a4.75 4.75 0 0 0 4.75-4.75V545M588.5 496.5H682.5M688 513V530.5"/>
+  </g>
+
+  <!-- The warning markers, where risks come in. -->
+  <use href="#warn" x="264.5" y="240"/>
+  <use href="#warn" x="264.5" y="443"/>
+  <use href="#warn" x="443.5" y="482"/>
+  <use href="#warn" x="667.5" y="482"/>
+  <use href="#warn" x="421.5" y="576"/>
+  <use href="#warn" x="729.5" y="667"/>
+</svg>
