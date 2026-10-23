@@ -826,6 +826,8 @@
   .wc-head{margin-top:16px;}
   .wc-t{margin:0; font-size:var(--fs-title); font-weight:700; line-height:1.15; text-wrap:balance;}
   .wc-d{margin:8px 0 0; max-width:30em; font-size:var(--fs-body); line-height:1.45; color:var(--ink-soft); text-wrap:pretty;}
+  .wc-conf{font-weight:400; color:var(--ink-soft); white-space:nowrap;}   /* a project I can show but not open: named, not linked */
+  .work-cards a:not([href]):hover .wc-t{text-decoration:none;}
   .work-cards a:hover .wc-t{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
   @media (max-width:640px){ .work-cards{grid-template-columns:minmax(0, 1fr);} .wc-intro{padding-top:0;} .wc-range{padding-left:0;} .wc-media{aspect-ratio:4 / 3;} }   /* phones: headline, four cards, then the range */
   .work-also{margin-top:clamp(36px, 4.5vw, 56px); padding-top:20px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent); color:var(--ink-soft);}
@@ -1042,16 +1044,16 @@
     <!-- The work: the headline and four cards on two columns, closing on the range. Picture slots hold placeholders until the crops are chosen. -->
     <ul class="work-cards reveal">
       <li class="wc-intro"><h2 class="s2-h"><span class="nw">I turn complex ideas</span> <span class="nw">into work</span> <span class="nw">people can</span> <span class="nw">understand, value,</span> <span class="nw">and act on.</span></h2></li>
-      <li class="wc"><a href="projects/secure-ai-framework.html"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-card.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d"><span>How AI gets attacked and defended,</span> <span class="wc-to">turned into one visual map and accepted as an industry&nbsp;reference</span></p></a></li>
-      <li class="wc"><a href="projects/security-reporting.html"><div class="wc-media"><img src="assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Security Analysis and Reporting</h3></div><p class="wc-d"><span>Dense threat intelligence,</span> <span class="wc-to">turned into public reports for the Munich Security&nbsp;Conference</span></p></a></li>
-      <li class="wc"><a href="projects/safer-with-google-summit.html"><div class="wc-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit</h3></div><p class="wc-d"><span>Privacy, safety, and security teams from every function,</span> <span class="wc-to">turned into one shared voice across 80+ talks a&nbsp;year</span></p></a></li>
-      <li class="wc"><a href="projects/films.html"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Brand Films</h3></div><p class="wc-d"><span>Visions of privacy, safety, and security,</span> <span class="wc-to">turned into films that raise awareness and make people&nbsp;care</span></p></a></li>
+      <li class="wc"><a href="https://saif.google/secure-ai-framework" target="_blank" rel="noopener"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-card.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d"><span>How AI gets attacked and defended,</span> <span class="wc-to">turned into one visual map and accepted as an industry&nbsp;reference</span></p></a></li>
+      <li class="wc"><a href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener"><div class="wc-media"><img src="assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Security Analysis and Reporting</h3></div><p class="wc-d"><span>Dense threat intelligence,</span> <span class="wc-to">turned into public reports for the Munich Security&nbsp;Conference</span></p></a></li>
+      <li class="wc"><a><div class="wc-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit <span class="wc-conf">(Confidential)</span></h3></div><p class="wc-d"><span>Privacy, safety, and security teams from every function,</span> <span class="wc-to">turned into one shared voice across 80+ talks a&nbsp;year</span></p></a></li>
+      <li class="wc"><a href="https://youtu.be/-i6XyOLot_o?si=LCYBZhTL4XuyQ8W1" target="_blank" rel="noopener"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Brand Films</h3></div><p class="wc-d"><span>Visions of privacy, safety, and security,</span> <span class="wc-to">turned into films that raise awareness and make people&nbsp;care</span></p></a></li>
       <li class="wc-range"><p class="wc-range-h">Every room needs the story&nbsp;to&nbsp;land.</p><p class="wc-range-l">Boardrooms and company-wide meetings.<br>Investor pitches and policy hearings.<br>Engineering reviews and living rooms.</p></li>
     </ul>
     <p class="work-also reveal"><span class="label">Also</span> Apple, Warby Parker, Anthropologie, IBM, First Round Network, Abercrombie &amp; Fitch</p>
 
     <div class="cases" hidden>
-      <a class="case reveal" href="projects/secure-ai-framework.html">
+      <a class="case reveal" href="https://saif.google/secure-ai-framework" target="_blank" rel="noopener">
         <div class="case-title"><h3>Secure AI Framework Risk Map</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>How AI gets attacked and defended.</p></div>
@@ -1060,7 +1062,7 @@
         <div class="case-media"><img src="assets/work/secure-ai-framework/saif-red-teams.jpg" alt="SAIF risk map visualization" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="projects/security-reporting.html">
+      <a class="case reveal" href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener">
         <div class="case-title"><h3>Security Analysis and Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence.</p></div>
@@ -1069,7 +1071,7 @@
         <div class="case-media"><img src="assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Spread from the Fog of War report" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="projects/safer-with-google-summit.html">
+      <a class="case reveal">
         <div class="case-title"><h3>Safer with Google Summit</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Six disciplines, six languages.</p></div>
@@ -1078,7 +1080,7 @@
         <div class="case-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Keynote stage at the Safer with Google Summit" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="projects/films.html">
+      <a class="case reveal" href="https://youtu.be/-i6XyOLot_o?si=LCYBZhTL4XuyQ8W1" target="_blank" rel="noopener">
         <div class="case-title"><h3>AI Safety Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Research on the “defender’s dilemma.”</p></div>
@@ -1087,7 +1089,7 @@
         <div class="case-media"><img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="projects/films.html">
+      <a class="case reveal" href="https://youtu.be/-i6XyOLot_o?si=LCYBZhTL4XuyQ8W1" target="_blank" rel="noopener">
         <div class="case-title"><h3>Safety Anthem Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Safety work the public rarely sees.</p></div>
