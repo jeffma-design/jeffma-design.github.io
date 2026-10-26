@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<script>/* Chrome on iPhone mis-sizes a page let under the notch (wider than what shows, its right edge cut off), so there it stays in the safe area. Safari runs under the notch, the colour to the screen's edges. */ if (/CriOS/.test(navigator.userAgent)){ document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1'); document.documentElement.classList.add('crios'); }</script>
 <title>Jeff Ma — Independent Creative Director</title>
 <meta name="description" content="Jeff Ma is a strategic creative director who helps experts explain complex, high-stakes ideas to the boards, executives, regulators, and audiences who need to act on them.">
 
@@ -36,13 +38,16 @@
     --yellow:#f0b429;
     --blue:#1f4fa3;
     --maxw:1280px;
-    --gutter:max(clamp(16px, 4vw, 48px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));   /* phones on their side: clear of the notch, while the colour runs to the screen's edges (viewport-fit=cover) */
+    --gutter:max(clamp(16px, 4vw, 48px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));   /* phones on their side (Safari): the page runs under the notch, the colour to the screen's edges, the type kept clear of it */
     --sans:"Jost", "Futura", "Century Gothic", -apple-system, sans-serif;
     --mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}   /* no text inflation on phones turned sideways: it would set the lockup's lines wider than their panel */
+  html{background:var(--ink); scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}   /* black outside the page (a phone's side margins, the bounce past either end), so the paper reads as the page, not as a gap */   /* no text inflation on phones turned sideways: it would set the lockup's lines wider than their panel */
+  /* Chrome on iPhone fills the strips beside the notch itself, with the page's background colour: the second paper there, the page itself kept on paper by a paper layer over the body. */
+  .crios, .crios body{background-color:var(--paper-2);}
+  .crios body{background-image:linear-gradient(var(--paper), var(--paper));}
   body{
     margin:0; background:var(--paper); color:var(--ink);
     font-family:var(--sans); font-size:var(--fs-body); line-height:1.55;
@@ -1021,9 +1026,9 @@
     <svg class="gm-disc" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gm-field"/><circle cx="241" cy="241" r="101" class="gm-hair"/><circle cx="241" cy="241" r="171" class="gm-hair"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg>
     <svg class="gm-lead" viewBox="0 0 1334 500" aria-hidden="true"><path d="M0 251H548"/><circle cx="548" cy="251" r="6"/><path d="M667 127H1334"/><circle cx="667" cy="127" r="6"/><path d="M778 375H1318"/><circle cx="778" cy="375" r="6"/></svg>
     <ul class="gains">
-    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes,</span> <span class="gl">with the details there when</span> <span class="gl">people want&nbsp;them</span></span></div></li>
-    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time goes to moving the idea forward,</span> <span class="gl">not decoding&nbsp;it</span></span></div></li>
-    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it on to boards,</span> <span class="gl">teams, or the&nbsp;public</span></span></div></li>
+    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes,</span> <span class="gl">with the details there when</span> <span class="gl">people want&nbsp;them.</span></span></div></li>
+    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time goes to moving the idea forward,</span> <span class="gl">not decoding&nbsp;it.</span></span></div></li>
+    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it on to boards,</span> <span class="gl">teams, or the&nbsp;public.</span></span></div></li>
     </ul>
     </div>
 
@@ -1102,7 +1107,7 @@
     </div>
 
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;form.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
@@ -2924,5 +2929,7 @@
   if (location.hash === '#contact-form') open();
 })();
 </script>
+<!-- Cloudflare Web Analytics: cookieless visit counts, on majeff.com only (previews on localhost and the phone aren't counted) -->
+<script>if (/(^|\.)majeff\.com$/.test(location.hostname)){ var cfwa = document.createElement('script'); cfwa.type = 'module'; cfwa.src = 'https://static.cloudflareinsights.com/beacon.min.js'; cfwa.setAttribute('data-cf-beacon', '{"token": "4933f2f18d6148d599c5b84d94d98d93"}'); document.body.appendChild(cfwa); }</script>
 </body>
 </html>

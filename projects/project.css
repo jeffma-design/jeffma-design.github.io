@@ -16,7 +16,10 @@
 }
 @media (max-width:700px){ :root{--col-gap:16px;} }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}
+html{background:var(--ink); scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}
+/* Chrome on iPhone fills the strips beside the notch itself, with the page's background colour: the second paper there, the page itself kept on paper by a paper layer over the body. */
+.crios, .crios body{background-color:var(--paper-2);}
+.crios body{background-image:linear-gradient(var(--paper), var(--paper));}
 body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:var(--fs-body); line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
 a{color:inherit;}
 img{display:block; max-width:100%;}
