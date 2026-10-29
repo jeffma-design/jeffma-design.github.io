@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<script>/* Chrome on iPhone mis-sizes a page let under the notch (wider than what shows, its right edge cut off), so there it stays in the safe area. Safari runs under the notch, the colour to the screen's edges. */ if (/CriOS/.test(navigator.userAgent)){ document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1'); document.documentElement.classList.add('crios'); }</script>
 <title>Jeff Ma — Independent Creative Director</title>
 <meta name="description" content="Jeff Ma is a strategic creative director who helps experts explain complex, high-stakes ideas to the boards, executives, regulators, and audiences who need to act on them.">
+<!-- Link previews. The ?v= on the image is a version: change it whenever the image changes, so sites fetch it again. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jeff Ma">
+<meta property="og:title" content="Jeff Ma — Independent Creative Director">
+<meta property="og:description" content="Jeff Ma is a strategic creative director who helps experts explain complex, high-stakes ideas to the boards, executives, regulators, and audiences who need to act on them.">
+<meta property="og:url" content="https://majeff.com/">
+<meta property="og:image" content="https://majeff.com/assets/og-image.png?v=20261029">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jeff Ma: story and message, visual explanation, creative direction">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,13 +49,16 @@
     --yellow:#f0b429;
     --blue:#1f4fa3;
     --maxw:1280px;
-    --gutter:max(clamp(16px, 4vw, 48px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));   /* phones on their side: clear of the notch, while the colour runs to the screen's edges (viewport-fit=cover) */
+    --gutter:max(clamp(16px, 4vw, 48px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));   /* phones on their side (Safari): the page runs under the notch, the colour to the screen's edges, the type kept clear of it */
     --sans:"Jost", "Futura", "Century Gothic", -apple-system, sans-serif;
     --mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}   /* no text inflation on phones turned sideways: it would set the lockup's lines wider than their panel */
+  html{background:var(--ink); scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%;}   /* black outside the page (a phone's side margins, the bounce past either end), so the paper reads as the page, not as a gap */   /* no text inflation on phones turned sideways: it would set the lockup's lines wider than their panel */
+  /* Chrome on iPhone fills the strips beside the notch itself, with the page's background colour: the second paper there, the page itself kept on paper by a paper layer over the body. */
+  .crios, .crios body{background-color:var(--paper-2);}
+  .crios body{background-image:linear-gradient(var(--paper), var(--paper));}
   body{
     margin:0; background:var(--paper); color:var(--ink);
     font-family:var(--sans); font-size:var(--fs-body); line-height:1.55;
@@ -276,8 +292,8 @@
   .s3-tag:focus-visible{outline:2px solid var(--paper); outline-offset:2px;}
   @media (orientation: portrait){ .s3-controls{bottom:auto; top:calc(58% + 10px);} }   /* clear of the centred headline */
   @media (orientation: portrait) and (max-width:639px){ .s3-controls{top:auto; right:var(--hm, 16px); bottom:var(--hm, 16px);} }   /* phones: in the colour's lower right corner, on the header's margin */
-  /* The sub-headline, just below the hero: an off-white band boxed in a heavy ink border. */
-  .hero-after{background:var(--paper); border:6px solid var(--ink); text-align:center; padding-block:clamp(96px, 13.5vw, 192px); display:flex; flex-direction:column; justify-content:center;
+  /* The sub-headline, just below the hero: paper type on an ink band. */
+  .hero-after{background:var(--ink); border:6px solid var(--ink); text-align:center; padding-block:clamp(96px, 13.5vw, 192px); display:flex; flex-direction:column; justify-content:center;
     min-height:calc(2 * clamp(96px, 13.5vw, 192px) + 3 * 1.12 * var(--fs-headline));}   /* as tall as a payoff band (its padding and three headline lines), the line centred in it */
   .hero-sub .nw{white-space:nowrap;}   /* lines break only between phrases */
   /* The reply is set in one of three compositions, the widest that fits (the script picks it):
@@ -289,12 +305,13 @@
   .rag[data-rag="wide"] br.r-w, .rag[data-rag="mid"] br.r-m, .rag[data-rag="phone"] br.r-p{display:inline;}
   .hero-sub.rag.rag-wrap{white-space:normal; text-wrap-mode:wrap;}   /* narrower than any composition: wrap as it must */
   .hero-sub + .hero-sub{margin-top:.75em; font-size:var(--fs-statement); font-weight:500; line-height:1.2;}   /* the reply, a Statement under the Headline */
-  .hero-sub{margin:0 auto; max-width:40em; font-size:var(--fs-headline); font-weight:700; line-height:1.12; color:var(--ink); text-wrap:balance;}   /* set as a Headline */
+  .hero-sub{margin:0 auto; max-width:40em; font-size:var(--fs-headline); font-weight:700; line-height:1.12; color:var(--paper); text-wrap:balance;}   /* set as a Headline */
     /* The sub-headline breaks after “story” where it fits on two lines; narrower, it wraps evenly. */
   @media (max-width:1100px){ .br-wide{display:none;} }
   /* A short first-person intro with a small portrait, left-aligned. */
   /* A layer under the sub-headline: a band in the border's ink, type knocked out, a black-and-white photo. */
-  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px);}
+  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative;}
+  .intro-band::before{content:""; position:absolute; top:0; left:max(var(--gutter), (100% - var(--maxw)) / 2 + var(--gutter)); right:max(var(--gutter), (100% - var(--maxw)) / 2 + var(--gutter)); height:1px; background:var(--paper);}   /* a paper rule across the column, between it and the ink band above; it stops short of the edges */
   .intro{display:flex; align-items:center; justify-content:center; gap:clamp(16px, 2.5vw, 28px);}
   /* The ring sits on a wrapper; the photo is scaled up a touch inside it so its soft circular edge is cropped away and no dark hairline shows. */
   .intro-photo{flex:none; display:block; width:clamp(90px, 11.2vw, 134px); aspect-ratio:1; border-radius:50%; overflow:hidden; border:1px solid var(--paper);}
@@ -1023,9 +1040,9 @@
     <svg class="gm-disc" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gm-field"/><circle cx="241" cy="241" r="101" class="gm-hair"/><circle cx="241" cy="241" r="171" class="gm-hair"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg>
     <svg class="gm-lead" viewBox="0 0 1334 500" aria-hidden="true"><path d="M0 251H548"/><circle cx="548" cy="251" r="6"/><path d="M667 127H1334"/><circle cx="667" cy="127" r="6"/><path d="M778 375H1318"/><circle cx="778" cy="375" r="6"/></svg>
     <ul class="gains">
-    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes,</span> <span class="gl">with the details there when</span> <span class="gl">people want&nbsp;them</span></span></div></li>
-    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time goes to moving the idea forward,</span> <span class="gl">not decoding&nbsp;it</span></span></div></li>
-    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it on to boards,</span> <span class="gl">teams, or the&nbsp;public</span></span></div></li>
+    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes,</span> <span class="gl">with the details there when</span> <span class="gl">people want&nbsp;them.</span></span></div></li>
+    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time goes to moving the idea forward,</span> <span class="gl">not decoding&nbsp;it.</span></span></div></li>
+    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it on to boards,</span> <span class="gl">teams, or the&nbsp;public.</span></span></div></li>
     </ul>
     </div>
 
@@ -1104,7 +1121,7 @@
     </div>
 
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;form.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
@@ -1337,25 +1354,25 @@
       [G(function(x, y){ return (ab(x) <= 2.5 && ab(y) <= 6.5) || (ab(y) <= 2.5 && ab(x) <= 6.5); }), C.yellow],                                   // plus
       [G(function(x, y){ return tri(x, y); }), C.red, 2.2],                                                       // triangle, pointing right
       [G(function(x, y){ x = Math.round(x); y = Math.round(y); return ab(x) <= 2 ? ab(y) <= 1 : ab(x) <= 6 && y >= chartTop(x) && y <= chartTop(x) + 3; }), C.green],  // chart line: up, flat, up
-      [G(function(x, y){ var a = x + y, b = x - y; return ab(x) <= 6.5 && ab(y) <= 6.5 && ((ab(a) <= 2.5 && ab(b) <= 9.5) || (ab(b) <= 2.5 && ab(a) <= 9.5)); }), C.blue],  // X
+      [function(x, y){ var a = Math.hypot(x, y + 1), b = Math.hypot(x, y - 1); return (a >= 0.36 && a <= 0.95) || (b >= 0.36 && b <= 0.95); }, C.blue],  // facing arches
       [G(function(x, y){ var r = Math.hypot(x, y); return r <= 2.5 || (r >= 3.5 && r <= 6.7); }), C.pink],                                         // target: a disc in a thick band
-      [G(function(x, y){ var m = x + 0.5; return (ab(m) <= 2 && y >= 0 && y <= 6.5) || (ab(m) <= 6 && y >= -6.5 && ab(y + ab(m) - 0.5) <= 2.5); }), C.yellow, 2.2],  // Y (centred half a dot left, for a four-dot stem)
-      [G(function(x, y){ return Math.hypot(x, y) <= 6.6 && ab(x) >= 0.5; }), C.red],                                                             // two half-discs
-      [G(function(x, y){ return tri(y, x); }), C.blue],                                                       // triangle, pointing down
+      [function(x, y){ var a = ab(x), b = ab(y); return a + b <= 0.44 || (a <= 0.95 && b <= 0.95 && a + b >= 1.07); }, C.yellow],  // a diamond, with a triangle in each corner pointing out
+      [function(x, y){ return Math.hypot(x, y) <= 0.3 || [90, 30, 150].some(function(deg){ var a = deg * Math.PI / 180, along = x * Math.cos(a) + y * Math.sin(a), across = -x * Math.sin(a) + y * Math.cos(a); return ab(along) <= 0.95 && ab(across) <= 0.2; }); }, C.red],  // asterisk
+      [G(function(x, y){ return tri(-y, x); }), C.blue],                                                      // triangle, pointing up
       [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 2.5; }), C.pink],                                                                         // minus: the plus's crossbar, 13 x 5
       [G(function(x, y){ return ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x) + ab(y) <= 9.5; }), C.yellow],                                                // octagon
-      [G(function(x, y){ return tri(-y, x); }), C.red],                                                        // triangle, pointing up
+      [G(function(x, y){ return tri(y, x); }), C.red],                                                         // triangle, pointing down
       [G(function(x, y){ return (ab(x) <= 6.5 && ab(y) <= 6.5 && ab(x + y) <= 1.5) || Math.hypot(x + 4, y + 4) <= 2.4 || Math.hypot(x - 4, y - 4) <= 2.4; }), C.green, 3.4],  // percent
       [G(function(x, y){ y = Math.round(y); return ab(x) <= 5.5 && ((y >= -5 && y <= -2) || (y >= 1 && y <= 4)); }), C.blue]  // two bars, four rows each, two rows apart
     ].concat([
       // Tiles from the original 5 x 5 Bauhaus reference (in -1 to 1 coordinates).
       [function(x, y){ return Math.pow(ab(x), 2 / 3) + Math.pow(ab(y), 2 / 3) <= 1; }, C.pink],                                       // four-point star
       [function(x, y){ return [[-.5, -.5], [.5, -.5], [-.5, .5], [.5, .5]].some(function(c){ return ab(x - c[0]) + ab(y - c[1]) <= 0.48; }); }, C.red],  // four diamonds
-      [function(x, y){ var a = Math.hypot(x, y + 1), b = Math.hypot(x, y - 1); return (a >= 0.36 && a <= 0.95) || (b >= 0.36 && b <= 0.95); }, C.yellow],  // facing arches
+      [G(function(x, y){ var a = x + y, b = x - y; return ab(x) <= 6.5 && ab(y) <= 6.5 && ((ab(a) <= 2.5 && ab(b) <= 9.5) || (ab(b) <= 2.5 && ab(a) <= 9.5)); }), C.yellow],  // X
       [function(x, y){ return Math.hypot(x, y) <= 0.95; }, C.blue],                                                                  // circle
-      [function(x, y){ return [[-.52, -.52], [.52, -.52], [0, 0], [-.52, .52], [.52, .52]].some(function(c){ return ab(x - c[0]) + ab(y - c[1]) <= 0.44; }); }, C.green],  // five diamonds
+      [G(function(x, y){ var m = x + 0.5; return (ab(m) <= 2 && y >= 0 && y <= 6.5) || (ab(m) <= 6 && y >= -6.5 && ab(y + ab(m) - 0.5) <= 2.5); }), C.green, 2.2],  // Y (centred half a dot left, for a four-dot stem)
       [G(function(x, y){ var r = Math.hypot(x, y); return r >= 2.5 && r <= 6.7; }), C.pink],                                       // ring, a thick band
-      [function(x, y){ return Math.hypot(x, y) <= 0.3 || [90, 30, 150].some(function(deg){ var a = deg * Math.PI / 180, along = x * Math.cos(a) + y * Math.sin(a), across = -x * Math.sin(a) + y * Math.cos(a); return ab(along) <= 0.95 && ab(across) <= 0.2; }); }, C.red]  // asterisk
+      [G(function(x, y){ return Math.hypot(x, y) <= 6.6 && ab(x) >= 0.5; }), C.red]  // two half-discs
     ]);
     wallSketch.shapes = SHAPES;   // shared with the contact section's wallpaper
     // No two shapes in a row share a colour, round the loop too.
