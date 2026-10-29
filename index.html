@@ -781,7 +781,7 @@
   .chapter-head .num-icon{display:none;}
 
   /* ---------- Section marks: a heavy ink rule and a label open each section ---------- */
-  .sec-mark{margin:0 0 clamp(40px, 5vw, 64px); padding:14px 0 0; border-top:6px solid var(--ink); color:var(--ink);}
+  .sec-mark{margin:0 0 clamp(40px, 5vw, 64px); padding:14px 0 0; border-top:12px solid var(--ink); color:var(--ink);}   /* twice the page's 6px rules, so each section's start stands out */
   .sec-mark.label{font-family:var(--sans); font-weight:600; font-size:var(--fs-small); letter-spacing:.1em;}   /* Jost SemiBold in capitals; its first letter is set on the rule's edge by the optical-margin script */
   #approach .sec-mark{margin-bottom:clamp(72px, 9vw, 128px);}   /* more room before the triangles open the section */
 
@@ -2371,7 +2371,7 @@
         zBoxW = b.width; zBoxH = b.height; zUp = 0; zBandBottom = 0;
         if (side){
           var top = zBand ? pageTop(zBand) : (zMark ? pageTop(zMark) : bTop);
-          zUp = Math.max(0, bTop - top); zBandBottom = zMark ? pageTop(zMark) + 6 - top : (zBand ? top + zBand.offsetHeight - top : 0);   // ends under the section mark's 6px rule, never across it
+          zUp = Math.max(0, bTop - top); zBandBottom = zMark ? pageTop(zMark) + parseFloat(getComputedStyle(zMark).borderTopWidth) - top : (zBand ? top + zBand.offsetHeight - top : 0);   // ends under the section mark's rule, never across it
           zc.style.top = -zUp + 'px'; zc.style.height = (zBoxH + zUp) + 'px';
           zc.style.width = (document.documentElement.clientWidth - b.left + 40) + 'px';   // past the window's edge; clipped
         }
