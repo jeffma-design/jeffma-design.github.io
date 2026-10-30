@@ -169,6 +169,7 @@ section{padding-block:clamp(48px, 7vw, 96px) 0;}
 @media (max-width:600px){ .photos .framed img{border-width:calc(100cqw * 60 / 1217);} }   /* stacked, the notebook takes the full column */
 .photos .inset{padding-inline:calc(2 * ((100% - 11 * var(--col-gap)) / 12 + var(--col-gap)));}   /* a row set in from each side by two columns of the 12 */
 @media (max-width:600px){ .photos .inset{padding-inline:0;} }   /* phones: full width */
+.photos .rule{width:100%; margin:var(--col-gap) 0; border:0; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent);}   /* the hairline the More work list uses, with a gap's extra room each side */
 .photos .flush{margin-top:calc(-1 * var(--col-gap));}   /* a row that reads on from the one above, with no gap between them */
 .photos .video .frame{position:relative; aspect-ratio:16 / 9; background:var(--ink); overflow:hidden;}
 .photos .video iframe{position:absolute; inset:-2px; width:calc(100% + 4px); height:calc(100% + 4px); border:0;}   /* a touch larger than its frame, cropped: the player's sliver of black, where the frame's 16:9 doesn't land on whole pixels, falls outside */

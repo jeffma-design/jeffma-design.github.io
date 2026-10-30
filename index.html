@@ -387,6 +387,7 @@
   /* The payoff: a section's closing line in headline type, knocked out of a full-width band of solid colour.
      It recurs: green in section 01, salmon pink in section 02. Set the colour with --payoff. */
   .payoff{margin-top:clamp(48px, 7vw, 96px); margin-bottom:calc(-1 * clamp(48px, 7vw, 96px)); margin-inline:calc(50% - 50vw); background:var(--payoff, var(--green)); padding:clamp(96px, 13.5vw, 192px) var(--gutter); text-align:center;}   /* full window width, and it ends its section: no padding under it */
+  .payoff{min-height:80svh; display:flex; flex-direction:column; justify-content:center;}   /* TRIAL: each payoff at least 80% of a screen tall, its words centred in it (svh: the screen with the browser's bars showing) */
   .payoff > p:first-child{max-width:24em; margin:0 auto; color:var(--paper); font-size:min(var(--fs-headline), calc((100vw - 32px) / 13.6)); font-weight:700; line-height:calc(1.4525em + 1px); letter-spacing:0; text-wrap:balance;}   /* Jost's selection highlight is 1.4525em tall: lines sit so a highlighted line clears the next by 1px */
   .payoff > p:first-child span{white-space:nowrap;}   /* lines break between phrases, never inside one; on the narrowest phones the type shrinks a touch so the longest phrase still fits */
   .payoff > p:first-child .pl{white-space:normal;}   /* a line group: on wider screens each starts a new line; its phrases may wrap apart on phones */
@@ -1119,7 +1120,7 @@
     </div>
 
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The story and the room</span> <span>determine the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
