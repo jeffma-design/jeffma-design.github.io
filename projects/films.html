@@ -131,6 +131,8 @@
 
 </main>
 
+<a class="fab" href="../index.html#contact-form"><span class="dot" aria-hidden="true"></span>Let’s talk</a>
+
 <footer>
   <div class="wrap">
     <span class="foot-name"><a class="wm" href="../index.html" aria-label="Jeff Ma, home">JEFF MA</a><a class="foot-in" href="https://www.linkedin.com/in/jeff-ma-8b6b663/" target="_blank" rel="noopener" aria-label="Jeff Ma on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24"/><path d="M5.5 9.5h3v9h-3zM7 4.8a1.75 1.75 0 1 1 0 3.5a1.75 1.75 0 0 1 0-3.5zM10.5 9.5h2.9v1.3c.5-.8 1.5-1.5 3-1.5c2.9 0 3.4 1.9 3.4 4.3v4.9h-3v-4.3c0-1.1 0-2.4-1.5-2.4s-1.8 1.1-1.8 2.3v4.4h-3z" fill="var(--paper)"/></svg></a></span>
@@ -264,6 +266,16 @@
     }, {threshold: .5}).observe(f);
     state(); tick();
   });
+})();
+</script>
+<script>
+/* The floating "Let's talk": shown while neither the top of the page nor its closing "Let's talk" (or the footer) is in view. */
+(function(){
+  var fab = document.querySelector('.fab'); if (!fab || !window.IntersectionObserver) return;
+  var top = document.querySelector('.s3') || document.querySelector('.site-header'), ends = [].slice.call(document.querySelectorAll('.payoff-end, .end-band, footer')), seen = new Map();
+  function set(){ var on = !seen.get(top) && !ends.some(function(e){ return seen.get(e); }); fab.classList.toggle('is-on', on); }
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ seen.set(e.target, e.isIntersecting); }); set(); });
+  [top].concat(ends).forEach(function(e){ if (e) io.observe(e); });
 })();
 </script>
 <!-- Cloudflare Web Analytics: cookieless visit counts, on majeff.com only (previews on localhost and the phone aren't counted) -->

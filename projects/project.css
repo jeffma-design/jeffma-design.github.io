@@ -294,3 +294,17 @@ footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; 
 .foot-in{display:block; width:22px; height:22px; color:var(--ink);}
 .foot-in svg{display:block; width:100%; height:100%; fill:currentColor;}
 .foot-in:hover{color:var(--blue);}
+
+/* The floating "Let's talk": the header's button, kept in reach once the header has gone. Ink, so it stands out on paper and on
+   every colour band, inside a paper rule so it still shows over the ink bands, with a soft shadow off photos and film.
+   It comes in once the top of the page (the homepage's hero, or a page's header) has scrolled away, and steps aside
+   while the closing band's own "Let's talk", or the footer, is in view. */
+.fab{position:fixed; z-index:20; right:max(16px, env(safe-area-inset-right, 0px)); bottom:max(20px, env(safe-area-inset-bottom, 0px));
+  display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border:2px solid var(--paper); background:var(--ink); color:var(--paper);
+  font-family:var(--sans); font-size:1.05rem; font-weight:500; line-height:1.2; text-decoration:none; white-space:nowrap; box-shadow:0 6px 20px rgba(21, 21, 21, .22);
+  opacity:0; transform:translateY(12px); visibility:hidden; pointer-events:none; transition:opacity .25s, transform .25s, visibility 0s .25s, background .2s, color .2s, border-color .2s;}
+.fab.is-on{opacity:1; transform:none; visibility:visible; pointer-events:auto; transition:opacity .25s, transform .25s, visibility 0s, background .2s, color .2s, border-color .2s;}
+.fab .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow); flex:none;}
+.fab:hover, .fab:focus-visible{background:var(--yellow); border-color:var(--ink); color:var(--ink); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}   /* as the header's button: yellow, its dot turning ink */
+.fab:hover .dot, .fab:focus-visible .dot{background:var(--ink);}
+@media (prefers-reduced-motion:reduce){ .fab, .fab.is-on{transform:none;} }

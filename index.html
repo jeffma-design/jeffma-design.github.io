@@ -114,6 +114,7 @@
   .cdlg-x:hover i{background:var(--red);}
   .cdlg-h{margin:0 48px 0 0; font-size:var(--fs-statement); font-weight:500; line-height:1.2; text-wrap:balance;}
   .cdlg-sub{margin:8px 0 24px; font-size:var(--fs-body); color:var(--ink-soft);}
+  .cdlg-form .cdlg-h{margin-bottom:24px;}   /* no line under the form's title now: the fields start where it would have ended */
   .cf{display:block; margin-bottom:18px;}
   .cf .label{display:block; margin-bottom:6px; color:var(--ink-soft);}
   .cf input, .cf textarea{display:block; width:100%; box-sizing:border-box; padding:10px 12px; border:2px solid var(--ink); border-radius:0; background:#fff; color:var(--ink); font:400 var(--fs-body)/1.45 var(--sans);}
@@ -856,6 +857,20 @@
   /* Working together, said large. */
 
   /* The contact madlib, in the closing band. */
+
+  /* The floating "Let's talk": the header's button, kept in reach once the header has gone. Ink, so it stands out on paper and on
+     every colour band, inside a paper rule so it still shows over the ink bands, with a soft shadow off photos and film.
+     It comes in once the top of the page (the homepage's hero, or a page's header) has scrolled away, and steps aside
+     while the closing band's own "Let's talk", or the footer, is in view. */
+  .fab{position:fixed; z-index:20; right:max(16px, env(safe-area-inset-right, 0px)); bottom:max(20px, env(safe-area-inset-bottom, 0px));
+    display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border:2px solid var(--paper); background:var(--ink); color:var(--paper);
+    font-family:var(--sans); font-size:1.05rem; font-weight:500; line-height:1.2; text-decoration:none; white-space:nowrap; box-shadow:0 6px 20px rgba(21, 21, 21, .22);
+    opacity:0; transform:translateY(12px); visibility:hidden; pointer-events:none; transition:opacity .25s, transform .25s, visibility 0s .25s, background .2s, color .2s, border-color .2s;}
+  .fab.is-on{opacity:1; transform:none; visibility:visible; pointer-events:auto; transition:opacity .25s, transform .25s, visibility 0s, background .2s, color .2s, border-color .2s;}
+  .fab .dot{width:9px; height:9px; border-radius:50%; background:var(--yellow); flex:none;}
+  .fab:hover, .fab:focus-visible{background:var(--yellow); border-color:var(--ink); color:var(--ink); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}   /* as the header's button: yellow, its dot turning ink */
+  .fab:hover .dot, .fab:focus-visible .dot{background:var(--ink);}
+  @media (prefers-reduced-motion:reduce){ .fab, .fab.is-on{transform:none;} }
 </style>
 </head>
 <body>
@@ -1215,6 +1230,8 @@
   </div>
 </footer>
 
+<a class="fab" href="#contact" data-contact><span class="dot" aria-hidden="true"></span>Let’s talk</a>
+
 <!-- The contact form, in an overlay. "Let's talk" (header and menu) and "Let's connect the dots" open it; so does #contact-form in the address.
      Sent to Formspree in the background (its CAPTCHA must stay off for that); if the action is ever set back to FORM_ENDPOINT,
      sending opens the visitor's email app with their answers filled in instead. -->
@@ -1222,13 +1239,12 @@
   <div class="cdlg-in">
     <button class="cdlg-x" type="button" aria-label="Close"><i></i><i></i></button>
     <form class="cdlg-form" method="post" action="https://formspree.io/f/xjyybqjw">
-      <h2 class="cdlg-h" id="cdlg-title">Tell me what you’re working&nbsp;on.</h2>
-      <p class="cdlg-sub">A sentence or two is plenty, or you can say more if you&nbsp;like.</p>
-      <label class="cf"><span class="label">What are you working on? <span class="cf-opt">Optional</span></span><textarea name="note" rows="4" aria-describedby="cf-note-hint"></textarea><span class="cf-hint" id="cf-note-hint">No confidential details needed.</span></label>
+      <h2 class="cdlg-h" id="cdlg-title">Thanks for getting&nbsp;connected.</h2>
       <div class="cf-row">
         <label class="cf"><span class="label">Your name</span><input name="name" type="text" autocomplete="name" required></label>
         <label class="cf"><span class="label">Your email</span><input name="email" type="email" autocomplete="email" required></label>
       </div>
+      <label class="cf"><span class="label">What are you working on? <span class="cf-opt">Optional</span></span><textarea name="note" rows="4" placeholder="A sentence or two is plenty, or we can get into details later." aria-describedby="cf-note-hint"></textarea><span class="cf-hint" id="cf-note-hint">No confidential details needed.</span></label>
       <input type="hidden" name="_subject" value="New message from majeff.com">
       <input class="cf-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">   <!-- spam trap: people never fill it -->
       <div class="cf-send"><button class="btn" type="submit"><span class="dot"></span>Send</button><p class="cf-status" role="status" aria-live="polite"></p></div>
@@ -2956,7 +2972,7 @@
       Object.keys(d).forEach(function(k){ var v = d[k];
         if (form.elements[k] && !form.elements[k].value) form.elements[k].value = v; }); } catch (err) {}
     form.hidden = false; done.hidden = true; status.textContent = '';
-    dlg.showModal(); form.elements.note.focus();
+    dlg.showModal(); form.elements.name.focus();   // the first field: name
   }
   function save(){ if (!store) return; var d = {}; ['note','name','email'].forEach(function(k){ d[k] = form.elements[k].value; }); try { store.setItem(KEY, JSON.stringify(d)); } catch (err) {} }
   document.querySelectorAll('[data-contact]').forEach(function(a){ a.addEventListener('click', open); });
@@ -2986,6 +3002,16 @@
 })();
 </script>
 <!-- Cloudflare Web Analytics: cookieless visit counts, on majeff.com only (previews on localhost and the phone aren't counted) -->
+<script>
+/* The floating "Let's talk": shown while neither the top of the page nor its closing "Let's talk" (or the footer) is in view. */
+(function(){
+  var fab = document.querySelector('.fab'); if (!fab || !window.IntersectionObserver) return;
+  var top = document.querySelector('.s3') || document.querySelector('.site-header'), ends = [].slice.call(document.querySelectorAll('.payoff-end, .end-band, footer')), seen = new Map();
+  function set(){ var on = !seen.get(top) && !ends.some(function(e){ return seen.get(e); }); fab.classList.toggle('is-on', on); }
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ seen.set(e.target, e.isIntersecting); }); set(); });
+  [top].concat(ends).forEach(function(e){ if (e) io.observe(e); });
+})();
+</script>
 <script>if (/(^|\.)majeff\.com$/.test(location.hostname)){ var cfwa = document.createElement('script'); cfwa.type = 'module'; cfwa.src = 'https://static.cloudflareinsights.com/beacon.min.js'; cfwa.setAttribute('data-cf-beacon', '{"token": "4933f2f18d6148d599c5b84d94d98d93"}'); document.body.appendChild(cfwa); }</script>
 </body>
 </html>
