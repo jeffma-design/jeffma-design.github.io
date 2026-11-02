@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* Chrome on iPhone mis-sizes a page let under the notch (wider than what shows, its right edge cut off), so there it stays in the safe area. Safari runs under the notch, the colour to the screen's edges. */ if (/CriOS/.test(navigator.userAgent)){ document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1'); document.documentElement.classList.add('crios'); }</script>
 <title>Security Analysis and Reporting — Jeff Ma</title>
 <meta name="description" content="Editorial design direction for a series of public Google reports on geopolitical and commercial security topics.">
+<!-- Link previews (see index.html for the ?v= version on the image). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jeff Ma">
+<meta property="og:title" content="Security Analysis and Reporting — Jeff Ma">
+<meta property="og:description" content="Editorial design direction for a series of public Google reports on geopolitical and commercial security topics.">
+<meta property="og:url" content="https://majeff.com/projects/security-reporting.html">
+<meta property="og:image" content="https://majeff.com/assets/og-image.png?v=20261029">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jeff Ma: story and message, visual explanation, creative direction">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..800;1,400..600&family=DM+Mono:wght@400;500&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
@@ -18,7 +34,7 @@
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu"><i></i><i></i><i></i></button>
       <nav class="menu" id="site-menu" aria-label="Sections" hidden>
         <a href="../index.html#about">Introduction</a>
-        <a href="../index.html#problem">Why it’s hard</a>
+        <a href="../index.html#opportunity">Why it’s hard</a>
         <a href="../index.html#approach">How I help</a>
         <a href="../index.html#work">Things I’ve made</a>
         <a href="../index.html#contact">Getting started</a>
@@ -42,7 +58,7 @@
     <div class="wrap">
       <p class="sec-mark label">Editorial &amp; Content Design</p>
       <h1>Security Analysis and Reporting</h1>
-      <p class="lede"><span><span class="ph">Dense threat intelligence,</span> <span class="ph">turned into public reports</span></span> <span class="ph">for the Munich Security&nbsp;Conference</span></p>
+      <p class="lede">Dense threat intelligence, turned into public reports for the Munich&nbsp;Security&nbsp;Conference</p>
       <figure class="hero"><img src="../assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report"></figure>
     </div>
   </section>
@@ -50,10 +66,10 @@
   <!-- The photos, in rows of one, two or three. -->
   <section style="padding-top:0">
     <div class="wrap photos">
-      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/fog-of-war-10-11.jpg" alt="Spread from Fog of War: an overview of Russia-linked threat actors, their aliases, what they do, the nations they target and their primary targets" width="2400" height="1800" loading="lazy"></figure></div>
-      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/defenders-dilemma-p3.jpg" alt="Spread from Secure, Empower, Advance: the executive summary, with a diagram of one defender facing many attackers, beside a pull quote on AI and the Defender’s Dilemma" width="2400" height="1800" loading="lazy"></figure><figure style="--r:1.333"><img src="../assets/work/security-reporting/defenders-dilemma-p4.jpg" alt="Spread from Secure, Empower, Advance: how AI can tilt the scales toward defenders, and the paper’s three recommendations" width="2400" height="1800" loading="lazy"></figure></div>
-      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/fog-of-war-12-13.jpg" alt="Spread from Fog of War: phishing campaigns by government-backed attackers over 2021 and 2022, the most targeted domains, and the top Ukrainian government and military targets" width="2400" height="1800" loading="lazy"></figure><figure style="--r:1.333"><img src="../assets/work/security-reporting/fog-of-war-14-15.jpg" alt="Spread from Fog of War: a chart of government-backed attacker activity targeting users in NATO countries, beside a pull quote on the rise in targeting" width="2400" height="1800" loading="lazy"></figure></div>
-      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/buying-spying-p6.jpg" alt="Spread from Buying Spying: a profile of María Luisa Aguilar Rodríguez, a human rights researcher targeted with commercial spyware" width="2400" height="1800" loading="lazy"></figure><figure style="--r:1.006"><img src="../assets/work/security-reporting/buying-spying-infographic-dark.jpg" alt="Infographic from Buying Spying: how commercial spyware reaches a target in four steps, from delivery and installation to gathering and exfiltrating data" width="2000" height="1989" loading="lazy"></figure></div>
+      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/fog-of-war-10-11.jpg" alt="Spread from Fog of War: an overview of Russia-linked threat actors, their aliases, what they do, the nations they target and their primary targets" width="2400" height="1800" loading="lazy"><figcaption class="label">Fog of War</figcaption></figure></div>
+      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/defenders-dilemma-p3.jpg" alt="Spread from Secure, Empower, Advance: the executive summary, with a diagram of one defender facing many attackers, beside a pull quote on AI and the Defender’s Dilemma" width="2400" height="1800" loading="lazy"><figcaption class="label">Secure, Empower, Advance</figcaption></figure><figure style="--r:1.333"><img src="../assets/work/security-reporting/defenders-dilemma-p4.jpg" alt="Spread from Secure, Empower, Advance: how AI can tilt the scales toward defenders, and the paper’s three recommendations" width="2400" height="1800" loading="lazy"></figure></div>
+      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/fog-of-war-12-13.jpg" alt="Spread from Fog of War: phishing campaigns by government-backed attackers over 2021 and 2022, the most targeted domains, and the top Ukrainian government and military targets" width="2400" height="1800" loading="lazy"><figcaption class="label">Fog of War</figcaption></figure><figure style="--r:1.333"><img src="../assets/work/security-reporting/fog-of-war-14-15.jpg" alt="Spread from Fog of War: a chart of government-backed attacker activity targeting users in NATO countries, beside a pull quote on the rise in targeting" width="2400" height="1800" loading="lazy"></figure></div>
+      <div class="prow"><figure style="--r:1.333"><img src="../assets/work/security-reporting/buying-spying-p6.jpg" alt="Spread from Buying Spying: a profile of María Luisa Aguilar Rodríguez, a human rights researcher targeted with commercial spyware" width="2400" height="1800" loading="lazy"><figcaption class="label">Buying Spying</figcaption></figure><figure style="--r:1.006"><img src="../assets/work/security-reporting/buying-spying-infographic-dark.jpg" alt="Infographic from Buying Spying: how commercial spyware reaches a target in four steps, from delivery and installation to gathering and exfiltrating data" width="2000" height="1989" loading="lazy"></figure></div>
     </div>
   </section>
 
@@ -61,21 +77,35 @@
   <section>
     <div class="wrap about">
       <p class="sec-mark label">About</p>
-      <div class="about-copy"><p>Google’s senior security analysts had new findings to share, in some cases attributing specific attacks to specific threat actors for the first time. My job was to help them get those findings out into the world at one of the security industry’s biggest moments, the Munich Security Conference.</p><p>I worked through their raw data, listened to them talk through what they’d found, and asked questions until I understood what mattered most and what readers would value. They also walked me through how they wanted people to feel reading it. Ideas that are second nature to experts, like data exfiltration, I explained visually, so non-technical readers could see how an attack unfolds and where the weak points are.</p><p>I led the design direction and built a design system that internal and external teams could use across every report, and its presentations. Some reports responded to current events and had to land on tight deadlines. Beyond the conference, they were shared in bilateral meetings with national defense departments around the world, earning the trust of important partners and showing Google’s leadership in cybersecurity.</p></div>
+      <div class="about-copy"><p>Google’s senior security analysts had uncovered new findings about cyberattacks leading up to the war in Ukraine, including newly established links between specific attacks and nation-state adversaries. I joined the project before the end of the year, helping prepare Fog of War for publication at the Munich Security Conference in&nbsp;February.</p><p>I worked closely with three to five senior analysts to understand their findings and what the security community needed to take away. With the report evolving until the final stages to incorporate the latest intelligence, I also worked across public policy, marketing, public relations, and legal to ensure the content was accurate and aligned with Google’s position. I translated complex attack sequences into visual explanations that made the findings accessible to non-technical&nbsp;audiences.</p><p>I led the design direction and created a design system used across the report, presentations, and supporting communications. That system went on to support Google’s security research reports for years, helping establish a consistent, recognizable way to communicate complex findings and reinforce Google’s leadership in&nbsp;cybersecurity.</p></div>
       <dl class="facts"><div><dt class="label">Role</dt><dd>Design direction, design system, information design, presentation design</dd></div><div><dt class="label">Worked with</dt><dd>Google’s senior security analysts, and internal and external design teams</dd></div><div><dt class="label">Shared at</dt><dd>The Munich Security Conference, and bilateral meetings with national defense departments</dd></div><div><dt class="label">Read the reports</dt><dd><ul class="links"><li><a href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener">Fog of War ↗</a></li><li><a href="https://blog.google/innovation-and-ai/technology/safety-security/google-ai-cyber-defense-initiative/" target="_blank" rel="noopener">Secure, Empower, Advance ↗</a></li><li><a href="https://blog.google/threat-analysis-group/commercial-surveillance-vendors-google-tag-report/" target="_blank" rel="noopener">Buying Spying ↗</a></li></ul></dd></div></dl>
     </div>
   </section>
+
+  <!-- What changed: the outcome, as a payoff band. -->
+  <div class="payoff">
+    <span class="label">What changed</span>
+    <p class="big">The design system supported Google’s security research reports for&nbsp;years, and the report was used in bilateral meetings with&nbsp;national defense&nbsp;departments.</p>
+  </div>
 
   <!-- More work -->
   <section>
     <div class="wrap">
       <p class="sec-mark label">More work</p>
       <ul class="more-list">
-        <li><a href="safer-with-google-summit.html"><span class="mp-thumb"><img src="../assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="" loading="lazy"></span><span class="mp-title">Safer with Google Summit</span><span class="mp-cat">Brand Strategy · Event Design</span></a></li>
-        <li><a href="films.html"><span class="mp-thumb"><img src="../assets/work/ai-safety/card.jpg" alt="" loading="lazy"></span><span class="mp-title">Brand Films</span><span class="mp-cat">Brand Film · Creative Direction</span></a></li>
-        <li><a href="secure-ai-framework.html"><span class="mp-thumb"><img src="../assets/work/secure-ai-framework/risk-map-card.svg" alt="" loading="lazy"></span><span class="mp-title">Secure AI Framework Risk Map</span><span class="mp-cat">Systems &amp; Information Design</span></a></li>
+        <li><a href="secure-ai-framework.html"><span class="mp-thumb"><img src="../assets/work/secure-ai-framework/risk-map-card.svg" alt="" loading="lazy"></span><span class="mp-title">Secure AI Framework Risk Map</span><span class="mp-cat">Systems &amp; Information&nbsp;Design</span></a></li>
+        <li class="is-current"><div aria-current="page"><span class="mp-thumb"><img src="../assets/work/security-reporting/red-teams-card.jpg" alt="" loading="lazy"><span class="mp-now label">Currently viewing</span></span><span class="mp-title">Security Analysis and Reporting</span><span class="mp-cat">Editorial &amp; Content&nbsp;Design</span></div></li>
+        <li><a href="safer-with-google-summit.html"><span class="mp-thumb"><img src="../assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="" loading="lazy"></span><span class="mp-title">Safer with Google Summit</span><span class="mp-cat">Brand&nbsp;Strategy · Event&nbsp;Design</span></a></li>
+        <li><a href="films.html"><span class="mp-thumb"><img src="../assets/work/ai-safety/card.jpg" alt="" loading="lazy"></span><span class="mp-title">Brand Films</span><span class="mp-cat">Brand&nbsp;Film · Creative&nbsp;Direction</span></a></li>
       </ul>
-      <a class="back" href="../index.html#work">← All work</a>
+    </div>
+  </section>
+
+  <!-- Closing: the homepage's last band, streamlined; its blank asks about this page's subject. -->
+  <section class="end-band">
+    <div class="wrap">
+      <p class="end-ask">Tell me about <span class="box">your expertise</span><span class="hang">.</span></p>
+      <a class="end-cta" href="../index.html#contact-form"><span class="dot" aria-hidden="true"></span>Let’s talk</a>
     </div>
   </section>
 
@@ -98,6 +128,66 @@
   menu.addEventListener('click', function(e){ if (e.target.closest('a')) set(false); });
   document.addEventListener('click', function(e){ if (!menu.hidden && !menu.contains(e.target)) set(false); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !menu.hidden){ set(false); btn.focus(); } });
+})();
+</script>
+<script>
+/* The phone lockup. The panel is the wide lockup's, scaled so its lines' type is 11px (less where the row is short of
+   room), inside a 1.5px rule on its top, slanted left and bottom. The wordmark is then scaled so it spans the panel exactly,
+   the J's ink to the A's right point, and the panel is set under it, its point at the J's ink and its bar's edge at the A's. */
+(function(){
+  var wm = document.querySelector('.site-header .s3-wm'), panel = wm && wm.querySelector('.wm-panel'), brand = wm && wm.closest('.brand');
+  if (!panel) return;
+  var phone = window.matchMedia('(max-width: 639px)'), cv = document.createElement('canvas').getContext('2d'), busy = false, lastPh = '';
+  var B = 1.5, N = Math.sqrt(1 + .45 * .45);   // the rule, and a distance square to the slant measured across
+  function ink(node, idx, side){   // the left or right edge of a character's ink, in viewport px
+    var r = document.createRange(); r.setStart(node, idx); r.setEnd(node, idx + 1); var box = r.getBoundingClientRect();
+    var cs = getComputedStyle(wm); cv.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+    var m = cv.measureText(node.textContent.charAt(idx));
+    return side === 'left' ? box.left - m.actualBoundingBoxLeft : box.left + m.actualBoundingBoxRight;
+  }
+  function fit(){ if (busy) return; busy = true; panel.style.removeProperty('--pf'); layout();
+    // too wide to sit beside the menu: set the panel's type a little smaller (not under 8px) and lay out again
+    var bar = brand.parentElement, bs = getComputedStyle(bar), mb = bar.querySelector('.menu-btn').getBoundingClientRect();
+    var room = bar.getBoundingClientRect().right - parseFloat(bs.paddingRight) - (mb.right + 16), over = wm.getBoundingClientRect().width;
+    var pf = 11;
+    for (var k = 0; k < 3 && phone.matches && over > room + 0.5 && pf > 8; k++){   // refit a few times: the wordmark follows the panel, so the ratio isn't exact
+      pf = Math.max(8, pf * room / over); panel.style.setProperty('--pf', pf.toFixed(2) + 'px'); layout(); over = wm.getBoundingClientRect().width;
+    }
+    finish(); busy = false;
+  }
+  function layout(){
+    if (!phone.matches){
+      wm.style.fontSize = ''; wm.style.removeProperty('--pl');
+      brand.style.removeProperty('--ph'); return;
+    }
+    wm.style.fontSize = '';
+    var E = parseFloat(getComputedStyle(panel).fontSize);
+    var Wo = (.45 + N) * B + 3.374 * E + .1 * E;   // the rule's corner, the wide panel (3.374em), the bar (0.1em)
+    var jNode = wm.querySelector('.s3-a').firstChild, aNode = wm.querySelector('.s3-b').firstChild;
+    var span0 = ink(aNode, 1, 'right') - ink(jNode, 0, 'left'), fs0 = parseFloat(getComputedStyle(wm).fontSize);
+    wm.style.fontSize = (fs0 * Wo / span0).toFixed(3) + 'px';
+    var wl = wm.getBoundingClientRect().left, fl = ink(jNode, 0, 'left');
+    wm.style.setProperty('--pl', (fl - wl).toFixed(3) + 'px');
+  }
+  function finish(){
+    var ph = phone.matches ? (panel.getBoundingClientRect().bottom - wm.getBoundingClientRect().bottom).toFixed(1) + 'px' : '';
+    if (ph) brand.style.setProperty('--ph', ph);
+    if (ph !== lastPh){ lastPh = ph; busy = true; window.dispatchEvent(new Event('resize')); busy = false; }   // the hero lays out under the header: let it re-measure
+  }
+  fit(); window.addEventListener('resize', fit); phone.addEventListener('change', fit);   // the media query can flip before the resize arrives
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();
+/* Wide (landscape): JEFF MA across the header's split, as on the homepage, the space between the words on the middle. */
+(function(){
+  var wm = document.querySelector('.site-header .s3-wm'); if (!wm) return;
+  var wide = window.matchMedia('(orientation: landscape)');
+  function fit(){
+    wm.style.setProperty('--shift', '0px'); wm.classList.toggle('across', wide.matches); if (!wide.matches) return;
+    var ar = wm.querySelector('.s3-a').getBoundingClientRect(), br = wm.querySelector('.s3-b').getBoundingClientRect();
+    wm.style.setProperty('--shift', Math.round(document.documentElement.clientWidth / 2 - (ar.right + br.left) / 2) + 'px');
+  }
+  fit(); window.addEventListener('resize', fit); wide.addEventListener('change', fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 })();
 </script>
 <!-- Cloudflare Web Analytics: cookieless visit counts, on majeff.com only (previews on localhost and the phone aren't counted) -->

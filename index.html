@@ -19,6 +19,9 @@
 <meta property="og:image:alt" content="Jeff Ma: story and message, visual explanation, creative direction">
 <meta name="twitter:card" content="summary_large_image">
 
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..800;1,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -297,9 +300,9 @@
     min-height:calc(2 * clamp(96px, 13.5vw, 192px) + 3 * 1.12 * var(--fs-headline));}   /* as tall as a payoff band (its padding and three headline lines), the line centred in it */
   .hero-sub .nw{white-space:nowrap;}   /* lines break only between phrases */
   /* The reply is set in one of three compositions, the widest that fits (the script picks it):
-     wide   "I listen, ask questions, and craft your story / until the people who need to understand it actually do."
-     mid    "I listen, ask questions, and craft / your story until the people who need / to understand it actually do."
-     phone  "I listen, ask questions, / and craft your story / until the people who need / to understand it actually do." */
+     wide   "I listen, ask questions, and craft your story / until the people who need to understand it truly do."
+     mid    "I listen, ask questions, and craft / your story until the people who need / to understand it truly do."
+     phone  "I listen, ask questions, / and craft your story / until the people who need / to understand it truly do." */
   .hero-sub.rag{white-space:nowrap; text-wrap-mode:nowrap; contain:inline-size;}   /* contained, its width comes from the column, not from the unwrapped lines, so the script can see when a composition overflows */   /* text-wrap (balance, on .hero-sub) also sets the wrap mode, so it is turned off here by name */
   .rag br{display:none;}
   .rag[data-rag="wide"] br.r-w, .rag[data-rag="mid"] br.r-m, .rag[data-rag="phone"] br.r-p{display:inline;}
@@ -316,7 +319,8 @@
   /* The ring sits on a wrapper; the photo is scaled up a touch inside it so its soft circular edge is cropped away and no dark hairline shows. */
   .intro-photo{flex:none; display:block; width:clamp(90px, 11.2vw, 134px); aspect-ratio:1; border-radius:50%; overflow:hidden; border:1px solid var(--paper);}
   .intro-photo img{display:block; width:100%; height:100%; transform:scale(1.04); filter:grayscale(1) contrast(1.05);}
-  @media (max-width:560px){ .intro{flex-direction:column; align-items:flex-start;} }   /* phones: the photo sits above, so the text gets the full width */
+  /* Phones: "Hello." beside the photo, and the paragraph under both at the full width. */
+  @media (max-width:560px){ .intro{display:grid; grid-template-columns:auto minmax(0, 1fr); align-items:center; gap:clamp(16px, 2.5vw, 28px);} .intro .intro-text{display:contents;} .intro .intro-lines{grid-column:1 / -1;} }
   .intro-text{min-width:0; display:grid; gap:6px;}
   .intro p{margin:0; max-width:30em; text-align:left; font-size:var(--fs-lede); line-height:1.55; color:var(--paper); text-wrap:pretty;}   /* pretty: no one-word last lines */
   .intro .intro-hello{font-weight:700;}   /* the Lede below it, in bold */
@@ -364,8 +368,8 @@
   .s2-zoom canvas{position:absolute; top:0; left:50%; width:100vw; height:100%; transform:translateX(-50%); display:block;}
   /* Side by side from tablet width: text in columns 1–7, the dot in 8–12 with its line running out to the window's edge. */
   @media (min-width:761px){
-    #problem .chapter-head{margin-bottom:0;}   /* its label is hidden, so no gap under it */
-    #problem{overflow-x:clip;}   /* the dot's line runs off the window's edge without making the page scroll sideways */
+    #opportunity .chapter-head{margin-bottom:0;}   /* its label is hidden, so no gap under it */
+    #opportunity{overflow-x:clip;}   /* the dot's line runs off the window's edge without making the page scroll sideways */
     .s2-intro{margin-top:clamp(12px, 4vw, 56px); display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); align-items:center; text-align:left;}
     .s2-intro-text{grid-column:1 / span 7; grid-row:1;}
     .s2-intro .s2-zoom{grid-column:8 / -1; grid-row:1; aspect-ratio:1 / 1; margin:-30% 0;}   /* overhangs above and below, so the text, not the dot, sets the row's height */
@@ -373,7 +377,7 @@
     .s2-intro .s2-h{text-wrap:balance;}   /* phrases flow and balance: two lines when wide, three when narrower */
     .story2 .s2-intro .s2-p{margin:16px 0 0; max-width:34em;}
   }
-  #problem{overflow-x:clip;}   /* keep the full-width canvas from adding a sideways scroll */
+  #opportunity{overflow-x:clip;}   /* keep the full-width canvas from adding a sideways scroll */
   .chapter .s2-h{font-size:var(--fs-headline); font-weight:700; line-height:1.12; letter-spacing:0; max-width:none;}
   .s2-h > span{display:block; text-wrap:balance;}
   .s2-h.s2-h-flow > span{display:inline;}   /* this one's phrases flow and balance instead of taking a line each */
@@ -387,6 +391,7 @@
   /* The payoff: a section's closing line in headline type, knocked out of a full-width band of solid colour.
      It recurs: green in section 01, salmon pink in section 02. Set the colour with --payoff. */
   .payoff{margin-top:clamp(48px, 7vw, 96px); margin-bottom:calc(-1 * clamp(48px, 7vw, 96px)); margin-inline:calc(50% - 50vw); background:var(--payoff, var(--green)); padding:clamp(96px, 13.5vw, 192px) var(--gutter); text-align:center;}   /* full window width, and it ends its section: no padding under it */
+  .payoff{min-height:80svh; display:flex; flex-direction:column; justify-content:center;}   /* TRIAL: each payoff at least 80% of a screen tall, its words centred in it (svh: the screen with the browser's bars showing) */
   .payoff > p:first-child{max-width:24em; margin:0 auto; color:var(--paper); font-size:min(var(--fs-headline), calc((100vw - 32px) / 13.6)); font-weight:700; line-height:calc(1.4525em + 1px); letter-spacing:0; text-wrap:balance;}   /* Jost's selection highlight is 1.4525em tall: lines sit so a highlighted line clears the next by 1px */
   .payoff > p:first-child span{white-space:nowrap;}   /* lines break between phrases, never inside one; on the narrowest phones the type shrinks a touch so the longest phrase still fits */
   .payoff > p:first-child .pl{white-space:normal;}   /* a line group: on wider screens each starts a new line; its phrases may wrap apart on phones */
@@ -819,10 +824,10 @@
     .pit-stack .bring-lead{justify-self:start; width:auto; margin:0 0 .5em; padding:0 0 0 calc(6px + .7em);}
     .pit-stack .bring-lead .nw{display:inline;}
   }
-  #problem .s2-pit{max-width:none;}   /* the stack runs the content width, its spine on column 5 */
+  #opportunity .s2-pit{max-width:none;}   /* the stack runs the content width, its spine on column 5 */
   @media (min-width:1024px){
-    #problem .pit-stack .bring-lead{grid-column:1 / span 4; justify-self:end; width:max-content; margin-right:clamp(24px, 3vw, 48px); text-align:left;}   /* a left-aligned block, set a little way off the spine */
-    #problem .pit-stack .bring-opts{grid-column:5 / -1;}
+    #opportunity .pit-stack .bring-lead{grid-column:1 / span 4; justify-self:end; width:max-content; margin-right:clamp(24px, 3vw, 48px); text-align:left;}   /* a left-aligned block, set a little way off the spine */
+    #opportunity .pit-stack .bring-opts{grid-column:5 / -1;}
   }
   .s2-pit-line{margin-top:clamp(20px, 3vw, 32px); font-size:var(--fs-statement); font-weight:500; line-height:1.3; text-align:center; text-wrap:balance;}
 
@@ -842,9 +847,7 @@
   .wc-media .wc-ph{position:absolute; inset:0; display:grid; place-items:center; font-family:var(--mono); font-size:var(--fs-label); font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
   .wc-head{margin-top:16px;}
   .wc-t{margin:0; font-size:var(--fs-title); font-weight:700; line-height:1.15; text-wrap:balance;}
-  .wc-d{margin:8px 0 0; max-width:30em; font-size:var(--fs-body); line-height:1.45; color:var(--ink-soft); text-wrap:pretty;}
-  .wc-conf{font-weight:400; color:var(--ink-soft); white-space:nowrap;}   /* a project I can show but not open: named, not linked */
-  .work-cards a:not([href]):hover .wc-t{text-decoration:none;}
+  .wc-d{margin:8px 0 0; max-width:30em; font-size:var(--fs-body); line-height:1.45; color:var(--ink-soft); text-wrap:balance;}   /* balanced: free breaks with even lines read better here than set phrases */
   .work-cards a:hover .wc-t{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
   @media (max-width:640px){ .work-cards{grid-template-columns:minmax(0, 1fr);} .wc-intro{padding-top:0;} .wc-range{padding-left:0;} .wc-media{aspect-ratio:4 / 3;} }   /* phones: headline, four cards, then the range */
   .work-also{margin-top:clamp(36px, 4.5vw, 56px); padding-top:20px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent); color:var(--ink-soft);}
@@ -863,7 +866,7 @@
     <span class="fill" aria-hidden="true"></span>
     <li data-for="top"><a href="#top"><span class="pip"></span><span class="rl label">Start</span></a></li>
     <li data-for="about"><a href="#about"><span class="pip"></span><span class="rl label">Introduction</span></a></li>
-    <li data-for="problem"><a href="#problem"><span class="pip"></span><span class="rl label">Why it’s hard</span></a></li>
+    <li data-for="opportunity"><a href="#opportunity"><span class="pip"></span><span class="rl label">Why it’s hard</span></a></li>
     <li data-for="approach"><a href="#approach"><span class="pip"></span><span class="rl label">How I help</span></a></li>
     <li data-for="work"><a href="#work"><span class="pip"></span><span class="rl label">Things I’ve made</span></a></li>
     <li data-for="contact"><a href="#contact"><span class="pip"></span><span class="rl label">Getting started</span></a></li>
@@ -881,7 +884,7 @@
           <p class="nav-role" hidden>Strategic Creative Direction</p>   <!-- hidden for now: the services line under the name says it -->
           <nav class="menu" id="site-menu" aria-label="Sections" hidden>
             <a href="#about">Introduction</a>
-            <a href="#problem">Why it’s hard</a>
+            <a href="#opportunity">Why it’s hard</a>
             <a href="#approach">How I help</a>
             <a href="#work">Things I’ve made</a>
             <a href="#contact">Getting started</a>
@@ -909,7 +912,7 @@
 
 <!-- ============ SUB-HEADLINE ============ -->
 <div class="hero-after" id="about">   <!-- the menu's Introduction jumps here -->
-  <div class="wrap"><p class="hero-sub">You bring what you need to say.</p><p class="hero-sub rag" data-rag="wide">I listen, ask questions,<br class="r-p"> and craft<br class="r-m"> your story<br class="r-p r-w"> until the people who need<br class="r-p r-m"> to understand it actually&nbsp;do.</p></div>
+  <div class="wrap"><p class="hero-sub">You bring what you need to say.</p><p class="hero-sub rag" data-rag="wide">I listen, ask questions,<br class="r-p"> and craft<br class="r-m"> your story<br class="r-p r-w"> until the people who need<br class="r-p r-m"> to understand it truly&nbsp;do.</p></div>
 </div>
 
 <!-- ============ INTRO ============ -->
@@ -927,7 +930,7 @@
 <main>
 
 <!-- ============ 01 PROBLEM ============ -->
-<section class="chapter" id="problem">
+<section class="chapter" id="opportunity">
   <button class="label sec-sketch" id="obs-toggle" type="button" aria-label="Switch section sketch" hidden>Sketch 2</button>   <!-- sketch 1 retired for now; the toggle is hidden -->
   <div class="wrap">
     <p class="sec-mark label">Why it’s hard</p>   <!-- marks the start of a new section -->
@@ -1061,16 +1064,16 @@
     <!-- The work: the headline and four cards on two columns, closing on the range. Picture slots hold placeholders until the crops are chosen. -->
     <ul class="work-cards reveal">
       <li class="wc-intro"><h2 class="s2-h"><span class="nw">I turn complex ideas</span> <span class="nw">into work</span> <span class="nw">people can</span> <span class="nw">understand, value,</span> <span class="nw">and act on.</span></h2></li>
-      <li class="wc"><a href="https://saif.google/secure-ai-framework" target="_blank" rel="noopener"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-card.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d"><span>How AI gets attacked and defended,</span> <span class="wc-to">turned into one visual map and accepted as an industry&nbsp;reference</span></p></a></li>
-      <li class="wc"><a href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener"><div class="wc-media"><img src="assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Security Analysis and Reporting</h3></div><p class="wc-d"><span>Dense threat intelligence,</span> <span class="wc-to">turned into public reports for the Munich Security&nbsp;Conference</span></p></a></li>
-      <li class="wc"><a><div class="wc-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit <span class="wc-conf">(Confidential)</span></h3></div><p class="wc-d"><span>Privacy, safety, and security teams from every function,</span> <span class="wc-to">turned into one shared voice across 80+ talks a&nbsp;year</span></p></a></li>
-      <li class="wc"><a href="https://youtu.be/-i6XyOLot_o?si=LCYBZhTL4XuyQ8W1" target="_blank" rel="noopener"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Brand Films</h3></div><p class="wc-d"><span>Visions of privacy, safety, and security,</span> <span class="wc-to">turned into films that raise awareness and make people&nbsp;care</span></p></a></li>
+      <li class="wc"><a href="projects/secure-ai-framework.html"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-card.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d">How AI gets attacked and defended, turned into one visual map and accepted as an industry&nbsp;reference</p></a></li>
+      <li class="wc"><a href="projects/security-reporting.html"><div class="wc-media"><img src="assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Security Analysis and Reporting</h3></div><p class="wc-d">Dense threat intelligence, turned into public reports for the Munich&nbsp;Security&nbsp;Conference</p></a></li>
+      <li class="wc"><a href="projects/safer-with-google-summit.html"><div class="wc-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit</h3></div><p class="wc-d">Privacy, safety, and security teams from every function, turned into one shared voice across more&nbsp;than&nbsp;60 talks a&nbsp;year</p></a></li>
+      <li class="wc"><a href="projects/films.html"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Brand Films</h3></div><p class="wc-d">Visions of privacy, safety, and security, turned into films that raise awareness and make people&nbsp;care</p></a></li>
       <li class="wc-range"><p class="wc-range-h">Every room needs the story&nbsp;to&nbsp;land.</p><p class="wc-range-l">Boardrooms and company-wide meetings.<br>Investor pitches and policy hearings.<br>Engineering reviews and living rooms.</p></li>
     </ul>
     <p class="work-also reveal"><span class="label">Also</span> Apple, Warby Parker, Anthropologie, IBM, First Round Network, Abercrombie &amp; Fitch</p>
 
     <div class="cases" hidden>
-      <a class="case reveal" href="https://saif.google/secure-ai-framework" target="_blank" rel="noopener">
+      <a class="case reveal" href="projects/secure-ai-framework.html">
         <div class="case-title"><h3>Secure AI Framework Risk Map</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>How AI gets attacked and defended.</p></div>
@@ -1079,7 +1082,7 @@
         <div class="case-media"><img src="assets/work/secure-ai-framework/saif-red-teams.jpg" alt="SAIF risk map visualization" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="https://blog.google/threat-analysis-group/fog-of-war-how-the-ukraine-conflict-transformed-the-cyber-threat-landscape/" target="_blank" rel="noopener">
+      <a class="case reveal" href="projects/security-reporting.html">
         <div class="case-title"><h3>Security Analysis and Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence.</p></div>
@@ -1088,16 +1091,16 @@
         <div class="case-media"><img src="assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Spread from the Fog of War report" loading="lazy"></div>
       </a>
 
-      <a class="case reveal">
+      <a class="case reveal" href="projects/safer-with-google-summit.html">
         <div class="case-title"><h3>Safer with Google Summit</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Six disciplines, six languages.</p></div>
-          <div class="to"><span class="label">What people understood</span><p>One story across 80+ talks a year.</p></div>
+          <div class="to"><span class="label">What people understood</span><p>One story across more&nbsp;than&nbsp;60 talks a year.</p></div>
         </div>
         <div class="case-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Keynote stage at the Safer with Google Summit" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="https://youtu.be/-i6XyOLot_o?si=LCYBZhTL4XuyQ8W1" target="_blank" rel="noopener">
+      <a class="case reveal" href="projects/films.html">
         <div class="case-title"><h3>AI Safety Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Research on the “defender’s dilemma.”</p></div>
@@ -1106,7 +1109,7 @@
         <div class="case-media"><img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film" loading="lazy"></div>
       </a>
 
-      <a class="case reveal" href="https://youtu.be/-i6XyOLot_o?si=LCYBZhTL4XuyQ8W1" target="_blank" rel="noopener">
+      <a class="case reveal" href="projects/films.html">
         <div class="case-title"><h3>Safety Anthem Film</h3><span class="arrow" aria-hidden="true">→</span></div>
         <div class="case-body">
           <div class="from"><span class="label">What the experts knew</span><p>Safety work the public rarely sees.</p></div>
@@ -1121,7 +1124,7 @@
     </div>
 
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The message and the room</span> <span>choose the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The story and the room</span> <span>determine the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
@@ -1192,8 +1195,8 @@
 
     <div class="payoff payoff-end" style="--payoff:var(--blue)">
       <!-- A bookend to the hero: its madlib again, now asking. The blank starts on "your ideas" (the hero's tagline), runs
-           once through the hero's own subjects, and comes back to "your ideas". -->
-      <p><span class="pl"><span>Tell me about</span> <span><span class="ml ml-box" id="end-ml" data-hold="3000" data-once data-words='["your ideas", "your research", "your strategy", "a new policy", "a product launch", "a security risk", "quarterly results", "your ideas"]'>your ideas</span><span class="hang">.</span></span></span></p>
+           once through the project pages' own closings, and comes back to "your ideas". -->
+      <p><span class="pl"><span>Tell me about</span> <span><span class="ml ml-box" id="end-ml" data-hold="1200" data-once data-words='["your ideas", "your expertise", "your system", "your big moment", "what you stand for", "your ideas"]'>your ideas</span><span class="hang">.</span></span></span></p>
       <div class="cta-row">
         <a class="cta-big" data-contact href="mailto:majeff@gmail.com?subject=Let%E2%80%99s%20connect%20the%20dots&body=What%20I%E2%80%99m%20trying%20to%20explain%3A%0A%0AWho%20needs%20to%20understand%20it%3A%0A%0AWhen%3A%0A">
           <span class="dot" aria-hidden="true"></span>
@@ -1328,9 +1331,9 @@
     function nb(t){ return t.replace(/ /g, '\u00A0'); }
     // Sketch 4 runs through the pairs once (STOPC changes) and settles on the first again.
     var STOPC = 7;
-    function headsFor(k){ if (copies && k >= STOPC) k = 0; var p = PAIRS[((k % PAIRS.length) + PAIRS.length) % PAIRS.length]; return {l: 'I\u00A0help\u00A0make\u00A0' + nb(p[0]), r: 'connect with ' + nb(p[1]) + '.', vl: nb(p[0]), vr: nb(p[1])}; }
+    function headsFor(k){ if (copies && k >= STOPC) k = 0; var p = PAIRS[((k % PAIRS.length) + PAIRS.length) % PAIRS.length]; return {l: 'I\u00A0help\u00A0make\u00A0' + nb(p[0]), r: 'connect with ' + nb(p[1]), vl: nb(p[0]), vr: nb(p[1])}; }
     var pairK = 0, HEADS = headsFor(0), PREV = null, SWAP = 1, HEAD_L = HEADS.l, HEAD_R = HEADS.r, RS = null;   // RS: the right box's own timing (sketch 4)
-    var Wd = 0, Ht = 0, dpr = 1, A, B, wallR, maLeft = 0, stacked = false, pin = false, mL = 16, mR = 16, lastX = '', fs = 16, pad = 20, webCache = {}, morphCache = {}, tiles = [], W = null, start = performance.now() + (reduce ? 0 : 900), introAt = performance.now(), TG = null, running = false, seen = false;
+    var LH = 1.12, Wd = 0, Ht = 0, dpr = 1, A, B, wallR, maLeft = 0, stacked = false, pin = false, mL = 16, mR = 16, lastX = '', fs = 16, pad = 20, webCache = {}, morphCache = {}, tiles = [], W = null, start = performance.now() + (reduce ? 0 : 900), introAt = performance.now(), TG = null, running = false, seen = false;
 
     function lum(c){ return c.map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function(s, v, i){ return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
     function contrast(a, b){ var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
@@ -1421,7 +1424,9 @@
 
     function layout(){
       Wd = frame.clientWidth; Ht = frame.clientHeight; dpr = Math.min(2, window.devicePixelRatio || 1);
-      canvas.width = Math.round(Wd * dpr); canvas.height = Math.round(Ht * dpr);
+      // Setting a canvas's size clears it, even to the size it already is: only when it changes (a phone's toolbar
+      // sliding away fires a resize without changing the hero's size), and the picture is redrawn at once below.
+      var cw = Math.round(Wd * dpr), ch = Math.round(Ht * dpr); if (canvas.width !== cw || canvas.height !== ch){ canvas.width = cw; canvas.height = ch; }
       stacked = portrait.matches; var top = bar.offsetHeight;
       // Phones: the copy is pinned to the left, in the frames' corners, on the header's own margins; the pictures move right.
       pin = stacked && narrow.matches;
@@ -1444,6 +1449,13 @@
       if (pin) tsz = Math.min(fs * 2.4, (Wd - mL - mR) / Math.max(twa, twb));   // two lines, "Your ideas," over "clearly told"
       tsz *= 0.9;   // a touch under the largest that fits
       TG = {lh: pin ? tsz * 1.05 : 0, size: tsz, gap: tsz * 0.3, waFull: twa * tsz, wa: (twa - 0.5 * (ctx.measureText('Your ideas,').width - ctx.measureText('Your ideas').width) / 100) * tsz, wb: twb * tsz, sp: tsp * tsz, wallX: wallX, cx: Wd / 2, baseY: A.y + top + tsz * (stacked ? 1.3 : 1.65)};   // clear of the wordmark by about 1.25 cap heights, so the two don't read as one block
+      // Phones: each half on two lines, its lead over its boxed blank, so the type can be larger: as large as the longest
+      // blank (with its box) allows across the column, but kept under the title.
+      LH = pin ? 1.22 : 1.12;   // line spacing; stacked, a box reaches 0.86em above its baseline, so it needs room for the descenders above it
+      if (pin){ ctx.font = '700 100px Jost, Futura, sans-serif';
+        var wmax = Math.max(ctx.measureText('connect with').width, ctx.measureText('I help make').width);
+        PAIRS.forEach(function(p){ wmax = Math.max(wmax, ctx.measureText(p[0]).width + 28, ctx.measureText(p[1]).width + 28); });   // the box's padding, 0.14em a side
+        fs = Math.max(16, Math.min(TG.size * 0.66, (Wd - mL - mR) * 100 / wmax * 0.9)); }
       ctx.font = '700 ' + fs + 'px Jost, Futura, sans-serif';   // back to the headline's size for wrapping it
       // The headline at the foot of the hero, each half centred in its frame, the two on one baseline. Stacked (phones),
       // the dots cross through the bottom of the upper frame, so there the left half sits under the title instead.
@@ -1453,11 +1465,11 @@
       A.lines = wrapA(HEADS.l);
       B.baseY = B.y + B.h - pad * 1.8 - fs * 0.22;
       if (pin){   // the boxes' outer edges on the margins: "I help make" in the paper's lower left corner, "connect with" in the colour's upper left
-        A.baseY = A.y + A.h - mL - fs * 0.28; B.baseY = B.y + mL + fs * 0.86 + (B.reserve - 1) * fs * 1.12;
+        A.baseY = A.y + A.h - mL - fs * 0.28; B.baseY = B.y + mL + fs * 0.86 + (B.reserve - 1) * fs * LH;
       }
-      else A.baseY = stacked ? TG.baseY + tsz * 0.35 + fs * 1.3 + (A.reserve - 1) * fs * 1.12 : A.y + A.h - pad * 1.8 - fs * 0.22;
+      else A.baseY = stacked ? TG.baseY + tsz * 0.35 + fs * 1.3 + (A.reserve - 1) * fs * LH : A.y + A.h - pad * 1.8 - fs * 0.22;
       var wTop = pin ? TG.baseY + TG.lh + tsz * 0.35 + pad * 0.75 : stacked ? A.baseY + fs * 0.4 + pad : TG.baseY + tsz * 0.35 + pad,
-          wBot = pin ? A.baseY - fs * 0.86 - pad * 0.75 : stacked ? A.y + A.h - pad : A.baseY - (A.reserve - 1) * fs * 1.12 - fs * 1.1 - pad;
+          wBot = pin ? A.baseY - (A.reserve - 1) * fs * LH - fs * 0.86 - pad * 0.75 : stacked ? A.y + A.h - pad : A.baseY - (A.reserve - 1) * fs * LH - fs * 1.1 - pad;
       // Webs and shapes sit on the optical centre: side by side, a little above
       // the middle of the viewport; stacked, a little above the middle of the
       // room each has. Each is sized to stay clear of the type around it.
@@ -1467,12 +1479,31 @@
       W = {acx: pin ? A.x + A.w - mR - waw / 2 : A.x + A.w / 2, acy: wcy, aw: waw, ah: 2 * Math.max(40, Math.min(wcy - wTop, wBot - wcy))}; webCache = {}; morphCache = {};
       // Right: the tile, above the headline at the bottom.
       B.lines = wrap(HEADS.r, B.w - 2 * pad);
-      var tTop = pin ? B.baseY + fs * 0.28 + pad * 0.75 : stacked ? B.y + pad : wTop, tBot = pin ? B.y + B.h - mL - 30 - pad * 0.5 : B.baseY - (B.reserve - 1) * fs * 1.12 - fs * 1.1 - pad;   // pinned: clear of the motion control in the corner (about 30px tall)
+      var tTop = pin ? B.baseY + fs * 0.28 + pad * 0.75 : stacked ? B.y + pad : wTop, tBot = pin ? B.y + B.h - mL - 30 - pad * 0.5 : B.baseY - (B.reserve - 1) * fs * LH - fs * 1.1 - pad;   // pinned: clear of the motion control in the corner (about 30px tall)
       var tcy = optical(tTop, tBot), tcx = B.x + B.w / 2;
       var side = Math.max(60, Math.min(B.w * 0.6, 2 * Math.min(tcy - tTop, tBot - tcy) * 0.92));
       // Pinned: as large as the room between the copy allows, on the right margin, and the web right above it, centred on the
       // same line and as wide, so its dots fall straight down into the shape. They cross the copy only on the way.
-      if (pin){ side = Math.max(60, Math.min(B.w - mL - mR, tBot - tTop)); tcy = (tTop + tBot) / 2; tcx = B.x + B.w - mR - side / 2; W.acx = tcx; W.aw = side; }
+      // Phones: the web optically centred between the title and the colour, the shape between the colour and the motion
+      // control, both on the right margin, one size (so the dots fall straight down), as large as they can be without
+      // touching the headline as it rests (the first pair) or leaving their room.
+      if (pin){
+        var g = pad * 0.5, cr = canvas.getBoundingClientRect(), mt = frame.querySelector('.motion-toggle');
+        var ctlTop = mt && mt.offsetParent ? mt.getBoundingClientRect().top - cr.top : B.y + B.h - mL - 30;
+        var h0 = headsFor(0), px0 = fs * 0.14, wOf = function(t){ return ctx.measureText(t).width; };
+        var rA = A.x + mL + Math.max(wOf('I\u00A0help\u00A0make'), wOf(h0.vl) + 2 * px0), rB = B.x + mL + wOf(h0.vr) + 2 * px0;
+        var ltA = A.baseY - (A.reserve - 1) * fs * LH - fs * 0.86, lbB = B.y + mL + fs * 0.86 + (B.reserve - 1) * fs * LH + fs * 0.28;
+        var fitS = function(t, b, cy, lt, lb, lr){   // the largest square on the right margin, centred on cy, inside t..b and clear of the copy
+          var full = Math.min(2 * Math.min(cy - t, b - cy) - 2 * g, Wd - mL - mR);
+          var hits = function(S){ return cy - S / 2 < lb + g && cy + S / 2 > lt - g && Wd - mR - S < lr + g; };
+          if (!hits(full)) return full;
+          var across = Wd - mR - lr - g, down = cy < lt ? 2 * (lt - g - cy) : 2 * (cy - lb - g);
+          return Math.min(full, Math.max(across, down));
+        };
+        var tA = TG.baseY + TG.lh + tsz * 0.25, bA = A.y + A.h, cyA = optical(tA, bA), tB = B.y, cyB = optical(tB, ctlTop);
+        side = Math.max(60, Math.min(fitS(tA, bA, cyA, ltA, A.y + A.h, rA), fitS(tB, ctlTop, cyB, B.y, lbB, rB)));
+        tcy = cyB; tcx = B.x + B.w - mR - side / 2; W.acx = tcx; W.aw = side; W.acy = cyA; W.ah = side;
+      }
       // The shapes: a grid of dots joined to their neighbours.
       var n = 15;
       tiles = SHAPES.map(function(sh){
@@ -1494,8 +1525,11 @@
         wm.style.setProperty('--shift', Math.round(cr.left + wallR.x + wallR.w / 2 - (ar.right + br.left) / 2) + 'px');
         maLeft = br.left - cr.left; lastX = '';
       }
-      // Not running (paused or finished): draw the frame it's stopped on, at the new size.
-      if (!running) requestAnimationFrame(drawStill);
+      // Redraw now, not a frame later, so the cleared canvas is never shown: running, the current moment; paused or
+      // finished, the frame it's stopped on.
+      if (running){ if (tiles.length){ if (copies) frameCopies(performance.now()); else frameWipe(performance.now()); } }
+      else if (api) drawStill(performance.now());
+      else requestAnimationFrame(drawStill);   // the first layout, before the controls are wired up
     }
     function drawStill(now){
       if (running || !tiles.length) return;
@@ -1520,6 +1554,7 @@
     }
     function wrap(text, width){
       var lines = [];
+      if (pin) text = text.replace(/^(I[\u00A0 ]help[\u00A0 ]make)[\u00A0 ]/, '$1\n').replace(/^(connect with) /, '$1\n');   // phones: the lead over its blank
       text.split('\n').forEach(function(para){
         var line = '';
         para.split(' ').forEach(function(w){ var test = line ? line + ' ' + w : w; if (ctx.measureText(test).width > width && line){ lines.push(line); line = w; } else line = test; });
@@ -1707,12 +1742,14 @@
       // Each line is centred in its half, optically: its closing punctuation hangs outside the measure.
       function lineX(l, R){ if (pin) return R.x + mL;
         return R.x + R.w / 2 - ctx.measureText(l.replace(/[.,…:;!?’”)]+$/, '')).width / 2; }
+      var nA = 0;
       A.lines.forEach(function(l, i){
-        var y = A.baseY - (A.lines.length - 1 - i) * fs * 1.12 + fs * 0.35 * (1 - headA);
-        if (RS && l.indexOf(HEADS.vl) >= 0) slotBox(l, y, A, HEADS.vl, RS.L, css(PAPER));
+        var y = A.baseY - (A.lines.length - 1 - i) * fs * LH + fs * 0.35 * (1 - headA);
+        if (RS && l.indexOf(HEADS.vl) >= 0) slotBox(l, y, A, HEADS.vl, RS.L, css(PAPER), nA);
+        else if (RS && pin) nA += leadLine(l, lineX(l, A), y, RS.L);
         else headLine(l, lineX(l, A), y, HEADS.vl, PREV && PREV.vl); });
       // Each half's last line sits on its frame's baseline (side by side, the two share it).
-      var by = pin ? B.y + mL + fs * 0.86 : B.baseY - (B.lines.length - 1) * fs * 1.12;   // pinned to the top, the lines run down
+      var by = pin ? B.y + mL + fs * 0.86 : B.baseY - (B.lines.length - 1) * fs * LH;   // pinned to the top, the lines run down
       // A blank is set in a box: the line's own colour becomes the box, and the word inside takes the colour behind.
       function boxed(l, x, y, cur, old){
         var at = l.indexOf(cur), before = l.slice(0, at), after = l.slice(at + cur.length);
@@ -1736,13 +1773,20 @@
         ctx.globalAlpha = base; ctx.fillStyle = ink;
         if (after) ctx.fillText(after, xb + vw + px, y);   // past the box's padding, so the full stop sits outside it
       }
+      // Phones: a lead line on its own over its box, coming in word by word as it does beside the box.
+      function leadLine(l, x, y, S){
+        var toks = l.split(/(?<=[ \u00A0])/), base = ctx.globalAlpha;
+        toks.forEach(function(tk, i){ var a = S.t0 == null ? 1 : riseA(S.t0 + i * STEP), tx = x + ctx.measureText(toks.slice(0, i).join('')).width;
+          if (a > 0.01){ ctx.globalAlpha = base * a; ctx.fillText(tk, tx, y + fs * 0.35 * (1 - a)); } });
+        ctx.globalAlpha = base; return toks.length;
+      }
       function headLine(l, x, y, cur, old){
         if (l.indexOf(cur) >= 0) boxed(l, x, y, cur, old);
         else ctx.fillText(l, x, y);
       }
       // The boxes on their own timing (sketch 4): the word leaves with its shape, the empty box resizes, then the new word slides in.
       // l: the line holding the blank; R: its frame; hw: the word now in that line; S: the box's state; wordCol: the word's colour.
-      function slotBox(l, y, R, hw, S, wordCol){
+      function slotBox(l, y, R, hw, S, wordCol, skip){   // skip: words of a lead line above it (phones), which come in first
         var cur = S.cur, old = S.old;
         var at = l.indexOf(hw), lead = l.slice(0, at), after = l.slice(at + hw.length);
         var px = fs * 0.14, ink = ctx.fillStyle, base = ctx.globalAlpha;
@@ -1752,7 +1796,7 @@
         var vw = wOf(cur), x = xFor(vw);
         if (S.sk != null){ var e = (1 - Math.cos(Math.PI * S.sk)) / 2, w0 = wOf(old); vw = lerp(w0, vw, e); x = lerp(xFor(w0), x, e); }   // a long, gentle sine ease
         // The opening (S.t0): the lead's words come in one by one, then the box with its word and full stop.
-        var ua = function(i){ return S.t0 == null ? 1 : riseA(S.t0 + i * STEP); }, toks = lead ? lead.split(/(?<=[ \u00A0])/) : [];
+        var ua = function(i){ return S.t0 == null ? 1 : riseA(S.t0 + (i + (skip || 0)) * STEP); }, toks = lead ? lead.split(/(?<=[ \u00A0])/) : [];
         toks.forEach(function(tk, i){
           var a = ua(i), tx = x + wOf(toks.slice(0, i).join(''));
           if (a > 0.01){ ctx.globalAlpha = base * a; ctx.fillText(tk, tx, y + fs * 0.35 * (1 - a)); }
@@ -1806,9 +1850,11 @@
       function headR(){
         var ka = ctx.globalAlpha, ra = RS && RS.a != null ? RS.a : 1, rise = fs * 0.35 * (1 - ra);
         ctx.globalAlpha = ka * ra;
+        var nB = 0;
         B.lines.forEach(function(l, i){
-          if (RS && l.indexOf(HEADS.vr) >= 0) slotBox(l, by + rise + i * fs * 1.12, B, HEADS.vr, RS, RS.col);
-          else headLine(l, lineX(l, B), by + rise + i * fs * 1.12, HEADS.vr, PREV && PREV.vr); });
+          if (RS && l.indexOf(HEADS.vr) >= 0) slotBox(l, by + rise + i * fs * LH, B, HEADS.vr, RS, RS.col, nB);
+          else if (RS && pin) nB += leadLine(l, lineX(l, B), by + rise + i * fs * LH, RS);
+          else headLine(l, lineX(l, B), by + rise + i * fs * LH, HEADS.vr, PREV && PREV.vr); });
         ctx.globalAlpha = ka; }
       ctx.save(); ctx.beginPath(); band(b0(), lft); band(x1, b1()); ctx.clip(); ctx.fillStyle = css(INKC); headR(); ctx.restore();
       ctx.save(); ctx.beginPath(); band(lft, x1); ctx.clip(); ctx.fillStyle = css(PAPER); headR(); ctx.restore();
@@ -2399,7 +2445,7 @@
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(zre);
       }
       var zBand = (function(){ var e = document.querySelector('.intro-hello'); while (e && e !== document.body){ var bg = getComputedStyle(e).backgroundColor; if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return e; e = e.parentElement; } return null; })();
-      zoomDot(host2.querySelector('.s2-zoom'), document.querySelector('#problem .sec-mark'), zBand);
+      zoomDot(host2.querySelector('.s2-zoom'), document.querySelector('#opportunity .sec-mark'), zBand);
     }
     function el2(name, attrs, parent){ var e = document.createElementNS('http://www.w3.org/2000/svg', name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
@@ -2496,7 +2542,7 @@
      away as it fades, and the next words fall in from above, one after another. */
   var CHANGE = 2500, narrow = window.matchMedia('(max-width: 760px)');
   function boxChange(el, oldW, newW, done){
-    var inner = el.querySelector('.mlw'), sine = 'cubic-bezier(.37, 0, .63, 1)';
+    var inner = el.querySelector('.mlw'), sine = 'cubic-bezier(.37, 0, .63, 1)', k = +(el.getAttribute('data-pace') || 1);   // data-pace: the change's speed, 1 the usual, under 1 quicker
     if (reduce || !inner.animate){ inner.textContent = newW; done(); return; }
     function widthOf(t){ var m = document.createElement('span'); m.className = 'mlw'; m.style.cssText = 'position:absolute; visibility:hidden;'; m.textContent = t; el.appendChild(m); var w = m.getBoundingClientRect().width; m.remove(); return w; }
     function split(t){ return t.split(' ').map(function(w){ return '<span>' + w + '</span>'; }).join('\u00A0'); }
@@ -2505,19 +2551,19 @@
     var out;
     if (fall){
       inner.innerHTML = split(oldW);
-      [].forEach.call(inner.children, function(s, j){ out = s.animate([{transform: 'none', opacity: 1}, {transform: 'translateY(.9em)', opacity: 0}], {duration: 520, delay: j * 110, easing: 'cubic-bezier(.5, 0, .75, 0)', fill: 'forwards'}); });
-    } else out = inner.animate([{transform: 'none'}, {transform: 'translateX(' + (w0 + 4) + 'px)'}], {duration: 800, easing: 'cubic-bezier(.55, 0, 1, .45)', fill: 'forwards'});
+      [].forEach.call(inner.children, function(s, j){ out = s.animate([{transform: 'none', opacity: 1}, {transform: 'translateY(.9em)', opacity: 0}], {duration: 520 * k, delay: j * 110 * k, easing: 'cubic-bezier(.5, 0, .75, 0)', fill: 'forwards'}); });
+    } else out = inner.animate([{transform: 'none'}, {transform: 'translateX(' + (w0 + 4) + 'px)'}], {duration: 800 * k, easing: 'cubic-bezier(.55, 0, 1, .45)', fill: 'forwards'});
     out.finished.then(function(){
       inner.innerHTML = ''; inner.getAnimations().forEach(function(a){ a.cancel(); });
-      return el.animate([{width: w0 + 'px'}, {width: w1 + 'px'}], {duration: 650, easing: sine, fill: 'forwards'}).finished;
+      return el.animate([{width: w0 + 'px'}, {width: w1 + 'px'}], {duration: 650 * k, easing: sine, fill: 'forwards'}).finished;
     }).then(function(){
       el.style.width = w1 + 'px'; el.getAnimations().forEach(function(a){ a.cancel(); });
       if (fall){
         inner.innerHTML = split(newW);
-        [].forEach.call(inner.children, function(s, j){ s.animate([{transform: 'translateY(-.9em)', opacity: 0}, {transform: 'none', opacity: 1}], {duration: 650, delay: j * 130, easing: sine, fill: 'backwards'}); });
+        [].forEach.call(inner.children, function(s, j){ s.animate([{transform: 'translateY(-.9em)', opacity: 0}, {transform: 'none', opacity: 1}], {duration: 650 * k, delay: j * 130 * k, easing: sine, fill: 'backwards'}); });
       } else {
         inner.textContent = newW;
-        inner.animate([{transform: 'translateX(' + -(w1 + 4) + 'px)'}, {transform: 'none'}], {duration: 1000, easing: sine});
+        inner.animate([{transform: 'translateX(' + -(w1 + 4) + 'px)'}, {transform: 'none'}], {duration: 1000 * k, easing: sine});
       }
       done();
       setTimeout(function(){ el.style.width = ''; }, 1200);
@@ -2525,7 +2571,7 @@
   }
   document.querySelectorAll('.ml[data-words]').forEach(function(el){
     var words = JSON.parse(el.getAttribute('data-words')), keys = el.hasAttribute('data-keys') ? JSON.parse(el.getAttribute('data-keys')) : null;
-    var i = 0, timer = null, HOLD = +(el.getAttribute('data-hold') || 3000);
+    var i = 0, timer = null, HOLD = +(el.getAttribute('data-hold') || 3000), PACE = +(el.getAttribute('data-pace') || 1);
     function fire(){ el.dispatchEvent(new CustomEvent('madlib:change', {detail: {index: i, word: words[i], key: keys ? keys[i] : null}})); }
     var boxed = el.classList.contains('ml-box');
     // data-once: run through the words once and stop on the last; replay() starts again. The closing band's control uses this.
@@ -2541,7 +2587,7 @@
     // Boxed: hold, then change (which takes CHANGE ms), then hold again.
     function loopBox(){ return setTimeout(function step(){ next(); state();
       if (once && i === words.length - 1){ done = true; timer = null; state(); return; }
-      timer = setTimeout(step, HOLD + CHANGE); }, HOLD); }
+      timer = setTimeout(step, HOLD + CHANGE * PACE); }, HOLD); }
     if (boxed) el.innerHTML = '<span class="mlw">' + words[0] + '</span>';
     // Changes only while it's on screen and the page's motion isn't paused.
     var shown = false;
@@ -2839,7 +2885,7 @@
    letter (C, O, S, a, e) passes it by 0.03em, and a pointed one (A, V, W) by 0.05em. A wrapped paragraph is shifted as a
    block to its later lines, then its first line is indented to match. Set in em; run again once the fonts load and on resize. */
 (function(){
-  var SEL = '.sec-mark, #problem .s2-h, #problem .s2-p, #problem .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
+  var SEL = '.sec-mark, #opportunity .s2-h, #opportunity .s2-p, #opportunity .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
   var POINTED = 'AVWYvwy', ROUND = 'CGOQSacdegoqs';
   var cv = document.createElement('canvas').getContext('2d');
   function want(ch, fc){   // where this letter's ink should sit, in em from the edge, and how far in it sits now
