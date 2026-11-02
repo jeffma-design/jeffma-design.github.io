@@ -283,6 +283,10 @@ section{padding-block:clamp(48px, 7vw, 96px) 0;}
 .end-cta:hover, .end-cta:focus-visible{background:var(--ink); border-color:var(--ink); color:var(--paper); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;}
 .end-cta:hover .dot, .end-cta:focus-visible .dot{background:var(--yellow);}
 body:has(.end-band) footer{margin-top:0;}
+/* The not-found page: the homepage's yellow button, and the work beside it as a plain link. */
+.nf-links{margin:clamp(28px, 4vw, 40px) 0 0; display:flex; flex-wrap:wrap; align-items:center; gap:16px 28px;}
+.nf-work{font-weight:500; text-underline-offset:4px;}
+body:has(.nf-links){min-height:100svh; display:flex; flex-direction:column;} body:has(.nf-links) main{flex:1;}   /* a short page: the footer still sits at the foot of the screen */
 footer{margin-top:clamp(64px, 9vw, 128px); padding:32px 0 40px; font-size:var(--fs-small);}
 footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;}
 .foot-name{display:inline-flex; align-items:center; gap:12px;}
