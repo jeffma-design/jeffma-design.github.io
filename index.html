@@ -299,19 +299,22 @@
   /* The sub-headline, just below the hero: paper type on an ink band. */
   .hero-after{background:var(--ink); border:6px solid var(--ink); text-align:center; padding-block:clamp(96px, 13.5vw, 192px); display:flex; flex-direction:column; justify-content:center;
     min-height:calc(2 * clamp(96px, 13.5vw, 192px) + 3 * 1.12 * var(--fs-headline));}   /* as tall as a payoff band (its padding and three headline lines), the line centred in it */
-  .hero-sub .nw{white-space:nowrap;}   /* lines break only between phrases */
-  /* The reply is set in one of three compositions, the widest that fits (the script picks it):
-     wide   "I listen, ask questions, and craft your story / until the people who need to understand it truly do."
-     mid    "I listen, ask questions, and craft / your story until the people who need / to understand it truly do."
-     phone  "I listen, ask questions, / and craft your story / until the people who need / to understand it truly do." */
-  .hero-sub.rag{white-space:nowrap; text-wrap-mode:nowrap; contain:inline-size;}   /* contained, its width comes from the column, not from the unwrapped lines, so the script can see when a composition overflows */   /* text-wrap (balance, on .hero-sub) also sets the wrap mode, so it is turned off here by name */
-  .rag br{display:none;}
-  .rag[data-rag="wide"] br.r-w, .rag[data-rag="mid"] br.r-m, .rag[data-rag="phone"] br.r-p{display:inline;}
-  .hero-sub.rag.rag-wrap{white-space:normal; text-wrap-mode:wrap;}   /* narrower than any composition: wrap as it must */
-  .hero-sub + .hero-sub{margin-top:.75em; font-size:var(--fs-statement); font-weight:500; line-height:1.2;}   /* the reply, a Statement under the Headline */
-  .hero-sub{margin:0 auto; max-width:40em; font-size:var(--fs-headline); font-weight:700; line-height:1.12; color:var(--paper); text-wrap:balance;}   /* set as a Headline */
-    /* The sub-headline breaks after “story” where it fits on two lines; narrower, it wraps evenly. */
-  @media (max-width:1100px){ .br-wide{display:none;} }
+  /* When to call: what the reader got right, then who hasn't caught up, each half on its own column; then the turn
+     across both. The block is centred in the band, its type flush left. */
+  .symp{width:fit-content; max-width:100%; margin-inline:auto; text-align:left;}
+  .band-mark{margin:0 0 clamp(24px, 3vw, 36px); font-family:var(--sans); font-weight:600; font-size:var(--fs-small); letter-spacing:.1em; color:var(--paper);}   /* set like the section labels */
+  .symptoms{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:auto auto; column-gap:clamp(24px, 3vw, 48px); row-gap:.6em; font-size:var(--fs-statement); font-weight:600; line-height:1.2; color:var(--paper);}
+  .symptoms li{display:contents;}
+  .symptoms li span{white-space:nowrap;}
+  .symptoms li span:first-child{font-weight:400;}   /* what they got right, in Regular; who hasn't caught up, in SemiBold */
+  @media (max-width:1023px){   /* too narrow for two columns: each pair stacks */
+    .symptoms{display:block;}
+    .symptoms li{display:block;}
+    .symptoms li + li{margin-top:1em;}
+    .symptoms li span{display:block;}
+  }
+  .hero-sub{margin:1.75em 0 0; font-size:var(--fs-statement); font-weight:700; line-height:1.2; color:var(--paper);}   /* the turn: the lines' size, in Bold */
+  .turn-box{display:inline-block; line-height:1.1; margin-left:-.14em; background:var(--paper); color:var(--ink); padding:.02em .14em .06em; -webkit-box-decoration-break:clone; box-decoration-break:clone;}   /* knocked out of a madlib box: on ink the box is paper, as in the closing band; set like the madlib box, its height from a 1.1 line. The box hangs out by its padding, so its words align with the lines above */
   /* A short first-person intro with a small portrait, left-aligned. */
   /* A layer under the sub-headline: a band in the border's ink, type knocked out, a black-and-white photo. */
   .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative;}
@@ -483,7 +486,8 @@
   /* The steps side by side in five columns. Above each, a trail of five small dots rising at a fixed angle, with the
      step's own dot dark: the steps connect, one after the next. */
   .process-lead{margin:clamp(88px, 11vw, 160px) 0 0; font-size:var(--fs-statement); font-weight:500; line-height:1.2; text-wrap:balance;}
-  @media (min-width:700px){ .process-lead .nw{display:block; white-space:nowrap;} }   /* broken after "conversation" */
+  .process-lead .phr{white-space:nowrap;}   /* narrower, lines break only between phrases */
+  @media (min-width:700px){ .process-lead .nw{display:block; white-space:nowrap;} }   /* a sentence to a line */
   @media (min-width:1100px){ .process-lead{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-inline:auto;} }   /* on the steps' columns */
   /* Narrower, over the stacked steps: the lead starts where the step names do. The two share one centred column of a fixed
      measure (not sized to its text, so nothing in it can shift as the page reflows), and the lead is set in past the dot
@@ -617,7 +621,7 @@
 
   /* 06 — Contact */
   .contact{background:var(--paper); color:var(--ink);}
-  /* Working together: the fit sentence (the headline), the scenario tiles, the ways to work together, the always-true strip and the closing band. */
+  /* Working together: the fit sentence (the headline), the ways to work together, the always-true strip and the closing band. */
   .fit-h{line-height:1.75;}   /* room for the labels under the blanks */
   .slot{display:inline-flex; flex-direction:column; align-items:center; vertical-align:top; line-height:1.25;}
   .slot .w{padding:0 .1em; border-bottom:3px solid currentColor; white-space:nowrap;}
@@ -697,46 +701,6 @@
   @media (min-width:700px){ .start-lead .nw{display:block; white-space:nowrap;} }
   .payoff-end .alt{color:#e9e2d4;}
   .payoff-end .based{margin-top:24px; color:#bdb6a8;}
-  /* Sketch 2: square tiles, one scenario each, cycling through six of the palette's colours. In four, three or two
-     columns no two tiles of the same colour touch, and red never meets the salmon pink (left out here). */
-  .tiles{list-style:none; margin:clamp(48px, 7vw, 80px) 0 0; padding:0; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px;}
-  .tile{--bg:var(--paper-2); --fg:var(--ink); aspect-ratio:1; display:flex; flex-direction:column; justify-content:space-between; gap:10px; padding:clamp(14px, 2vw, 24px); background:var(--bg); color:var(--fg);}
-  .tile .n{font-family:var(--mono); font-size:var(--fs-label); letter-spacing:.08em; opacity:.75;}
-  .tile p{margin:0; font-size:var(--fs-title); font-weight:700; line-height:1.2; text-wrap:balance;}
-  .tile:nth-child(6n+2){--bg:var(--yellow);}
-  .tile:nth-child(6n+3){--bg:var(--blue); --fg:var(--paper);}
-  .tile:nth-child(6n+4){--bg:var(--green); --fg:var(--paper);}
-  .tile:nth-child(6n+5){--bg:var(--red); --fg:var(--paper);}
-  .tile:nth-child(6n){--bg:var(--purple); --fg:var(--paper);}
-  @media (max-width:900px){ .tiles{grid-template-columns:repeat(3, minmax(0, 1fr));} }
-  @media (max-width:600px){ .tiles{grid-template-columns:repeat(2, minmax(0, 1fr));} .tile p{font-size:.98rem;} }
-  /* Sketch 2: stories on the left, what each needs on the right, and the eye (me) in the middle joining them. */
-  .bridge{position:relative; display:grid; grid-template-columns:minmax(0, 1fr) clamp(120px, 14vw, 200px) minmax(0, 1fr); grid-template-rows:auto 1fr; column-gap:clamp(24px, 4vw, 64px); margin-top:clamp(48px, 7vw, 80px);}
-  .bridge-k{margin:0 0 18px; color:var(--ink-soft);}
-  .bridge-k-from{grid-column:1; text-align:right;} .bridge-k-to{grid-column:3;}
-  .bridge-from, .bridge-to{list-style:none; margin:0; padding:0; display:grid; gap:clamp(10px, 1.4vw, 16px); position:relative; z-index:1;}
-  .bridge-from{grid-column:1; grid-row:2; text-align:right; font-size:var(--fs-body); color:var(--ink-soft);}
-  .bridge-to{grid-column:3; grid-row:2; font-size:var(--fs-body); font-weight:500;}
-  .bridge li{cursor:default; transition:opacity .2s, color .2s;}
-  .bridge-me{grid-column:2; grid-row:2; align-self:center; justify-self:center; position:relative; z-index:2; width:clamp(72px, 8vw, 104px); aspect-ratio:1; border-radius:50%; background:var(--ink); color:var(--paper); display:grid; place-items:center;}
-  .bridge-me svg{width:62%; height:auto;}
-  .bridge-lines{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none;}
-  .bridge-lines path{fill:none; stroke:var(--ink); stroke-opacity:.28; stroke-width:1; transition:stroke-opacity .2s, stroke-width .2s;}
-  .bridge-lines circle{fill:var(--ink); transition:opacity .2s;}
-  .bridge.focus li, .bridge.focus .bridge-lines path, .bridge.focus .bridge-lines circle{opacity:.25;}
-  .bridge.focus li.on, .bridge.focus .bridge-lines .on{opacity:1;}
-  .bridge.focus .bridge-lines path.on{stroke-opacity:1; stroke-width:1.75;}
-  .bridge.focus .bridge-from li.on{color:var(--ink);}
-  .bridge-pairs{display:none;}
-  @media (max-width:760px){
-    .bridge{display:none;}
-    .bridge-pairs{display:grid; list-style:none; margin:clamp(40px, 8vw, 56px) 0 0; padding:0; gap:0;}
-    .bridge-pairs li{display:grid; gap:2px; padding:12px 0; border-top:1px solid color-mix(in srgb, currentColor 20%, transparent);}
-    .bridge-pairs li:last-child{border-bottom:1px solid color-mix(in srgb, currentColor 20%, transparent);}
-    .bridge-pairs .f{color:var(--ink-soft);}
-    .bridge-pairs .t{font-weight:500;}
-    .bridge-pairs .t::before{content:"→ "; font-weight:400; color:var(--ink-soft);}
-  }
   .always{list-style:none; margin:0 0 clamp(40px, 6vw, 64px); padding:20px 0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px 40px;
     border-block:1px solid color-mix(in srgb, currentColor 25%, transparent); font-size:var(--fs-lede); font-weight:500; line-height:1.55;}
   /* The contact headline sits in a wallpaper of the hero's shapes in miniature, drawn as dots and kept clear of the
@@ -927,7 +891,17 @@
 
 <!-- ============ SUB-HEADLINE ============ -->
 <div class="hero-after" id="about">   <!-- the menu's Introduction jumps here -->
-  <div class="wrap"><p class="hero-sub">You bring what you need to say.</p><p class="hero-sub rag" data-rag="wide">I listen, ask questions,<br class="r-p"> and craft<br class="r-m"> your story<br class="r-p r-w"> until the people who need<br class="r-p r-m"> to understand it truly&nbsp;do.</p></div>
+  <div class="wrap">
+    <div class="symp">
+      <h2 class="label band-mark">When to call me</h2>
+      <ul class="symptoms">
+        <li><span>Your strategy is sound.</span> <span>The company isn’t behind it&nbsp;yet.</span></li>
+        <li><span>Your system is solid.</span> <span>No one can picture it&nbsp;yet.</span></li>
+        <li><span>Your mission matters.</span> <span>People aren’t feeling it&nbsp;yet.</span></li>
+      </ul>
+      <p class="hero-sub"><span class="turn-box">I make it clear, visible, and&nbsp;felt.</span></p>
+    </div>
+  </div>
 </div>
 
 <!-- ============ INTRO ============ -->
@@ -1028,7 +1002,7 @@
 
     <!-- The steps' lead-in, at the Statement level: a step below the section headline. -->
     <div class="process-group">
-    <p class="process-lead"><span class="nw">Design starts with a conversation</span> <span class="nw">and guides every step that follows.</span></p>
+    <p class="process-lead"><span class="nw"><span class="phr">You bring</span> <span class="phr">what you need to say.</span></span> <span class="nw"><span class="phr">That conversation</span> <span class="phr">guides every step</span> <span class="phr">that follows.</span></span></p>
     <ol class="process" id="process">   <!-- no reveal: the lead and steps stay put as the page scrolls -->
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Listen</h3><p><span class="nw">I listen and line up</span> <span class="nw">what you’re saying</span> <span class="nw">with what you mean.</span></p></li>
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Ask</h3><p><span class="nw">I ask the questions</span> <span class="nw">your audience will,</span> <span class="nw">and the ones they’re</span> <span class="nw">thinking.</span></p></li>
@@ -1145,7 +1119,6 @@
 
 <!-- ============ 06 CONTACT ============ -->
 <section class="chapter contact" id="contact">
-  <button class="label sec-sketch" id="wt-toggle" type="button" aria-label="Switch section sketch" hidden>Sketch 2</button>   <!-- both sketches retired for now -->
   <div class="wrap">
     <p class="sec-mark label">Getting started</p>   <!-- marks the start of a new section -->
     <div class="chapter-head chapter-head-bar reveal">
@@ -1158,38 +1131,6 @@
         <p class="lede">When your audience isn’t getting what you <em>know</em> is there, we should&nbsp;talk.</p>
       </div>
     </div>
-
-    <div id="wt1" hidden>
-    <!-- When: the scenarios as square tiles, one each, for a reader to recognise their own. -->
-    <ul class="tiles reveal" aria-label="When you might need this">
-      <li class="tile"><span class="n">01</span><p>You’re presenting to a board.</p></li>
-      <li class="tile"><span class="n">02</span><p>A launch needs executive buy-in.</p></li>
-      <li class="tile"><span class="n">03</span><p>A regulator needs it explained.</p></li>
-      <li class="tile"><span class="n">04</span><p>You’ve explained it ten times, and it isn’t&nbsp;landing.</p></li>
-      <li class="tile"><span class="n">05</span><p>Customers need to trust a new&nbsp;feature.</p></li>
-      <li class="tile"><span class="n">06</span><p>Employees need to change how they&nbsp;work.</p></li>
-      <li class="tile"><span class="n">07</span><p>Your team is in the middle of a big&nbsp;change.</p></li>
-      <li class="tile"><span class="n">08</span><p>Investors need to see why it&nbsp;matters.</p></li>
-      <li class="tile"><span class="n">09</span><p>Nobody outside knows the work&nbsp;exists.</p></li>
-      <li class="tile"><span class="n">10</span><p>Leaders need to make a&nbsp;decision.</p></li>
-      <li class="tile"><span class="n">11</span><p>A new strategy has to make sense to&nbsp;everyone.</p></li>
-      <li class="tile"><span class="n">12</span><p>Research has to reach people who won’t read the&nbsp;report.</p></li>
-    </ul>
-    </div>
-    <!-- Sketch 2: your story on the left, the audience it has to reach on the right, and me in the middle,
-         joining each story to its audience. Lines drawn by the script (bridge). Phones get the pairs as a list. -->
-    <div id="wt2" hidden>   <!-- cut for length: it repeated the hero and "Bring me in when" (kept here to bring back) -->
-    <div class="bridge reveal">
-      <p class="bridge-k bridge-k-from label">Your story</p>
-      <p class="bridge-k bridge-k-to label">What it needs to win</p>
-      <ol class="bridge-from" aria-label="Your story"><li data-i="0">Corporate reporting</li><li data-i="1">Product launch</li><li data-i="2">Upcoming policy enforcement</li><li data-i="3">Restructuring</li><li data-i="4">Capital raise round</li><li data-i="5">Cultural shift</li><li data-i="6">Decision point</li><li data-i="7">New strategy</li><li data-i="8">New research</li></ol>
-      <div class="bridge-me" aria-label="Me"><svg viewBox="-28 -15 56 30" aria-hidden="true"><path d="M-25 0 Q0 -24 25 0 Q0 24 -25 0 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="0" cy="0" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="0" cy="0" r="3.4" fill="currentColor"/></svg></div>
-      <ol class="bridge-to" aria-label="What it needs to win"><li data-i="0">Board of directors guidance</li><li data-i="1">Executive buy-in</li><li data-i="2">Compliance explained to regulators</li><li data-i="3">Internal team understanding</li><li data-i="4">Investor support</li><li data-i="5">Cross-functional adoption</li><li data-i="6">Executive decision</li><li data-i="7">Cross-functional support</li><li data-i="8">Team usage</li></ol>
-      <svg class="bridge-lines" aria-hidden="true"></svg>
-    </div>
-    <ol class="bridge-pairs reveal"><li><span class="f">Corporate reporting</span><span class="t"><span class="sr-only">to </span>Board of directors guidance</span></li><li><span class="f">Product launch</span><span class="t"><span class="sr-only">to </span>Executive buy-in</span></li><li><span class="f">Upcoming policy enforcement</span><span class="t"><span class="sr-only">to </span>Compliance explained to regulators</span></li><li><span class="f">Restructuring</span><span class="t"><span class="sr-only">to </span>Internal team understanding</span></li><li><span class="f">Capital raise round</span><span class="t"><span class="sr-only">to </span>Investor support</span></li><li><span class="f">Cultural shift</span><span class="t"><span class="sr-only">to </span>Cross-functional adoption</span></li><li><span class="f">Decision point</span><span class="t"><span class="sr-only">to </span>Executive decision</span></li><li><span class="f">New strategy</span><span class="t"><span class="sr-only">to </span>Cross-functional support</span></li><li><span class="f">New research</span><span class="t"><span class="sr-only">to </span>Team usage</span></li></ol>
-    </div>
-
 
     <!-- What people wonder before they write: each answer in a line, so reaching out feels easy.
          Highlighted phrases are still to be confirmed. -->
@@ -2498,122 +2439,6 @@
     b.addEventListener('click', function(){ var host = b.closest('.bring'), o = host.getAttribute('data-opt') % 3 + 1; host.setAttribute('data-opt', o); b.textContent = 'Option ' + o; });
   });
 
-  /* ---------- Working together: switch between the two sketches ---------- */
-  (function(){
-    var btn = document.getElementById('wt-toggle'), one = document.getElementById('wt1'), two = document.getElementById('wt2');
-    if (!btn || !one || !two) return;
-    btn.addEventListener('click', function(){
-      var showTwo = two.hidden;
-      two.hidden = !showTwo; one.hidden = showTwo;
-      btn.textContent = showTwo ? 'Sketch 2' : 'Sketch 1';
-      window.dispatchEvent(new Event('resize'));
-    });
-  })();
-
-  /* ---------- Working together, sketch 2: each story joined to its audience through the eye ---------- */
-  /* A line runs from each story into the eye and out to the audience it belongs to. Pointing at either end
-     brings that pair forward. */
-  document.querySelectorAll('.bridge').forEach(function(box){
-    var svg = box.querySelector('.bridge-lines'), me = box.querySelector('.bridge-me'), NS = 'http://www.w3.org/2000/svg';
-    var from = box.querySelectorAll('.bridge-from li'), to = box.querySelectorAll('.bridge-to li');
-    function draw(){
-      while (svg.firstChild) svg.removeChild(svg.firstChild);
-      var b = box.getBoundingClientRect(); if (!b.width) return;
-      var m = me.getBoundingClientRect(), cx = m.left + m.width / 2 - b.left, cy = m.top + m.height / 2 - b.top, rr = m.width / 2;
-      var rg = document.createRange();
-      Array.prototype.forEach.call(from, function(li, i){
-        var a = li, z = to[i];
-        rg.selectNodeContents(a); var ra = rg.getBoundingClientRect();
-        rg.selectNodeContents(z); var rz = rg.getBoundingClientRect();
-        var x1 = ra.right - b.left + 10, y1 = ra.top + ra.height / 2 - b.top, x2 = rz.left - b.left - 10, y2 = rz.top + rz.height / 2 - b.top;
-        var inX = cx - rr * 0.9, outX = cx + rr * 0.9, k = (cx - x1) * 0.5;
-        var d = 'M' + x1 + ' ' + y1 + ' C' + (x1 + k) + ' ' + y1 + ' ' + (inX - k * 0.6) + ' ' + cy + ' ' + inX + ' ' + cy +
-                ' L' + outX + ' ' + cy + ' C' + (outX + k * 0.6) + ' ' + cy + ' ' + (x2 - k) + ' ' + y2 + ' ' + x2 + ' ' + y2;
-        var p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.dataset.i = i; svg.appendChild(p);
-        [[x1, y1], [x2, y2]].forEach(function(pt){ var c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', pt[0]); c.setAttribute('cy', pt[1]); c.setAttribute('r', 2.5); c.dataset.i = i; svg.appendChild(c); });
-      });
-    }
-    function focus(i){
-      box.classList.toggle('focus', i !== null);
-      box.querySelectorAll('[data-i]').forEach(function(el){ el.classList.toggle('on', i !== null && el.dataset.i === String(i)); });
-    }
-    box.querySelectorAll('li[data-i]').forEach(function(li){
-      li.addEventListener('mouseenter', function(){ focus(li.dataset.i); });
-      li.addEventListener('mouseleave', function(){ focus(null); });
-    });
-    draw();
-    window.addEventListener('resize', draw);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-  });
-
-  /* ---------- Madlibs: a blank whose word changes every few seconds while it's on screen ---------- */
-  /* Each .ml lists its words (data-words) and, optionally, a key for each (data-keys). On every change it fires
-     "madlib:change" with the word and key, so a picture can follow along. */
-  /* A boxed blank changes as the hero's do: the word slides out to the right, the empty box eases to the next word's
-     width (the centred line easing with it), and the next word slides in from the left. On phones each word falls
-     away as it fades, and the next words fall in from above, one after another. */
-  var CHANGE = 2500, narrow = window.matchMedia('(max-width: 760px)');
-  function boxChange(el, oldW, newW, done){
-    var inner = el.querySelector('.mlw'), sine = 'cubic-bezier(.37, 0, .63, 1)', k = +(el.getAttribute('data-pace') || 1);   // data-pace: the change's speed, 1 the usual, under 1 quicker
-    if (reduce || !inner.animate){ inner.textContent = newW; done(); return; }
-    function widthOf(t){ var m = document.createElement('span'); m.className = 'mlw'; m.style.cssText = 'position:absolute; visibility:hidden;'; m.textContent = t; el.appendChild(m); var w = m.getBoundingClientRect().width; m.remove(); return w; }
-    function split(t){ return t.split(' ').map(function(w){ return '<span>' + w + '</span>'; }).join('\u00A0'); }
-    var w0 = widthOf(oldW), w1 = widthOf(newW), fall = narrow.matches;
-    el.style.width = w0 + 'px';
-    var out;
-    if (fall){
-      inner.innerHTML = split(oldW);
-      [].forEach.call(inner.children, function(s, j){ out = s.animate([{transform: 'none', opacity: 1}, {transform: 'translateY(.9em)', opacity: 0}], {duration: 520 * k, delay: j * 110 * k, easing: 'cubic-bezier(.5, 0, .75, 0)', fill: 'forwards'}); });
-    } else out = inner.animate([{transform: 'none'}, {transform: 'translateX(' + (w0 + 4) + 'px)'}], {duration: 800 * k, easing: 'cubic-bezier(.55, 0, 1, .45)', fill: 'forwards'});
-    out.finished.then(function(){
-      inner.innerHTML = ''; inner.getAnimations().forEach(function(a){ a.cancel(); });
-      return el.animate([{width: w0 + 'px'}, {width: w1 + 'px'}], {duration: 650 * k, easing: sine, fill: 'forwards'}).finished;
-    }).then(function(){
-      el.style.width = w1 + 'px'; el.getAnimations().forEach(function(a){ a.cancel(); });
-      if (fall){
-        inner.innerHTML = split(newW);
-        [].forEach.call(inner.children, function(s, j){ s.animate([{transform: 'translateY(-.9em)', opacity: 0}, {transform: 'none', opacity: 1}], {duration: 650 * k, delay: j * 130 * k, easing: sine, fill: 'backwards'}); });
-      } else {
-        inner.textContent = newW;
-        inner.animate([{transform: 'translateX(' + -(w1 + 4) + 'px)'}, {transform: 'none'}], {duration: 1000 * k, easing: sine});
-      }
-      done();
-      setTimeout(function(){ el.style.width = ''; }, 1200);
-    });
-  }
-  document.querySelectorAll('.ml[data-words]').forEach(function(el){
-    var words = JSON.parse(el.getAttribute('data-words')), keys = el.hasAttribute('data-keys') ? JSON.parse(el.getAttribute('data-keys')) : null;
-    var i = 0, timer = null, HOLD = +(el.getAttribute('data-hold') || 3000), PACE = +(el.getAttribute('data-pace') || 1);
-    function fire(){ el.dispatchEvent(new CustomEvent('madlib:change', {detail: {index: i, word: words[i], key: keys ? keys[i] : null}})); }
-    var boxed = el.classList.contains('ml-box');
-    // data-once: run through the words once and stop on the last; replay() starts again. The closing band's control uses this.
-    var once = el.hasAttribute('data-once'), done = false;
-    function state(){ el.dispatchEvent(new CustomEvent('madlib:state', {detail: {done: done, progress: i / (words.length - 1)}})); }
-    function next(){
-      i = (i + 1) % words.length;
-      if (boxed) return boxChange(el, words[(i + words.length - 1) % words.length], words[i], fire);
-      if (reduce){ el.textContent = words[i]; fire(); return; }
-      el.classList.add('out');
-      setTimeout(function(){ el.textContent = words[i]; el.classList.remove('out'); fire(); }, 250);
-    }
-    // Boxed: hold, then change (which takes CHANGE ms), then hold again.
-    function loopBox(){ return setTimeout(function step(){ next(); state();
-      if (once && i === words.length - 1){ done = true; timer = null; state(); return; }
-      timer = setTimeout(step, HOLD + CHANGE * PACE); }, HOLD); }
-    if (boxed) el.innerHTML = '<span class="mlw">' + words[0] + '</span>';
-    // Changes only while it's on screen and the page's motion isn't paused.
-    var shown = false;
-    function go(){ if (shown && !MOTION.paused && !timer && !done) timer = boxed ? loopBox() : setInterval(next, HOLD); }
-    el.mlReplay = function(){ halt(); i = 0; done = false; if (boxed) el.querySelector('.mlw').textContent = words[0]; state(); go(); };
-    el.mlDone = function(){ return done; };
-    function halt(){ clearTimeout(timer); clearInterval(timer); timer = null; }
-    MOTION.on(function(p){ if (p) halt(); else go(); });
-    new IntersectionObserver(function(es){
-      shown = es[0].isIntersecting;
-      if (shown){ if (!timer) fire(); go(); } else halt();
-    }, {threshold: 0.6}).observe(el);
-  });
-
   /* ---------- The steps on narrow screens: centred on what you see ---------- */
 
   /* ---------- The working-together headline's wallpaper: the hero's shapes in miniature ---------- */
@@ -2819,17 +2644,6 @@
   ml.addEventListener('madlib:state', function(e){ bar.style.strokeDasharray = (e.detail.progress * 100).toFixed(2) + ' 100'; show(); });
   M.on(show); show();
 })();
-/* The reply under the hero: try each composition, widest first, and keep the first that fits its column. */
-(function(){
-  var p = document.querySelector('.hero-sub.rag'); if (!p) return;
-  function fit(){
-    p.classList.remove('rag-wrap');
-    var ok = ['wide', 'mid', 'phone'].some(function(r){ p.setAttribute('data-rag', r); return p.scrollWidth <= p.clientWidth + 1; });
-    p.classList.toggle('rag-wrap', !ok);
-  }
-  fit(); window.addEventListener('resize', fit);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-})();
 /* The phone lockup. The panel is the wide lockup's, scaled so its lines' type is 11px (less where the row is short of
    room), inside a 1.5px rule on its top, slanted left and bottom. The wordmark is then scaled so it spans the panel exactly,
    the J's ink to the A's right point, and the panel is set under it, its point at the J's ink and its bar's edge at the A's. */
@@ -2894,16 +2708,17 @@
 })();
 /* Optical margins, after Bringhurst: each left-aligned heading, statement, lede and title starts where the eye expects.
    The script measures the ink of each line's first letter, so a straight stem (B, D, E, I, L) sits on the edge, a round
-   letter (C, O, S, a, e) passes it by 0.03em, and a pointed one (A, V, W) by 0.05em. A wrapped paragraph is shifted as a
+   letter (C, O, S, a, e) passes it by 0.03em, a T, open under its bar, by 0.04em, a pointed one (A, V, W) by 0.05em, and a Y, open under its arms
+   as well as pointed, by 0.08em. A wrapped paragraph is shifted as a
    block to its later lines, then its first line is indented to match. Set in em; run again once the fonts load and on resize. */
 (function(){
-  var SEL = '.sec-mark, #opportunity .s2-h, #opportunity .s2-p, #opportunity .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
-  var POINTED = 'AVWYvwy', ROUND = 'CGOQSacdegoqs';
+  var SEL = '.sec-mark, .band-mark, .symptoms li span, .hero-after .hero-sub, #opportunity .s2-h, #opportunity .s2-p, #opportunity .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
+  var POINTED = 'AVWvwy', ROUND = 'CGOQSacdegoqs', OPEN = 'T';
   var cv = document.createElement('canvas').getContext('2d');
   function want(ch, fc){   // where this letter's ink should sit, in em from the edge, and how far in it sits now
     cv.font = fc.fontStyle + ' ' + fc.fontWeight + ' ' + fc.fontSize + ' ' + fc.fontFamily;
     var fs = parseFloat(fc.fontSize), bearing = -cv.measureText(ch).actualBoundingBoxLeft / fs;
-    var over = POINTED.indexOf(ch) >= 0 ? .05 : ROUND.indexOf(ch) >= 0 ? .03 : 0;
+    var over = ch === 'Y' ? .08 : POINTED.indexOf(ch) >= 0 ? .05 : OPEN.indexOf(ch) >= 0 ? .04 : ROUND.indexOf(ch) >= 0 ? .03 : 0;
     return bearing + over;   // em to pull this line out by
   }
   function lineStarts(el){   // the first character of each line, top to bottom
