@@ -314,7 +314,7 @@
     .symptoms li span{display:block;}
   }
   .hero-sub{margin:1.75em 0 0; font-size:var(--fs-statement); font-weight:700; line-height:1.2; color:var(--paper);}   /* the turn: the lines' size, in Bold */
-  .turn-box{display:inline-block; line-height:1.1; margin-left:-.14em; background:var(--paper); color:var(--ink); padding:.02em .14em .06em; -webkit-box-decoration-break:clone; box-decoration-break:clone;}   /* knocked out of a madlib box: on ink the box is paper, as in the closing band; set like the madlib box, its height from a 1.1 line. The box hangs out by its padding, so its words align with the lines above */
+  .turn-box{display:inline-block; line-height:1.1; text-indent:0; margin-left:-.14em; background:var(--paper); color:var(--ink); padding:.02em .14em .06em; -webkit-box-decoration-break:clone; box-decoration-break:clone;}   /* knocked out of a madlib box: on ink the box is paper, as in the closing band; set like the madlib box, its height from a 1.1 line. The box hangs out by its padding, so its words align with the lines above; as a block of its own it would inherit the line's optical indent and pull the I in twice, so it takes none */
   /* A short first-person intro with a small portrait, left-aligned. */
   /* A layer under the sub-headline: a band in the border's ink, type knocked out, a black-and-white photo. */
   .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative;}
