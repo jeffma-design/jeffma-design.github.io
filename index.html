@@ -402,7 +402,12 @@
   @media (min-width:701px){ .payoff > p:first-child .pl{display:block;} .payoff > p:first-child:has(.pl){max-width:none;} .payoff .only-narrow{display:none;} }
   @media (max-width:700px){ .payoff .only-wide{display:none;} }
   .payoff-lines > p:first-child .pl{display:block;}   /* each sentence starts a new line at every width; on phones a sentence wraps between its phrases */   /* phones: “every deck,” closes the line above instead */
-  @media (max-width:760px){ .payoff > p:first-child .pk > span{display:block;} }   /* a phrase pair that stays on one line until the screen is too narrow for it ("The gap between knowing and explaining" needs about 760px); then each phrase takes a line */
+  @media (max-width:760px){ .payoff > p:first-child .pk > span{display:block;} }
+  /* Work's payoff: wide, "and" closes the first line ("What you're saying and / who's listening shape what we make."); narrower,
+     it opens the second, each phrase on its own line. The "and" not in use is display:none, so it is read only once. */
+  .pl-and > span:first-child{display:block;}
+  .pl-and .and-n{display:none;}
+  @media (max-width:1100px){ .pl-and > span{display:block;} .pl-and .and-w{display:none;} .pl-and .and-n{display:inline;} }   /* a phrase pair that stays on one line until the screen is too narrow for it ("The gap between knowing and explaining" needs about 760px); then each phrase takes a line */
   .story2 .s2-p{max-width:38em; margin:16px auto 0; text-wrap:balance;}
   @media (max-width:640px){ .br-lede{display:none;} }   /* narrow screens: let the lede wrap evenly instead */
   .s2-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px; margin:clamp(44px, 6vw, 80px) 0 clamp(20px, 3vw, 32px);   /* more room under the lede */
@@ -536,7 +541,8 @@
   @media (min-width:1100px){ #approach .gains-k, #approach .gain-map{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }
   .gains-k{font-size:var(--fs-title); font-weight:700; color:var(--ink-soft);}
   .gains-k.gets-k{font-size:var(--fs-statement); font-weight:500; line-height:1.2; color:var(--ink);}   /* a Statement, leading into the three kinds */
-  @media (min-width:560px){ .gets-k .nw{display:block; white-space:nowrap;} }   /* broken after "produces" */   /* the lead-in: the list's type, a step down */
+  .gets-k .nw{display:block;}   /* a sentence to a line: what it produces, then that it's shaped to you */
+  .gets-k .phr{white-space:nowrap;}   /* where a sentence is too long for its line, it breaks between phrases */   /* the lead-in: the list's type, a step down */
   .gain-map{position:relative; margin-top:clamp(32px, 4vw, 56px);}
   .gm-disc{display:block;}
   .gm-field{fill:var(--yellow);}
@@ -569,18 +575,19 @@
   }
   /* Examples of what you might get: a 3 x 2 grid in the stacks' language, a heavy ink bar on top and 2px ink rules
      between the cells (the grid's ink shows through the gaps). */
-  .gets-grid{list-style:none; margin:0 0 clamp(96px, 12vw, 176px); padding:0; display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:2px; background:var(--ink); border-top:6px solid var(--ink);}
+  .gets-grid{list-style:none; margin:0 0 clamp(96px, 12vw, 176px); padding:0; display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); border-top:6px solid var(--ink);}
+  .gets-grid > li + li{border-left:2px solid var(--ink);}
   .gets-grid > li{background:var(--paper); padding:20px clamp(16px, 2vw, 28px) 28px;}
   .gets-grid > li:first-child{padding-left:0;}
   .gets-grid h3{margin:0 0 6px; font-size:var(--fs-title); line-height:1.15; letter-spacing:-0.01em;}
   .gets-grid p{margin:0; font-size:var(--fs-body); line-height:1.4; color:var(--ink-soft); text-wrap:pretty;}
-  .gg-num{display:block; margin:0 0 14px; font-size:clamp(4.5rem, 3rem + 5vw, 8rem); font-weight:700; line-height:.8; letter-spacing:-0.03em; color:var(--ink);}   /* large numerals: they build on each other, in order */
+  .gg-num{display:block; margin:0 0 14px; font-size:clamp(4.5rem, 3rem + 5vw, 8rem); font-weight:700; line-height:.8; letter-spacing:-0.03em; color:var(--red);}   /* large numerals: they build on each other, in order; in red, the colour between the opening triangle's blue and the gains' yellow */
   /* The examples of each kind, as small madlib boxes stacked one under the next: the range of what each kind can be.
      Set like .ml-box (ink box, paper words, 0.14em either side), at body size. */
   .gg-items{list-style:none; margin:18px 0 0; padding:0; display:flex; flex-direction:column; align-items:flex-start; gap:6px; font-size:var(--fs-body); line-height:1.1;}
   .gg-items li{padding:.02em .14em .06em; background:var(--ink); color:var(--paper); font-weight:500;}   /* Medium: paper on ink at body size needs more than the body's weight */
   @media (min-width:1100px){ #approach .gets-grid{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }
-  @media (max-width:760px){ .gets-grid{grid-template-columns:minmax(0, 1fr);} .gets-grid > li{padding-inline:0;} }
+  @media (max-width:760px){ .gets-grid{grid-template-columns:minmax(0, 1fr);} .gets-grid > li{padding-inline:0;} .gets-grid > li + li{border-left:0; border-top:2px solid var(--ink);} }
   /* Until the three kinds fit three across, they and their lead-in sit in the stacked steps' column, starting where the
      step names do (past the dot trail: 62px), so the section reads down one edge. */
   @media (max-width:760px){
@@ -597,26 +604,6 @@
 
   }
 
-  /* 04 — Work */
-  /* Work samples as cards in columns: image on top, then the title, then what the experts knew and what people understood. */
-  .cases{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:24px;}
-  .case{display:flex; flex-direction:column; gap:16px; padding-bottom:22px; border:2px solid var(--rule); text-decoration:none; color:inherit; position:relative;}
-  .case-media{order:-1; aspect-ratio:16/10; overflow:hidden; background:var(--paper-2); border-bottom:2px solid var(--rule);}
-  .case-media img{width:100%; height:100%; object-fit:cover;}
-  .case:hover .case-media img{transform:scale(1.04);}
-  .case-title{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:0 20px;}
-  .case-title h3{font-size:var(--fs-title); line-height:1.2; text-wrap:balance;}
-  .case-title .arrow{font-size:1.2rem; transition:transform .25s;}
-  .case:hover .case-title .arrow{transform:translateX(6px);}
-  .case:hover .case-title h3{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
-  .case-body{display:grid; gap:12px; padding:0 20px;}
-  .case .label{display:block; margin-bottom:4px; color:var(--ink-soft);}
-  .case .from p{font-size:var(--fs-body); color:var(--ink-soft);}
-  .case .to p{font-size:var(--fs-body); font-weight:500;}
-  /* The other clients fill the last slot in the grid as a quieter card. */
-  .also{display:flex; flex-direction:column; justify-content:center; gap:8px; padding:24px 20px; border:2px solid var(--rule); background:var(--paper-2);}
-  .also .label{color:var(--ink-soft);}
-  .also span.co{font-weight:500; font-size:var(--fs-body);}
 
 
   /* 06 — Contact */
@@ -664,7 +651,6 @@
   .ways li{padding:14px clamp(16px, 2.5vw, 40px) 0 0; border-top:1px solid color-mix(in srgb, currentColor 25%, transparent);}   /* room on the right, so text in one column stops short of the next */
   .ways .nw{white-space:nowrap;}
   .ways b{display:block; font-weight:700; font-size:var(--fs-title); line-height:1.15; margin-bottom:4px;}
-  .ways-note{margin:20px 0 clamp(40px, 6vw, 64px); color:var(--ink-soft);}
   @media (max-width:700px){ .ways{grid-template-columns:minmax(0, 1fr);} }
   /* The closing band: the invitation, the button and where I'm based, on blue. On a field the madlib box flips, as on the
      hero's colour side: a paper box with the words in the band's colour. */
@@ -895,7 +881,7 @@
     <div class="symp">
       <h2 class="label band-mark">When to call me</h2>
       <ul class="symptoms">
-        <li><span>Your strategy is sound.</span> <span>The company isn’t behind it&nbsp;yet.</span></li>
+        <li><span>Your strategy is sound.</span> <span>Not everyone is behind it&nbsp;yet.</span></li>
         <li><span>Your system is solid.</span> <span>No one can picture it&nbsp;yet.</span></li>
         <li><span>Your mission matters.</span> <span>People aren’t feeling it&nbsp;yet.</span></li>
       </ul>
@@ -1008,13 +994,13 @@
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Ask</h3><p><span class="nw">I ask the questions</span> <span class="nw">your audience will,</span> <span class="nw">and the ones they’re</span> <span class="nw">thinking.</span></p></li>
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Edit</h3><p><span class="nw">I keep what</span> <span class="nw">this audience needs</span> <span class="nw">and set aside the rest.</span></p></li>
       <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Shape</h3><p><span class="nw">I tune your story</span> <span class="nw">for the people</span> <span class="nw">hearing it.</span></p></li>
-      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3><p><span class="nw">Then I design</span> <span class="nw">what carries it.</span></p></li>
+      <li class="step"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><h3>Craft</h3><p><span class="nw">Then I design</span> <span class="nw">what carries it</span> <span class="nw">forward.</span></p></li>
     </ol>
     </div>
 
     <!-- What you get, in three kinds that build on each other: the message, the kit, and the story. The ways to work
          together refer back to them. -->
-    <p class="sub-label gains-k gets-k reveal"><span class="nw">Working together produces</span> <span class="nw">three kinds of&nbsp;work.</span></p>
+    <p class="sub-label gains-k gets-k reveal"><span class="nw"><span class="phr">Working together produces</span> <span class="phr">three kinds of&nbsp;work.</span></span> <span class="nw"><span class="phr">Each is shaped</span> <span class="phr">to what you&nbsp;need.</span></span></p>
     <!-- The three kinds side by side, text only (the work section carries the pictures). -->
     <ul class="gets-grid reveal">
       <li><span class="gg-num" aria-hidden="true">1</span><h3>The Message</h3><p>What you know, distilled into a story that holds together</p><ul class="gg-items"><li>Strategy workshops</li><li>Messaging playbook</li><li>Core narrative</li></ul></li>
@@ -1032,9 +1018,9 @@
     <svg class="gm-disc" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gm-field"/><circle cx="241" cy="241" r="101" class="gm-hair"/><circle cx="241" cy="241" r="171" class="gm-hair"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg>
     <svg class="gm-lead" viewBox="0 0 1334 500" aria-hidden="true"><path d="M0 251H548"/><circle cx="548" cy="251" r="6"/><path d="M667 127H1334"/><circle cx="667" cy="127" r="6"/><path d="M778 375H1318"/><circle cx="778" cy="375" r="6"/></svg>
     <ul class="gains">
-    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes,</span> <span class="gl">with the details there when</span> <span class="gl">people want&nbsp;them.</span></span></div></li>
-    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time goes to moving the idea forward,</span> <span class="gl">not decoding&nbsp;it.</span></span></div></li>
-    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it on to boards,</span> <span class="gl">teams, or the&nbsp;public.</span></span></div></li>
+    <li style="--x:0; --w:27%; --y:263" data-band="1"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Faster understanding</b></span> <span class="g-d"><span class="gl">The point lands in minutes.</span> <span class="gl">And the details are there when</span> <span class="gl">people want&nbsp;them.</span></span></div></li>
+    <li style="--x:66%; --w:34%; --y:139" data-band="2"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>Better conversations</b></span> <span class="g-d"><span class="gl">Time is spent moving the idea forward,</span> <span class="gl">not decoding&nbsp;it.</span></span></div></li>
+    <li style="--x:65%; --w:35%; --y:387" data-band="3"><svg class="g-ic" viewBox="0 0 482 482" aria-hidden="true"><circle cx="241" cy="241" r="241" class="gi-b3"/><circle cx="241" cy="241" r="171" class="gi-b2"/><circle cx="241" cy="241" r="101" class="gi-b1"/><circle cx="241" cy="241" r="171" class="gi-gap"/><circle cx="241" cy="241" r="101" class="gi-gap"/><circle cx="241" cy="241" r="30" class="gm-hole"/></svg><div><span class="g-h"><b>A story that travels</b></span> <span class="g-d"><span class="gl">It sticks, and people pass it&nbsp;on.</span></span></div></li>
     </ul>
     </div>
 
@@ -1061,59 +1047,8 @@
     </ul>
     <p class="work-also reveal"><span class="label">Also</span> Apple, Warby Parker, Anthropologie, IBM, First Round Network, Abercrombie &amp; Fitch</p>
 
-    <div class="cases" hidden>
-      <a class="case reveal" href="projects/secure-ai-framework.html">
-        <div class="case-title"><h3>Secure AI Framework Risk Map</h3><span class="arrow" aria-hidden="true">→</span></div>
-        <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>How AI gets attacked and defended.</p></div>
-          <div class="to"><span class="label">What people understood</span><p>One visual map, now an industry reference.</p></div>
-        </div>
-        <div class="case-media"><img src="assets/work/secure-ai-framework/saif-red-teams.jpg" alt="SAIF risk map visualization" loading="lazy"></div>
-      </a>
-
-      <a class="case reveal" href="projects/security-reporting.html">
-        <div class="case-title"><h3>Security Analysis and Reporting</h3><span class="arrow" aria-hidden="true">→</span></div>
-        <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Dense threat intelligence.</p></div>
-          <div class="to"><span class="label">What people understood</span><p>Public reports for the Munich Security Conference.</p></div>
-        </div>
-        <div class="case-media"><img src="assets/work/security-reporting/fog-of-war-spread-1.jpg" alt="Spread from the Fog of War report" loading="lazy"></div>
-      </a>
-
-      <a class="case reveal" href="projects/safer-with-google-summit.html">
-        <div class="case-title"><h3>Safer with Google Summit</h3><span class="arrow" aria-hidden="true">→</span></div>
-        <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Six disciplines, six languages.</p></div>
-          <div class="to"><span class="label">What people understood</span><p>One story across more&nbsp;than&nbsp;60 talks a year.</p></div>
-        </div>
-        <div class="case-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Keynote stage at the Safer with Google Summit" loading="lazy"></div>
-      </a>
-
-      <a class="case reveal" href="projects/films.html">
-        <div class="case-title"><h3>AI Safety Film</h3><span class="arrow" aria-hidden="true">→</span></div>
-        <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Research on the “defender’s dilemma.”</p></div>
-          <div class="to"><span class="label">What people understood</span><p>A film anyone can follow.</p></div>
-        </div>
-        <div class="case-media"><img src="assets/work/ai-safety/hero.jpg" alt="Still from the AI Safety film" loading="lazy"></div>
-      </a>
-
-      <a class="case reveal" href="projects/films.html">
-        <div class="case-title"><h3>Safety Anthem Film</h3><span class="arrow" aria-hidden="true">→</span></div>
-        <div class="case-body">
-          <div class="from"><span class="label">What the experts knew</span><p>Safety work the public rarely sees.</p></div>
-          <div class="to"><span class="label">What people understood</span><p>A film that shows it in minutes.</p></div>
-        </div>
-        <div class="case-media"><img src="assets/work/safety-anthem/hero.jpg" alt="Still from the Safety Anthem film" loading="lazy"></div>
-      </a>
-      <div class="also">
-      <span class="label">Also</span>
-      <span class="co">Apple</span><span class="co">Warby Parker</span><span class="co">Anthropologie</span><span class="co">IBM</span><span class="co">First Round Network</span><span class="co">Abercrombie &amp; Fitch</span>
-    </div>
-    </div>
-
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl"><span>The story and the room</span> <span>determine the&nbsp;medium.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl pl-and"><span>What you’re saying<span class="and-w"> and</span></span> <span><span class="and-n">and </span>who’s listening</span> <span>shape what we&nbsp;make.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
