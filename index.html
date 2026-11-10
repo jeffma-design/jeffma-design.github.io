@@ -317,19 +317,28 @@
   .turn-box{display:inline-block; line-height:1.1; text-indent:0; margin-left:-.14em; background:var(--paper); color:var(--ink); padding:.02em .14em .06em; -webkit-box-decoration-break:clone; box-decoration-break:clone;}   /* knocked out of a madlib box: on ink the box is paper, as in the closing band; set like the madlib box, its height from a 1.1 line. The box hangs out by its padding, so its words align with the lines above; as a block of its own it would inherit the line's optical indent and pull the I in twice, so it takes none */
   /* A short first-person intro with a small portrait, left-aligned. */
   /* A layer under the sub-headline: a band in the border's ink, type knocked out, a black-and-white photo. */
-  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative;}
-  .intro-band::before{content:""; position:absolute; top:0; left:max(var(--gutter), (100% - var(--maxw)) / 2 + var(--gutter)); right:max(var(--gutter), (100% - var(--maxw)) / 2 + var(--gutter)); height:1px; background:var(--paper);}   /* a paper rule across the column, between it and the ink band above; it stops short of the edges */
+  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative; box-shadow:0 -1px 0 var(--ink);}   /* the shadow covers the seam where it meets the ink above on a fractional pixel */
+  /* The rules framing the photo's row. Drawn by the script. */
+  .intro-frame{position:absolute; left:0; top:0; width:100%; pointer-events:none;}
+  .intro-band > .intro{position:relative;}
   .intro{display:flex; align-items:center; justify-content:center; gap:clamp(16px, 2.5vw, 28px);}
   /* The ring sits on a wrapper; the photo is scaled up a touch inside it so its soft circular edge is cropped away and no dark hairline shows. */
   .intro-photo{flex:none; display:block; width:clamp(90px, 11.2vw, 134px); aspect-ratio:1; border-radius:50%; overflow:hidden; border:1px solid var(--paper);}
   .intro-photo img{display:block; width:100%; height:100%; transform:scale(1.04); filter:grayscale(1) contrast(1.05);}
-  /* Phones: "Hello." beside the photo, and the paragraph under both at the full width. */
-  @media (max-width:560px){ .intro{display:grid; grid-template-columns:auto minmax(0, 1fr); align-items:center; gap:clamp(16px, 2.5vw, 28px);} .intro .intro-text{display:contents;} .intro .intro-lines{grid-column:1 / -1;} }
+  /* Narrower screens: one column, the photo, then the bold line, then the paragraph. */
+  @media (max-width:860px){ .intro{display:grid; justify-content:stretch; justify-items:start; gap:clamp(16px, 3vw, 24px);} .intro .intro-text{display:contents;} .intro .intro-hello{margin-top:clamp(16px, 4vw, 24px); font-size:calc(var(--fs-lede) * 1.25); line-height:1.25; text-wrap:balance;} }   /* more space between the dots and the type than between the type's two parts */
   .intro-text{min-width:0; display:grid; gap:6px;}
   .intro p{margin:0; max-width:30em; text-align:left; font-size:var(--fs-lede); line-height:1.55; color:var(--paper); text-wrap:pretty;}   /* pretty: no one-word last lines */
   .intro .intro-hello{font-weight:700;}   /* the Lede below it, in bold */
-  @media (min-width:761px){ .intro .intro-lines{max-width:none;} .intro-lines .ln{display:block;} }   /* set line breaks on wider screens; phones wrap freely */
-  @media (min-width:761px){ .intro-photo{font-size:var(--fs-lede); width:calc(7.05em + 6px); margin-top:-.1em;} }   /* the photo takes the height of the text: five set lines at 1.55em plus the 6px gap, less the space above "Hello." and below the last baseline */
+  /* Wider screens: two columns on the page's twelve. The photo and the bold line in columns 1–5, the paragraph in 6–12, its first
+     line level with the bold line's. The copy flows freely in its column. */
+  @media (min-width:861px){
+    .intro{display:grid; grid-template-columns:repeat(12, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:clamp(40px, 4.4vw, 64px); align-items:start; justify-content:stretch;}
+    .intro .intro-text{display:contents;}
+    .intro-photo{grid-column:1 / span 2; grid-row:1; width:100%; max-width:176px;}
+    .intro .intro-hello{grid-column:1 / span 5; grid-row:2; max-width:none; font-size:calc(var(--fs-lede) * 1.4); line-height:1.25; text-wrap:balance;}
+    .intro .intro-lines{grid-column:6 / -1; grid-row:2; max-width:none;}
+  }
   /* Section 01's story: the headline, the lede and nine compositions share a
      three-column grid, from the expert's web (top right) through seven near
      misses to the finished ring (bottom right, dark). Drawn by the script. */
@@ -579,6 +588,7 @@
   .gets-grid > li + li{border-left:2px solid var(--ink);}
   .gets-grid > li{background:var(--paper); padding:20px clamp(16px, 2vw, 28px) 28px;}
   .gets-grid > li:first-child{padding-left:0;}
+  @media (min-width:861px){ .gets-grid > li{padding-right:calc(clamp(16px, 2vw, 28px) + 24px);} }   /* 24px more on the right, so no description line ends on "to" (checked from 861px to 1,920px; narrower, the default padding already avoids it) */
   .gets-grid h3{margin:0 0 6px; font-size:var(--fs-title); line-height:1.15; letter-spacing:-0.01em;}
   .gets-grid p{margin:0; font-size:var(--fs-body); line-height:1.4; color:var(--ink-soft); text-wrap:pretty;}
   .gg-num{display:block; margin:0 0 14px; font-size:clamp(4.5rem, 3rem + 5vw, 8rem); font-weight:700; line-height:.8; letter-spacing:-0.03em; color:var(--red);}   /* large numerals: they build on each other, in order; in red, the colour between the opening triangle's blue and the gains' yellow */
@@ -588,6 +598,9 @@
   .gg-items li{padding:.02em .14em .06em; background:var(--ink); color:var(--paper); font-weight:500;}   /* Medium: paper on ink at body size needs more than the body's weight */
   @media (min-width:1100px){ #approach .gets-grid{width:calc((100% + var(--col-gap)) * 10 / 12 - var(--col-gap)); margin-left:calc((100% + var(--col-gap)) / 12);} }
   @media (max-width:760px){ .gets-grid{grid-template-columns:minmax(0, 1fr);} .gets-grid > li{padding-inline:0;} .gets-grid > li + li{border-left:0; border-top:2px solid var(--ink);} }
+  /* Stacked, the numerals hang in the margin (where the steps' dot trails run), centred on one line by their ink, the widest
+     ending 18px short of the text, as the trails do, each one's top level with its title's capitals. The script sets the offsets. */
+  @media (max-width:760px){ .gets-grid > li{position:relative;} .gg-num{position:absolute; right:100%; top:20px; margin:0;} }
   /* Until the three kinds fit three across, they and their lead-in sit in the stacked steps' column, starting where the
      step names do (past the dot trail: 62px), so the section reads down one edge. */
   @media (max-width:760px){
@@ -892,11 +905,12 @@
 
 <!-- ============ INTRO ============ -->
 <div class="intro-band">
+<canvas class="intro-frame" aria-hidden="true"></canvas>
 <div class="wrap intro">
   <span class="intro-photo"><img src="assets/about/jeff-ma.png" alt="Jeff Ma" width="140" height="140"></span>
   <div class="intro-text">
-    <p class="intro-hello">Hello.</p>
-    <p class="intro-lines"><span class="ln">For twenty years, I’ve helped teams win over customers,</span> <span class="ln">explain technical concepts to non-technical partners,</span> <span class="ln">show where a company is headed, and make the moments</span> <span class="ln">that matter&nbsp;land.</span></p>
+    <p class="intro-hello"><span class="ln">I’m a creative director who gets into the complexity,</span> <span class="ln">finds the story, and brings it to&nbsp;life.</span></p>
+    <p class="intro-lines"><span class="ln">I work with senior leaders and subject-matter experts on ideas</span> <span class="ln">that are hard to explain and important to get right. The work</span> <span class="ln">might be a visual framework, a narrative, a brand system,</span> <span class="ln">or a product experience. The solution is shaped around what</span> <span class="ln">will help people understand the idea and move it&nbsp;forward.</span></p>
   </div>
 </div>
 </div>
@@ -1000,12 +1014,12 @@
 
     <!-- What you get, in three kinds that build on each other: the message, the kit, and the story. The ways to work
          together refer back to them. -->
-    <p class="sub-label gains-k gets-k reveal"><span class="nw"><span class="phr">Working together produces</span> <span class="phr">three kinds of&nbsp;work.</span></span> <span class="nw"><span class="phr">Each is shaped</span> <span class="phr">to what you&nbsp;need.</span></span></p>
+    <p class="sub-label gains-k gets-k reveal"><span class="nw"><span class="phr">Working together produces</span> <span class="phr">three kinds of&nbsp;work.</span></span> <span class="nw"><span class="phr">Each is shaped to what</span> <span class="phr">you&nbsp;need.</span></span></p>
     <!-- The three kinds side by side, text only (the work section carries the pictures). -->
     <ul class="gets-grid reveal">
-      <li><span class="gg-num" aria-hidden="true">1</span><h3>The Message</h3><p>What you know, distilled into a story that holds together</p><ul class="gg-items"><li>Strategy workshops</li><li>Messaging playbook</li><li>Core narrative</li></ul></li>
-      <li><span class="gg-num" aria-hidden="true">2</span><h3>The Kit</h3><p>What you need to tell your story, made for each audience</p><ul class="gg-items"><li>One-pagers and briefs</li><li>Key visuals and metaphors</li><li>Presentation templates</li></ul></li>
-      <li><span class="gg-num" aria-hidden="true">3</span><h3>The Story</h3><p>Finished pieces, made for the people who need them</p><ul class="gg-items"><li>Keynote or pitch</li><li>Explainer video</li><li>Full campaign</li></ul></li>
+      <li><span class="gg-num" aria-hidden="true">1</span><h3>The Message</h3><p>Finding the idea, defining the approach, and shaping what needs to be&nbsp;understood.</p><ul class="gg-items"><li>Strategy workshops</li><li>Messaging playbook</li><li>Core narrative</li></ul></li>
+      <li><span class="gg-num" aria-hidden="true">2</span><h3>The Kit</h3><p>Building the visual systems, tools, and experiences that bring the idea to&nbsp;life.</p><ul class="gg-items"><li>One-pagers and briefs</li><li>Key visuals and metaphors</li><li>Presentation templates</li></ul></li>
+      <li><span class="gg-num" aria-hidden="true">3</span><h3>The Story</h3><p>Creating the finished work, from brand experiences and products to films, presentations, and&nbsp;campaigns.</p><ul class="gg-items"><li>Keynote or pitch</li><li>Explainer video</li><li>Full campaign</li></ul></li>
     </ul>
 
     <p class="sub-label gains-k gets-k gain-k reveal">And here’s what you&nbsp;gain.</p>
@@ -2347,14 +2361,115 @@
     });
   })();
 
+  /* ---------- The turn's box: as wide as its widest line ---------- */
+  /* When "I make it clear, visible, and felt." wraps, an inline-block keeps the full width it was offered, leaving paper to the
+     right of the longer line. Here the box is set to the widest line's width, so it closes up on the type as it does on one line. */
+  (function(){
+    var box = document.querySelector('.turn-box');
+    if (!box) return;
+    function fit(){
+      box.style.width = '';
+      var r = document.createRange(); r.selectNodeContents(box);
+      var rects = r.getClientRects(), lines = {}, w = 0;
+      for (var i = 0; i < rects.length; i++){ var t = Math.round(rects[i].top); lines[t] = Math.max(lines[t] || 0, rects[i].right) - 0; }
+      var tops = Object.keys(lines);
+      if (tops.length < 2) return;   // one line: the box already fits it
+      var cs = getComputedStyle(box), pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
+      var left = box.getBoundingClientRect().left + pl;
+      tops.forEach(function(t){ w = Math.max(w, lines[t] - left); });
+      box.style.width = Math.ceil(w + .5 + (cs.boxSizing === 'border-box' ? pl + pr : 0)) + 'px';   // the page sizes boxes border-box: the padding counts
+    }
+    fit(); window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  })();
+  /* ---------- The intro band's framework ---------- */
+  /* Rules across the band above and below the photo, and down the gutters between groups of the page's columns, make a row
+     of cells, the photo centred in the first and the rest each filled with a pattern. Wide screens: columns 1–2 (the photo),
+     3–5 (a grid of dots), 6–7 (two sets of nested half-circles) and 8 on (a zigzag), with stripes in the left margin's stub.
+     The zigzag runs on through the right margin's stub. Rules and patterns are all paper-2 hairlines. Narrower: 1–4 (the photo), 5–8 (dots) and 9–12 (half-circles). The cells are as tall as the
+     photo's cell is wide, so the half-circles' cell, as wide as it is tall, holds two that just meet. */
+  (function(){
+    var band = document.querySelector('.intro-band'), cv = document.querySelector('.intro-frame'), ph = document.querySelector('.intro-photo');
+    if (!band || !cv || !ph) return;
+    var wide = window.matchMedia('(min-width: 861px)');
+    function colour(v){ cv.style.color = v; return getComputedStyle(cv).color; }
+    function draw(){
+      var wrap = band.querySelector('.wrap'), ws = getComputedStyle(wrap), wr = wrap.getBoundingClientRect();
+      var left = wr.left + parseFloat(ws.paddingLeft), cw = wrap.clientWidth - parseFloat(ws.paddingLeft) - parseFloat(ws.paddingRight);
+      var gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--col-gap')) || 24, pitch = (cw + gap) / 12;
+      var cuts = wide.matches ? [0, 2, 5, 7, 12] : [0, 4, 8, 12];
+      // The photo: centred in its cell, which is as tall as it is wide.
+      var cellW = cuts[1] * pitch, H = Math.round(cellW), size = Math.round(cellW * .74), area = cuts[1] * pitch - gap;
+      ph.style.maxWidth = 'none'; ph.style.width = size + 'px'; ph.style.justifySelf = 'start';
+      ph.style.marginLeft = ((area - size) / 2) + 'px'; ph.style.marginTop = ph.style.marginBottom = ((H - size) / 2) + 'px';
+      var b = band.getBoundingClientRect(), p = ph.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+      var top = Math.round(p.top - (H - size) / 2 - b.top), bot = top + H, w = b.width, hgt = bot + 2;
+      cv.style.height = hgt + 'px'; cv.width = Math.round(w * dpr); cv.height = Math.round(hgt * dpr);
+      var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, hgt);
+      var RULE = colour('var(--paper-2)');  // Rules and patterns alike: one colour, one hairline weight.
+      var xs = cuts.map(function(c){ return Math.round(left - b.left + c * pitch - gap / 2) + .5; });
+      ctx.strokeStyle = RULE; ctx.lineWidth = 1; ctx.beginPath();
+      // The rules across run at most a column's pitch past the outer rules, so on wide windows the margins stay short stubs
+      // rather than cells as wide as the ones inside.
+      var hx0 = Math.max(0, xs[0] - pitch), hx1 = Math.min(w, xs[xs.length - 1] + pitch);
+      ctx.moveTo(hx0, top + .5); ctx.lineTo(hx1, top + .5); ctx.moveTo(hx0, bot - .5); ctx.lineTo(hx1, bot - .5);
+      // On wide screens the zigzag runs on through the right margin's stub, so the last rule isn't drawn.
+      xs.forEach(function(x, i){ if (i === 4) return; ctx.moveTo(x, top); ctx.lineTo(x, bot); });
+      ctx.stroke();
+      // Each pattern is drawn clipped to its cell.
+      function cell(x0, x1, fn){ ctx.save(); ctx.beginPath(); ctx.rect(x0, top, x1 - x0, H); ctx.clip(); ctx.beginPath(); fn(x0, x1); ctx.restore(); }
+      var mid = (top + bot) / 2, n = xs.length;
+      ctx.fillStyle = RULE; ctx.strokeStyle = RULE; ctx.lineWidth = 1;
+      // Stripes in the left stub.
+      if (xs[0] - hx0 > 4) cell(hx0, xs[0], function(x0, x1){
+        for (var i = 1; i < 12; i++){ var y = Math.round(top + i * H / 12) + .5; ctx.moveTo(x0, y); ctx.lineTo(x1, y); }
+        ctx.stroke();
+      });
+      // A grid of dots, inset by a step.
+      cell(xs[1], xs[2], function(x0, x1){
+        var step = H / 13, r = Math.max(1.25, H / 110), cols = Math.floor((x1 - x0) / step) - 1, rows = 11;
+        var ox = (x0 + x1) / 2 - (cols - 1) * step / 2, oy = mid - (rows - 1) * step / 2;
+        for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++){
+          ctx.moveTo(ox + i * step + r, oy + j * step); ctx.arc(ox + i * step, oy + j * step, r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      });
+      // Nested half-circles: one opening right from the cell's left rule, one opening left from its right rule.
+      cell(xs[2], xs[3], function(x0, x1){
+        var R = H / 2 - .5, k = 9;
+        for (var i = 1; i <= k; i++){
+          var r = R * i / k;
+          ctx.moveTo(x0, mid - r); ctx.arc(x0, mid, r, -Math.PI / 2, Math.PI / 2);
+          ctx.moveTo(x1, mid + r); ctx.arc(x1, mid, r, Math.PI / 2, Math.PI * 3 / 2);
+        }
+        ctx.stroke();
+      });
+      if (n > 4){
+        // A zigzag from the top left corner to the stub's end, its half-period near a fifth of the cell's height, ending in a corner.
+        cell(xs[3], hx1, function(x0, x1){
+          var m = Math.max(2, Math.round((x1 - x0) / (H * .205))), d = (x1 - x0) / m;
+          ctx.moveTo(x0, top);
+          for (var i = 1; i <= m; i++) ctx.lineTo(x0 + i * d, i % 2 ? bot : top);
+          ctx.stroke();
+        });
+      }
+    }
+    draw(); window.addEventListener('resize', draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    var img = ph.querySelector('img'); if (img && !img.complete) img.addEventListener('load', draw);
+  })();
   /* ---------- The three kinds' large numerals: optically flush left ---------- */
   /* Each numeral's left side bearing (the space before its ink) is measured and pulled back, so the ink lines up with the
      text below; a numeral whose ink reaches past the edge hangs out by that much. */
   (function(){
     var nums = document.querySelectorAll('.gg-num');
     if (!nums.length) return;
+    var hang = window.matchMedia('(max-width: 760px)');
     var cx = document.createElement('canvas').getContext('2d');
     function align(){
+      var wMax = 0;   // hanging: the widest numeral's ink, so all three can share its centre line
+      if (hang.matches) nums.forEach(function(n){ var cs = getComputedStyle(n); cx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+        var m = cx.measureText(n.textContent); wMax = Math.max(wMax, m.actualBoundingBoxLeft + m.actualBoundingBoxRight); });
       nums.forEach(function(n){
         var cs = getComputedStyle(n); n.style.marginLeft = '';
         cx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
@@ -2362,6 +2477,20 @@
         // ...and lined up with the ink of the title below (its first letter has a small gap of its own).
         var h = n.nextElementSibling, hs = h && getComputedStyle(h), hl = 0;
         if (h){ cx.font = hs.fontWeight + ' ' + hs.fontSize + ' ' + hs.fontFamily; hl = cx.measureText(h.textContent.charAt(0)).actualBoundingBoxLeft; }
+        if (hang.matches){   // hanging in the margin: centred on one line with the others (the widest ending 18px before the title's ink), its top level with the title's capitals
+          var fs = parseFloat(cs.fontSize), rb = m.width - .03 * fs - m.actualBoundingBoxRight;   // the space after the ink (the tracking is -0.03em)
+          var hr = document.createRange(); hr.setStart(h.firstChild, 0); hr.setEnd(h.firstChild, 1);
+          var off = hr.getBoundingClientRect().left - hl - n.parentElement.getBoundingClientRect().left;   // where the title's ink starts in the column (the optical margins may have moved it)
+          var half = (wMax - (m.actualBoundingBoxLeft + m.actualBoundingBoxRight)) / 2;   // how much narrower than the widest, each side
+          n.style.marginLeft = ''; n.style.marginRight = (18 + half - off - rb) + 'px';
+          var hfs = parseFloat(hs.fontSize), hlh = parseFloat(hs.lineHeight) || 1.15 * hfs, hm = cx.measureText('T');
+          var hCap = h.offsetTop + (hlh - hm.fontBoundingBoxAscent - hm.fontBoundingBoxDescent) / 2 + hm.fontBoundingBoxAscent - hm.actualBoundingBoxAscent;
+          cx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+          var nlh = parseFloat(cs.lineHeight), nCap = (nlh - m.fontBoundingBoxAscent - m.fontBoundingBoxDescent) / 2 + m.fontBoundingBoxAscent - m.actualBoundingBoxAscent;
+          n.style.top = (hCap - nCap) + 'px';
+          return;
+        }
+        n.style.marginRight = ''; n.style.top = '';
         n.style.marginLeft = (m.actualBoundingBoxLeft - hl) + 'px';
       });
     }
