@@ -3,12 +3,6 @@
        matching risk-map-card.webp (1834 × 868). Edit the drawing in risk-map-full.svg and copy it here. -->
   <defs>
     <clipPath id="disc"><circle cx="436.5" cy="435" r="273"/></clipPath>
-    <g id="warn">
-      <!-- a warning marker, about 35 × 30.5 as it shows, its box's top-left at 0,0 -->
-      <path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/>   <!-- a triangle 35.7 wide, its corners rounded at 1.5: a smaller one with a round-jointed stroke -->
-      <rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/>
-      <circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/>
-    </g>
   </defs>
   <rect width="872" height="872" fill="#E8F0FE"/>
 
@@ -66,11 +60,11 @@
     <path d="M567.5 496.5H513.5a4.75 4.75 0 0 0-4.75 4.75V545.5a4.75 4.75 0 0 0 4.75 4.75H531.5M552.5 550.25H683.25a4.75 4.75 0 0 0 4.75-4.75V545M588.5 496.5H682.5M688 513V530.5"/>
   </g>
 
-  <!-- The warning markers, where risks come in. -->
-  <use href="#warn" x="264.5" y="240"/>
-  <use href="#warn" x="264.5" y="443"/>
-  <use href="#warn" x="443.5" y="482"/>
-  <use href="#warn" x="667.5" y="482"/>
-  <use href="#warn" x="421.5" y="576"/>
-  <use href="#warn" x="729.5" y="667"/>
+  <!-- The warning markers, where risks come in: each written out in full (not <use>), so Illustrator imports them. -->
+  <g transform="translate(264.5 240)"><path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/><rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/><circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/></g>
+  <g transform="translate(264.5 443)"><path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/><rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/><circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/></g>
+  <g transform="translate(443.5 482)"><path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/><rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/><circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/></g>
+  <g transform="translate(667.5 482)"><path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/><rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/><circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/></g>
+  <g transform="translate(421.5 576)"><path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/><rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/><circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/></g>
+  <g transform="translate(729.5 667)"><path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/><rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/><circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/></g>
 </svg>
