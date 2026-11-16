@@ -410,13 +410,9 @@
   .payoff > p:first-child .pl{white-space:normal;}   /* a line group: on wider screens each starts a new line; its phrases may wrap apart on phones */
   @media (min-width:701px){ .payoff > p:first-child .pl{display:block;} .payoff > p:first-child:has(.pl){max-width:none;} .payoff .only-narrow{display:none;} }
   @media (max-width:700px){ .payoff .only-wide{display:none;} }
+  #work .payoff > p:first-child{text-wrap:wrap;}   /* the work's payoff: on phones its phrases fill each line in order (“what people could see,”), rather than balancing into an orphaned “what people” */
   .payoff-lines > p:first-child .pl{display:block;}   /* each sentence starts a new line at every width; on phones a sentence wraps between its phrases */   /* phones: “every deck,” closes the line above instead */
   @media (max-width:760px){ .payoff > p:first-child .pk > span{display:block;} }
-  /* Work's payoff: wide, "and" closes the first line ("What you're saying and / who's listening shape what we make."); narrower,
-     it opens the second, each phrase on its own line. The "and" not in use is display:none, so it is read only once. */
-  .pl-and > span:first-child{display:block;}
-  .pl-and .and-n{display:none;}
-  @media (max-width:1100px){ .pl-and > span{display:block;} .pl-and .and-w{display:none;} .pl-and .and-n{display:inline;} }   /* a phrase pair that stays on one line until the screen is too narrow for it ("The gap between knowing and explaining" needs about 760px); then each phrase takes a line */
   .story2 .s2-p{max-width:38em; margin:16px auto 0; text-wrap:balance;}
   @media (max-width:640px){ .br-lede{display:none;} }   /* narrow screens: let the lede wrap evenly instead */
   .s2-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px; margin:clamp(44px, 6vw, 80px) 0 clamp(20px, 3vw, 32px);   /* more room under the lede */
@@ -797,25 +793,81 @@
 
   /* Work: cards, two large then three; each a picture slot, a title with an arrow button, and before → after. */
   #work .chapter-head{margin-bottom:0;}   /* its label is hidden; the headline sits in the grid below */
-  .work-cards{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); column-gap:var(--col-gap); row-gap:clamp(40px, 5vw, 64px);}
-  .work-cards > li{min-width:0;}
-  .wc-intro, .wc-range{align-self:start; padding-top:clamp(24px, 4vw, 56px);}
-  .wc-range{padding-left:clamp(24px, 5vw, 80px);}
-  .wc-intro .s2-h{margin:0; text-align:left; text-wrap:balance;}
-  .wc-intro .s2-h > span{display:inline;}   /* phrases flow and balance in the half column */
-  .wc-range-h{margin:0; max-width:12em; font-size:var(--fs-statement); font-weight:500; line-height:1.2; text-wrap:balance;}
-  .wc-range-l{margin:20px 0 0; font-size:var(--fs-lede); line-height:1.55; color:var(--ink-soft);}
-  .work-cards a{display:block; text-decoration:none; color:inherit;}
-  .wc-media{position:relative; aspect-ratio:3 / 2; background:var(--paper-2); overflow:hidden;}
+  /* The headline, then the four cards as a 2 x 2 grid of pictures touching; each title is kept for screen readers only. */
+  .work-head{margin-bottom:clamp(32px, 4vw, 56px);}
+  .work-head .s2-h{margin:0; max-width:16em; text-align:left; text-wrap:balance;}
+  .work-head .s2-h > span{display:inline;}
+  #work{padding-top:0; scroll-margin-top:clamp(20px, 3vw, 44px);}   /* jumping here stops with the ink intro band just above the viewport and the carousel's top margin in view (matches .work-mark's padding-top) */
+  /* The carousel: its window starts at the framework's left edge and runs off the right of the screen, so the next
+     picture peeks in. Each picture is most of the framework's width. */
+  .work-mark{padding-top:clamp(20px, 3vw, 44px);}   /* the gap under the ink intro band */
+  .work-mark .sec-mark{margin-bottom:clamp(28px, 4vw, 48px);}
+  .work-carousel{--slide-w:calc(var(--content-w, 100vw) * .88); --slide-gap:1px; margin:0 0 0 var(--content-x, 16px); overflow:hidden; touch-action:pan-y;}   /* starts at the page column's left edge; the next picture peeks in from the right */
+  .work-cards{list-style:none; margin:0; padding:0; display:flex; gap:var(--slide-gap); transition:transform .5s cubic-bezier(.3, .7, .2, 1); will-change:transform;}
+  .work-cards.no-anim{transition:none;}
+  .work-cards > li{flex:0 0 var(--slide-w);}
+  .work-cards > li:not(.is-current){cursor:pointer;}
+  @media (prefers-reduced-motion:reduce){ .work-cards{transition:none;} }
+  .work-cards > li{min-width:0; display:flex;}
+  .wc-card{display:flex; flex-direction:column; flex:1; position:relative;}   /* only the title is a link (the picture repeats it for the mouse, hidden from keyboards and screen readers) */
+  .wc-img{display:block;}
+  .wc-t a{color:inherit; text-decoration:none;}
+  .wc-media{position:relative; flex:none; aspect-ratio:3 / 2; background:var(--paper-2); overflow:hidden;}
   .wc-media img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+  /* Under the pointer (or keyboard focus), a solid wash of the project's own palette colour over the picture, so the tile reads as a link. */
+  /* And an ink frame drawn inside the tile's edge. */
+  /* Under the pointer (or keyboard focus): the picture eases in a little, and the title underlines. */
+  .wc-media img{transition:transform .6s cubic-bezier(.3, .7, .2, 1);}
+  .work-cards li.is-current .wc-card:has(a:hover, a:focus-visible) .wc-media img{transform:scale(1.03);}
+  .work-cards li.is-current .wc-card:has(a:hover, a:focus-visible) .wc-t a{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
+  @media (prefers-reduced-motion:reduce){ .wc-media img{transition:none;} }
+  .wc-crop-top img{top:auto; height:105%;}   /* the summit photo: its dark top edge is cropped off */
   .wc-media .wc-ph{position:absolute; inset:0; display:grid; place-items:center; font-family:var(--mono); font-size:var(--fs-label); font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}
-  .wc-head{margin-top:16px;}
-  .wc-t{margin:0; font-size:var(--fs-title); font-weight:700; line-height:1.15; text-wrap:balance;}
-  .wc-d{margin:8px 0 0; max-width:30em; font-size:var(--fs-body); line-height:1.45; color:var(--ink-soft); text-wrap:balance;}   /* balanced: free breaks with even lines read better here than set phrases */
-  .work-cards a:hover .wc-t{text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px;}
-  @media (max-width:640px){ .work-cards{grid-template-columns:minmax(0, 1fr);} .wc-intro{padding-top:0;} .wc-range{padding-left:0;} .wc-media{aspect-ratio:4 / 3;} }   /* phones: headline, four cards, then the range */
-  .work-also{margin-top:clamp(36px, 4.5vw, 56px); padding-top:20px; border-top:1px solid color-mix(in srgb, var(--rule) 25%, transparent); color:var(--ink-soft);}
-  .work-also .label{margin-right:8px; color:var(--ink);}
+  .wc-t{margin:0; font-size:var(--fs-body); font-weight:700; line-height:1.2;}
+  .wc-t a:focus-visible{outline:2px solid var(--paper); outline-offset:-6px;}
+  .work-view-row{margin-top:clamp(20px, 2.4vw, 28px);}
+  /* Under each picture, an ink banner: the title, then the challenge and what changed side by side. */
+  .wc-cap{--cap-t:clamp(20px, 2.6vw, 36px); --cap-x:clamp(20px, 3vw, 44px); flex:1; padding:0 var(--cap-x) clamp(24px, 3vw, 44px); background:var(--ink); color:var(--paper);}
+  .wc-cap .wc-t{font-size:var(--fs-title); line-height:1.15;}
+  .wc-cap .wc-t a{display:block; margin:0 calc(var(--cap-x) * -1); padding:var(--cap-t) var(--cap-x) clamp(14px, 1.8vw, 24px);}   /* the title's link fills its whole bar, edge to edge and right up to the picture, so the pointer never crosses a dead gap between the two */
+  .wc-notes{margin:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0;}
+  .wc-notes > div{padding-right:clamp(16px, 2.4vw, 36px);}
+  .wc-notes > div + div{padding:0 0 0 clamp(16px, 2.4vw, 36px); border-left:1px solid var(--paper);}   /* the paper hairline between the two */
+  .wc-notes dt{margin:0 0 6px; color:color-mix(in srgb, var(--paper) 65%, var(--ink));}
+  .wc-notes dd{margin:0; max-width:30em; font-size:var(--fs-body); line-height:1.4; text-wrap:pretty;}
+  /* Under it, on the right: the arrows either side of the count. */
+  .work-view-row{display:flex; justify-content:flex-start; align-items:center; gap:16px;}
+  .wc-nav{display:flex; align-items:center; gap:clamp(10px, 1.4vw, 16px);}
+  .wc-nav button{appearance:none; display:grid; place-items:center; width:44px; height:44px; margin:0; padding:0; border:2px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer;}
+  .wc-nav button:hover{background:var(--ink); color:var(--paper);}
+  .wc-nav button:focus-visible{outline:2px solid var(--ink); outline-offset:3px;}
+  .wc-nav svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:square;}
+  /* The peeking slide steps back: the text in its ink banner lightly blurred. On hover, an arrow says a click moves to it. */
+  .wc-cap > *{transition:filter .5s ease;}
+  .work-cards.no-anim .wc-cap > *{transition:none;}   /* when the loop jumps from a copy back to the real slide, its text is crisp at once instead of fading in again */
+  .wc-media::after{content:""; position:absolute; inset:0; background:rgb(255 255 255 / .55); opacity:0; pointer-events:none; transition:opacity .5s ease;}   /* the next slide's picture sits under a white veil */
+  .work-cards > li:not(.is-current) .wc-media::after{opacity:1;}
+  .wc-media img{transition:transform .6s cubic-bezier(.3, .7, .2, 1), filter .5s ease;}
+  .work-cards > li:not(.is-current) .wc-media img{filter:blur(4px); transform:scale(1.04);}   /* a subtle blur under the veil; scaled so the picture's edges stay sharp */
+  .work-cards.no-anim .wc-media img{transition:none;}
+  .work-cards.no-anim .wc-media::after{transition:none;}
+  .work-cards > li:not(.is-current) .wc-cap > *{filter:blur(1.5px);}   /* the next slide's title and notes go soft, so only the current one reads */
+  .wc-img{position:relative;}
+  .wc-img::before{content:""; position:absolute; top:calc(50% - 28px); left:calc(var(--peek-w, 120px) / 2 - 28px); z-index:1; width:56px; height:56px; box-sizing:border-box; border:2px solid var(--ink); background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 5l7 7-7 7' fill='none' stroke='%23f1ece2' stroke-width='2'/%3E%3C/svg%3E") center / 24px no-repeat; opacity:0; transform:translateX(-6px); pointer-events:none; transition:opacity .25s ease, transform .25s ease;}
+  .work-cards > li:not(.is-current):hover .wc-img::before{opacity:1; transform:none;}
+  @media (prefers-reduced-motion:reduce){ .wc-img::before, .wc-cap > *, .wc-media::after, .wc-media img{transition:none;} }
+  .wc-count{margin:0; min-width:4.5em; text-align:center; color:var(--ink); font-variant-numeric:tabular-nums;}
+  @media (max-width:640px){ .work-carousel{--slide-w:calc(var(--content-w, 100vw) * .88);} .wc-media{aspect-ratio:4 / 5;} .wc-notes{grid-template-columns:minmax(0, 1fr);} .wc-notes > div:first-child{display:none;} .wc-notes > div + div{padding:0; border-left:0;} }   /* phones: taller pictures; only “The result” shows, so the banner stays shorter than the picture */
+  /* Turned over, the notes sit in the flow at the picture's proportions, so a card grows taller only when its notes need the room. */
+  /* Who I've worked with: the logos in a row under its own heavy rule. */
+  .clients{margin-top:clamp(72px, 9vw, 128px);}
+  .clients .sec-mark{margin-bottom:clamp(28px, 4vw, 48px);}
+  .client-logos{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:clamp(24px, 3vw, 40px) clamp(28px, 4vw, 56px);}
+  .client-logos li{display:flex; align-items:center; height:clamp(36px, 4.4vw, 64px);}
+  .client-logos img{display:block; height:var(--logo-h, clamp(20px, 2vw, 30px)); width:auto;}
+  .client-logos .logo-mask{display:block; height:var(--logo-h, clamp(20px, 2vw, 30px)); aspect-ratio:var(--ar); max-width:100%; background:var(--ink); -webkit-mask:var(--src) center / contain no-repeat; mask:var(--src) center / contain no-repeat;}   /* a raster logo used as a mask, so it takes the page's ink */   /* each logo can set its own --logo-h so they read at one optical size */
+  .client-logos li > span{font-family:var(--mono); font-size:var(--fs-label); font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);}   /* placeholder until the logo file is in */
+  @media (max-width:640px){ .client-logos{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); grid-template-rows:repeat(3, auto); grid-auto-flow:column; justify-items:stretch; row-gap:28px;} .client-logos li{min-width:0; justify-content:center;} }   /* phones: two columns filled top to bottom (Google, Anthropologie, Apple | Abercrombie & Fitch, IBM, Warby Parker), each logo kept inside its cell */
 
   /* Working together, said large. */
 
@@ -844,9 +896,9 @@
     <span class="fill" aria-hidden="true"></span>
     <li data-for="top"><a href="#top"><span class="pip"></span><span class="rl label">Start</span></a></li>
     <li data-for="about"><a href="#about"><span class="pip"></span><span class="rl label">Introduction</span></a></li>
+    <li data-for="work"><a href="#work"><span class="pip"></span><span class="rl label">Things I’ve made</span></a></li>
     <li data-for="opportunity"><a href="#opportunity"><span class="pip"></span><span class="rl label">Why it’s hard</span></a></li>
     <li data-for="approach"><a href="#approach"><span class="pip"></span><span class="rl label">How I help</span></a></li>
-    <li data-for="work"><a href="#work"><span class="pip"></span><span class="rl label">Things I’ve made</span></a></li>
     <li data-for="contact"><a href="#contact"><span class="pip"></span><span class="rl label">Getting started</span></a></li>
   </ol>
 </nav>
@@ -862,9 +914,9 @@
           <p class="nav-role" hidden>Strategic Creative Direction</p>   <!-- hidden for now: the services line under the name says it -->
           <nav class="menu" id="site-menu" aria-label="Sections" hidden>
             <a href="#about">Introduction</a>
+            <a href="#work">Things I’ve made</a>
             <a href="#opportunity">Why it’s hard</a>
             <a href="#approach">How I help</a>
-            <a href="#work">Things I’ve made</a>
             <a href="#contact">Getting started</a>
             <a class="menu-talk" href="#contact" data-contact>Let’s talk</a>   <!-- at every width, so the menu always holds the same six items -->
           </nav>
@@ -917,6 +969,47 @@
 
 
 <main>
+
+<!-- ============ WORK (moved up: the work comes right after the intro) ============ -->
+<section class="chapter" id="work">
+  <!-- The four cards first, right under the intro band and as wide as its framework (the framework script sets the width). -->
+  <!-- The work as a looping carousel: one picture at a time from the framework's left edge, the next peeking in on the right.
+       The script adds the copies at each end that make the loop seamless. -->
+  <div class="wrap work-mark"><p class="sec-mark label">Things I’ve made</p></div>   <!-- marks the start of a new section, over the pictures -->
+  <div class="work-carousel" aria-roledescription="carousel" aria-label="Work">
+    <ul class="work-cards" id="work-track">
+      <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/secure-ai-framework.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-full.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/secure-ai-framework.html">Secure AI Framework Risk Map</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>AI development was spreading across industries faster than any shared way to defend against its risks. Google had a framework, but people couldn’t use it until they could see&nbsp;it.</dd></div><div><dt class="label">The result</dt><dd>My team refined the framework by stress-testing every connection with technical partners until each risk and control was accurate. The framework is now an open industry reference through the Coalition for Secure&nbsp;AI.</dd></div></dl></div></div></li>
+      <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/security-reporting.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/security-reporting/fog-of-war-card.jpg" alt="A stack of printed copies of “Fog of War,” a Google report on how the Ukraine conflict transformed the cyber threat landscape, its cover scattered with red, blue and yellow squares, on a yellow background" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/security-reporting.html">Security Analysis and Reporting</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Analysts had new findings linking attacks before the war in Ukraine to nation-state adversaries, and they were still changing weeks before the Munich Security&nbsp;Conference.</dd></div><div><dt class="label">The result</dt><dd>I turned complex attack sequences into visuals anyone could follow, in a report that went into bilateral meetings with national defense departments and a design system that carried Google’s security reports for&nbsp;years.</dd></div></dl></div></div></li>
+      <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/safer-with-google-summit.html" tabindex="-1" aria-hidden="true"><div class="wc-media wc-crop-top"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/safer-with-google-summit.html">Safer with Google Summit</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Engineers, researchers, lawyers, and policy, marketing, and communications teams shared one stage each year, each with its own&nbsp;priorities.</dd></div><div><dt class="label">The result</dt><dd>I gave every function a shared theme and a design system for more than 60 talks a year, which teams beyond the summit adopted for their own&nbsp;work.</dd></div></dl></div></div></li>
+      <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/films.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/films.html">Brand Films</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Google needed leaders and partners to see its safety work, the work behind a word people hear often but rarely see&nbsp;explained.</dd></div><div><dt class="label">The result</dt><dd>I directed films that made Google’s safety work visible, helping launch Google’s Safety Engineering Center in India and bringing its AI security story to the public on&nbsp;ai.google.</dd></div></dl></div></div></li>
+    </ul>
+  </div>
+  <div class="wrap">
+    <div class="chapter-head chapter-head-bar reveal">
+      <div class="num num-icon" style="--bar:var(--green)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -12H12V5"/><rect x="-17" y="-7" width="24" height="19" rx="1"/><path d="M-14 9L-7 1L-2 6L1 3L4 9"/><circle cx="1" cy="-2" r="1.6"/></svg><span class="num-name">Things I’ve made</span></div>
+    </div>
+
+    <!-- The work: the headline, then the four cards as a 2 x 2 grid of pictures with no gaps, each titled in its corner; the Work | Thinking switch under them. -->
+    <div class="work-head sr-only"><h2 class="s2-h"><span class="nw">I turn complex ideas</span> <span class="nw">into work</span> <span class="nw">people can</span> <span class="nw">understand, value,</span> <span class="nw">and act on.</span></h2></div>
+    
+    <div class="work-view-row"><div class="wc-nav"><button type="button" class="wc-prev" aria-label="Previous project" aria-controls="work-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5L8 12L15 19"/></svg></button><p class="wc-count label" aria-live="polite"><span class="wc-now">1</span> / <span class="wc-total">4</span></p><button type="button" class="wc-next" aria-label="Next project" aria-controls="work-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5L16 12L9 19"/></svg></button></div></div>
+    <div class="clients reveal">
+      <p class="sec-mark label">Who I’ve worked with</p>
+      <!-- Each logo goes in as <img src="assets/logos/<name>.svg" alt="<Name>">, in ink. Until then its slot shows the name. -->
+      <ul class="client-logos">
+        <li data-logo="google"><img src="assets/logos/google.svg" alt="Google" width="830" height="271"></li>
+        <li data-logo="anthropologie"><span class="logo-mask" role="img" aria-label="Anthropologie" style="--src:url(assets/logos/anthropologie.webp); --ar:960 / 59; --logo-h:calc(clamp(20px, 2vw, 30px) * .45)"></span></li>
+        <li data-logo="apple"><span class="logo-mask" role="img" aria-label="Apple" style="--src:url(assets/logos/apple.webp); --ar:960 / 1180; --logo-h:calc(clamp(20px, 2vw, 30px) * 1.25)"></span></li>
+        <li data-logo="abercrombie-fitch"><span class="logo-mask" role="img" aria-label="Abercrombie &amp; Fitch" style="--src:url(assets/logos/abercrombie-fitch.webp); --ar:960 / 93; --logo-h:calc(clamp(20px, 2vw, 30px) * .64)"></span></li>
+        <li data-logo="ibm"><span class="logo-mask" role="img" aria-label="IBM" style="--src:url(assets/logos/ibm.webp); --ar:960 / 359; --logo-h:calc(clamp(20px, 2vw, 30px) * .93)"></span></li>
+        <li data-logo="warby-parker"><span class="logo-mask" role="img" aria-label="Warby Parker" style="--src:url(assets/logos/warby-parker.webp); --ar:960 / 77; --logo-h:calc(clamp(20px, 2vw, 30px) * .49)"></span></li>
+      </ul>
+    </div>
+
+    <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
+    <div class="payoff payoff-lines" style="--payoff:var(--purple)"><p><span class="pl"><span>The ideas were</span> <span>already&nbsp;important.</span></span> <span class="pl"><span>This work changed</span> <span>what people</span><br class="only-wide"> <span>could see,</span> <span>decide, or&nbsp;do.</span></span></p></div>
+  </div>
+</section>
 
 <!-- ============ 01 PROBLEM ============ -->
 <section class="chapter" id="opportunity">
@@ -1039,30 +1132,6 @@
     </div>
 
     <div class="payoff" style="--payoff:var(--pink)"><p><span class="pl"><span>Once the thinking is clear,</span></span> <span class="pl"><span>everything that comes after</span> <span>gets easier:<span class="only-narrow"> every deck,</span></span></span> <span class="pl"><span><span class="only-wide">every deck, </span>launch, and conversation.</span></span></p></div>
-  </div>
-</section>
-
-<!-- ============ 04 WORK ============ -->
-<section class="chapter" id="work">
-  <div class="wrap">
-    <p class="sec-mark label">Things I’ve made</p>   <!-- marks the start of a new section -->
-    <div class="chapter-head chapter-head-bar reveal">
-      <div class="num num-icon" style="--bar:var(--green)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -12H12V5"/><rect x="-17" y="-7" width="24" height="19" rx="1"/><path d="M-14 9L-7 1L-2 6L1 3L4 9"/><circle cx="1" cy="-2" r="1.6"/></svg><span class="num-name">Things I’ve made</span></div>
-    </div>
-
-    <!-- The work: the headline and four cards on two columns, closing on the range. Picture slots hold placeholders until the crops are chosen. -->
-    <ul class="work-cards reveal">
-      <li class="wc-intro"><h2 class="s2-h"><span class="nw">I turn complex ideas</span> <span class="nw">into work</span> <span class="nw">people can</span> <span class="nw">understand, value,</span> <span class="nw">and act on.</span></h2></li>
-      <li class="wc"><a href="projects/secure-ai-framework.html"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-card.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Secure AI Framework Risk Map</h3></div><p class="wc-d">How AI gets attacked and defended, turned into one visual map and accepted as an industry&nbsp;reference</p></a></li>
-      <li class="wc"><a href="projects/security-reporting.html"><div class="wc-media"><img src="assets/work/security-reporting/red-teams-card.jpg" alt="Cover of “Why Red Teams Play a Central Role in Helping Organizations Secure AI Systems,” a Google report" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Security Analysis and Reporting</h3></div><p class="wc-d">Dense threat intelligence, turned into public reports for the Munich&nbsp;Security&nbsp;Conference</p></a></li>
-      <li class="wc"><a href="projects/safer-with-google-summit.html"><div class="wc-media"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Safer with Google Summit</h3></div><p class="wc-d">Privacy, safety, and security teams from every function, turned into one shared voice across more&nbsp;than&nbsp;60 talks a&nbsp;year</p></a></li>
-      <li class="wc"><a href="projects/films.html"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div><div class="wc-head"><h3 class="wc-t">Brand Films</h3></div><p class="wc-d">Visions of privacy, safety, and security, turned into films that raise awareness and make people&nbsp;care</p></a></li>
-      <li class="wc-range"><p class="wc-range-h">Every room needs the story&nbsp;to&nbsp;land.</p><p class="wc-range-l">Boardrooms and company-wide meetings.<br>Investor pitches and policy hearings.<br>Engineering reviews and living rooms.</p></li>
-    </ul>
-    <p class="work-also reveal"><span class="label">Also</span> Apple, Warby Parker, Anthropologie, IBM, First Round Network, Abercrombie &amp; Fitch</p>
-
-    <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl pl-and"><span>What you’re saying<span class="and-w"> and</span></span> <span><span class="and-n">and </span>who’s listening</span> <span>shape what we&nbsp;make.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
   </div>
 </section>
 
@@ -2346,7 +2415,9 @@
       if (window.ResizeObserver) new ResizeObserver(zre).observe(document.body);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(zre);
       }
-      var zBand = (function(){ var e = document.querySelector('.intro-hello'); while (e && e !== document.body){ var bg = getComputedStyle(e).backgroundColor; if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return e; e = e.parentElement; } return null; })();
+      // The work now sits between the intro band and this section, so the dot's canvas no longer reaches up to the band
+      // (it would cover the work cards); the line starts at the section mark's rule either way.
+      var zBand = null;
       zoomDot(host2.querySelector('.s2-zoom'), document.querySelector('#opportunity .sec-mark'), zBand);
     }
     function el2(name, attrs, parent){ var e = document.createElementNS('http://www.w3.org/2000/svg', name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
@@ -2382,6 +2453,67 @@
     fit(); window.addEventListener('resize', fit);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   })();
+  /* ---------- The work carousel: loops, one picture at a time ---------- */
+  /* Copies of the last picture before the first, and of the first two after the last, let it slide on past either
+     end; once a slide past the end finishes, the track jumps back to the matching original without animating. */
+  (function(){
+    var track = document.getElementById('work-track'), sec = document.getElementById('work');
+    if (!track || !sec) return;
+    var orig = Array.prototype.slice.call(track.children), n = orig.length;
+    if (n < 2) return;
+    function copy(li){ var c = li.cloneNode(true); c.classList.add('is-copy'); c.setAttribute('aria-hidden', 'true'); c.querySelectorAll('a, button').forEach(function(e){ e.setAttribute('tabindex', '-1'); }); c.querySelectorAll('img').forEach(function(i){ i.loading = 'eager'; }); return c; }
+    track.insertBefore(copy(orig[n - 1]), orig[0]);
+    track.appendChild(copy(orig[0])); track.appendChild(copy(orig[1]));
+    var all = Array.prototype.slice.call(track.children), i = 1, busy = false;
+    var now = sec.querySelector('.wc-now'), total = sec.querySelector('.wc-total');
+    if (total) total.textContent = n;
+    orig.forEach(function(li, k){ li.setAttribute('role', 'group'); li.setAttribute('aria-roledescription', 'slide'); li.setAttribute('aria-label', (k + 1) + ' of ' + n); });
+    function step(){ var a = all[0].getBoundingClientRect(), b = all[1].getBoundingClientRect(); return b.left - a.left; }
+    function place(anim){
+      track.classList.toggle('no-anim', !anim);
+      track.style.transform = 'translateX(' + (-i * step()) + 'px)';
+      sec.querySelector('.work-carousel').style.setProperty('--peek-w', Math.max(0, sec.querySelector('.work-carousel').clientWidth - step()) + 'px');   // how much of the next slide shows, to centre the hover arrow in it
+      if (!anim) void track.offsetWidth;   // apply before animation comes back on
+      var real = ((i - 1) % n + n) % n;
+      all.forEach(function(li, k){ li.classList.toggle('is-current', k === i); });
+      orig.forEach(function(li, k){ var on = k === real; li.setAttribute('aria-hidden', String(!on)); li.querySelectorAll('.wc-t a').forEach(function(x){ if (on) x.removeAttribute('tabindex'); else x.setAttribute('tabindex', '-1'); }); });   // only the current picture is in the tab order
+      if (now) now.textContent = real + 1;
+      if (!anim){ void track.offsetWidth; track.classList.remove('no-anim'); }   // the jump lands with no motion, then easing comes back on so the hover still glides
+    }
+    function go(d){
+      if (busy) return;
+      i += d; busy = true; place(true);
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) settle();
+    }
+    function settle(){
+      busy = false;
+      if (i > n){ i -= n; place(false); }
+      else if (i < 1){ i += n; place(false); }
+    }
+    track.addEventListener('transitionend', function(e){ if (e.target === track) settle(); });
+    sec.querySelector('.wc-prev').addEventListener('click', function(){ go(-1); });
+    sec.querySelector('.wc-next').addEventListener('click', function(){ go(1); });
+    // A click on the peeking picture moves to it, rather than opening its page.
+    track.addEventListener('click', function(e){
+      var li = e.target.closest('li'); if (!li || li.classList.contains('is-current')) return;
+      e.preventDefault(); var k = all.indexOf(li); if (k > -1) go(k - i);
+    });
+    // Arrow keys while the carousel or its controls have focus; a swipe on touch screens.
+    sec.addEventListener('keydown', function(e){
+      if (!e.target.closest('.work-carousel, .wc-nav')) return;
+      if (e.key === 'ArrowRight'){ e.preventDefault(); go(1); } else if (e.key === 'ArrowLeft'){ e.preventDefault(); go(-1); }
+    });
+    var x0 = null, y0 = null;
+    track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+    track.addEventListener('touchend', function(e){
+      if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+    });
+    place(false);
+    window.addEventListener('resize', function(){ place(false); });
+    if (window.ResizeObserver) new ResizeObserver(function(){ if (!busy) place(false); }).observe(track);
+  })();
   /* ---------- The intro band's framework ---------- */
   /* Rules across the band above and below the photo, and down the gutters between groups of the page's columns, make a row
      of cells, the photo centred in the first and the rest each filled with a pattern. Wide screens: columns 1–2 (the photo),
@@ -2412,6 +2544,9 @@
       // The rules across run at most a column's pitch past the outer rules, so on wide windows the margins stay short stubs
       // rather than cells as wide as the ones inside.
       var hx0 = Math.max(0, xs[0] - pitch), hx1 = Math.min(w, xs[xs.length - 1] + pitch);
+      // The work cards below the band run exactly as wide as these rules.
+      var rs = document.documentElement.style; rs.setProperty('--frame-x', Math.round(hx0) + 'px'); rs.setProperty('--frame-w', Math.round(hx1 - hx0) + 'px');
+      rs.setProperty('--content-x', Math.round(left - b.left) + 'px'); rs.setProperty('--content-w', Math.round(cw) + 'px');   // the work carousel lines up with the page column
       ctx.moveTo(hx0, top + .5); ctx.lineTo(hx1, top + .5); ctx.moveTo(hx0, bot - .5); ctx.lineTo(hx1, bot - .5);
       // On wide screens the zigzag runs on through the right margin's stub, so the last rule isn't drawn.
       xs.forEach(function(x, i){ if (i === 4) return; ctx.moveTo(x, top); ctx.lineTo(x, bot); });
@@ -2776,7 +2911,7 @@
    as well as pointed, by 0.08em. A wrapped paragraph is shifted as a
    block to its later lines, then its first line is indented to match. Set in em; run again once the fonts load and on resize. */
 (function(){
-  var SEL = '.sec-mark, .band-mark, .symptoms li span, .hero-after .hero-sub, #opportunity .s2-h, #opportunity .s2-p, #opportunity .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .wc-intro .s2-h, .wc-t, .wc-range-h, .wc-range-l, .start-lead, .ways b, .intro p, .quote figcaption';
+  var SEL = '.sec-mark, .band-mark, .symptoms li span, .hero-after .hero-sub, #opportunity .s2-h, #opportunity .s2-p, #opportunity .bring-lead, .process-lead, .kinds-k, .gains-k, .gets-grid h3, .step h3, #work .work-head .s2-h, .wc-t, .start-lead, .ways b, .intro p, .quote figcaption';
   var POINTED = 'AVWvwy', ROUND = 'CGOQSacdegoqs', OPEN = 'T';
   var cv = document.createElement('canvas').getContext('2d');
   function want(ch, fc){   // where this letter's ink should sit, in em from the edge, and how far in it sits now

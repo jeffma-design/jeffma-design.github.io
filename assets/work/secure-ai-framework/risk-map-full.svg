@@ -1,76 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 872 872" width="872" height="872">
-  <!-- The Secure AI Framework risk map illustration, redrawn as vectors from risk-map-full.webp (872 × 872), one unit per
-       pixel, measured from the raster. The poster crop is risk-map-card.svg: the same drawing through a narrower viewBox. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1340.81 872">
+  <!-- Generator: Adobe Illustrator 30.8.2, SVG Export Plug-In . SVG Version: 2.1.4 Build 7)  -->
   <defs>
-    <clipPath id="disc"><circle cx="436.5" cy="435" r="273"/></clipPath>
-    <g id="warn">
-      <!-- a warning marker, about 35 × 30.5 as it shows, its box's top-left at 0,0 -->
-      <path d="M17.25 2.06L32.54 29.3H1.96Z" fill="#D93025" stroke="#D93025" stroke-width="3" stroke-linejoin="round"/>   <!-- a triangle 35.7 wide, its corners rounded at 1.5: a smaller one with a round-jointed stroke -->
-      <rect x="16.4" y="10" width="2.2" height="9.6" rx="0.6" fill="#fff"/>
-      <circle cx="17.5" cy="23.4" r="1.45" fill="#fff"/>
-    </g>
+    <clipPath id="clippath">
+      <circle cx="670.9" cy="435" r="273" fill="none"/>
+    </clipPath>
   </defs>
-  <rect width="872" height="872" fill="#E8F0FE"/>
-
-  <!-- The icon: an organisation chart in a blue disc. -->
-  <circle cx="107.3" cy="107.3" r="49.6" fill="#1A73E8"/>
-  <g fill="#fff">
-    <circle cx="106.75" cy="90.4" r="8.6"/>
-    <rect x="104.9" y="97" width="3.7" height="8"/>
-    <rect x="90.6" y="104.4" width="33" height="4.6"/>
-    <rect x="90.6" y="104.4" width="4.6" height="10"/>
-    <rect x="119" y="104.4" width="4.6" height="10"/>
-    <circle cx="92.75" cy="122.75" r="8.75"/>
-    <rect x="113" y="113.8" width="16.5" height="16.4"/>
-  </g>
-
-  <!-- The dashed bracket down the left, ending in an arrow. -->
-  <g fill="none" stroke="#9DB6D6" stroke-width="2">
-    <path d="M262.5 138.6H226a23.9 23.9 0 0 0-23.9 23.9V702a23.9 23.9 0 0 0 23.9 23.9H244.5" stroke-dasharray="6.4 4.6"/>
-    <path d="M244.5 720.2l6 5.7-6 5.7" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-
-  <!-- The white disc and everything clipped to it. -->
-  <circle cx="436.5" cy="435" r="273" fill="#fff"/>
-  <g clip-path="url(#disc)">
-    <rect x="444" y="120" width="300" height="62.5" rx="4" fill="#1A73E8"/>
-    <rect x="283" y="344" width="460" height="66" rx="4" fill="#4285F4"/>
-    <rect x="282" y="416" width="270" height="46" rx="4" fill="#AECBFA"/>
-    <rect x="642" y="416" width="120" height="46" rx="4" fill="#AECBFA"/>
-    <rect x="438" y="590" width="300" height="44" rx="4" fill="#AECBFA"/>
-    <!-- the box at top right, cut by the disc's edge, with a break in its left side -->
-    <path d="M700 257H646.5a4.75 4.75 0 0 0-4.75 4.75V263M641.75 285v15.25a4.75 4.75 0 0 0 4.75 4.75H700" fill="none" stroke="#A9C3EC" stroke-width="2"/>
-    <!-- the gaps between the rows: the background colour, ruled across the disc -->
-    <g fill="#E8F0FE">
-      <rect x="150" y="218" width="580" height="6"/>
-      <rect x="150" y="410" width="580" height="6"/>
-      <rect x="150" y="634" width="580" height="6"/>
+  <rect width="1340.81" height="872" fill="#e8f0fe"/>
+  <circle cx="670.9" cy="435" r="273" fill="#fff"/>
+  <g clip-path="url(#clippath)">
+    <g>
+      <rect x="678.4" y="132.01" width="300" height="62.5" rx="4" ry="4" fill="#1a73e8"/>
+      <rect x="517.4" y="344" width="460" height="66" rx="4" ry="4" fill="#4285f4"/>
+      <rect x="516.4" y="416" width="270" height="46" rx="4" ry="4" fill="#aecbfa"/>
+      <rect x="876.4" y="416" width="120" height="46" rx="4" ry="4" fill="#aecbfa"/>
+      <rect x="672.4" y="590" width="300" height="44" rx="4" ry="4" fill="#aecbfa"/>
+      <g>
+        <rect x="384.4" y="218" width="580" height="6" fill="#e8f0fe"/>
+        <rect x="384.4" y="634" width="580" height="6" fill="#e8f0fe"/>
+      </g>
     </g>
   </g>
-  <!-- The last bar runs past the disc's edge. -->
-  <rect x="439" y="641" width="309" height="45" rx="4" fill="#4285F4"/>
-
-  <!-- Boxes, connectors and arrows. Each box has a break or two in its outline. -->
-  <g fill="none" stroke="#A9C3EC" stroke-width="2" stroke-linecap="butt" stroke-linejoin="round">
-    <!-- the connector from the top bar, through the first box, with its arrow -->
-    <path d="M420.1 163V254M420.1 308V331"/>
-    <path d="M413.3 324.8l6.8 6.8 6.8-6.8" stroke-linecap="round"/>
-    <!-- the first box: open where the connector passes and on its right side -->
-    <path d="M283 257H407.5M430 257H545.25a4.75 4.75 0 0 1 4.75 4.75V269M550 289.5v10.75a4.75 4.75 0 0 1-4.75 4.75H430M407.5 305H286.15a4.75 4.75 0 0 1-4.75-4.75V285"/>
-    <!-- the bracket from the big bar down to the lower boxes -->
-    <path d="M261.5 369.6H249.5a4.75 4.75 0 0 0-4.75 4.75V515.2a4.75 4.75 0 0 0 4.75 4.75H262.5"/>
-    <path d="M257.3 514.4l5.6 5.6-5.6 5.6" stroke-linecap="round"/>
-    <!-- the lower left box -->
-    <path d="M339.5 496.5H286a4.75 4.75 0 0 0-4.75 4.75V545.5a4.75 4.75 0 0 0 4.75 4.75H303.5M326 550.25H456.15a4.75 4.75 0 0 0 4.75-4.75V545M360.5 496.5H458M460.9 513V530.5"/>
-    <!-- the lower right box -->
-    <path d="M567.5 496.5H513.5a4.75 4.75 0 0 0-4.75 4.75V545.5a4.75 4.75 0 0 0 4.75 4.75H531.5M552.5 550.25H683.25a4.75 4.75 0 0 0 4.75-4.75V545M588.5 496.5H682.5M688 513V530.5"/>
+  <rect x="673.4" y="641" width="248.95" height="45" rx="4" ry="4" fill="#4285f4"/>
+  <g>
+    <path d="M554.42,308v23" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M547.62,324.8l6.8,6.8,6.8-6.8" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <line x1="776.61" y1="580.61" x2="776.61" y2="557.61" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M783.41,563.81l-6.8-6.8-6.8,6.8" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M417.32,257h147M564.32,257h115.25c2.62,0,4.75,2.13,4.75,4.75v7.25M690.55,496.5c2.62,0,4.75,2.13,4.75,4.75M684.32,289.5v10.75c0,2.62-2.13,4.75-4.75,4.75h-115.25M541.82,305h-121.35c-2.62,0-4.75-2.13-4.75-4.75h0v-15.25" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M495.9,369.6h-12c-2.62,0-4.75,2.13-4.75,4.75h0v136.85c0,2.62,2.13,4.75,4.75,4.75h13" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M491.7,510.4l5.6,5.6-5.6,5.6" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M461.99,532.96h34.91" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M491.7,527.41l5.6,5.6-5.6,5.6" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M595.15,496.5h-74.75c-2.62,0-4.75,2.13-4.75,4.75v44.25c0,2.62,2.13,4.75,4.75,4.75h17.5M560.4,550.25h130.15c2.62,0,4.75-2.13,4.75-4.75h0v-.5M616.15,496.5h74.4M695.3,531.84v13.16M695.3,501.25v13.16" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M801.9,496.5h-54c-2.62,0-4.75,2.13-4.75,4.75v44.25c0,2.62,2.13,4.75,4.75,4.75h18M786.9,550.25h107.73c2.62,0,4.75-2.13,4.75-4.75h0v-.5M822.9,496.5h70.98M899.39,513v17.5" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
   </g>
-
-  <!-- The warning markers, where risks come in. -->
-  <use href="#warn" x="264.5" y="240"/>
-  <use href="#warn" x="264.5" y="443"/>
-  <use href="#warn" x="443.5" y="482"/>
-  <use href="#warn" x="667.5" y="482"/>
-  <use href="#warn" x="421.5" y="576"/>
-  <use href="#warn" x="729.5" y="667"/>
+  <g>
+    <path d="M416.07,242.06l15.29,27.24h-30.58l15.29-27.24Z" fill="#d93025" stroke="#d93025" stroke-linejoin="round" stroke-width="3"/>
+    <rect x="415.22" y="250" width="2.2" height="9.6" rx=".6" ry=".6" fill="#fff"/>
+    <circle cx="416.32" cy="263.4" r="1.45" fill="#fff"/>
+  </g>
+  <g>
+    <path d="M516.15,445.06l15.29,27.24h-30.58l15.29-27.24Z" fill="#d93025" stroke="#d93025" stroke-linejoin="round" stroke-width="3"/>
+    <rect x="515.3" y="453" width="2.2" height="9.6" rx=".6" ry=".6" fill="#fff"/>
+    <circle cx="516.4" cy="466.4" r="1.45" fill="#fff"/>
+  </g>
+  <g>
+    <path d="M896.14,484.06l15.29,27.24h-30.58l15.29-27.24Z" fill="#d93025" stroke="#d93025" stroke-linejoin="round" stroke-width="3"/>
+    <rect x="895.29" y="492" width="2.2" height="9.6" rx=".6" ry=".6" fill="#fff"/>
+    <circle cx="896.39" cy="505.4" r="1.45" fill="#fff"/>
+  </g>
+  <g>
+    <path d="M673.15,578.06l15.29,27.24h-30.58l15.29-27.24Z" fill="#d93025" stroke="#d93025" stroke-linejoin="round" stroke-width="3"/>
+    <rect x="672.3" y="586" width="2.2" height="9.6" rx=".6" ry=".6" fill="#fff"/>
+    <circle cx="673.4" cy="599.4" r="1.45" fill="#fff"/>
+  </g>
+  <g>
+    <path d="M921.11,628.38l15.29,27.24h-30.58l15.29-27.24Z" fill="#d93025" stroke="#d93025" stroke-linejoin="round" stroke-width="3"/>
+    <rect x="920.26" y="636.32" width="2.2" height="9.6" rx=".6" ry=".6" fill="#fff"/>
+    <circle cx="921.36" cy="649.72" r="1.45" fill="#fff"/>
+  </g>
+  <line x1="606.9" y1="495.86" x2="606.9" y2="472.86" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M613.7,479.06l-6.8-6.8-6.8,6.8" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <line x1="883.74" y1="307.7" x2="883.74" y2="330.7" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M876.94,324.5l6.8,6.8,6.8-6.8" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M638.8,670.3l6.8-6.8-6.8-6.8" fill="none" stroke="#a9c3ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M550.46,556.03l-1.18,102.72c0,2.62,2.13,4.75,4.75,4.75h90.97" fill="none" stroke="#a9c3ec" stroke-dasharray=".1 10" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  <rect x="327.42" y="500.38" width="120" height="46" rx="4" ry="4" fill="#4285f4"/>
+  <path d="M989.82,257h-219.01c-2.62,0-4.75,2.13-4.75,4.75v7.25M894.94,305h94.89c2.62,0,4.75-2.13,4.75-4.75v-11.75M766.07,284v16.25c0,2.62,2.13,4.75,4.75,4.75h101.05" fill="none" stroke="#a9c3ec" stroke-width="2"/>
+  <path d="M989.82,257c2.62,0,4.75,2.13,4.75,4.75v13.25" fill="none" stroke="#a9c3ec" stroke-linejoin="round" stroke-width="2"/>
+  <g>
+    <path d="M761.32,242.06l15.29,27.24h-30.58l15.29-27.24Z" fill="#d93025" stroke="#d93025" stroke-linejoin="round" stroke-width="3"/>
+    <rect x="760.47" y="250" width="2.2" height="9.6" rx=".6" ry=".6" fill="#fff"/>
+    <circle cx="761.57" cy="263.4" r="1.45" fill="#fff"/>
+  </g>
 </svg>
