@@ -410,13 +410,9 @@
   .payoff > p:first-child .pl{white-space:normal;}   /* a line group: on wider screens each starts a new line; its phrases may wrap apart on phones */
   @media (min-width:701px){ .payoff > p:first-child .pl{display:block;} .payoff > p:first-child:has(.pl){max-width:none;} .payoff .only-narrow{display:none;} }
   @media (max-width:700px){ .payoff .only-wide{display:none;} }
+  #work .payoff > p:first-child{text-wrap:wrap;}   /* the work's payoff: on phones its phrases fill each line in order (“what people could see,”), rather than balancing into an orphaned “what people” */
   .payoff-lines > p:first-child .pl{display:block;}   /* each sentence starts a new line at every width; on phones a sentence wraps between its phrases */   /* phones: “every deck,” closes the line above instead */
   @media (max-width:760px){ .payoff > p:first-child .pk > span{display:block;} }
-  /* Work's payoff: wide, "and" closes the first line ("What you're saying and / who's listening shape what we make."); narrower,
-     it opens the second, each phrase on its own line. The "and" not in use is display:none, so it is read only once. */
-  .pl-and > span:first-child{display:block;}
-  .pl-and .and-n{display:none;}
-  @media (max-width:1100px){ .pl-and > span{display:block;} .pl-and .and-w{display:none;} .pl-and .and-n{display:inline;} }   /* a phrase pair that stays on one line until the screen is too narrow for it ("The gap between knowing and explaining" needs about 760px); then each phrase takes a line */
   .story2 .s2-p{max-width:38em; margin:16px auto 0; text-wrap:balance;}
   @media (max-width:640px){ .br-lede{display:none;} }   /* narrow screens: let the lede wrap evenly instead */
   .s2-grid{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px; margin:clamp(44px, 6vw, 80px) 0 clamp(20px, 3vw, 32px);   /* more room under the lede */
@@ -801,10 +797,12 @@
   .work-head{margin-bottom:clamp(32px, 4vw, 56px);}
   .work-head .s2-h{margin:0; max-width:16em; text-align:left; text-wrap:balance;}
   .work-head .s2-h > span{display:inline;}
-  #work{padding-top:0; scroll-margin-top:clamp(20px, 3vw, 44px);}   /* jumping here stops with the ink intro band just above the viewport and the carousel's top margin in view (matches .work-carousel's margin-top) */
+  #work{padding-top:0; scroll-margin-top:clamp(20px, 3vw, 44px);}   /* jumping here stops with the ink intro band just above the viewport and the carousel's top margin in view (matches .work-mark's padding-top) */
   /* The carousel: its window starts at the framework's left edge and runs off the right of the screen, so the next
      picture peeks in. Each picture is most of the framework's width. */
-  .work-carousel{--slide-w:calc(var(--content-w, 100vw) * .88); --slide-gap:1px; margin:clamp(20px, 3vw, 44px) 0 0 var(--content-x, 16px); overflow:hidden; touch-action:pan-y;}   /* starts at the page column's left edge; the next picture peeks in from the right */
+  .work-mark{padding-top:clamp(20px, 3vw, 44px);}   /* the gap under the ink intro band */
+  .work-mark .sec-mark{margin-bottom:clamp(28px, 4vw, 48px);}
+  .work-carousel{--slide-w:calc(var(--content-w, 100vw) * .88); --slide-gap:1px; margin:0 0 0 var(--content-x, 16px); overflow:hidden; touch-action:pan-y;}   /* starts at the page column's left edge; the next picture peeks in from the right */
   .work-cards{list-style:none; margin:0; padding:0; display:flex; gap:var(--slide-gap); transition:transform .5s cubic-bezier(.3, .7, .2, 1); will-change:transform;}
   .work-cards.no-anim{transition:none;}
   .work-cards > li{flex:0 0 var(--slide-w);}
@@ -977,6 +975,7 @@
   <!-- The four cards first, right under the intro band and as wide as its framework (the framework script sets the width). -->
   <!-- The work as a looping carousel: one picture at a time from the framework's left edge, the next peeking in on the right.
        The script adds the copies at each end that make the loop seamless. -->
+  <div class="wrap work-mark"><p class="sec-mark label">Things I’ve made</p></div>   <!-- marks the start of a new section, over the pictures -->
   <div class="work-carousel" aria-roledescription="carousel" aria-label="Work">
     <ul class="work-cards" id="work-track">
       <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/secure-ai-framework.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-full.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/secure-ai-framework.html">Secure AI Framework Risk Map</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>AI development was spreading across industries faster than any shared way to defend against its risks. Google had a framework, but people couldn’t use it until they could see&nbsp;it.</dd></div><div><dt class="label">The result</dt><dd>My team refined the framework by stress-testing every connection with technical partners until each risk and control was accurate. The framework is now an open industry reference through the Coalition for Secure&nbsp;AI.</dd></div></dl></div></div></li>
@@ -986,7 +985,6 @@
     </ul>
   </div>
   <div class="wrap">
-    <p class="sec-mark label sr-only">Things I’ve made</p>   <!-- marks the start of a new section -->
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon" style="--bar:var(--green)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -12H12V5"/><rect x="-17" y="-7" width="24" height="19" rx="1"/><path d="M-14 9L-7 1L-2 6L1 3L4 9"/><circle cx="1" cy="-2" r="1.6"/></svg><span class="num-name">Things I’ve made</span></div>
     </div>
@@ -1009,7 +1007,7 @@
     </div>
 
     <!-- Placeholder: the work payoff closes the proof; copy still being edited. -->
-    <div class="payoff payoff-lines" style="--payoff:var(--red)"><p><span class="pl pl-and"><span>What you’re saying<span class="and-w"> and</span></span> <span><span class="and-n">and </span>who’s listening</span> <span>shape what we&nbsp;make.</span></span> <span class="pl"><span>Then we build it&nbsp;together.</span></span></p></div>
+    <div class="payoff payoff-lines" style="--payoff:var(--purple)"><p><span class="pl"><span>The ideas were</span> <span>already&nbsp;important.</span></span> <span class="pl"><span>This work changed</span> <span>what people</span><br class="only-wide"> <span>could see,</span> <span>decide, or&nbsp;do.</span></span></p></div>
   </div>
 </section>
 
