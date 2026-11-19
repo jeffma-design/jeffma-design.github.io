@@ -317,7 +317,7 @@
   .turn-box{display:inline-block; line-height:1.1; text-indent:0; margin-left:-.14em; background:var(--paper); color:var(--ink); padding:.02em .14em .06em; -webkit-box-decoration-break:clone; box-decoration-break:clone;}   /* knocked out of a madlib box: on ink the box is paper, as in the closing band; set like the madlib box, its height from a 1.1 line. The box hangs out by its padding, so its words align with the lines above; as a block of its own it would inherit the line's optical indent and pull the I in twice, so it takes none */
   /* A short first-person intro with a small portrait, left-aligned. */
   /* A layer under the sub-headline: a band in the border's ink, type knocked out, a black-and-white photo. */
-  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative; box-shadow:0 -1px 0 var(--ink);}   /* the shadow covers the seam where it meets the ink above on a fractional pixel */
+  .intro-band{background:var(--ink); padding-block:clamp(28px, 4vw, 48px); position:relative; box-shadow:0 -1px 0 var(--ink); scroll-margin-top:clamp(32px, 5vw, 72px);}   /* the menu's Introduction stops with a little of the ink band above it in view */   /* the shadow covers the seam where it meets the ink above on a fractional pixel */
   /* The rules framing the photo's row. Drawn by the script. */
   .intro-frame{position:absolute; left:0; top:0; width:100%; pointer-events:none;}
   .intro-band > .intro{position:relative;}
@@ -410,6 +410,8 @@
   .payoff > p:first-child .pl{white-space:normal;}   /* a line group: on wider screens each starts a new line; its phrases may wrap apart on phones */
   @media (min-width:701px){ .payoff > p:first-child .pl{display:block;} .payoff > p:first-child:has(.pl){max-width:none;} .payoff .only-narrow{display:none;} }
   @media (max-width:700px){ .payoff .only-wide{display:none;} }
+  .payoff .only-widest{display:none;}   /* a break for the widest screens only, where the line would otherwise run on */
+  @media (min-width:1200px){ .payoff .only-widest{display:inline;} }
   #work .payoff > p:first-child{text-wrap:wrap;}   /* the work's payoff: on phones its phrases fill each line in order (“what people could see,”), rather than balancing into an orphaned “what people” */
   .payoff-lines > p:first-child .pl{display:block;}   /* each sentence starts a new line at every width; on phones a sentence wraps between its phrases */   /* phones: “every deck,” closes the line above instead */
   @media (max-width:760px){ .payoff > p:first-child .pk > span{display:block;} }
@@ -473,7 +475,6 @@
      the screen, with the eye (a dot grid like the hero's shapes) and the
      label knocked out; the headline sits below it, full width. */
   .chapter-head.chapter-head-bar{grid-template-columns:1fr; gap:clamp(28px, 4vw, 48px);}
-  #approach{padding-top:clamp(72px, 10.5vw, 144px);}   /* more room above CONVERSATION TO CRAFT, after the green band */
   #approach .chapter-head-bar{gap:clamp(8px, 1.2vw, 16px);}   /* the triangle graphic has its own empty space at the top, so it sits closer to its label */
   @media (max-width:700px){ #approach .chapter-head-bar{gap:68px;} }   /* phones: more room under the label */
   .num.num-icon{position:relative; justify-self:start; gap:20px; padding:12px 18px 12px 0; background:var(--bar, var(--purple)); color:var(--paper);}
@@ -797,10 +798,10 @@
   .work-head{margin-bottom:clamp(32px, 4vw, 56px);}
   .work-head .s2-h{margin:0; max-width:16em; text-align:left; text-wrap:balance;}
   .work-head .s2-h > span{display:inline;}
-  #work{padding-top:0; scroll-margin-top:clamp(20px, 3vw, 44px);}   /* jumping here stops with the ink intro band just above the viewport and the carousel's top margin in view (matches .work-mark's padding-top) */
+  #work{padding-top:0; scroll-margin-top:0;}   /* jumping here stops with the ink intro band just out of view above, and the space above the section's rule in view */
   /* The carousel: its window starts at the framework's left edge and runs off the right of the screen, so the next
      picture peeks in. Each picture is most of the framework's width. */
-  .work-mark{padding-top:clamp(20px, 3vw, 44px);}   /* the gap under the ink intro band */
+  .work-mark{padding-top:clamp(48px, 7vw, 96px);}   /* the gap under the ink intro band: the same as above every section's rule (section.chapter's top padding) */
   .work-mark .sec-mark{margin-bottom:clamp(28px, 4vw, 48px);}
   .work-carousel{--slide-w:calc(var(--content-w, 100vw) * .88); --slide-gap:1px; margin:0 0 0 var(--content-x, 16px); overflow:hidden; touch-action:pan-y;}   /* starts at the page column's left edge; the next picture peeks in from the right */
   .work-cards{list-style:none; margin:0; padding:0; display:flex; gap:var(--slide-gap); transition:transform .5s cubic-bezier(.3, .7, .2, 1); will-change:transform;}
@@ -860,7 +861,7 @@
   @media (max-width:640px){ .work-carousel{--slide-w:calc(var(--content-w, 100vw) * .88);} .wc-media{aspect-ratio:4 / 5;} .wc-notes{grid-template-columns:minmax(0, 1fr);} .wc-notes > div:first-child{display:none;} .wc-notes > div + div{padding:0; border-left:0;} }   /* phones: taller pictures; only “The result” shows, so the banner stays shorter than the picture */
   /* Turned over, the notes sit in the flow at the picture's proportions, so a card grows taller only when its notes need the room. */
   /* Who I've worked with: the logos in a row under its own heavy rule. */
-  .clients{margin-top:clamp(72px, 9vw, 128px);}
+  .clients{margin-top:clamp(72px, 9vw, 128px);}   /* its own spacing: it follows the carousel's controls, not a payoff band */
   .clients .sec-mark{margin-bottom:clamp(28px, 4vw, 48px);}
   .client-logos{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:clamp(24px, 3vw, 40px) clamp(28px, 4vw, 56px);}
   .client-logos li{display:flex; align-items:center; height:clamp(36px, 4.4vw, 64px);}
@@ -895,7 +896,7 @@
   <ol>
     <span class="fill" aria-hidden="true"></span>
     <li data-for="top"><a href="#top"><span class="pip"></span><span class="rl label">Start</span></a></li>
-    <li data-for="about"><a href="#about"><span class="pip"></span><span class="rl label">Introduction</span></a></li>
+    <li data-for="about"><a href="#intro"><span class="pip"></span><span class="rl label">Introduction</span></a></li>
     <li data-for="work"><a href="#work"><span class="pip"></span><span class="rl label">Things I’ve made</span></a></li>
     <li data-for="opportunity"><a href="#opportunity"><span class="pip"></span><span class="rl label">Why it’s hard</span></a></li>
     <li data-for="approach"><a href="#approach"><span class="pip"></span><span class="rl label">How I help</span></a></li>
@@ -913,7 +914,7 @@
           <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu"><i></i><i></i><i></i></button>
           <p class="nav-role" hidden>Strategic Creative Direction</p>   <!-- hidden for now: the services line under the name says it -->
           <nav class="menu" id="site-menu" aria-label="Sections" hidden>
-            <a href="#about">Introduction</a>
+            <a href="#intro">Introduction</a>
             <a href="#work">Things I’ve made</a>
             <a href="#opportunity">Why it’s hard</a>
             <a href="#approach">How I help</a>
@@ -941,7 +942,7 @@
 </section>
 
 <!-- ============ SUB-HEADLINE ============ -->
-<div class="hero-after" id="about">   <!-- the menu's Introduction jumps here -->
+<div class="hero-after" id="about">   <!-- where the menu's rail counts the Introduction from -->
   <div class="wrap">
     <div class="symp">
       <h2 class="label band-mark">When to call me</h2>
@@ -956,7 +957,7 @@
 </div>
 
 <!-- ============ INTRO ============ -->
-<div class="intro-band">
+<div class="intro-band" id="intro">   <!-- the menu's Introduction jumps here -->
 <canvas class="intro-frame" aria-hidden="true"></canvas>
 <div class="wrap intro">
   <span class="intro-photo"><img src="assets/about/jeff-ma.png" alt="Jeff Ma" width="140" height="140"></span>
@@ -980,7 +981,7 @@
     <ul class="work-cards" id="work-track">
       <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/secure-ai-framework.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/secure-ai-framework/risk-map-full.svg" alt="Detail of the Secure AI Framework risk map: a flow of process steps with red warning markers where risks enter" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/secure-ai-framework.html">Secure AI Framework Risk Map</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>AI development was spreading across industries faster than any shared way to defend against its risks. Google had a framework, but people couldn’t use it until they could see&nbsp;it.</dd></div><div><dt class="label">The result</dt><dd>My team refined the framework by stress-testing every connection with technical partners until each risk and control was accurate. The framework is now an open industry reference through the Coalition for Secure&nbsp;AI.</dd></div></dl></div></div></li>
       <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/security-reporting.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/security-reporting/fog-of-war-card.jpg" alt="A stack of printed copies of “Fog of War,” a Google report on how the Ukraine conflict transformed the cyber threat landscape, its cover scattered with red, blue and yellow squares, on a yellow background" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/security-reporting.html">Security Analysis and Reporting</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Analysts had new findings linking attacks before the war in Ukraine to nation-state adversaries, and they were still changing weeks before the Munich Security&nbsp;Conference.</dd></div><div><dt class="label">The result</dt><dd>I turned complex attack sequences into visuals anyone could follow, in a report that went into bilateral meetings with national defense departments and a design system that carried Google’s security reports for&nbsp;years.</dd></div></dl></div></div></li>
-      <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/safer-with-google-summit.html" tabindex="-1" aria-hidden="true"><div class="wc-media wc-crop-top"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/safer-with-google-summit.html">Safer with Google Summit</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Engineers, researchers, lawyers, and policy, marketing, and communications teams shared one stage each year, each with its own&nbsp;priorities.</dd></div><div><dt class="label">The result</dt><dd>I gave every function a shared theme and a design system for more than 60 talks a year, which teams beyond the summit adopted for their own&nbsp;work.</dd></div></dl></div></div></li>
+      <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/safer-with-google-summit.html" tabindex="-1" aria-hidden="true"><div class="wc-media wc-crop-top"><img src="assets/work/safer-with-google-summit/stage-2024-straight.webp" alt="Summit stage screen with the Safer with Google Summit mark surrounded by brand shapes" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/safer-with-google-summit.html">Safer with Google Summit</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Engineers, researchers, lawyers, and product, policy, marketing, and communications teams shared one stage each year, each with its own&nbsp;priorities.</dd></div><div><dt class="label">The result</dt><dd>I gave every team on the summit’s stage, from engineering to legal to marketing, a shared theme and a&nbsp;design system for more than 60&nbsp;talks a&nbsp;year, which teams beyond the summit adopted for their own&nbsp;work.</dd></div></dl></div></div></li>
       <li class="wc"><div class="wc-card"><a class="wc-img" href="projects/films.html" tabindex="-1" aria-hidden="true"><div class="wc-media"><img src="assets/work/ai-safety/card.jpg" alt="Still from the Safety Anthem film: a glossy blue connector among cork, speckled foam and brushed-metal shapes" loading="lazy"></div></a><div class="wc-cap"><h3 class="wc-t"><a href="projects/films.html">Brand Films</a></h3><dl class="wc-notes"><div><dt class="label">The challenge</dt><dd>Google needed leaders and partners to see its safety work, the work behind a word people hear often but rarely see&nbsp;explained.</dd></div><div><dt class="label">The result</dt><dd>I directed films that made Google’s safety work visible, helping launch Google’s Safety Engineering Center in India and bringing its AI security story to the public on&nbsp;ai.google.</dd></div></dl></div></div></li>
     </ul>
   </div>
@@ -1069,7 +1070,7 @@
         <!-- The ways a story goes wrong, as a list: the sentence's start, and every way it could end. Pointing at one
              (or focusing it) turns the picture above into that mistake. -->
       </div>
-      <div class="payoff payoff-lines"><p><span class="pl"><span class="pk"><span>The gap between knowing</span> <span>and explaining</span></span> <span>can be difficult to&nbsp;bridge.</span></span> <span class="pl"><span>Closing that gap</span> <span>is a different kind of&nbsp;work.</span></span></p></div>
+      <div class="payoff payoff-lines"><p><span class="pl"><span class="pk"><span>The gap between knowing</span> <span>and explaining</span></span><br class="only-widest"> <span>can be difficult to&nbsp;bridge.</span></span> <span class="pl"><span>Closing that gap</span> <span>is a different kind of&nbsp;work.</span></span></p></div>
       <div class="s2-blocks" aria-hidden="true" hidden>   <!-- hidden for now -->
         <div class="s2-block" data-shape="plus" style="--blk:var(--ochre)"></div>
         <div class="s2-block" data-shape="minus" style="--blk:var(--green)"></div>
@@ -1089,7 +1090,7 @@
     <div class="chapter-head chapter-head-bar reveal">
       <div class="num num-icon" style="--bar:var(--ochre)"><svg class="num-eye" viewBox="-28 -15 56 30" aria-hidden="true" fill="none" stroke="var(--paper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 -12H12A5 5 0 0 1 17 -7V3A5 5 0 0 1 12 8H-4L-10 14L-9 8H-18A5 5 0 0 1 -23 3V-7A5 5 0 0 1 -18 -12Z"/><path d="M-15 -2Q-11 -8 -7 -2T1 -2T9 -2"/></svg><span class="num-name">Conversation to craft</span></div>
       <div>
-        <h2 class="zline"><canvas aria-hidden="true"></canvas><span class="zl-a"><span class="nw">I connect the dots</span> <span class="nw">with you,</span></span> <span class="zl-b">then for <span class="nw">your audience<span class="hang">.</span></span></span></h2>
+        <h2 class="zline"><canvas aria-hidden="true"></canvas><span class="zl-a"><span class="nw">I connect the dots</span> <span class="nw">with you,</span></span> <span class="zl-b"><span class="nw">then for</span> <span class="nw">your audience<span class="hang">.</span></span></span></h2>
       </div>
     </div>
 
@@ -1203,7 +1204,7 @@
         <label class="cf"><span class="label">Your name</span><input name="name" type="text" autocomplete="name" required></label>
         <label class="cf"><span class="label">Your email</span><input name="email" type="email" autocomplete="email" required></label>
       </div>
-      <label class="cf"><span class="label">What are you working on? <span class="cf-opt">Optional</span></span><textarea name="note" rows="4" placeholder="A sentence or two is plenty, or we can get into details later." aria-describedby="cf-note-hint"></textarea><span class="cf-hint" id="cf-note-hint">No confidential details needed.</span></label>
+      <label class="cf"><span class="label">What are you working on? <span class="cf-opt">Optional</span></span><textarea name="note" rows="4" placeholder="A sentence or two is plenty, or send me a link to review.&#10;We can get into details later." aria-describedby="cf-note-hint"></textarea><span class="cf-hint" id="cf-note-hint">No confidential details needed.</span></label>
       <input type="hidden" name="_subject" value="New message from majeff.com">
       <input class="cf-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">   <!-- spam trap: people never fill it -->
       <div class="cf-send"><button class="btn" type="submit"><span class="dot"></span>Send</button><p class="cf-status" role="status" aria-live="polite"></p></div>
@@ -2480,11 +2481,14 @@
       if (now) now.textContent = real + 1;
       if (!anim){ void track.offsetWidth; track.classList.remove('no-anim'); }   // the jump lands with no motion, then easing comes back on so the hover still glides
     }
+    var unstick = null;
     function go(d){
       if (busy) return;
       i += d; busy = true; place(true);
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce) settle();
+      // If the slide's transitionend never comes (it can be missed, as on iOS), unlock anyway, so it never stops responding.
+      clearTimeout(unstick); unstick = setTimeout(function(){ if (busy) settle(); }, 800);
     }
     function settle(){
       busy = false;
@@ -2495,7 +2499,9 @@
     sec.querySelector('.wc-prev').addEventListener('click', function(){ go(-1); });
     sec.querySelector('.wc-next').addEventListener('click', function(){ go(1); });
     // A click on the peeking picture moves to it, rather than opening its page.
+    var dragEnd = 0;
     track.addEventListener('click', function(e){
+      if (Date.now() - dragEnd < 400){ e.preventDefault(); e.stopPropagation(); return; }   // the click some browsers send at the end of a swipe
       var li = e.target.closest('li'); if (!li || li.classList.contains('is-current')) return;
       e.preventDefault(); var k = all.indexOf(li); if (k > -1) go(k - i);
     });
@@ -2504,12 +2510,31 @@
       if (!e.target.closest('.work-carousel, .wc-nav')) return;
       if (e.key === 'ArrowRight'){ e.preventDefault(); go(1); } else if (e.key === 'ArrowLeft'){ e.preventDefault(); go(-1); }
     });
-    var x0 = null, y0 = null;
-    track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
-    track.addEventListener('touchend', function(e){
-      if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
-    });
+    // The swipe: once a touch is clearly sideways, the track follows the finger and the page doesn't scroll; on letting
+    // go it moves on if dragged a fifth of a slide (or flicked), and otherwise slides back. A touch that is mostly
+    // up and down is left to scroll the page. iOS cancels touches it takes over, so a cancel ends the swipe too.
+    var x0 = null, y0 = null, t0 = 0, dx = 0, axis = null;
+    track.addEventListener('touchstart', function(e){
+      if (busy || e.touches.length > 1){ x0 = null; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); dx = 0; axis = null;
+    }, {passive: true});
+    track.addEventListener('touchmove', function(e){
+      if (x0 === null) return;
+      var mx = e.touches[0].clientX - x0, my = e.touches[0].clientY - y0;
+      if (!axis && (Math.abs(mx) > 8 || Math.abs(my) > 8)) axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+      if (axis !== 'x') return;
+      e.preventDefault(); dx = mx;
+      track.classList.add('no-anim'); track.style.transform = 'translateX(' + (-i * step() + dx) + 'px)';
+    }, {passive: false});
+    function release(){
+      if (x0 === null) return; x0 = null;
+      if (axis !== 'x') return;
+      dragEnd = Date.now(); track.classList.remove('no-anim');
+      var flick = Math.abs(dx) > 24 && Math.abs(dx) / Math.max(1, dragEnd - t0) > 0.35;
+      if (Math.abs(dx) > step() * 0.2 || flick) go(dx < 0 ? 1 : -1); else place(true);
+    }
+    track.addEventListener('touchend', release);
+    track.addEventListener('touchcancel', release);
     place(false);
     window.addEventListener('resize', function(){ place(false); });
     if (window.ResizeObserver) new ResizeObserver(function(){ if (!busy) place(false); }).observe(track);
@@ -2638,6 +2663,81 @@
     b.addEventListener('click', function(){ var host = b.closest('.bring'), o = host.getAttribute('data-opt') % 3 + 1; host.setAttribute('data-opt', o); b.textContent = 'Option ' + o; });
   });
 
+  /* ---------- Madlibs: a blank whose word changes every few seconds while it's on screen ---------- */
+  /* Each .ml lists its words (data-words) and, optionally, a key for each (data-keys). On every change it fires
+     "madlib:change" with the word and key, so a picture can follow along. */
+  /* A boxed blank changes as the hero's do: the word slides out to the right, the empty box eases to the next word's
+     width (the centred line easing with it), and the next word slides in from the left. On phones each word falls
+     away as it fades, and the next words fall in from above, one after another. */
+  var CHANGE = 2500, narrow = window.matchMedia('(max-width: 760px)');
+  function boxChange(el, oldW, newW, done){
+    var inner = el.querySelector('.mlw'), sine = 'cubic-bezier(.37, 0, .63, 1)', k = +(el.getAttribute('data-pace') || 1);   // data-pace: the change's speed, 1 the usual, under 1 quicker
+    if (reduce || !inner.animate){ inner.textContent = newW; done(); return; }
+    function widthOf(t){ var m = document.createElement('span'); m.className = 'mlw'; m.style.cssText = 'position:absolute; visibility:hidden;'; m.textContent = t; el.appendChild(m); var w = m.getBoundingClientRect().width; m.remove(); return w; }
+    function split(t){ return t.split(' ').map(function(w){ return '<span>' + w + '</span>'; }).join('\u00A0'); }
+    var w0 = widthOf(oldW), w1 = widthOf(newW), fall = narrow.matches;
+    el.style.width = w0 + 'px';
+    var out;
+    if (fall){
+      inner.innerHTML = split(oldW);
+      [].forEach.call(inner.children, function(s, j){ out = s.animate([{transform: 'none', opacity: 1}, {transform: 'translateY(.9em)', opacity: 0}], {duration: 520 * k, delay: j * 110 * k, easing: 'cubic-bezier(.5, 0, .75, 0)', fill: 'forwards'}); });
+    } else out = inner.animate([{transform: 'none'}, {transform: 'translateX(' + (w0 + 4) + 'px)'}], {duration: 800 * k, easing: 'cubic-bezier(.55, 0, 1, .45)', fill: 'forwards'});
+    out.finished.then(function(){
+      inner.innerHTML = ''; inner.getAnimations().forEach(function(a){ a.cancel(); });
+      return el.animate([{width: w0 + 'px'}, {width: w1 + 'px'}], {duration: 650 * k, easing: sine, fill: 'forwards'}).finished;
+    }).then(function(){
+      el.style.width = w1 + 'px'; el.getAnimations().forEach(function(a){ a.cancel(); });
+      if (fall){
+        inner.innerHTML = split(newW);
+        [].forEach.call(inner.children, function(s, j){ s.animate([{transform: 'translateY(-.9em)', opacity: 0}, {transform: 'none', opacity: 1}], {duration: 650 * k, delay: j * 130 * k, easing: sine, fill: 'backwards'}); });
+      } else {
+        inner.textContent = newW;
+        inner.animate([{transform: 'translateX(' + -(w1 + 4) + 'px)'}, {transform: 'none'}], {duration: 1000 * k, easing: sine});
+      }
+      done();
+      setTimeout(function(){ el.style.width = ''; }, 1200);
+    });
+  }
+  document.querySelectorAll('.ml[data-words]').forEach(function(el){
+    var words = JSON.parse(el.getAttribute('data-words')), keys = el.hasAttribute('data-keys') ? JSON.parse(el.getAttribute('data-keys')) : null;
+    var i = 0, timer = null, HOLD = +(el.getAttribute('data-hold') || 3000), PACE = +(el.getAttribute('data-pace') || 1);
+    function fire(){ el.dispatchEvent(new CustomEvent('madlib:change', {detail: {index: i, word: words[i], key: keys ? keys[i] : null}})); }
+    var boxed = el.classList.contains('ml-box');
+    // data-once: run through the words once and stop on the last; replay() starts again. The closing band's control uses this.
+    var once = el.hasAttribute('data-once'), done = false;
+    function state(){ el.dispatchEvent(new CustomEvent('madlib:state', {detail: {done: done, progress: i / (words.length - 1)}})); }
+    function next(){
+      i = (i + 1) % words.length;
+      if (boxed) return boxChange(el, words[(i + words.length - 1) % words.length], words[i], fire);
+      if (reduce){ el.textContent = words[i]; fire(); return; }
+      el.classList.add('out');
+      setTimeout(function(){ el.textContent = words[i]; el.classList.remove('out'); fire(); }, 250);
+    }
+    // Boxed: hold, then change (which takes CHANGE ms), then hold again. Each wait is a phrase's cycle: from one change
+    // to the next. A pause keeps what's left of the cycle, so it carries on from there.
+    var nextAt = 0, cycleLen = 0, left = null;
+    function schedule(ms, len){ nextAt = performance.now() + ms; cycleLen = len; timer = setTimeout(step, ms); state(); }
+    function step(){ timer = null; next();
+      if (once && i === words.length - 1){ done = true; state(); return; }
+      schedule(HOLD + CHANGE * PACE, HOLD + CHANGE * PACE); }
+    function loopBox(){ var l = left; left = null; if (l != null) schedule(l, cycleLen); else schedule(HOLD, HOLD); }
+    // How far through its phrase the blank is, 0 to 1 (a phrase ends as the next change starts).
+    el.mlCycle = function(){ if (done) return 1; if (!cycleLen) return 0; var rem = timer ? nextAt - performance.now() : left != null ? left : cycleLen; return Math.max(0, Math.min(1, 1 - rem / cycleLen)); };
+    el.mlRunning = function(){ return !!timer; };
+    if (boxed) el.innerHTML = '<span class="mlw">' + words[0] + '</span>';
+    // Changes only while it's on screen and the page's motion isn't paused.
+    var shown = false;
+    function go(){ if (shown && !MOTION.paused && !timer && !done){ if (boxed) loopBox(); else timer = setInterval(next, HOLD); } }
+    el.mlReplay = function(){ halt(); left = null; cycleLen = 0; i = 0; done = false; if (boxed) el.querySelector('.mlw').textContent = words[0]; state(); go(); };
+    el.mlDone = function(){ return done; };
+    function halt(){ if (boxed && timer) left = Math.max(0, nextAt - performance.now()); clearTimeout(timer); clearInterval(timer); timer = null; if (boxed) state(); }
+    MOTION.on(function(p){ if (p) halt(); else go(); });
+    new IntersectionObserver(function(es){
+      shown = es[0].isIntersecting;
+      if (shown){ if (!timer) fire(); go(); } else halt();
+    }, {threshold: 0.6}).observe(el);
+  });
+
   /* ---------- The steps on narrow screens: centred on what you see ---------- */
 
   /* ---------- The working-together headline's wallpaper: the hero's shapes in miniature ---------- */
@@ -2708,11 +2808,11 @@
       h.style.height = ''; h.style.aspectRatio = ''; h.style.removeProperty('--base');
       var r4 = h.getBoundingClientRect(), H0 = r4.height, base0 = H0 * 0.53, mid = r4.left + r4.width / 2;   // the tips meet at the headline's centre
 
-      /* First choice: the second half knocked out of the blue triangle, on the first half's baseline, out toward the window's edge
-         (one gutter in), where the triangle is tallest. Each triangle is just tall enough to hold that line (the same fit at every
+      /* First choice: the second half knocked out of the blue triangle, on the first half's baseline, out toward the site column's right
+         edge, where the triangle is tallest. Each triangle is just tall enough to hold that line (the same fit at every
          width); where it would have to be taller than the graphic allows (phones, small tablets), the line falls back to sitting
          below, in ink, and the triangles keep three quarters of their old height. */
-      var wr = h.closest('.wrap'), edgeRight = Wz - parseFloat(getComputedStyle(wr).paddingRight);
+      var wr = h.closest('.wrap'), edgeRight = Math.min(Wz, wr.getBoundingClientRect().right) - parseFloat(getComputedStyle(wr).paddingRight);   // the site column's right edge, never past it on wide windows
       zb.style.left = zb.style.width = zb.style.textAlign = '';
       h.classList.add('zl-in');
       zb.style.right = (r4.right - edgeRight) + 'px';
@@ -2721,13 +2821,17 @@
       var probe = document.createElement('span'); probe.style.cssText = 'position:absolute; visibility:hidden; white-space:nowrap;'; probe.textContent = za.textContent; za.appendChild(probe);
       var oneW = probe.getBoundingClientRect().width; probe.remove();
       za.classList.toggle('zl-one', oneW <= Math.min(zb.getBoundingClientRect().left - r4.left - em, r4.width / 2 - em * 0.5));   // and clear of the triangles' meeting point
-      rg.selectNodeContents(zb);
-      var need = 0;
-      Array.prototype.forEach.call(rg.getClientRects(), function(q){
-        var frac = (q.left - mid) / (Wz - mid);   // how far along the slope the line starts
-        var height = base0 - (q.top - r4.top) + em * 0.15;   // the triangle's height needed there
-        need = Math.max(need, frac > 0 ? height / frac : Infinity);   // the peak height that gives it
-      });
+      function needFor(){
+        rg.selectNodeContents(zb);
+        var n = 0;
+        Array.prototype.forEach.call(rg.getClientRects(), function(q){
+          var frac = (q.left - mid) / (Wz - mid);   // how far along the slope the line starts
+          var height = base0 - (q.top - r4.top) + em * 0.15;   // the triangle's height needed there
+          n = Math.max(n, frac > 0 ? height / frac : Infinity);   // the peak height that gives it
+        });
+        return n;
+      }
+      var need = needFor();   // too tall for the graphic: it falls back to one line under the blue triangle (below)
       var inside = need <= base0, T;
       if (inside) T = need;
       else {
@@ -2823,8 +2927,8 @@
 </script>
 <script>
 /* The closing band's control, like the hero's: Pause while the madlib runs, Play while paused, Replay once it has come
-   back to "your ideas". Pausing here pauses everything that moves, as the hero's control does. The ring fills as the
-   blank works through its words. */
+   back to "your ideas". Pausing here pauses everything that moves, as the hero's control does. The ring, as the hero's,
+   fills over each phrase and starts over as the next comes in. */
 (function(){
   var mt = document.getElementById('motion-toggle-end'), ml = document.getElementById('end-ml'); if (!mt || !ml || !window.MOTION_API) return;
   function sbw(){ document.documentElement.style.setProperty('--sbw', (window.innerWidth - document.documentElement.clientWidth) + 'px'); }
@@ -2840,7 +2944,9 @@
     else M.set(!M.paused);
     show();
   });
-  ml.addEventListener('madlib:state', function(e){ bar.style.strokeDasharray = (e.detail.progress * 100).toFixed(2) + ' 100'; show(); });
+  var raf = 0;
+  function tick(){ bar.style.strokeDasharray = (ml.mlCycle() * 100).toFixed(2) + ' 100'; raf = ml.mlRunning() ? requestAnimationFrame(tick) : 0; }
+  ml.addEventListener('madlib:state', function(){ if (!raf) tick(); show(); });
   M.on(show); show();
 })();
 /* The phone lockup. The panel is the wide lockup's, scaled so its lines' type is 11px (less where the row is short of
@@ -2936,12 +3042,12 @@
   function fix(el){
     el.style.marginLeft = ''; el.style.textIndent = '0';
     var L = lineStarts(el); if (!L.length || !/[A-Za-z0-9]/.test(L[0].ch)) { el.style.textIndent = ''; return; }   // punctuation hangs by its own rule
-    var fs = parseFloat(getComputedStyle(el).fontSize);
+    var ecs = getComputedStyle(el), fs = parseFloat(ecs.fontSize), base = parseFloat(ecs.marginLeft) || 0;   // base: the margin its own styles give it (a title's link reaching out to the edge of its bar), which the shift adds to
     var first = want(L[0].ch, L[0].fc), shift = 0;
     if (L.length > 1){   // a wrapped paragraph: shift the block so its other lines sit on the edge, then match the first line to them
       var sum = 0; for (var k = 1; k < L.length; k++) sum += want(L[k].ch, L[k].fc) * parseFloat(L[k].fc.fontSize) / fs;
       shift = sum / (L.length - 1);
-      el.style.marginLeft = (-shift).toFixed(3) + 'em';
+      el.style.marginLeft = (base - shift * fs).toFixed(3) + 'px';
     }
     el.style.textIndent = (shift - first * parseFloat(L[0].fc.fontSize) / fs).toFixed(3) + 'em';
   }
